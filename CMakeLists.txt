@@ -77,6 +77,14 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/zip_range.hpp
 )
 
+##################
+# Declare Target #
+##################
+
+add_library(posu INTERFACE)
+target_include_directories(posu INTERFACE ${CMAKE_CURRENT_LIST_DIR})
+target_sources(posu INTERFACE ${POSU_HPP_FILES})
+
 ################
 # Clang-Format #
 ################
