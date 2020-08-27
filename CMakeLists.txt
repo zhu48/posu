@@ -75,6 +75,7 @@ find_program(POSU_CLANG_TIDY   clang-tidy)
 set(
     POSU_HPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/zip_range.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/zip_range.ipp
 )
 
 ##################
@@ -84,6 +85,14 @@ set(
 add_library(posu INTERFACE)
 target_include_directories(posu INTERFACE ${CMAKE_CURRENT_LIST_DIR})
 target_sources(posu INTERFACE ${POSU_HPP_FILES})
+
+if(BUILD_TESTING)
+    find_package(Catch2 REQUIRED)
+
+    add_executable(test_zip_range ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp)
+    target_link_libraries(test_zip_range PRIVATE Catch2::Catch2)
+    target_link_libraries(test_zip_range PRIVATE posu)
+endif()
 
 ################
 # Clang-Format #
