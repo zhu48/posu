@@ -1,6 +1,8 @@
 
 namespace posu::vmath {
+
     namespace detail {
+
         template<typename T, typename...>
         struct first_type {
             using type = T;
