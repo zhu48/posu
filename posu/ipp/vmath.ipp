@@ -41,21 +41,21 @@ namespace posu::vmath {
         }
 
         template<typename... T, std::size_t... I>
-        [[nodiscard]] auto add_all(
+        [[nodiscard]] decltype(auto) add_all(
             const std::tuple<T...>& lhs,
             const std::tuple<T...>& rhs,
-            std::index_sequence<I...> /*unused*/) noexcept -> arith_tuple<T...>
+            std::index_sequence<I...> /*unused*/) noexcept
         {
-            return {(std::get<I>(lhs) + std::get<I>(rhs))...};
+            return arith_tuple<T...>((std::get<I>(lhs) + std::get<I>(rhs))...);
         }
 
         template<typename... T, std::size_t... I>
-        [[nodiscard]] auto add_all(
+        [[nodiscard]] decltype(auto) add_all(
             const std::tuple<T...>&         lhs,
             const std::common_type_t<T...>& rhs,
-            std::index_sequence<I...> /*unused*/) noexcept -> arith_tuple<T...>
+            std::index_sequence<I...> /*unused*/) noexcept
         {
-            return {(std::get<I>(lhs) + rhs)...};
+            return arith_tuple<T...>((std::get<I>(lhs) + rhs)...);
         }
 
         template<typename... T, std::size_t I = 0>
@@ -79,21 +79,21 @@ namespace posu::vmath {
         }
 
         template<typename... T, std::size_t... I>
-        [[nodiscard]] auto sub_all(
+        [[nodiscard]] decltype(auto) sub_all(
             const std::tuple<T...>& lhs,
             const std::tuple<T...>& rhs,
-            std::index_sequence<I...> /*unused*/) noexcept -> arith_tuple<T...>
+            std::index_sequence<I...> /*unused*/) noexcept
         {
-            return {(std::get<I>(lhs) - std::get<I>(rhs))...};
+            return arith_tuple<T...>((std::get<I>(lhs) - std::get<I>(rhs))...);
         }
 
         template<typename... T, std::size_t... I>
-        [[nodiscard]] auto sub_all(
+        [[nodiscard]] decltype(auto) sub_all(
             const std::tuple<T...>&         lhs,
             const std::common_type_t<T...>& rhs,
-            std::index_sequence<I...> /*unused*/) noexcept -> arith_tuple<T...>
+            std::index_sequence<I...> /*unused*/) noexcept
         {
-            return {(std::get<I>(lhs) - rhs)...};
+            return arith_tuple<T...>((std::get<I>(lhs) - rhs)...);
         }
 
         template<typename... T, std::size_t I = 0>
@@ -117,12 +117,12 @@ namespace posu::vmath {
         }
 
         template<typename... T, std::size_t... I>
-        [[nodiscard]] auto mul_all(
+        [[nodiscard]] decltype(auto) mul_all(
             const std::tuple<T...>&         lhs,
             const std::common_type_t<T...>& rhs,
-            std::index_sequence<I...> /*unused*/) noexcept -> arith_tuple<T...>
+            std::index_sequence<I...> /*unused*/) noexcept
         {
-            return {(std::get<I>(lhs) * rhs)...};
+            return arith_tuple<T...>((std::get<I>(lhs) * rhs)...);
         }
 
         template<typename... T, std::size_t I = 0>
@@ -136,12 +136,12 @@ namespace posu::vmath {
         }
 
         template<typename... T, std::size_t... I>
-        [[nodiscard]] auto div_all(
+        [[nodiscard]] decltype(auto) div_all(
             const std::tuple<T...>&         lhs,
             const std::common_type_t<T...>& rhs,
-            std::index_sequence<I...> /*unused*/) noexcept -> arith_tuple<T...>
+            std::index_sequence<I...> /*unused*/) noexcept
         {
-            return {(std::get<I>(lhs) / rhs)...};
+            return arith_tuple<T...>((std::get<I>(lhs) / rhs)...);
         }
 
         template<typename... T, std::size_t I = 0>
