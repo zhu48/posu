@@ -67,6 +67,13 @@ namespace posu::vmath {
         std::tuple<T...> m_data{};
     };
 
+    template<std::size_t I, typename T>
+    [[nodiscard]] constexpr decltype(auto) make_arith_tuple(T&& t) noexcept;
+
+    template<typename... T>
+    [[nodiscard]] constexpr auto make_arith_tuple(T&&... t) noexcept
+        -> arith_tuple<std::remove_cvref_t<T>...>;
+
 } // namespace posu::vmath
 
 namespace std {

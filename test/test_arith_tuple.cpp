@@ -46,4 +46,29 @@ TEST_CASE("construction invariants", "[construct]") {
         CHECK(std::get<1>(test_value) == constant_1);
         CHECK(std::get<2>(test_value) == constant_2);
     }
+
+    SECTION("construction from size-value factory") {
+        constexpr auto size           = std::size_t{3};
+        constexpr auto constant_value = common_type{22};
+
+        const auto test_value =
+            posu::vmath::make_arith_tuple<size>(constant_value);
+
+        CHECK(std::get<0>(test_value) == constant_value);
+        CHECK(std::get<1>(test_value) == constant_value);
+        CHECK(std::get<2>(test_value) == constant_value);
+    }
+
+    SECTION("construction from multi-argument factory") {
+        constexpr auto constant_0 = type_0{2};
+        constexpr auto constant_1 = type_1{557};
+        constexpr auto constant_2 = type_2{-2.44};
+
+        const auto test_value =
+            posu::vmath::make_arith_tuple(constant_0, constant_1, constant_2);
+
+        CHECK(std::get<0>(test_value) == constant_0);
+        CHECK(std::get<1>(test_value) == constant_1);
+        CHECK(std::get<2>(test_value) == constant_2);
+    }
 }

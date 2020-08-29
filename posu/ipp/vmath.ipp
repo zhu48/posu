@@ -3,6 +3,14 @@ namespace posu::vmath {
 
     namespace detail {
 
+        template<typename T, typename...>
+        struct first_type {
+            using type = T;
+        };
+
+        template<typename T, typename... Rest>
+        using first_type_t = typename first_type<T, Rest...>::type;
+
         template<typename Arg>
         decltype(auto)
         expand_forward_helper(Arg&& arg, std::size_t /*unused*/) noexcept {
@@ -153,6 +161,14 @@ namespace posu::vmath {
             } else {
                 return std::get<0>(value);
             }
+        }
+
+        template<typename T, std::size_t... I>
+        [[nodiscard]] constexpr decltype(auto) make_arith_tuple_from_size(
+            T&& t, std::index_sequence<I...> /*unused*/) noexcept {
+            return arith_tuple<std::remove_cvref_t<
+                first_type_t<T, std::integral_constant<std::size_t, I>>>...>{
+                std::forward<T>(t)};
         }
 
     } // namespace detail
@@ -306,6 +322,18 @@ namespace posu::vmath {
     [[nodiscard]] constexpr arith_tuple<T...>:: // clang-format on
         operator const std::tuple<T...> &&() const&& noexcept {
         return std::move(m_data);
+    }
+
+    template<std::size_t I, typename T>
+    [[nodiscard]] constexpr decltype(auto) make_arith_tuple(T&& t) noexcept {
+        return detail::make_arith_tuple_from_size(
+            std::forward<T>(t), std::make_index_sequence<I>{});
+    }
+
+    template<typename... T>
+    [[nodiscard]] constexpr auto make_arith_tuple(T&&... t) noexcept
+        -> arith_tuple<std::remove_cvref_t<T>...> {
+        return {std::forward<T>(t)...};
     }
 
 } // namespace posu::vmath
