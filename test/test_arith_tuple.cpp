@@ -14,7 +14,7 @@ TEST_CASE("construction invariants", "[construct]")
     {
         constexpr auto constant_value = common_type{22};
 
-        const auto test_value =
+        constexpr auto test_value =
             posu::vmath::arith_tuple<type_0, type_1, type_2>{constant_value};
 
         CHECK(std::get<0>(test_value) == constant_value);
@@ -28,7 +28,7 @@ TEST_CASE("construction invariants", "[construct]")
         constexpr auto constant_1 = type_1{557};
         constexpr auto constant_2 = type_2{-2.44};
 
-        const auto test_value =
+        constexpr auto test_value =
             posu::vmath::arith_tuple<type_0, type_1, type_2>{
                 constant_0, constant_1, constant_2};
 
@@ -43,7 +43,7 @@ TEST_CASE("construction invariants", "[construct]")
         constexpr auto constant_1 = type_1{557};
         constexpr auto constant_2 = type_2{-2.44};
 
-        const auto test_value =
+        constexpr auto test_value =
             posu::vmath::arith_tuple{constant_0, constant_1, constant_2};
 
         CHECK(std::get<0>(test_value) == constant_0);
@@ -56,7 +56,7 @@ TEST_CASE("construction invariants", "[construct]")
         constexpr auto size           = std::size_t{3};
         constexpr auto constant_value = common_type{22};
 
-        const auto test_value =
+        constexpr auto test_value =
             posu::vmath::make_arith_tuple<size>(constant_value);
 
         CHECK(std::get<0>(test_value) == constant_value);
@@ -70,7 +70,7 @@ TEST_CASE("construction invariants", "[construct]")
         constexpr auto constant_1 = type_1{557};
         constexpr auto constant_2 = type_2{-2.44};
 
-        const auto test_value =
+        constexpr auto test_value =
             posu::vmath::make_arith_tuple(constant_0, constant_1, constant_2);
 
         CHECK(std::get<0>(test_value) == constant_0);
