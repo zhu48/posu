@@ -299,28 +299,28 @@ namespace posu::vmath {
     template<typename... T> // clang-format off
         requires((std::integral<T> || std::floating_point<T>) && ...)
     [[nodiscard]] constexpr arith_tuple<T...>:: // clang-format on
-        operator std::tuple<T...> &() & noexcept {
+        operator std::tuple<T...>&() & noexcept {
         return m_data;
     }
 
     template<typename... T> // clang-format off
         requires((std::integral<T> || std::floating_point<T>) && ...)
     [[nodiscard]] constexpr arith_tuple<T...>:: // clang-format on
-        operator std::tuple<T...> &&() && noexcept {
+        operator std::tuple<T...>&&() && noexcept {
         return std::move(m_data);
     }
 
     template<typename... T> // clang-format off
         requires((std::integral<T> || std::floating_point<T>) && ...)
     [[nodiscard]] constexpr arith_tuple<T...>:: // clang-format on
-        operator const std::tuple<T...> &() const& noexcept {
+        operator const std::tuple<T...>&() const& noexcept {
         return m_data;
     }
 
     template<typename... T> // clang-format off
         requires((std::integral<T> || std::floating_point<T>) && ...)
     [[nodiscard]] constexpr arith_tuple<T...>:: // clang-format on
-        operator const std::tuple<T...> &&() const&& noexcept {
+        operator const std::tuple<T...>&&() const&& noexcept {
         return std::move(m_data);
     }
 

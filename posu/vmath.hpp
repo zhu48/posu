@@ -55,13 +55,13 @@ namespace posu::vmath {
             noexcept(false);
 
         [[nodiscard]] explicit constexpr
-        operator std::tuple<T...> &() & noexcept;
+        operator std::tuple<T...>&() & noexcept;
         [[nodiscard]] explicit constexpr
-        operator std::tuple<T...> &&() && noexcept;
+        operator std::tuple<T...>&&() && noexcept;
         [[nodiscard]] explicit constexpr
-        operator const std::tuple<T...> &() const& noexcept;
+        operator const std::tuple<T...>&() const& noexcept;
         [[nodiscard]] explicit constexpr
-        operator const std::tuple<T...> &&() const&& noexcept;
+        operator const std::tuple<T...>&&() const&& noexcept;
 
     private:
         std::tuple<T...> m_data{};
