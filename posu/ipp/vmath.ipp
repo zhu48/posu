@@ -10,21 +10,21 @@ namespace posu::vmath {
         using first_type_t = typename first_type<T, Rest...>::type;
 
         template<typename Arg>
-        decltype(auto)
+        constexpr decltype(auto)
         expand_forward_helper(Arg&& arg, std::size_t /*unused*/) noexcept
         {
             return std::forward<Arg>(arg);
         }
 
         template<typename Tuple, typename Arg, std::size_t... I>
-        auto expand_as_tuple_impl(
+        constexpr auto expand_as_tuple_impl(
             Arg&& arg, std::index_sequence<I...> /*unused*/) noexcept -> Tuple
         {
             return {expand_forward_helper<Arg>(arg, I)...};
         }
 
         template<typename Tuple, typename Arg>
-        auto expand_as_tuple(Arg&& arg) -> Tuple
+        constexpr auto expand_as_tuple(Arg&& arg) -> Tuple
         {
             return expand_as_tuple_impl<Tuple>(
                 std::forward<Arg>(arg),
@@ -32,7 +32,7 @@ namespace posu::vmath {
         }
 
         template<typename... T, typename Arg, std::size_t I = 0>
-        void assign_all(std::tuple<T...>& tuple, Arg arg) noexcept
+        constexpr void assign_all(std::tuple<T...>& tuple, Arg arg) noexcept
         {
             if constexpr(I < sizeof...(T)) {
                 std::get<I>(tuple) = std::forward<Arg>(arg);
@@ -41,7 +41,7 @@ namespace posu::vmath {
         }
 
         template<typename... T, std::size_t... I>
-        [[nodiscard]] decltype(auto) add_all(
+        [[nodiscard]] constexpr decltype(auto) add_all(
             const std::tuple<T...>& lhs,
             const std::tuple<T...>& rhs,
             std::index_sequence<I...> /*unused*/) noexcept
@@ -50,7 +50,7 @@ namespace posu::vmath {
         }
 
         template<typename... T, std::size_t... I>
-        [[nodiscard]] decltype(auto) add_all(
+        [[nodiscard]] constexpr decltype(auto) add_all(
             const std::tuple<T...>&         lhs,
             const std::common_type_t<T...>& rhs,
             std::index_sequence<I...> /*unused*/) noexcept
@@ -59,7 +59,7 @@ namespace posu::vmath {
         }
 
         template<typename... T, std::size_t I = 0>
-        void
+        constexpr void
         add_all(std::tuple<T...>& lhs, const std::tuple<T...>& rhs) noexcept
         {
             if constexpr(I < sizeof...(T)) {
@@ -69,7 +69,7 @@ namespace posu::vmath {
         }
 
         template<typename... T, std::size_t I = 0>
-        void add_all(
+        constexpr void add_all(
             std::tuple<T...>& lhs, const std::common_type_t<T...>& rhs) noexcept
         {
             if constexpr(I < sizeof...(T)) {
@@ -79,7 +79,7 @@ namespace posu::vmath {
         }
 
         template<typename... T, std::size_t... I>
-        [[nodiscard]] decltype(auto) sub_all(
+        [[nodiscard]] constexpr decltype(auto) sub_all(
             const std::tuple<T...>& lhs,
             const std::tuple<T...>& rhs,
             std::index_sequence<I...> /*unused*/) noexcept
@@ -88,7 +88,7 @@ namespace posu::vmath {
         }
 
         template<typename... T, std::size_t... I>
-        [[nodiscard]] decltype(auto) sub_all(
+        [[nodiscard]] constexpr decltype(auto) sub_all(
             const std::tuple<T...>&         lhs,
             const std::common_type_t<T...>& rhs,
             std::index_sequence<I...> /*unused*/) noexcept
@@ -97,7 +97,7 @@ namespace posu::vmath {
         }
 
         template<typename... T, std::size_t I = 0>
-        void
+        constexpr void
         sub_all(std::tuple<T...>& lhs, const std::tuple<T...>& rhs) noexcept
         {
             if constexpr(I < sizeof...(T)) {
@@ -107,7 +107,7 @@ namespace posu::vmath {
         }
 
         template<typename... T, std::size_t I = 0>
-        void sub_all(
+        constexpr void sub_all(
             std::tuple<T...>& lhs, const std::common_type_t<T...>& rhs) noexcept
         {
             if constexpr(I < sizeof...(T)) {
@@ -117,7 +117,7 @@ namespace posu::vmath {
         }
 
         template<typename... T, std::size_t... I>
-        [[nodiscard]] decltype(auto) mul_all(
+        [[nodiscard]] constexpr decltype(auto) mul_all(
             const std::tuple<T...>&         lhs,
             const std::common_type_t<T...>& rhs,
             std::index_sequence<I...> /*unused*/) noexcept
@@ -126,7 +126,7 @@ namespace posu::vmath {
         }
 
         template<typename... T, std::size_t I = 0>
-        void mul_all(
+        constexpr void mul_all(
             std::tuple<T...>& lhs, const std::common_type_t<T...>& rhs) noexcept
         {
             if constexpr(I < sizeof...(T)) {
@@ -136,7 +136,7 @@ namespace posu::vmath {
         }
 
         template<typename... T, std::size_t... I>
-        [[nodiscard]] decltype(auto) div_all(
+        [[nodiscard]] constexpr decltype(auto) div_all(
             const std::tuple<T...>&         lhs,
             const std::common_type_t<T...>& rhs,
             std::index_sequence<I...> /*unused*/) noexcept
@@ -145,7 +145,7 @@ namespace posu::vmath {
         }
 
         template<typename... T, std::size_t I = 0>
-        void div_all(
+        constexpr void div_all(
             std::tuple<T...>& lhs, const std::common_type_t<T...>& rhs) noexcept
         {
             if constexpr(I < sizeof...(T)) {
@@ -155,7 +155,8 @@ namespace posu::vmath {
         }
 
         template<typename... T, std::size_t I = 0>
-        auto obtain_value(const std::tuple<T...>& value) noexcept(false)
+        constexpr auto
+        obtain_value(const std::tuple<T...>& value) noexcept(false)
             -> std::common_type_t<T...>
         {
             if constexpr(I < sizeof...(T) && I + 1 < sizeof...(T)) {

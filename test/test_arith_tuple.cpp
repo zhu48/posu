@@ -153,4 +153,56 @@ TEST_CASE("arithmetic operations", "[arithmetic]")
         CHECK(std::get<1>(result) == std::get<1>(initial) / div_value);
         CHECK(std::get<2>(result) == std::get<2>(initial) / div_value);
     }
+
+    SECTION("vector addition")
+    {
+        constexpr auto value_0_0 = type_0{98};
+        constexpr auto value_0_1 = type_0{12};
+        constexpr auto value_1_0 = type_1{5002};
+        constexpr auto value_1_1 = type_1{33};
+        constexpr auto value_2_0 = type_2{1};
+        constexpr auto value_2_1 = type_2{7.8};
+
+        constexpr auto initial =
+            posu::vmath::arith_tuple{value_0_0, value_1_0, value_2_0};
+        constexpr auto add_value =
+            posu::vmath::arith_tuple{value_0_1, value_1_1, value_2_1};
+        constexpr auto result = initial + add_value;
+
+        CHECK(
+            std::get<0>(result) ==
+            std::get<0>(initial) + std::get<0>(add_value));
+        CHECK(
+            std::get<1>(result) ==
+            std::get<1>(initial) + std::get<1>(add_value));
+        CHECK(
+            std::get<2>(result) ==
+            std::get<2>(initial) + std::get<2>(add_value));
+    }
+
+    SECTION("vector subtraction")
+    {
+        constexpr auto value_0_0 = type_0{98};
+        constexpr auto value_0_1 = type_0{12};
+        constexpr auto value_1_0 = type_1{5002};
+        constexpr auto value_1_1 = type_1{33};
+        constexpr auto value_2_0 = type_2{1};
+        constexpr auto value_2_1 = type_2{7.8};
+
+        constexpr auto initial =
+            posu::vmath::arith_tuple{value_0_0, value_1_0, value_2_0};
+        constexpr auto sub_value =
+            posu::vmath::arith_tuple{value_0_1, value_1_1, value_2_1};
+        constexpr auto result = initial + sub_value;
+
+        CHECK(
+            std::get<0>(result) ==
+            std::get<0>(initial) + std::get<0>(sub_value));
+        CHECK(
+            std::get<1>(result) ==
+            std::get<1>(initial) + std::get<1>(sub_value));
+        CHECK(
+            std::get<2>(result) ==
+            std::get<2>(initial) + std::get<2>(sub_value));
+    }
 }
