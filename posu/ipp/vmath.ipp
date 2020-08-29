@@ -1,3 +1,4 @@
+#include "posu/utility.hpp"
 
 namespace posu::vmath {
 
@@ -36,10 +37,7 @@ namespace posu::vmath {
         template<typename... T, typename Arg, std::size_t I = 0>
         constexpr void assign_all(std::tuple<T...>& tuple, Arg arg) noexcept
         {
-            if constexpr(I < sizeof...(T)) {
-                std::get<I>(tuple) = std::forward<Arg>(arg);
-                assign_all<T..., Arg, I + 1>(tuple, arg);
-            }
+            posu::for_each([&](auto& elem) { elem = arg; }, tuple);
         }
 
         template<typename... T, std::size_t... I>
@@ -64,20 +62,14 @@ namespace posu::vmath {
         constexpr void
         add_all(std::tuple<T...>& lhs, const std::tuple<T...>& rhs) noexcept
         {
-            if constexpr(I < sizeof...(T)) {
-                add_all<I + 1>(lhs, rhs);
-                std::get<I>(lhs) += std::get<I>(rhs);
-            }
+            posu::for_each([](auto& l, const auto& r) { l += r; }, lhs, rhs);
         }
 
         template<std::size_t I = 0, typename... T>
         constexpr void add_all(
             std::tuple<T...>& lhs, const std::common_type_t<T...>& rhs) noexcept
         {
-            if constexpr(I < sizeof...(T)) {
-                add_all<I + 1>(lhs, rhs);
-                std::get<I>(lhs) += rhs;
-            }
+            posu::for_each([&](auto& l) { l += rhs; }, lhs);
         }
 
         template<typename... T, std::size_t... I>
@@ -102,20 +94,14 @@ namespace posu::vmath {
         constexpr void
         sub_all(std::tuple<T...>& lhs, const std::tuple<T...>& rhs) noexcept
         {
-            if constexpr(I < sizeof...(T)) {
-                sub_all<I + 1>(lhs, rhs);
-                std::get<I>(lhs) -= std::get<I>(rhs);
-            }
+            posu::for_each([](auto& l, const auto& r) { l -= r; }, lhs, rhs);
         }
 
         template<std::size_t I = 0, typename... T>
         constexpr void sub_all(
             std::tuple<T...>& lhs, const std::common_type_t<T...>& rhs) noexcept
         {
-            if constexpr(I < sizeof...(T)) {
-                sub_all<I + 1>(lhs, rhs);
-                std::get<I>(lhs) -= rhs;
-            }
+            posu::for_each([&](auto& l) { l -= rhs; }, lhs);
         }
 
         template<typename... T, std::size_t... I>
@@ -131,10 +117,7 @@ namespace posu::vmath {
         constexpr void mul_all(
             std::tuple<T...>& lhs, const std::common_type_t<T...>& rhs) noexcept
         {
-            if constexpr(I < sizeof...(T)) {
-                mul_all<I + 1>(lhs, rhs);
-                std::get<I>(lhs) *= rhs;
-            }
+            posu::for_each([&](auto& l) { l *= rhs; }, lhs);
         }
 
         template<typename... T, std::size_t... I>
@@ -150,10 +133,7 @@ namespace posu::vmath {
         constexpr void div_all(
             std::tuple<T...>& lhs, const std::common_type_t<T...>& rhs) noexcept
         {
-            if constexpr(I < sizeof...(T)) {
-                div_all<I + 1>(lhs, rhs);
-                std::get<I>(lhs) /= rhs;
-            }
+            posu::for_each([&](auto& l) { l /= rhs; }, lhs);
         }
 
         template<std::size_t I = 0, typename... T>

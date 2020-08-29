@@ -1,0 +1,40 @@
+#include <functional>
+#include <tuple>
+
+namespace posu {
+
+    namespace detail {
+
+        template<std::size_t I, typename Tuple, typename = void>
+        struct tuple_index_valid : std::false_type {
+        };
+
+        template<std::size_t I, typename Tuple>
+        struct tuple_index_valid<
+            I,
+            Tuple,
+            std::enable_if_t<std::less{}(
+                I, std::tuple_size_v<std::remove_cvref_t<Tuple>>)>>
+            : std::true_type {
+        };
+
+        template<std::size_t I = 0, typename F, typename... Tuple>
+        constexpr void for_each_impl(F&& f, Tuple&&... tuple)
+        {
+            if constexpr(std::conjunction_v<tuple_index_valid<I, Tuple>...>) {
+                f(std::get<I>(std::forward<Tuple>(tuple))...);
+                for_each_impl<I + 1>(
+                    std::forward<F>(f), std::forward<Tuple>(tuple)...);
+            }
+        }
+
+    } // namespace detail
+
+    template<typename F, typename... Tuple>
+    constexpr void for_each(F&& f, Tuple&&... tuple)
+    {
+        detail::for_each_impl(
+            std::forward<F>(f), std::forward<Tuple>(tuple)...);
+    }
+
+} // namespace posu
