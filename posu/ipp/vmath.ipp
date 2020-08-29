@@ -161,7 +161,7 @@ namespace posu::vmath {
         requires((std::integral<T> || std::floating_point<T>) && ...)
     constexpr arith_tuple<T...>:: // clang-format on
         arith_tuple(scaler_type n) noexcept
-        : m_data{detail::expand_as_tuple<T...>(n)} {}
+        : m_data{detail::expand_as_tuple<std::tuple<T...>>(n)} {}
 
     template<typename... T> // clang-format off
         requires((std::integral<T> || std::floating_point<T>) && ...)
@@ -280,4 +280,89 @@ namespace posu::vmath {
         return detail::obtain_value(m_data);
     }
 
+    template<typename... T> // clang-format off
+        requires((std::integral<T> || std::floating_point<T>) && ...)
+    [[nodiscard]] constexpr arith_tuple<T...>:: // clang-format on
+        operator std::tuple<T...> &() & noexcept {
+        return m_data;
+    }
+
+    template<typename... T> // clang-format off
+        requires((std::integral<T> || std::floating_point<T>) && ...)
+    [[nodiscard]] constexpr arith_tuple<T...>:: // clang-format on
+        operator std::tuple<T...> &&() && noexcept {
+        return std::move(m_data);
+    }
+
+    template<typename... T> // clang-format off
+        requires((std::integral<T> || std::floating_point<T>) && ...)
+    [[nodiscard]] constexpr arith_tuple<T...>:: // clang-format on
+        operator const std::tuple<T...> &() const& noexcept {
+        return m_data;
+    }
+
+    template<typename... T> // clang-format off
+        requires((std::integral<T> || std::floating_point<T>) && ...)
+    [[nodiscard]] constexpr arith_tuple<T...>:: // clang-format on
+        operator const std::tuple<T...> &&() const&& noexcept {
+        return std::move(m_data);
+    }
+
 } // namespace posu::vmath
+
+namespace std {
+
+    template<size_t I, typename... Types>
+    [[nodiscard]] constexpr auto
+    get(posu::vmath::arith_tuple<Types...>& value) noexcept
+        -> tuple_element_t<I, tuple<Types...>>& {
+        return get<I>((std::tuple<Types...>&)(value));
+    }
+
+    template<size_t I, typename... Types>
+    [[nodiscard]] constexpr auto
+    get(posu::vmath::arith_tuple<Types...>&& value) noexcept
+        -> tuple_element_t<I, tuple<Types...>>&& {
+        return get<I>((std::tuple<Types...> &&)(value));
+    }
+
+    template<size_t I, typename... Types>
+    [[nodiscard]] constexpr auto
+    get(const posu::vmath::arith_tuple<Types...>& value) noexcept
+        -> const tuple_element_t<I, tuple<Types...>>& {
+        return get<I>((const std::tuple<Types...>&)(value));
+    }
+
+    template<size_t I, typename... Types>
+    [[nodiscard]] constexpr auto
+    get(const posu::vmath::arith_tuple<Types...>&& value) noexcept
+        -> const tuple_element_t<I, tuple<Types...>>&& {
+        return get<I>((const std::tuple<Types...>&&)(value));
+    }
+
+    template<typename T, typename... Types>
+    [[nodiscard]] constexpr auto
+    get(posu::vmath::arith_tuple<Types...>& value) noexcept -> T& {
+        return get<T>((std::tuple<Types...>&)(value));
+    }
+
+    template<typename T, typename... Types>
+    [[nodiscard]] constexpr auto
+    get(posu::vmath::arith_tuple<Types...>&& value) noexcept -> T&& {
+        return get<T>((std::tuple<Types...> &&)(value));
+    }
+
+    template<typename T, typename... Types>
+    [[nodiscard]] constexpr auto
+    get(const posu::vmath::arith_tuple<Types...>& value) noexcept -> const T& {
+        return get<T>((const std::tuple<Types...>&)(value));
+    }
+
+    template<typename T, typename... Types>
+    [[nodiscard]] constexpr auto
+    get(const posu::vmath::arith_tuple<Types...>&& value) noexcept
+        -> const T&& {
+        return get<T>((const std::tuple<Types...>&&)(value));
+    }
+
+} // namespace std

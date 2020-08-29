@@ -54,11 +54,61 @@ namespace posu::vmath {
         [[nodiscard]] explicit constexpr operator scaler_type() const
             noexcept(false);
 
+        [[nodiscard]] explicit constexpr
+        operator std::tuple<T...> &() & noexcept;
+        [[nodiscard]] explicit constexpr
+        operator std::tuple<T...> &&() && noexcept;
+        [[nodiscard]] explicit constexpr
+        operator const std::tuple<T...> &() const& noexcept;
+        [[nodiscard]] explicit constexpr
+        operator const std::tuple<T...> &&() const&& noexcept;
+
     private:
         std::tuple<T...> m_data{};
     };
 
 } // namespace posu::vmath
+
+namespace std {
+
+    template<size_t I, typename... Types>
+    [[nodiscard]] constexpr auto
+    get(posu::vmath::arith_tuple<Types...>& value) noexcept
+        -> tuple_element_t<I, tuple<Types...>>&;
+
+    template<size_t I, typename... Types>
+    [[nodiscard]] constexpr auto
+    get(posu::vmath::arith_tuple<Types...>&& value) noexcept
+        -> tuple_element_t<I, tuple<Types...>>&&;
+
+    template<size_t I, typename... Types>
+    [[nodiscard]] constexpr auto
+    get(const posu::vmath::arith_tuple<Types...>& value) noexcept
+        -> const tuple_element_t<I, tuple<Types...>>&;
+
+    template<size_t I, typename... Types>
+    [[nodiscard]] constexpr auto
+    get(const posu::vmath::arith_tuple<Types...>&& value) noexcept
+        -> const tuple_element_t<I, tuple<Types...>>&&;
+
+    template<typename Ty, typename... Types>
+    [[nodiscard]] constexpr auto
+    get(posu::vmath::arith_tuple<Types...>& value) noexcept -> Ty&;
+
+    template<typename Ty, typename... Types>
+    [[nodiscard]] constexpr auto
+    get(posu::vmath::arith_tuple<Types...>&& value) noexcept -> Ty&&;
+
+    template<typename Ty, typename... Types>
+    [[nodiscard]] constexpr auto
+    get(const posu::vmath::arith_tuple<Types...>& value) noexcept -> const Ty&;
+
+    template<typename Ty, typename... Types>
+    [[nodiscard]] constexpr auto
+    get(const posu::vmath::arith_tuple<Types...>&& value) noexcept
+        -> const Ty&&;
+
+} // namespace std
 
 #include "posu/ipp/vmath.ipp"
 

@@ -91,9 +91,16 @@ target_sources(posu INTERFACE ${POSU_HPP_FILES})
 if(BUILD_TESTING)
     find_package(Catch2 REQUIRED)
 
+    add_executable(test_arith_tuple ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp)
+    target_link_libraries(test_arith_tuple PRIVATE Catch2::Catch2)
+    target_link_libraries(test_arith_tuple PRIVATE posu)
+    add_test(NAME test_arith_tuple COMMAND test_arith_tuple)
+
     add_executable(test_zip_range ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp)
     target_link_libraries(test_zip_range PRIVATE Catch2::Catch2)
     target_link_libraries(test_zip_range PRIVATE posu)
+    add_test(NAME test_zip_range COMMAND test_zip_range)
+    set_tests_properties(test_zip_range PROPERTIES DEPENDS test_arith_tuple)
 endif()
 
 ################
@@ -106,7 +113,10 @@ if(POSU_CLANG_FORMAT)
     add_custom_target(
         clang_format
             COMMAND
-                ${POSU_CLANG_FORMAT} -i ${POSU_HPP_FILES}
+                ${POSU_CLANG_FORMAT} -i
+                    ${POSU_HPP_FILES}
+                    ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
+                    ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
             DEPENDS
                 ${POSU_HPP_FILES}
     )
