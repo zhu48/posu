@@ -94,9 +94,9 @@ TEST_CASE("arithmetic operations", "[arithmetic]")
 
         constexpr auto add_value = common_type{1};
 
-        const auto initial =
+        constexpr auto initial =
             posu::vmath::arith_tuple{value_0, value_1, value_3};
-        const auto result = initial + add_value;
+        constexpr auto result = initial + add_value;
 
         CHECK(std::get<0>(result) == std::get<0>(initial) + add_value);
         CHECK(std::get<1>(result) == std::get<1>(initial) + add_value);
@@ -111,9 +111,9 @@ TEST_CASE("arithmetic operations", "[arithmetic]")
 
         constexpr auto sub_value = common_type{1};
 
-        const auto initial =
+        constexpr auto initial =
             posu::vmath::arith_tuple{value_0, value_1, value_3};
-        const auto result = initial - sub_value;
+        constexpr auto result = initial - sub_value;
 
         CHECK(std::get<0>(result) == std::get<0>(initial) - sub_value);
         CHECK(std::get<1>(result) == std::get<1>(initial) - sub_value);
@@ -128,9 +128,9 @@ TEST_CASE("arithmetic operations", "[arithmetic]")
 
         constexpr auto mul_value = common_type{2};
 
-        const auto initial =
+        constexpr auto initial =
             posu::vmath::arith_tuple{value_0, value_1, value_3};
-        const auto result = initial * mul_value;
+        constexpr auto result = initial * mul_value;
 
         CHECK(std::get<0>(result) == std::get<0>(initial) * mul_value);
         CHECK(std::get<1>(result) == std::get<1>(initial) * mul_value);
@@ -145,9 +145,9 @@ TEST_CASE("arithmetic operations", "[arithmetic]")
 
         constexpr auto div_value = common_type{2};
 
-        const auto initial =
+        constexpr auto initial =
             posu::vmath::arith_tuple{value_0, value_1, value_3};
-        const auto result = initial / div_value;
+        constexpr auto result = initial / div_value;
 
         CHECK(std::get<0>(result) == std::get<0>(initial) / div_value);
         CHECK(std::get<1>(result) == std::get<1>(initial) / div_value);
