@@ -86,8 +86,8 @@ IndentWrappedFunctionNames: false
 JavaScriptQuotes: Leave
 JavaScriptWrapImports: true
 KeepEmptyLinesAtTheStartOfBlocks: false
-MacroBlockBegin: 'STARS_WARN_PUSH|STARS_WARN_PUSH_IGNORE_ALL'
-MacroBlockEnd:   'STARS_WARN_POP'
+MacroBlockBegin: ''
+MacroBlockEnd:   ''
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: All
 ObjCBinPackProtocolList: Auto
