@@ -25,30 +25,28 @@ namespace posu::vmath {
 
         constexpr auto operator=(scaler_type n) noexcept -> arith_tuple&;
 
-        [[nodiscard]] constexpr auto operator+(arith_tuple rhs) const noexcept
-            -> arith_tuple;
         [[nodiscard]] constexpr auto operator+(scaler_type rhs) const noexcept
             -> arith_tuple;
-        [[nodiscard]] constexpr auto operator-(arith_tuple rhs) const noexcept
-            -> arith_tuple;
+        [[nodiscard]] constexpr auto
+        operator+(const arith_tuple& rhs) const noexcept -> arith_tuple;
+
         [[nodiscard]] constexpr auto operator-(scaler_type rhs) const noexcept
             -> arith_tuple;
+        [[nodiscard]] constexpr auto
+        operator-(const arith_tuple& rhs) const noexcept -> arith_tuple;
+
         [[nodiscard]] constexpr auto operator*(scaler_type rhs) const noexcept
             -> arith_tuple;
         [[nodiscard]] constexpr auto operator/(scaler_type rhs) const noexcept
             -> arith_tuple;
-        [[nodiscard]] constexpr auto operator+=(arith_tuple rhs) noexcept
+        constexpr auto operator+=(scaler_type rhs) noexcept -> arith_tuple&;
+        constexpr auto operator+=(const arith_tuple& rhs) noexcept
             -> arith_tuple&;
-        [[nodiscard]] constexpr auto operator+=(scaler_type rhs) noexcept
+        constexpr auto operator-=(scaler_type rhs) noexcept -> arith_tuple&;
+        constexpr auto operator-=(const arith_tuple& rhs) noexcept
             -> arith_tuple&;
-        [[nodiscard]] constexpr auto operator-=(arith_tuple rhs) noexcept
-            -> arith_tuple&;
-        [[nodiscard]] constexpr auto operator-=(scaler_type rhs) noexcept
-            -> arith_tuple&;
-        [[nodiscard]] constexpr auto operator*=(scaler_type rhs) noexcept
-            -> arith_tuple&;
-        [[nodiscard]] constexpr auto operator/=(scaler_type rhs) noexcept
-            -> arith_tuple&;
+        constexpr auto operator*=(scaler_type rhs) noexcept -> arith_tuple&;
+        constexpr auto operator/=(scaler_type rhs) noexcept -> arith_tuple&;
 
         [[nodiscard]] explicit constexpr operator scaler_type() const
             noexcept(false);

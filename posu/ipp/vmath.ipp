@@ -58,22 +58,22 @@ namespace posu::vmath {
             return arith_tuple<T...>((std::get<I>(lhs) + rhs)...);
         }
 
-        template<typename... T, std::size_t I = 0>
+        template<std::size_t I = 0, typename... T>
         constexpr void
         add_all(std::tuple<T...>& lhs, const std::tuple<T...>& rhs) noexcept
         {
             if constexpr(I < sizeof...(T)) {
-                add_all<T..., I + 1>(lhs, rhs);
+                add_all<I + 1>(lhs, rhs);
                 std::get<I>(lhs) += std::get<I>(rhs);
             }
         }
 
-        template<typename... T, std::size_t I = 0>
+        template<std::size_t I = 0, typename... T>
         constexpr void add_all(
             std::tuple<T...>& lhs, const std::common_type_t<T...>& rhs) noexcept
         {
             if constexpr(I < sizeof...(T)) {
-                add_all<T..., I + 1>(lhs, rhs);
+                add_all<I + 1>(lhs, rhs);
                 std::get<I>(lhs) += rhs;
             }
         }
@@ -96,22 +96,22 @@ namespace posu::vmath {
             return arith_tuple<T...>((std::get<I>(lhs) - rhs)...);
         }
 
-        template<typename... T, std::size_t I = 0>
+        template<std::size_t I = 0, typename... T>
         constexpr void
         sub_all(std::tuple<T...>& lhs, const std::tuple<T...>& rhs) noexcept
         {
             if constexpr(I < sizeof...(T)) {
-                sub_all<T..., I + 1>(lhs, rhs);
+                sub_all<I + 1>(lhs, rhs);
                 std::get<I>(lhs) -= std::get<I>(rhs);
             }
         }
 
-        template<typename... T, std::size_t I = 0>
+        template<std::size_t I = 0, typename... T>
         constexpr void sub_all(
             std::tuple<T...>& lhs, const std::common_type_t<T...>& rhs) noexcept
         {
             if constexpr(I < sizeof...(T)) {
-                sub_all<T..., I + 1>(lhs, rhs);
+                sub_all<I + 1>(lhs, rhs);
                 std::get<I>(lhs) -= rhs;
             }
         }
@@ -125,12 +125,12 @@ namespace posu::vmath {
             return arith_tuple<T...>((std::get<I>(lhs) * rhs)...);
         }
 
-        template<typename... T, std::size_t I = 0>
+        template<std::size_t I = 0, typename... T>
         constexpr void mul_all(
             std::tuple<T...>& lhs, const std::common_type_t<T...>& rhs) noexcept
         {
             if constexpr(I < sizeof...(T)) {
-                mul_all<T..., I + 1>(lhs, rhs);
+                mul_all<I + 1>(lhs, rhs);
                 std::get<I>(lhs) *= rhs;
             }
         }
@@ -144,17 +144,17 @@ namespace posu::vmath {
             return arith_tuple<T...>((std::get<I>(lhs) / rhs)...);
         }
 
-        template<typename... T, std::size_t I = 0>
+        template<std::size_t I = 0, typename... T>
         constexpr void div_all(
             std::tuple<T...>& lhs, const std::common_type_t<T...>& rhs) noexcept
         {
             if constexpr(I < sizeof...(T)) {
-                div_all<T..., I + 1>(lhs, rhs);
+                div_all<I + 1>(lhs, rhs);
                 std::get<I>(lhs) /= rhs;
             }
         }
 
-        template<typename... T, std::size_t I = 0>
+        template<std::size_t I = 0, typename... T>
         constexpr auto
         obtain_value(const std::tuple<T...>& value) noexcept(false)
             -> std::common_type_t<T...>
@@ -164,6 +164,7 @@ namespace posu::vmath {
                     throw not_pure_diagonal(
                         "scaler conversion requires all elements to be equal");
                 }
+                return obtain_value<I + 1>(value);
             }
             else {
                 return std::get<0>(value);
@@ -209,15 +210,6 @@ namespace posu::vmath {
     template<typename... T> // clang-format off
         requires((std::integral<T> || std::floating_point<T>) && ...)
     [[nodiscard]] constexpr auto arith_tuple<T...>:: // clang-format on
-        operator+(arith_tuple rhs) const noexcept -> arith_tuple
-    {
-        return detail::add_all(
-            m_data, rhs.m_data, std::make_index_sequence<sizeof...(T)>{});
-    }
-
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    [[nodiscard]] constexpr auto arith_tuple<T...>:: // clang-format on
         operator+(scaler_type rhs) const noexcept -> arith_tuple
     {
         return detail::add_all(
@@ -227,9 +219,9 @@ namespace posu::vmath {
     template<typename... T> // clang-format off
         requires((std::integral<T> || std::floating_point<T>) && ...)
     [[nodiscard]] constexpr auto arith_tuple<T...>:: // clang-format on
-        operator-(arith_tuple rhs) const noexcept -> arith_tuple
+        operator+(const arith_tuple& rhs) const noexcept -> arith_tuple
     {
-        return detail::sub_all(
+        return detail::add_all(
             m_data, rhs.m_data, std::make_index_sequence<sizeof...(T)>{});
     }
 
@@ -240,6 +232,15 @@ namespace posu::vmath {
     {
         return detail::sub_all(
             m_data, rhs, std::make_index_sequence<sizeof...(T)>{});
+    }
+
+    template<typename... T> // clang-format off
+        requires((std::integral<T> || std::floating_point<T>) && ...)
+    [[nodiscard]] constexpr auto arith_tuple<T...>:: // clang-format on
+        operator-(const arith_tuple& rhs) const noexcept -> arith_tuple
+    {
+        return detail::sub_all(
+            m_data, rhs.m_data, std::make_index_sequence<sizeof...(T)>{});
     }
 
     template<typename... T> // clang-format off
@@ -263,15 +264,6 @@ namespace posu::vmath {
     template<typename... T> // clang-format off
         requires((std::integral<T> || std::floating_point<T>) && ...)
     constexpr auto arith_tuple<T...>:: // clang-format on
-    operator+=(arith_tuple rhs) noexcept -> arith_tuple&
-    {
-        detail::add_all(m_data, rhs.m_data);
-        return *this;
-    }
-
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    constexpr auto arith_tuple<T...>:: // clang-format on
     operator+=(scaler_type rhs) noexcept -> arith_tuple&
     {
         detail::add_all(m_data, rhs);
@@ -281,9 +273,9 @@ namespace posu::vmath {
     template<typename... T> // clang-format off
         requires((std::integral<T> || std::floating_point<T>) && ...)
     constexpr auto arith_tuple<T...>:: // clang-format on
-    operator-=(arith_tuple rhs) noexcept -> arith_tuple&
+    operator+=(const arith_tuple& rhs) noexcept -> arith_tuple&
     {
-        detail::sub_all(m_data, rhs.m_data);
+        detail::add_all(m_data, rhs.m_data);
         return *this;
     }
 
@@ -293,6 +285,15 @@ namespace posu::vmath {
     operator-=(scaler_type rhs) noexcept -> arith_tuple&
     {
         detail::sub_all(m_data, rhs);
+        return *this;
+    }
+
+    template<typename... T> // clang-format off
+        requires((std::integral<T> || std::floating_point<T>) && ...)
+    constexpr auto arith_tuple<T...>:: // clang-format on
+    operator-=(const arith_tuple& rhs) noexcept -> arith_tuple&
+    {
+        detail::sub_all(m_data, rhs.m_data);
         return *this;
     }
 
