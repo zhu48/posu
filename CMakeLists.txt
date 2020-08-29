@@ -10,6 +10,8 @@ option(POSU_ENABLE_WALL                          OFF)
 option(POSU_ENABLE_WERROR                        OFF)
 option(POSU_ENABLE_DETAILED_CONCEPTS_DIAGNOSTICS OFF)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # zip-range only standards-compliant with C++20 iterator rework
 if(NOT DEFINED CMAKE_CXX_STANDARD)
     set(CMAKE_CXX_STANDARD 20)
@@ -76,6 +78,10 @@ set(
     POSU_HPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/vmath.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/zip_range.hpp
+)
+
+set(
+    POSU_IPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/vmath.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/zip_range.ipp
 )
@@ -115,6 +121,7 @@ if(POSU_CLANG_FORMAT)
             COMMAND
                 ${POSU_CLANG_FORMAT} -i
                     ${POSU_HPP_FILES}
+                    ${POSU_IPP_FILES}
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
             DEPENDS
@@ -131,7 +138,19 @@ endif()
 if(POSU_CLANG_TIDY)
     message(STATUS "generating target clang_tidy")
 
-    add_custom_target(clang_tidy)
+    add_custom_target(
+        clang_tidy
+            COMMAND
+                ${POSU_CLANG_TIDY}
+                    -p ${CMAKE_CURRENT_BINARY_DIR}
+                    ${POSU_HPP_FILES}
+                    ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
+                    ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
+                DEPENDS
+                    ${POSU_HPP_FILES}
+                    ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
+                    ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
+    )
 else()
     message(STATUS "clang-tidy not found")
 endif()

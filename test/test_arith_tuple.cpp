@@ -17,8 +17,11 @@ TEST_CASE("construction invariants", "[construct]")
         constexpr auto test_value =
             posu::vmath::arith_tuple<type_0, type_1, type_2>{constant_value};
 
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<0>(test_value) == constant_value);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<1>(test_value) == constant_value);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<2>(test_value) == constant_value);
     }
 
@@ -32,8 +35,11 @@ TEST_CASE("construction invariants", "[construct]")
             posu::vmath::arith_tuple<type_0, type_1, type_2>{
                 constant_0, constant_1, constant_2};
 
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<0>(test_value) == constant_0);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<1>(test_value) == constant_1);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<2>(test_value) == constant_2);
     }
 
@@ -46,8 +52,11 @@ TEST_CASE("construction invariants", "[construct]")
         constexpr auto test_value =
             posu::vmath::arith_tuple{constant_0, constant_1, constant_2};
 
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<0>(test_value) == constant_0);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<1>(test_value) == constant_1);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<2>(test_value) == constant_2);
     }
 
@@ -59,8 +68,11 @@ TEST_CASE("construction invariants", "[construct]")
         constexpr auto test_value =
             posu::vmath::make_arith_tuple<size>(constant_value);
 
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<0>(test_value) == constant_value);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<1>(test_value) == constant_value);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<2>(test_value) == constant_value);
     }
 
@@ -73,8 +85,11 @@ TEST_CASE("construction invariants", "[construct]")
         constexpr auto test_value =
             posu::vmath::make_arith_tuple(constant_0, constant_1, constant_2);
 
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<0>(test_value) == constant_0);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<1>(test_value) == constant_1);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<2>(test_value) == constant_2);
     }
 }
@@ -98,8 +113,11 @@ TEST_CASE("arithmetic operations", "[arithmetic]")
             posu::vmath::arith_tuple{value_0, value_1, value_3};
         constexpr auto result = initial + add_value;
 
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<0>(result) == std::get<0>(initial) + add_value);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<1>(result) == std::get<1>(initial) + add_value);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<2>(result) == std::get<2>(initial) + add_value);
     }
 
@@ -115,8 +133,11 @@ TEST_CASE("arithmetic operations", "[arithmetic]")
             posu::vmath::arith_tuple{value_0, value_1, value_3};
         constexpr auto result = initial - sub_value;
 
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<0>(result) == std::get<0>(initial) - sub_value);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<1>(result) == std::get<1>(initial) - sub_value);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<2>(result) == std::get<2>(initial) - sub_value);
     }
 
@@ -132,8 +153,11 @@ TEST_CASE("arithmetic operations", "[arithmetic]")
             posu::vmath::arith_tuple{value_0, value_1, value_3};
         constexpr auto result = initial * mul_value;
 
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<0>(result) == std::get<0>(initial) * mul_value);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<1>(result) == std::get<1>(initial) * mul_value);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<2>(result) == std::get<2>(initial) * mul_value);
     }
 
@@ -149,8 +173,11 @@ TEST_CASE("arithmetic operations", "[arithmetic]")
             posu::vmath::arith_tuple{value_0, value_1, value_3};
         constexpr auto result = initial / div_value;
 
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<0>(result) == std::get<0>(initial) / div_value);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<1>(result) == std::get<1>(initial) / div_value);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<2>(result) == std::get<2>(initial) / div_value);
     }
 
@@ -169,12 +196,15 @@ TEST_CASE("arithmetic operations", "[arithmetic]")
             posu::vmath::arith_tuple{value_0_1, value_1_1, value_2_1};
         constexpr auto result = initial + add_value;
 
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(
             std::get<0>(result) ==
             std::get<0>(initial) + std::get<0>(add_value));
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(
             std::get<1>(result) ==
             std::get<1>(initial) + std::get<1>(add_value));
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(
             std::get<2>(result) ==
             std::get<2>(initial) + std::get<2>(add_value));
@@ -195,12 +225,15 @@ TEST_CASE("arithmetic operations", "[arithmetic]")
             posu::vmath::arith_tuple{value_0_1, value_1_1, value_2_1};
         constexpr auto result = initial - sub_value;
 
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(
             std::get<0>(result) ==
             std::get<0>(initial) - std::get<0>(sub_value));
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(
             std::get<1>(result) ==
             std::get<1>(initial) - std::get<1>(sub_value));
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(
             std::get<2>(result) ==
             std::get<2>(initial) - std::get<2>(sub_value));
@@ -228,8 +261,11 @@ TEST_CASE("arithmetic assignment operations", "[arithmetic][assignment]")
         auto result = initial;
         result += add_value;
 
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<0>(result) == std::get<0>(initial) + add_value);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<1>(result) == std::get<1>(initial) + add_value);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<2>(result) == std::get<2>(initial) + add_value);
     }
 
@@ -247,8 +283,11 @@ TEST_CASE("arithmetic assignment operations", "[arithmetic][assignment]")
         auto result = initial;
         result -= sub_value;
 
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<0>(result) == std::get<0>(initial) - sub_value);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<1>(result) == std::get<1>(initial) - sub_value);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<2>(result) == std::get<2>(initial) - sub_value);
     }
 
@@ -266,8 +305,11 @@ TEST_CASE("arithmetic assignment operations", "[arithmetic][assignment]")
         auto result = initial;
         result *= mul_value;
 
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<0>(result) == std::get<0>(initial) * mul_value);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<1>(result) == std::get<1>(initial) * mul_value);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<2>(result) == std::get<2>(initial) * mul_value);
     }
 
@@ -285,8 +327,11 @@ TEST_CASE("arithmetic assignment operations", "[arithmetic][assignment]")
         auto result = initial;
         result /= div_value;
 
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<0>(result) == std::get<0>(initial) / div_value);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<1>(result) == std::get<1>(initial) / div_value);
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<2>(result) == std::get<2>(initial) / div_value);
     }
 
@@ -307,12 +352,15 @@ TEST_CASE("arithmetic assignment operations", "[arithmetic][assignment]")
         auto result = initial;
         result += add_value;
 
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(
             std::get<0>(result) ==
             std::get<0>(initial) + std::get<0>(add_value));
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(
             std::get<1>(result) ==
             std::get<1>(initial) + std::get<1>(add_value));
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(
             std::get<2>(result) ==
             std::get<2>(initial) + std::get<2>(add_value));
@@ -335,12 +383,15 @@ TEST_CASE("arithmetic assignment operations", "[arithmetic][assignment]")
         auto result = initial;
         result -= sub_value;
 
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(
             std::get<0>(result) ==
             std::get<0>(initial) - std::get<0>(sub_value));
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(
             std::get<1>(result) ==
             std::get<1>(initial) - std::get<1>(sub_value));
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(
             std::get<2>(result) ==
             std::get<2>(initial) - std::get<2>(sub_value));
