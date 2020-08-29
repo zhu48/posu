@@ -34,108 +34,6 @@ namespace posu::vmath {
                 std::make_index_sequence<std::tuple_size_v<Tuple>>{});
         }
 
-        template<typename... T, typename Arg, std::size_t I = 0>
-        constexpr void assign_all(std::tuple<T...>& tuple, Arg arg) noexcept
-        {
-            posu::for_each([&](auto& elem) { elem = arg; }, tuple);
-        }
-
-        template<typename... T, std::size_t... I>
-        [[nodiscard]] constexpr decltype(auto) add_all(
-            const std::tuple<T...>& lhs,
-            const std::tuple<T...>& rhs,
-            std::index_sequence<I...> /*unused*/) noexcept
-        {
-            return arith_tuple<T...>((std::get<I>(lhs) + std::get<I>(rhs))...);
-        }
-
-        template<typename... T, std::size_t... I>
-        [[nodiscard]] constexpr decltype(auto) add_all(
-            const std::tuple<T...>&         lhs,
-            const std::common_type_t<T...>& rhs,
-            std::index_sequence<I...> /*unused*/) noexcept
-        {
-            return arith_tuple<T...>((std::get<I>(lhs) + rhs)...);
-        }
-
-        template<std::size_t I = 0, typename... T>
-        constexpr void
-        add_all(std::tuple<T...>& lhs, const std::tuple<T...>& rhs) noexcept
-        {
-            posu::for_each([](auto& l, const auto& r) { l += r; }, lhs, rhs);
-        }
-
-        template<std::size_t I = 0, typename... T>
-        constexpr void add_all(
-            std::tuple<T...>& lhs, const std::common_type_t<T...>& rhs) noexcept
-        {
-            posu::for_each([&](auto& l) { l += rhs; }, lhs);
-        }
-
-        template<typename... T, std::size_t... I>
-        [[nodiscard]] constexpr decltype(auto) sub_all(
-            const std::tuple<T...>& lhs,
-            const std::tuple<T...>& rhs,
-            std::index_sequence<I...> /*unused*/) noexcept
-        {
-            return arith_tuple<T...>((std::get<I>(lhs) - std::get<I>(rhs))...);
-        }
-
-        template<typename... T, std::size_t... I>
-        [[nodiscard]] constexpr decltype(auto) sub_all(
-            const std::tuple<T...>&         lhs,
-            const std::common_type_t<T...>& rhs,
-            std::index_sequence<I...> /*unused*/) noexcept
-        {
-            return arith_tuple<T...>((std::get<I>(lhs) - rhs)...);
-        }
-
-        template<std::size_t I = 0, typename... T>
-        constexpr void
-        sub_all(std::tuple<T...>& lhs, const std::tuple<T...>& rhs) noexcept
-        {
-            posu::for_each([](auto& l, const auto& r) { l -= r; }, lhs, rhs);
-        }
-
-        template<std::size_t I = 0, typename... T>
-        constexpr void sub_all(
-            std::tuple<T...>& lhs, const std::common_type_t<T...>& rhs) noexcept
-        {
-            posu::for_each([&](auto& l) { l -= rhs; }, lhs);
-        }
-
-        template<typename... T, std::size_t... I>
-        [[nodiscard]] constexpr decltype(auto) mul_all(
-            const std::tuple<T...>&         lhs,
-            const std::common_type_t<T...>& rhs,
-            std::index_sequence<I...> /*unused*/) noexcept
-        {
-            return arith_tuple<T...>((std::get<I>(lhs) * rhs)...);
-        }
-
-        template<std::size_t I = 0, typename... T>
-        constexpr void mul_all(
-            std::tuple<T...>& lhs, const std::common_type_t<T...>& rhs) noexcept
-        {
-            posu::for_each([&](auto& l) { l *= rhs; }, lhs);
-        }
-
-        template<typename... T, std::size_t... I>
-        [[nodiscard]] constexpr decltype(auto) div_all(
-            const std::tuple<T...>&         lhs,
-            const std::common_type_t<T...>& rhs,
-            std::index_sequence<I...> /*unused*/) noexcept
-        {
-            return arith_tuple<T...>((std::get<I>(lhs) / rhs)...);
-        }
-
-        template<std::size_t I = 0, typename... T>
-        constexpr void div_all(
-            std::tuple<T...>& lhs, const std::common_type_t<T...>& rhs) noexcept
-        {
-            posu::for_each([&](auto& l) { l /= rhs; }, lhs);
-        }
-
         template<std::size_t I = 0, typename... T>
         constexpr auto
         obtain_value(const std::tuple<T...>& value) noexcept(false)
@@ -185,7 +83,7 @@ namespace posu::vmath {
     constexpr auto arith_tuple<T...>:: // clang-format on
     operator=(scaler_type n) noexcept -> arith_tuple&
     {
-        detail::assign_all(m_data, n, std::make_index_sequence<sizeof...(T)>{});
+        posu::for_each([&](auto& elem) { elem = n; }, m_data);
         return *this;
     }
 
@@ -194,8 +92,8 @@ namespace posu::vmath {
     [[nodiscard]] constexpr auto arith_tuple<T...>:: // clang-format on
         operator+(scaler_type rhs) const noexcept -> arith_tuple
     {
-        return detail::add_all(
-            m_data, rhs, std::make_index_sequence<sizeof...(T)>{});
+        return posu::make_from_for_each<arith_tuple<T...>>(
+            [&](const auto& l) { return l + rhs; }, m_data);
     }
 
     template<typename... T> // clang-format off
@@ -203,8 +101,10 @@ namespace posu::vmath {
     [[nodiscard]] constexpr auto arith_tuple<T...>:: // clang-format on
         operator+(const arith_tuple& rhs) const noexcept -> arith_tuple
     {
-        return detail::add_all(
-            m_data, rhs.m_data, std::make_index_sequence<sizeof...(T)>{});
+        return posu::make_from_for_each<arith_tuple<T...>>(
+            [](const auto& l, const auto& r) { return l + r; },
+            m_data,
+            rhs.m_data);
     }
 
     template<typename... T> // clang-format off
@@ -212,8 +112,8 @@ namespace posu::vmath {
     [[nodiscard]] constexpr auto arith_tuple<T...>:: // clang-format on
         operator-(scaler_type rhs) const noexcept -> arith_tuple
     {
-        return detail::sub_all(
-            m_data, rhs, std::make_index_sequence<sizeof...(T)>{});
+        return posu::make_from_for_each<arith_tuple<T...>>(
+            [&](const auto& l) { return l - rhs; }, m_data);
     }
 
     template<typename... T> // clang-format off
@@ -221,8 +121,10 @@ namespace posu::vmath {
     [[nodiscard]] constexpr auto arith_tuple<T...>:: // clang-format on
         operator-(const arith_tuple& rhs) const noexcept -> arith_tuple
     {
-        return detail::sub_all(
-            m_data, rhs.m_data, std::make_index_sequence<sizeof...(T)>{});
+        return posu::make_from_for_each<arith_tuple<T...>>(
+            [](const auto& l, const auto& r) { return l - r; },
+            m_data,
+            rhs.m_data);
     }
 
     template<typename... T> // clang-format off
@@ -230,8 +132,8 @@ namespace posu::vmath {
     [[nodiscard]] constexpr auto arith_tuple<T...>:: // clang-format on
         operator*(scaler_type rhs) const noexcept -> arith_tuple
     {
-        return detail::mul_all(
-            m_data, rhs, std::make_index_sequence<sizeof...(T)>{});
+        return posu::make_from_for_each<arith_tuple<T...>>(
+            [&](const auto& l) { return l * rhs; }, m_data);
     }
 
     template<typename... T> // clang-format off
@@ -239,8 +141,8 @@ namespace posu::vmath {
     [[nodiscard]] constexpr auto arith_tuple<T...>:: // clang-format on
         operator/(scaler_type rhs) const noexcept -> arith_tuple
     {
-        return detail::div_all(
-            m_data, rhs, std::make_index_sequence<sizeof...(T)>{});
+        return posu::make_from_for_each<arith_tuple<T...>>(
+            [&](const auto& l) { return l / rhs; }, m_data);
     }
 
     template<typename... T> // clang-format off
@@ -248,7 +150,7 @@ namespace posu::vmath {
     constexpr auto arith_tuple<T...>:: // clang-format on
     operator+=(scaler_type rhs) noexcept -> arith_tuple&
     {
-        detail::add_all(m_data, rhs);
+        posu::for_each([&](auto& l) { l += rhs; }, m_data);
         return *this;
     }
 
@@ -257,7 +159,8 @@ namespace posu::vmath {
     constexpr auto arith_tuple<T...>:: // clang-format on
     operator+=(const arith_tuple& rhs) noexcept -> arith_tuple&
     {
-        detail::add_all(m_data, rhs.m_data);
+        posu::for_each(
+            [](auto& l, const auto& r) { l += r; }, m_data, rhs.m_data);
         return *this;
     }
 
@@ -266,7 +169,7 @@ namespace posu::vmath {
     constexpr auto arith_tuple<T...>:: // clang-format on
     operator-=(scaler_type rhs) noexcept -> arith_tuple&
     {
-        detail::sub_all(m_data, rhs);
+        posu::for_each([&](auto& l) { l -= rhs; }, m_data);
         return *this;
     }
 
@@ -275,7 +178,8 @@ namespace posu::vmath {
     constexpr auto arith_tuple<T...>:: // clang-format on
     operator-=(const arith_tuple& rhs) noexcept -> arith_tuple&
     {
-        detail::sub_all(m_data, rhs.m_data);
+        posu::for_each(
+            [](auto& l, const auto& r) { l -= r; }, m_data, rhs.m_data);
         return *this;
     }
 
@@ -284,7 +188,7 @@ namespace posu::vmath {
     constexpr auto arith_tuple<T...>:: // clang-format on
     operator*=(scaler_type rhs) noexcept -> arith_tuple&
     {
-        detail::mul_all(m_data, rhs);
+        posu::for_each([&](auto& l) { l *= rhs; }, m_data);
         return *this;
     }
 
@@ -293,7 +197,7 @@ namespace posu::vmath {
     constexpr auto arith_tuple<T...>:: // clang-format on
     operator/=(scaler_type rhs) noexcept -> arith_tuple&
     {
-        detail::div_all(m_data, rhs);
+        posu::for_each([&](auto& l) { l /= rhs; }, m_data);
         return *this;
     }
 

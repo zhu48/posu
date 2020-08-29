@@ -76,6 +76,11 @@ namespace posu::vmath {
 
 namespace std {
 
+    template<typename... T>
+    struct tuple_size<posu::vmath::arith_tuple<T...>>
+        : std::integral_constant<std::size_t, sizeof...(T)> {
+    };
+
     template<size_t I, typename... Types>
     [[nodiscard]] constexpr auto
     get(posu::vmath::arith_tuple<Types...>& value) noexcept
