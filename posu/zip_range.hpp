@@ -6,7 +6,6 @@
 namespace posu {
 
     namespace ranges {
-
         /**
          * A parallel view of multiple ranges.
          */
@@ -27,7 +26,8 @@ namespace posu {
             std::tuple<Views...> m_views;
         };
 
-        namespace views {}
+        namespace views {
+        }
 
     } // namespace ranges
 

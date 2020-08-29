@@ -6,7 +6,6 @@
 #include <tuple>
 
 namespace posu::vmath {
-
     class not_pure_diagonal : public std::runtime_error {
     public:
         not_pure_diagonal(const std::string& what_arg);
@@ -77,7 +76,6 @@ namespace posu::vmath {
 } // namespace posu::vmath
 
 namespace std {
-
     template<size_t I, typename... Types>
     [[nodiscard]] constexpr auto
     get(posu::vmath::arith_tuple<Types...>& value) noexcept

@@ -3,13 +3,15 @@
 #define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
 
-TEST_CASE("construction invariants", "[construct]") {
+TEST_CASE("construction invariants", "[construct]")
+{
     using type_0      = std::uint16_t;
     using type_1      = std::int32_t;
     using type_2      = float;
     using common_type = std::common_type_t<type_0, type_1, type_2>;
 
-    SECTION("construction from scaler") {
+    SECTION("construction from scaler")
+    {
         constexpr auto constant_value = common_type{22};
 
         const auto test_value =
@@ -20,7 +22,8 @@ TEST_CASE("construction invariants", "[construct]") {
         CHECK(std::get<2>(test_value) == constant_value);
     }
 
-    SECTION("construction from argument list") {
+    SECTION("construction from argument list")
+    {
         constexpr auto constant_0 = type_0{2};
         constexpr auto constant_1 = type_1{557};
         constexpr auto constant_2 = type_2{-2.44};
@@ -34,7 +37,8 @@ TEST_CASE("construction invariants", "[construct]") {
         CHECK(std::get<2>(test_value) == constant_2);
     }
 
-    SECTION("CTAD construction from argument list") {
+    SECTION("CTAD construction from argument list")
+    {
         constexpr auto constant_0 = type_0{2};
         constexpr auto constant_1 = type_1{557};
         constexpr auto constant_2 = type_2{-2.44};
@@ -47,7 +51,8 @@ TEST_CASE("construction invariants", "[construct]") {
         CHECK(std::get<2>(test_value) == constant_2);
     }
 
-    SECTION("construction from size-value factory") {
+    SECTION("construction from size-value factory")
+    {
         constexpr auto size           = std::size_t{3};
         constexpr auto constant_value = common_type{22};
 
@@ -59,7 +64,8 @@ TEST_CASE("construction invariants", "[construct]") {
         CHECK(std::get<2>(test_value) == constant_value);
     }
 
-    SECTION("construction from multi-argument factory") {
+    SECTION("construction from multi-argument factory")
+    {
         constexpr auto constant_0 = type_0{2};
         constexpr auto constant_1 = type_1{557};
         constexpr auto constant_2 = type_2{-2.44};
