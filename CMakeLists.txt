@@ -74,7 +74,9 @@ find_program(POSU_CLANG_TIDY   clang-tidy)
 
 set(
     POSU_HPP_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/posu/vmath.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/zip_range.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/vmath.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/zip_range.ipp
 )
 
