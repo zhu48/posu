@@ -9,6 +9,7 @@ project(posu LANGUAGES CXX VERSION 0.0.1)
 option(POSU_ENABLE_WALL                          OFF)
 option(POSU_ENABLE_WERROR                        OFF)
 option(POSU_ENABLE_DETAILED_CONCEPTS_DIAGNOSTICS OFF)
+option(POSU_ENABLE_TESTING                       OFF)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -96,7 +97,7 @@ add_library(posu INTERFACE)
 target_include_directories(posu INTERFACE ${CMAKE_CURRENT_LIST_DIR})
 target_sources(posu INTERFACE ${POSU_HPP_FILES})
 
-if(BUILD_TESTING)
+if(BUILD_TESTING AND POSU_ENABLE_TESTING)
     find_package(Catch2 REQUIRED)
 
     add_executable(test_arith_tuple ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp)
