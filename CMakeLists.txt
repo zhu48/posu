@@ -13,6 +13,14 @@ option(POSU_ENABLE_TESTING                       OFF)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+if(DEFINED POSU_STDLIB)
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=${POSU_STDLIB}")
+    else()
+        message(FATAL_ERROR "POSU_STDLIB only supported when using Clang")
+    endif()
+endif()
+
 # zip-range only standards-compliant with C++20 iterator rework
 if(NOT DEFINED CMAKE_CXX_STANDARD)
     set(CMAKE_CXX_STANDARD 20)
