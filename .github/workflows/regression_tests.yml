@@ -43,7 +43,7 @@ jobs:
     - name: Clone GCC 10.2.0
       if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
       working-directory: ${{runner.temp}}/tc_src
-      run: git clone --branch releases/gcc-10.2.0 https://github.com/gcc-mirror/gcc.git --depth 1
+      run: git clone --branch releases/gcc-10.2.0 https://github.com/gcc-mirror/gcc.git --depth 1 && cmake -E make_directory ${{runner.temp}}/tc_build/gcc
 
     - name: Install GCC 10.2.0
       if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
