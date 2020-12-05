@@ -1,0 +1,84 @@
+name: CMake
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    # The CMake configure and build commands are platform agnostic and should work equally
+    # well on Windows or Mac.  You can convert this to a matrix build if you need
+    # cross-platform coverage.
+    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create Build Environment
+      # Some projects don't allow in-source building, so create a separate build directory
+      # We'll use this as our working directory for all subsequent commands
+      run: cmake -E make_directory ${{runner.workspace}}/build
+
+    - name: Cache C++20 Toolchain
+      id: cache-toolchain
+      uses: actions/cache@v2
+      with:
+        path: /usr/local
+        key: toolchain-gcc-10.2.0-clang-11.0.0
+
+    - name: Create Toolchain Source and Build Roots
+      # Some projects don't allow in-source building, so create a separate build directory
+      # We'll use this as our working directory for all subsequent commands
+      run: cmake -E make_directory ${{runner.workspace}}/tc_src && cmake -E make_directory ${{runner.workspace}}/tc_build
+
+    - name: Clone GCC 10.2.0
+      if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
+      working-directory: ${{runner.workspace}}/tc_src
+      run: git clone --branch releases/gcc-10.2.0 https://github.com/gcc-mirror/gcc.git --depth 1
+
+    - name: Install GCC 10.2.0
+      if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
+      working-directory: ${{runner.workspace}}/tc_build/gcc
+      run: ../../tc_src/gcc/configure --disable-multilib && make && sudo make install
+
+    - name: Clone LLVM 11.0.0
+      if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
+      working-directory: ${{runner.workspace}}/tc_src
+      run: git clone --branch llvmorg-11.0.0 https://github.com/llvm/llvm-project.git --depth 1
+
+    - name: Install LLVM 11.0.0
+      if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
+      working-directory: ${{runner.workspace}}/tc_src/llvm-project
+      run: cmake ./llvm -B ${{runner.workspace}}/tc_build/llvm-project -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS="clang" && sudo cmake --build ${{runner.workspace}}/tc_build/llvm-project --target install
+
+    - name: Configure CMake
+      # Use a bash shell so we can use the same syntax for environment variable
+      # access regardless of the host operating system
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      # Note the current convention is to use the -S and -B options here to specify source 
+      # and build directories, but this is only available with CMake 3.13 and higher.  
+      # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=ON -DCMAKE_CXX_STANDARD=20 -DPOSU_BUILD_TESTING=ON -DPOSU_ENABLE_WALL=ON -DPOSU_ENABLE_WERROR=ON
+
+    - name: Build
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      # Execute the build.  You can specify a specific target with "--target <NAME>"
+      run: cmake --build . --config $BUILD_TYPE
+
+    - name: Test
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      # Execute tests defined by the CMake configuration.  
+      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+      run: ctest -C $BUILD_TYPE
