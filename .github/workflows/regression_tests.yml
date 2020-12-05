@@ -63,7 +63,31 @@ jobs:
     - name: Build LLVM 11.0.0
       if: ${{ ! steps.cache-llvm.outputs.cache-hit }}
       working-directory: ${{runner.temp}}/tc/llvm/llvm-project/llvm
-      run: cmake ./ -B ${{runner.temp}}/tc/llvm/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DLLVM_ENABLE_PROJECTS="clang,clang-tools-extra" && sudo cmake --build ${{runner.temp}}/tc/llvm/build -j 2
+      run: cmake ./ -B ${{runner.temp}}/tc/llvm/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DLLVM_ENABLE_PROJECTS="clang,clang-tools-extra" && cmake --build ${{runner.temp}}/tc/llvm/build -j 2
+
+  build_catch:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Create Catch Source and Build Roots
+      run: cmake -E make_directory ${{runner.temp}}/tc/catch && cmake -E make_directory ${{runner.temp}}/tc/catch/build
+
+    - name: Cache Catch 2.13.3
+      id: cache-catch
+      uses: actions/cache@v2
+      with:
+        path: ${{runner.temp}}/tc/catch
+        key: toolchain-catch-2.13.3-tc-rc1
+
+    - name: Clone Catch 2.13.3
+      if: ${{ ! steps.cache-catch.outputs.cache-hit }}
+      working-directory: ${{runner.temp}}/tc/catch
+      run: git clone --branch v2.13.3 https://github.com/catchorg/Catch2.git --depth 1
+
+    - name: Build Catch 2.13.3
+      if: ${{ ! steps.cache-catch.outputs.cache-hit }}
+      working-directory: ${{runner.temp}}/tc/catch/Catch2
+      run: cmake ./ -B ${{runner.temp}}/tc/catch/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang && cmake --build ${{runner.temp}} -j 2
 
   build:
     # The CMake configure and build commands are platform agnostic and should work equally
@@ -72,7 +96,7 @@ jobs:
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: ubuntu-latest
 
-    needs: [build_gcc, build_llvm]
+    needs: [build_gcc, build_llvm, build_catch]
 
     steps:
     - name: Cache GCC 10.2.0
@@ -89,6 +113,13 @@ jobs:
         path: ${{runner.temp}}/tc/llvm
         key: toolchain-llvm-11.0.0-tc-rc1
 
+    - name: Cache Catch 2.13.3
+      id: cache-llvm
+      uses: actions/cache@v2
+      with:
+        path: ${{runner.temp}}/tc/catch
+        key: toolchain-catch-2.13.3-tc-rc1
+
     - name: Install GCC 10.2.0
       shell: bash
       working-directory: ${{runner.temp}}/tc/gcc/build
@@ -98,7 +129,7 @@ jobs:
       run: sudo cmake --build ${{runner.temp}}/tc/llvm/build --target install -j 2
 
     - name: Install Catch2
-      run: sudo apt update -y && sudo apt install catch -y
+      run: sudo cmake --build ${{runner.temp}}/tc/catch/build --target install -j 2
 
     - uses: actions/checkout@v2
 
