@@ -38,27 +38,27 @@ jobs:
     - name: Create Toolchain Source and Build Roots
       # Some projects don't allow in-source building, so create a separate build directory
       # We'll use this as our working directory for all subsequent commands
-      run: cmake -E make_directory ${{runner.workspace}}/tc_src && cmake -E make_directory ${{runner.workspace}}/tc_build
+      run: cmake -E make_directory $GITHUB_WORKSPACE/tc_src && cmake -E make_directory $GITHUB_WORKSPACE/tc_build
 
     - name: Clone GCC 10.2.0
       if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
-      working-directory: ${{runner.workspace}}/tc_src
+      working-directory: $GITHUB_WORKSPACE/tc_src
       run: git clone --branch releases/gcc-10.2.0 https://github.com/gcc-mirror/gcc.git --depth 1
 
     - name: Install GCC 10.2.0
       if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
-      working-directory: ${{runner.workspace}}/tc_build/gcc
-      run: ${{runner.workspace}}/tc_src/gcc/configure --disable-multilib && make && sudo make install
+      working-directory: $GITHUB_WORKSPACE/tc_build/gcc
+      run: $GITHUB_WORKSPACE/tc_src/gcc/configure --disable-multilib && make && sudo make install
 
     - name: Clone LLVM 11.0.0
       if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
-      working-directory: ${{runner.workspace}}/tc_src
+      working-directory: $GITHUB_WORKSPACE/tc_src
       run: git clone --branch llvmorg-11.0.0 https://github.com/llvm/llvm-project.git --depth 1
 
     - name: Install LLVM 11.0.0
       if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
-      working-directory: ${{runner.workspace}}/tc_src/llvm-project/llvm
-      run: cmake ./ -B ${{runner.workspace}}/tc_build/llvm-project -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS="clang" && sudo cmake --build ${{runner.workspace}}/tc_build/llvm-project --target install
+      working-directory: $GITHUB_WORKSPACE/tc_src/llvm-project/llvm
+      run: cmake ./ -B $GITHUB_WORKSPACE/tc_build/llvm-project -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS="clang" && sudo cmake --build $GITHUB_WORKSPACE/tc_build/llvm-project --target install
 
     - name: Configure CMake
       # Use a bash shell so we can use the same syntax for environment variable
