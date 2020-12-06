@@ -87,7 +87,7 @@ jobs:
     - name: Build Catch 2.13.3
       if: ${{ ! steps.cache-catch.outputs.cache-hit }}
       working-directory: ${{runner.temp}}/tc/catch/Catch2
-      run: cmake ./ -B ${{runner.temp}}/tc/catch/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang && cmake --build ${{runner.temp}} -j 2
+      run: cmake ./ -B ${{runner.temp}}/tc/catch/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang && cmake --build ${{runner.temp}}/tc/catch/build -j 2
 
   build:
     # The CMake configure and build commands are platform agnostic and should work equally
