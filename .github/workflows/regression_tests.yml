@@ -114,7 +114,7 @@ jobs:
         key: toolchain-llvm-11.0.0-tc-rc1
 
     - name: Cache Catch 2.13.3
-      id: cache-llvm
+      id: cache-catch
       uses: actions/cache@v2
       with:
         path: ${{runner.temp}}/tc/catch
