@@ -13,6 +13,82 @@ env:
   BUILD_TYPE: Release
 
 jobs:
+  build_gcc:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Create Toolchain Source and Build Roots
+      run: cmake -E make_directory ${{runner.temp}}/tc/gcc && cmake -E make_directory ${{runner.temp}}/tc/gcc/build
+
+    - name: Cache GCC 10.2.0
+      id: cache-gcc
+      uses: actions/cache@v2
+      with:
+        path: ${{runner.temp}}/tc/gcc
+        key: toolchain-gcc-10.2.0-tc-rc1
+
+    - name: Install GCC Build Dependencies
+      if: ${{ ! steps.cache-gcc.outputs.cache-hit }}
+      run: sudo apt update -y && sudo apt install libgmp-dev libmpfr-dev libmpc-dev -y
+
+    - name: Clone GCC 10.2.0
+      if: ${{ ! steps.cache-gcc.outputs.cache-hit }}
+      working-directory: ${{runner.temp}}/tc/gcc
+      run: git clone --branch releases/gcc-10.2.0 https://github.com/gcc-mirror/gcc.git --depth 1 && cmake -E make_directory ${{runner.temp}}/tc_build/gcc
+
+    - name: Build GCC 10.2.0
+      if: ${{ ! steps.cache-gcc.outputs.cache-hit }}
+      working-directory: ${{runner.temp}}/tc/gcc/build
+      run: ${{runner.temp}}/tc/gcc/gcc/configure --disable-multilib --enable-languages=c,c++ && make -j 2
+
+  build_llvm:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Create Toolchain Source and Build Roots
+      run: cmake -E make_directory ${{runner.temp}}/tc/llvm && cmake -E make_directory ${{runner.temp}}/tc/llvm/build
+
+    - name: Cache LLVM 11.0.0
+      id: cache-llvm
+      uses: actions/cache@v2
+      with:
+        path: ${{runner.temp}}/tc/llvm
+        key: toolchain-llvm-11.0.0-tc-rc1
+
+    - name: Clone LLVM 11.0.0
+      if: ${{ ! steps.cache-llvm.outputs.cache-hit }}
+      working-directory: ${{runner.temp}}/tc/llvm
+      run: git clone --branch llvmorg-11.0.0 https://github.com/llvm/llvm-project.git --depth 1
+
+    - name: Build LLVM 11.0.0
+      if: ${{ ! steps.cache-llvm.outputs.cache-hit }}
+      working-directory: ${{runner.temp}}/tc/llvm/llvm-project/llvm
+      run: cmake ./ -B ${{runner.temp}}/tc/llvm/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DLLVM_ENABLE_PROJECTS="clang,clang-tools-extra" && cmake --build ${{runner.temp}}/tc/llvm/build -j 2
+
+  build_catch:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Create Catch Source and Build Roots
+      run: cmake -E make_directory ${{runner.temp}}/tc/catch && cmake -E make_directory ${{runner.temp}}/tc/catch/build
+
+    - name: Cache Catch 2.13.3
+      id: cache-catch
+      uses: actions/cache@v2
+      with:
+        path: ${{runner.temp}}/tc/catch
+        key: toolchain-catch-2.13.3-tc-rc1
+
+    - name: Clone Catch 2.13.3
+      if: ${{ ! steps.cache-catch.outputs.cache-hit }}
+      working-directory: ${{runner.temp}}/tc/catch
+      run: git clone --branch v2.13.3 https://github.com/catchorg/Catch2.git --depth 1
+
+    - name: Build Catch 2.13.3
+      if: ${{ ! steps.cache-catch.outputs.cache-hit }}
+      working-directory: ${{runner.temp}}/tc/catch/Catch2
+      run: cmake ./ -B ${{runner.temp}}/tc/catch/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang && cmake --build ${{runner.temp}}/tc/catch/build -j 2
+
   build:
     # The CMake configure and build commands are platform agnostic and should work equally
     # well on Windows or Mac.  You can convert this to a matrix build if you need
@@ -20,45 +96,47 @@ jobs:
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: ubuntu-latest
 
+    needs: [build_gcc, build_llvm, build_catch]
+
     steps:
+    - name: Cache GCC 10.2.0
+      id: cache-gcc
+      uses: actions/cache@v2
+      with:
+        path: ${{runner.temp}}/tc/gcc
+        key: toolchain-gcc-10.2.0-tc-rc1
+
+    - name: Cache LLVM 11.0.0
+      id: cache-llvm
+      uses: actions/cache@v2
+      with:
+        path: ${{runner.temp}}/tc/llvm
+        key: toolchain-llvm-11.0.0-tc-rc1
+
+    - name: Cache Catch 2.13.3
+      id: cache-catch
+      uses: actions/cache@v2
+      with:
+        path: ${{runner.temp}}/tc/catch
+        key: toolchain-catch-2.13.3-tc-rc1
+
+    - name: Install GCC 10.2.0
+      shell: bash
+      working-directory: ${{runner.temp}}/tc/gcc/build
+      run: sudo make install -j 2
+
+    - name: Install LLVM 11.0.0
+      run: sudo cmake --build ${{runner.temp}}/tc/llvm/build --target install -j 2
+
+    - name: Install Catch2
+      run: sudo cmake --build ${{runner.temp}}/tc/catch/build --target install -j 2
+
     - uses: actions/checkout@v2
 
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
       # We'll use this as our working directory for all subsequent commands
       run: cmake -E make_directory ${{runner.workspace}}/build
-
-    - name: Cache C++20 Toolchain
-      id: cache-toolchain
-      uses: actions/cache@v2
-      with:
-        path: /usr/local
-        key: toolchain-gcc-10.2.0-clang-11.0.0
-
-    - name: Create Toolchain Source and Build Roots
-      # Some projects don't allow in-source building, so create a separate build directory
-      # We'll use this as our working directory for all subsequent commands
-      run: cmake -E make_directory ${{runner.temp}}/tc_src && cmake -E make_directory ${{runner.temp}}/tc_build
-
-    - name: Clone GCC 10.2.0
-      if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
-      working-directory: ${{runner.temp}}/tc_src
-      run: git clone --branch releases/gcc-10.2.0 https://github.com/gcc-mirror/gcc.git --depth 1
-
-    - name: Install GCC 10.2.0
-      if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
-      working-directory: ${{runner.temp}}/tc_build/gcc
-      run: ${{runner.temp}}/tc_src/gcc/configure --disable-multilib && make && sudo make install
-
-    - name: Clone LLVM 11.0.0
-      if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
-      working-directory: ${{runner.temp}}/tc_src
-      run: git clone --branch llvmorg-11.0.0 https://github.com/llvm/llvm-project.git --depth 1
-
-    - name: Install LLVM 11.0.0
-      if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
-      working-directory: ${{runner.temp}}/tc_src/llvm-project/llvm
-      run: cmake ./ -B ${{runner.temp}}/tc_build/llvm-project -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS="clang" && sudo cmake --build ${{runner.temp}}/tc_build/llvm-project --target install
 
     - name: Configure CMake
       # Use a bash shell so we can use the same syntax for environment variable
@@ -68,7 +146,7 @@ jobs:
       # Note the current convention is to use the -S and -B options here to specify source 
       # and build directories, but this is only available with CMake 3.13 and higher.  
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=ON -DCMAKE_CXX_STANDARD=20 -DPOSU_BUILD_TESTING=ON -DPOSU_ENABLE_WALL=ON -DPOSU_ENABLE_WERROR=ON
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=ON -DCMAKE_CXX_STANDARD=20 -DPOSU_ENABLE_TESTING=ON -DPOSU_ENABLE_WALL=ON -DPOSU_ENABLE_WERROR=ON
 
     - name: Build
       working-directory: ${{runner.workspace}}/build
