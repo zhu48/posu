@@ -1,4 +1,4 @@
-name: CMake
+name: Regression Tests
 
 on:
   push:
