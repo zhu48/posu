@@ -45,7 +45,7 @@ jobs:
     - name: Build Catch 2.13.3
       working-directory: ${{runner.temp}}/catch/Catch2
       run: |
-        cmake ./ -B ${{runner.temp}}/build/catch -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
+        cmake ./ -B ${{runner.temp}}/build/catch -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCATCH_BUILD_TESTING=OFF -DCATCH_INSTALL_DOCS=OFF -DCATCH_INSTALL_HELPERS=OFF
         sudo cmake --build ${{runner.temp}}/build/catch --target install -j 2
 
     - name: Create Build Environment
