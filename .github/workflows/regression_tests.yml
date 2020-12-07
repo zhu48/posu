@@ -25,7 +25,28 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Install C++20 Toolchain
-      run: sudo apt install ${{matrix.cxx-compiler}} catch
+      run: sudo apt install ${{matrix.cxx-compiler}}
+
+    - name: Create Catch Source Directory
+      run: cmake -E make_directory ${{runner.temp}}/catch
+
+    - name: Cache Catch 2.13.3
+      id: cache-catch
+      uses: actions/cache@v2
+      with:
+        path: ${{runner.temp}}/catch
+        key: toolchain-catch-2.13.3
+
+    - name: Clone Catch 2.13.3
+      if: ${{ ! steps.cache-catch.outputs.cache-hit }}
+      working-directory: ${{runner.temp}}/catch
+      run: git clone --branch v2.13.3 https://github.com/catchorg/Catch2.git --depth 1
+
+    - name: Build Catch 2.13.3
+      working-directory: ${{runner.temp}}/tc/catch/Catch2
+      run: |
+        cmake ./ -B ${{runner.temp}}/build/catch -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
+        sudo cmake --build ${{runner.temp}}/build/catch --target install -j 2
 
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
