@@ -19,8 +19,6 @@ env:
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: ubuntu-latest
 
-    needs: [build_gcc, build_llvm, build_catch]
-
     steps:
     - name: Cache GCC 10.2.0
       id: cache-gcc
