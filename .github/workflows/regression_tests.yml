@@ -8,9 +8,15 @@ on:
     branches:
       - master
 
+strategy:
+  matrix:
+    build-type: [Debug, Release]
+    cxx-compiler: [g++, clang++]
+
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: Release
+  BUILD_TYPE: ${{matrix.build-type}}
+  CXX: ${{matrix.cxx-compiler}}
 
 jobs:
   build:
@@ -21,52 +27,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Cache All Tools
-      id: cache-toolchain
-      uses: actions/cache@v2
-      with:
-        path: $HOME/toolchain
-        key: toolchain-rc2
-
-    - name: Cache GCC 10.2.0
-      if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
-      id: cache-gcc
-      uses: actions/cache@v2
-      with:
-        path: ${{runner.temp}}/tc/gcc
-        key: toolchain-gcc-10.2.0-tc-rc2
-
-    - name: Cache LLVM 11.0.0
-      if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
-      id: cache-llvm
-      uses: actions/cache@v2
-      with:
-        path: ${{runner.temp}}/tc/llvm
-        key: toolchain-llvm-11.0.0-tc-rc2
-
-    - name: Cache Catch 2.13.3
-      if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
-      id: cache-catch
-      uses: actions/cache@v2
-      with:
-        path: ${{runner.temp}}/tc/catch
-        key: toolchain-catch-2.13.3-tc-rc2
-
-    - name: Install GCC 10.2.0
-      if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
-      shell: bash
-      working-directory: ${{runner.temp}}/tc/gcc/build
-      run: sudo make install -j 2
-
-    - name: Install LLVM 11.0.0
-      if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
-      run: sudo cmake --build ${{runner.temp}}/tc/llvm/build --target install -j 2
-
-    - name: Install Catch2
-      if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
-      run: sudo cmake --build ${{runner.temp}}/tc/catch/build --target install -j 2
-
     - uses: actions/checkout@v2
+
+    - name: Install C++20 Toolchain
+      run: sudo apt install g++-10 clang-10
 
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
@@ -81,7 +45,7 @@ jobs:
       # Note the current convention is to use the -S and -B options here to specify source 
       # and build directories, but this is only available with CMake 3.13 and higher.  
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=ON -DCMAKE_CXX_STANDARD=20 -DCMAKE_CXX_COMPILER=$HOME/toolchain/bin/g++ -DCMAKE_C_COMPILER=$HOME/toolchain/bin/gcc -DPOSU_ENABLE_TESTING=ON -DPOSU_ENABLE_WALL=ON -DPOSU_ENABLE_WERROR=ON
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=ON -DCMAKE_CXX_STANDARD=20 -DCMAKE_CXX_COMPILER=$CXX -DPOSU_ENABLE_TESTING=ON -DPOSU_ENABLE_WALL=ON -DPOSU_ENABLE_WERROR=ON
 
     - name: Build
       working-directory: ${{runner.workspace}}/build
