@@ -1,0 +1,83 @@
+name: C++20 Toolchain
+
+on:
+  schedule:
+    - cron: '0 0 1 * *'
+  workflow_dispatch:
+
+jobs:
+  build_gcc:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Create Toolchain Source and Build Roots
+      run: cmake -E make_directory ${{runner.temp}}/tc/gcc && cmake -E make_directory ${{runner.temp}}/tc/gcc/build
+
+    - name: Cache GCC 10.2.0
+      id: cache-gcc
+      uses: actions/cache@v2
+      with:
+        path: ${{runner.temp}}/tc/gcc
+        key: toolchain-gcc-10.2.0-tc-rc1
+
+    - name: Install GCC Build Dependencies
+      if: ${{ ! steps.cache-gcc.outputs.cache-hit }}
+      run: sudo apt update -y && sudo apt install libgmp-dev libmpfr-dev libmpc-dev -y
+
+    - name: Clone GCC 10.2.0
+      if: ${{ ! steps.cache-gcc.outputs.cache-hit }}
+      working-directory: ${{runner.temp}}/tc/gcc
+      run: git clone --branch releases/gcc-10.2.0 https://github.com/gcc-mirror/gcc.git --depth 1 && cmake -E make_directory ${{runner.temp}}/tc_build/gcc
+
+    - name: Build GCC 10.2.0
+      if: ${{ ! steps.cache-gcc.outputs.cache-hit }}
+      working-directory: ${{runner.temp}}/tc/gcc/build
+      run: ${{runner.temp}}/tc/gcc/gcc/configure --disable-multilib --enable-languages=c,c++ && make -j 2
+
+  build_llvm:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Create Toolchain Source and Build Roots
+      run: cmake -E make_directory ${{runner.temp}}/tc/llvm && cmake -E make_directory ${{runner.temp}}/tc/llvm/build
+
+    - name: Cache LLVM 11.0.0
+      id: cache-llvm
+      uses: actions/cache@v2
+      with:
+        path: ${{runner.temp}}/tc/llvm
+        key: toolchain-llvm-11.0.0-tc-rc1
+
+    - name: Clone LLVM 11.0.0
+      if: ${{ ! steps.cache-llvm.outputs.cache-hit }}
+      working-directory: ${{runner.temp}}/tc/llvm
+      run: git clone --branch llvmorg-11.0.0 https://github.com/llvm/llvm-project.git --depth 1
+
+    - name: Build LLVM 11.0.0
+      if: ${{ ! steps.cache-llvm.outputs.cache-hit }}
+      working-directory: ${{runner.temp}}/tc/llvm/llvm-project/llvm
+      run: cmake ./ -B ${{runner.temp}}/tc/llvm/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DLLVM_ENABLE_PROJECTS="clang,clang-tools-extra" && cmake --build ${{runner.temp}}/tc/llvm/build -j 2
+
+  build_catch:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Create Catch Source and Build Roots
+      run: cmake -E make_directory ${{runner.temp}}/tc/catch && cmake -E make_directory ${{runner.temp}}/tc/catch/build
+
+    - name: Cache Catch 2.13.3
+      id: cache-catch
+      uses: actions/cache@v2
+      with:
+        path: ${{runner.temp}}/tc/catch
+        key: toolchain-catch-2.13.3-tc-rc1
+
+    - name: Clone Catch 2.13.3
+      if: ${{ ! steps.cache-catch.outputs.cache-hit }}
+      working-directory: ${{runner.temp}}/tc/catch
+      run: git clone --branch v2.13.3 https://github.com/catchorg/Catch2.git --depth 1
+
+    - name: Build Catch 2.13.3
+      if: ${{ ! steps.cache-catch.outputs.cache-hit }}
+      working-directory: ${{runner.temp}}/tc/catch/Catch2
+      run: cmake ./ -B ${{runner.temp}}/tc/catch/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang && cmake --build ${{runner.temp}}/tc/catch/build -j 2
