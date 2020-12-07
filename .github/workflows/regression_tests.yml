@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         build-type: [Debug, Release]
-        cxx-compiler: [g++-10, clang-10]
+        cxx-compiler: [g++-10]
 
     # The CMake configure and build commands are platform agnostic and should work equally
     # well on Windows or Mac.  You can convert this to a matrix build if you need
