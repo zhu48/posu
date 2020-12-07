@@ -43,7 +43,7 @@ jobs:
       run: git clone --branch v2.13.3 https://github.com/catchorg/Catch2.git --depth 1
 
     - name: Build Catch 2.13.3
-      working-directory: ${{runner.temp}}/tc/catch/Catch2
+      working-directory: ${{runner.temp}}/catch/Catch2
       run: |
         cmake ./ -B ${{runner.temp}}/build/catch -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
         sudo cmake --build ${{runner.temp}}/build/catch --target install -j 2
