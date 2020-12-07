@@ -1,6 +1,9 @@
 name: C++20 Toolchain
 
 on:
+  push:
+    branches:
+      - dev-workflows
   schedule:
     - cron: '0 0 1 * *'
   workflow_dispatch:
@@ -18,7 +21,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ${{runner.temp}}/tc/gcc
-        key: toolchain-gcc-10.2.0-tc-rc1
+        key: toolchain-gcc-10.2.0-tc-rc2
 
     - name: Install GCC Build Dependencies
       if: ${{ ! steps.cache-gcc.outputs.cache-hit }}
@@ -32,7 +35,7 @@ jobs:
     - name: Build GCC 10.2.0
       if: ${{ ! steps.cache-gcc.outputs.cache-hit }}
       working-directory: ${{runner.temp}}/tc/gcc/build
-      run: ${{runner.temp}}/tc/gcc/gcc/configure --disable-multilib --enable-languages=c,c++ && make -j 2
+      run: ${{runner.temp}}/tc/gcc/gcc/configure --prefix=$HOME/toolchain --disable-multilib --enable-languages=c,c++ && make -j 2
 
   build_llvm:
     runs-on: ubuntu-latest
@@ -46,7 +49,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ${{runner.temp}}/tc/llvm
-        key: toolchain-llvm-11.0.0-tc-rc1
+        key: toolchain-llvm-11.0.0-tc-rc2
 
     - name: Clone LLVM 11.0.0
       if: ${{ ! steps.cache-llvm.outputs.cache-hit }}
@@ -56,7 +59,7 @@ jobs:
     - name: Build LLVM 11.0.0
       if: ${{ ! steps.cache-llvm.outputs.cache-hit }}
       working-directory: ${{runner.temp}}/tc/llvm/llvm-project/llvm
-      run: cmake ./ -B ${{runner.temp}}/tc/llvm/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DLLVM_ENABLE_PROJECTS="clang,clang-tools-extra" && cmake --build ${{runner.temp}}/tc/llvm/build -j 2
+      run: cmake ./ -B ${{runner.temp}}/tc/llvm/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_INSTALL_PREFIX=$HOME/toolchain -DLLVM_ENABLE_PROJECTS="clang,clang-tools-extra" && cmake --build ${{runner.temp}}/tc/llvm/build -j 2
 
   build_catch:
     runs-on: ubuntu-latest
@@ -70,7 +73,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ${{runner.temp}}/tc/catch
-        key: toolchain-catch-2.13.3-tc-rc1
+        key: toolchain-catch-2.13.3-tc-rc2
 
     - name: Clone Catch 2.13.3
       if: ${{ ! steps.cache-catch.outputs.cache-hit }}
@@ -80,4 +83,4 @@ jobs:
     - name: Build Catch 2.13.3
       if: ${{ ! steps.cache-catch.outputs.cache-hit }}
       working-directory: ${{runner.temp}}/tc/catch/Catch2
-      run: cmake ./ -B ${{runner.temp}}/tc/catch/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang && cmake --build ${{runner.temp}}/tc/catch/build -j 2
+      run: cmake ./ -B ${{runner.temp}}/tc/catch/build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCMAKE_INSTALL_PREFIX=$HOME/toolchain && cmake --build ${{runner.temp}}/tc/catch/build -j 2

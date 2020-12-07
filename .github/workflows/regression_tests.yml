@@ -25,8 +25,8 @@ jobs:
       id: cache-toolchain
       uses: actions/cache@v2
       with:
-        path: /usr/local
-        key: toolchain-rc1
+        path: $HOME/toolchain
+        key: toolchain-rc2
 
     - name: Cache GCC 10.2.0
       if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
@@ -34,7 +34,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ${{runner.temp}}/tc/gcc
-        key: toolchain-gcc-10.2.0-tc-rc1
+        key: toolchain-gcc-10.2.0-tc-rc2
 
     - name: Cache LLVM 11.0.0
       if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
@@ -42,7 +42,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ${{runner.temp}}/tc/llvm
-        key: toolchain-llvm-11.0.0-tc-rc1
+        key: toolchain-llvm-11.0.0-tc-rc2
 
     - name: Cache Catch 2.13.3
       if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
@@ -50,7 +50,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ${{runner.temp}}/tc/catch
-        key: toolchain-catch-2.13.3-tc-rc1
+        key: toolchain-catch-2.13.3-tc-rc2
 
     - name: Install GCC 10.2.0
       if: ${{ ! steps.cache-toolchain.outputs.cache-hit }}
@@ -81,7 +81,7 @@ jobs:
       # Note the current convention is to use the -S and -B options here to specify source 
       # and build directories, but this is only available with CMake 3.13 and higher.  
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=ON -DCMAKE_CXX_STANDARD=20 -DPOSU_ENABLE_TESTING=ON -DPOSU_ENABLE_WALL=ON -DPOSU_ENABLE_WERROR=ON
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTING=ON -DCMAKE_CXX_STANDARD=20 -DCMAKE_CXX_COMPILER=$HOME/toolchain/bin/g++ -DCMAKE_C_COMPILER=$HOME/toolchain/bin/gcc -DPOSU_ENABLE_TESTING=ON -DPOSU_ENABLE_WALL=ON -DPOSU_ENABLE_WERROR=ON
 
     - name: Build
       working-directory: ${{runner.workspace}}/build
