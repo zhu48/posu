@@ -1,5 +1,7 @@
 # Open-Source Utilities
 
+![Regression Tests](https://github.com/zhu48/posu/workflows/CMake/badge.svg)
+
 This repository demonstrates using [CMake](https://cmake.org/) and
 [Clang tools](https://clang.llvm.org/docs/ClangTools.html) to automate building
 and testing. The stub library in this repository demonstrates using and
