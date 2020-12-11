@@ -140,6 +140,7 @@ if(POSU_CLANG_FORMAT)
                     ${POSU_HPP_FILES}
                     ${POSU_IPP_FILES}
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
+                    ${CMAKE_CURRENT_LIST_DIR}/test/test_units.cpp
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
             DEPENDS
                 ${POSU_HPP_FILES}
@@ -162,10 +163,12 @@ if(POSU_CLANG_TIDY)
                     -p ${CMAKE_CURRENT_BINARY_DIR}
                     ${POSU_HPP_FILES}
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
+                    ${CMAKE_CURRENT_LIST_DIR}/test/test_units.cpp
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
                 DEPENDS
                     ${POSU_HPP_FILES}
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
+                    ${CMAKE_CURRENT_LIST_DIR}/test/test_units.cpp
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
     )
 else()
