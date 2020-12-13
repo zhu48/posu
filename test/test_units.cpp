@@ -11,49 +11,57 @@ TEMPLATE_TEST_CASE(
         posu::units::seconds,
         posu::units::time<int, std::ratio<1, 3>>,
         posu::units::time<int, std::ratio<1, 5>>,
-        posu::units::time<double, std::ratio<1>>>),
+        posu::units::time<double, std::ratio<1>>,
+        posu::units::candelas>),
     (std::tuple<
         posu::units::kilometers,
         posu::units::meters,
         posu::units::length<int, std::ratio<1, 3>>,
         posu::units::length<int, std::ratio<1, 5>>,
-        posu::units::length<double, std::ratio<1>>>),
+        posu::units::length<double, std::ratio<1>>,
+        posu::units::seconds>),
     (std::tuple<
         posu::units::kilograms,
         posu::units::grams,
         posu::units::mass<int, std::ratio<1, 3>>,
         posu::units::mass<int, std::ratio<1, 5>>,
-        posu::units::mass<double, std::ratio<1>>>),
+        posu::units::mass<double, std::ratio<1>>,
+        posu::units::meters>),
     (std::tuple<
         posu::units::kiloamperes,
         posu::units::amperes,
         posu::units::electric_current<int, std::ratio<1, 3>>,
         posu::units::electric_current<int, std::ratio<1, 5>>,
-        posu::units::electric_current<double, std::ratio<1>>>),
+        posu::units::electric_current<double, std::ratio<1>>,
+        posu::units::grams>),
     (std::tuple<
         posu::units::kilokelvins,
         posu::units::kelvins,
         posu::units::thermodynamic_temperature<int, std::ratio<1, 3>>,
         posu::units::thermodynamic_temperature<int, std::ratio<1, 5>>,
-        posu::units::thermodynamic_temperature<double, std::ratio<1>>>),
+        posu::units::thermodynamic_temperature<double, std::ratio<1>>,
+        posu::units::amperes>),
     (std::tuple<
         posu::units::kilomoles,
         posu::units::moles,
         posu::units::amount_of_substance<int, std::ratio<1, 3>>,
         posu::units::amount_of_substance<int, std::ratio<1, 5>>,
-        posu::units::amount_of_substance<double, std::ratio<1>>>),
+        posu::units::amount_of_substance<double, std::ratio<1>>,
+        posu::units::kelvins>),
     (std::tuple<
         posu::units::kilocandelas,
         posu::units::candelas,
         posu::units::luminous_intensity<int, std::ratio<1, 3>>,
         posu::units::luminous_intensity<int, std::ratio<1, 5>>,
-        posu::units::luminous_intensity<double, std::ratio<1>>>))
+        posu::units::luminous_intensity<double, std::ratio<1>>,
+        posu::units::moles>))
 {
-    using kilo_type   = std::tuple_element_t<0, TestType>;
-    using base_type   = std::tuple_element_t<1, TestType>;
-    using third_type  = std::tuple_element_t<2, TestType>;
-    using fifth_type  = std::tuple_element_t<3, TestType>;
-    using double_type = std::tuple_element_t<4, TestType>;
+    using kilo_type      = std::tuple_element_t<0, TestType>;
+    using base_type      = std::tuple_element_t<1, TestType>;
+    using third_type     = std::tuple_element_t<2, TestType>;
+    using fifth_type     = std::tuple_element_t<3, TestType>;
+    using double_type    = std::tuple_element_t<4, TestType>;
+    using unrelated_type = std::tuple_element_t<5, TestType>;
 
     SECTION("implicit and explicit conversion")
     {
@@ -100,6 +108,21 @@ TEMPLATE_TEST_CASE(
                 !std::convertible_to<double_type, base_type>,
                 "floating-point-representation values must not convert to "
                 "integer-representation values");
+        }
+        SECTION("unrelated base units")
+        {
+            static_assert(
+                !std::constructible_from<base_type, unrelated_type>,
+                "unrelated units should not convert to each other");
+            static_assert(
+                !std::constructible_from<unrelated_type, base_type>,
+                "unrelated units should not convert to each other");
+            static_assert(
+                !std::convertible_to<base_type, unrelated_type>,
+                "unrelated units should not convert to each other");
+            static_assert(
+                !std::convertible_to<unrelated_type, base_type>,
+                "unrelated units should not convert to each other");
         }
     }
 }
