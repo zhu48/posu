@@ -23,6 +23,16 @@ namespace posu::units {
                 )
             )
         constexpr explicit base_unit( const Rep2& r ); // clang-format on
+
+        template<typename Rep2, typename Period2> // clang-format off
+            requires(
+                std::chrono::treat_as_floating_point_v<Rep> ||
+                (
+                    (std::ratio_divide<Period2, Period>::den == 1) &&
+                    !std::chrono::treat_as_floating_point_v<Rep2>
+                )
+            )
+        constexpr base_unit( const base_unit<Rep2, Period2, Tag>& d ); // clang-format on
     };
 
     struct time_tag {
