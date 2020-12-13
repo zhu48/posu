@@ -7,7 +7,23 @@ namespace posu::units {
 
     template<typename Rep, typename Period, typename Tag> // clang-format off
         requires( std::integral<Rep> || std::floating_point<Rep> )
-    class base_unit : private std::chrono::duration<Rep, Period> {}; // clang-format on
+    class base_unit : private std::chrono::duration<Rep, Period> { // clang-format on
+    private:
+        using parent_type = std::chrono::duration<Rep, Period>;
+
+    public:
+        using typename parent_type::rep;
+
+        template<typename Rep2> // clang-format off
+            requires(
+                std::convertible_to<Rep, const Rep2&> &&
+                (
+                    std::chrono::treat_as_floating_point_v<Rep> ||
+                    !std::chrono::treat_as_floating_point_v<Rep2>
+                )
+            )
+        constexpr explicit base_unit( const Rep2& r ); // clang-format on
+    };
 
     struct time_tag {
         constexpr time_tag() noexcept = default;
@@ -17,6 +33,11 @@ namespace posu::units {
         requires( std::integral<Rep> || std::floating_point<Rep> )
     class base_unit<Rep, Period, time_tag> : // clang-format on
           public std::chrono::duration<Rep, Period> {
+    private:
+        using parent_type = std::chrono::duration<Rep, Period>;
+
+    public:
+        using parent_type::parent_type;
     };
 
     template<typename Rep, typename Period>
