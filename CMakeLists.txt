@@ -89,12 +89,14 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/units.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/length.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/si.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/time.hpp
 )
 set(
     POSU_UNITS_IPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/base_unit.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/length.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/si.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/time.ipp
 )
 
 set(
@@ -151,6 +153,8 @@ if(POSU_CLANG_FORMAT)
                 ${POSU_CLANG_FORMAT} -i
                     ${POSU_HPP_FILES}
                     ${POSU_IPP_FILES}
+                    ${POSU_UNITS_HPP_FILES}
+                    ${POSU_UNITS_IPP_FILES}
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
                     ${CMAKE_CURRENT_LIST_DIR}/test/units/test_units.cpp
@@ -173,12 +177,14 @@ if(POSU_CLANG_TIDY)
             COMMAND
                 ${POSU_CLANG_TIDY}
                     -p ${CMAKE_CURRENT_BINARY_DIR}
-                    ${POSU_HPP_FILES}
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
                     ${CMAKE_CURRENT_LIST_DIR}/test/units/test_units.cpp
                 DEPENDS
                     ${POSU_HPP_FILES}
+                    ${POSU_IPP_FILES}
+                    ${POSU_UNITS_HPP_FILES}
+                    ${POSU_UNITS_IPP_FILES}
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
                     ${CMAKE_CURRENT_LIST_DIR}/test/units/test_units.cpp
