@@ -1,6 +1,8 @@
 #ifndef POSU_UNITS_SI_LENGTH_HPP
 #define POSU_UNITS_SI_LENGTH_HPP
 
+#include "posu/units/base_unit.hpp"
+
 namespace posu::units {
 
     struct length_tag {
