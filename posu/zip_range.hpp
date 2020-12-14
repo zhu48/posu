@@ -18,8 +18,7 @@ namespace posu {
             class sentinel;
 
             [[nodiscard]] auto begin() -> iterator;
-            [[nodiscard]] auto end() -> iterator
-                requires(std::ranges::common_range<Views>&&...);
+            [[nodiscard]] auto end() -> iterator requires(std::ranges::common_range<Views>&&...);
             [[nodiscard]] auto end() -> sentinel;
 
         private:
