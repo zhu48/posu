@@ -373,6 +373,68 @@ namespace posu::units {
     using petakelvins  = thermodynamic_temperature<int, std::peta>;
     using exakelvins   = thermodynamic_temperature<int, std::exa>;
 
+    inline namespace literals {
+
+        inline namespace thermodynamic_temperature_literals {
+
+            constexpr auto operator""_aK(unsigned long long value) -> attokelvins;
+            constexpr auto operator""_aK(long double value)
+                -> thermodynamic_temperature<double, std::atto>;
+            constexpr auto operator""_fK(unsigned long long value) -> femtokelvins;
+            constexpr auto operator""_fK(long double value)
+                -> thermodynamic_temperature<double, std::femto>;
+            constexpr auto operator""_pK(unsigned long long value) -> picokelvins;
+            constexpr auto operator""_pK(long double value)
+                -> thermodynamic_temperature<double, std::pico>;
+            constexpr auto operator""_nK(unsigned long long value) -> nanokelvins;
+            constexpr auto operator""_nK(long double value)
+                -> thermodynamic_temperature<double, std::nano>;
+            constexpr auto operator""_uK(unsigned long long value) -> microkelvins;
+            constexpr auto operator""_uK(long double value)
+                -> thermodynamic_temperature<double, std::micro>;
+            constexpr auto operator""_mK(unsigned long long value) -> millikelvins;
+            constexpr auto operator""_mK(long double value)
+                -> thermodynamic_temperature<double, std::milli>;
+            constexpr auto operator""_cK(unsigned long long value) -> centikelvins;
+            constexpr auto operator""_cK(long double value)
+                -> thermodynamic_temperature<double, std::centi>;
+            constexpr auto operator""_dK(unsigned long long value) -> decikelvins;
+            constexpr auto operator""_dK(long double value)
+                -> thermodynamic_temperature<double, std::deci>;
+            constexpr auto operator""_K(unsigned long long value) -> kelvins;
+            constexpr auto operator""_K(long double value)
+                -> thermodynamic_temperature<double, std::ratio<1>>;
+            constexpr auto operator""_daK(unsigned long long value) -> decakelvins;
+            constexpr auto operator""_daK(long double value)
+                -> thermodynamic_temperature<double, std::deca>;
+            constexpr auto operator""_hK(unsigned long long value) -> hectokelvins;
+            constexpr auto operator""_hK(long double value)
+                -> thermodynamic_temperature<double, std::hecto>;
+            constexpr auto operator""_kK(unsigned long long value) -> kilokelvins;
+            constexpr auto operator""_kK(long double value)
+                -> thermodynamic_temperature<double, std::kilo>;
+            constexpr auto operator""_MK(unsigned long long value) -> megakelvins;
+            constexpr auto operator""_MK(long double value)
+                -> thermodynamic_temperature<double, std::mega>;
+            constexpr auto operator""_GK(unsigned long long value) -> gigakelvins;
+            constexpr auto operator""_GK(long double value)
+                -> thermodynamic_temperature<double, std::giga>;
+            constexpr auto operator""_TK(unsigned long long value) -> terakelvins;
+            constexpr auto operator""_TK(long double value)
+                -> thermodynamic_temperature<double, std::tera>;
+            constexpr auto operator""_PK(unsigned long long value) -> petakelvins;
+            constexpr auto operator""_PK(long double value)
+                -> thermodynamic_temperature<double, std::peta>;
+            constexpr auto operator""_EK(unsigned long long value) -> exakelvins;
+            constexpr auto operator""_EK(long double value)
+                -> thermodynamic_temperature<double, std::exa>;
+
+        } // namespace thermodynamic_temperature_literals
+
+    } // namespace literals
+
+    using namespace literals::thermodynamic_temperature_literals;
+
     struct amount_of_substance_tag {
         constexpr amount_of_substance_tag() noexcept = default;
     };

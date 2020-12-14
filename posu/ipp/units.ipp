@@ -749,6 +749,197 @@ namespace posu::units {
 
         } // namespace electric_current_literals
 
+        inline namespace thermodynamic_temperature_literals {
+
+            constexpr auto operator""_aK(unsigned long long value) -> attokelvins
+            {
+                return attokelvins(value);
+            }
+
+            constexpr auto operator""_aK(long double value)
+                -> thermodynamic_temperature<double, std::atto>
+            {
+                return thermodynamic_temperature<double, std::atto>(value);
+            }
+
+            constexpr auto operator""_fK(unsigned long long value) -> femtokelvins
+            {
+                return femtokelvins(value);
+            }
+
+            constexpr auto operator""_fK(long double value)
+                -> thermodynamic_temperature<double, std::femto>
+            {
+                return thermodynamic_temperature<double, std::femto>(value);
+            }
+
+            constexpr auto operator""_pK(unsigned long long value) -> picokelvins
+            {
+                return picokelvins(value);
+            }
+
+            constexpr auto operator""_pK(long double value)
+                -> thermodynamic_temperature<double, std::pico>
+            {
+                return thermodynamic_temperature<double, std::pico>(value);
+            }
+
+            constexpr auto operator""_nK(unsigned long long value) -> nanokelvins
+            {
+                return nanokelvins(value);
+            }
+
+            constexpr auto operator""_nK(long double value)
+                -> thermodynamic_temperature<double, std::nano>
+            {
+                return thermodynamic_temperature<double, std::nano>(value);
+            }
+
+            constexpr auto operator""_uK(unsigned long long value) -> microkelvins
+            {
+                return microkelvins(value);
+            }
+
+            constexpr auto operator""_uK(long double value)
+                -> thermodynamic_temperature<double, std::micro>
+            {
+                return thermodynamic_temperature<double, std::micro>(value);
+            }
+
+            constexpr auto operator""_mK(unsigned long long value) -> millikelvins
+            {
+                return millikelvins(value);
+            }
+
+            constexpr auto operator""_mK(long double value)
+                -> thermodynamic_temperature<double, std::milli>
+            {
+                return thermodynamic_temperature<double, std::milli>(value);
+            }
+
+            constexpr auto operator""_cK(unsigned long long value) -> centikelvins
+            {
+                return centikelvins(value);
+            }
+
+            constexpr auto operator""_cK(long double value)
+                -> thermodynamic_temperature<double, std::centi>
+            {
+                return thermodynamic_temperature<double, std::centi>(value);
+            }
+
+            constexpr auto operator""_dK(unsigned long long value) -> decikelvins
+            {
+                return decikelvins(value);
+            }
+
+            constexpr auto operator""_dK(long double value)
+                -> thermodynamic_temperature<double, std::deci>
+            {
+                return thermodynamic_temperature<double, std::deci>(value);
+            }
+
+            constexpr auto operator""_K(unsigned long long value) -> kelvins
+            {
+                return kelvins(value);
+            }
+
+            constexpr auto operator""_K(long double value)
+                -> thermodynamic_temperature<double, std::ratio<1>>
+            {
+                return thermodynamic_temperature<double, std::ratio<1>>(value);
+            }
+
+            constexpr auto operator""_daK(unsigned long long value) -> decakelvins
+            {
+                return decakelvins(value);
+            }
+
+            constexpr auto operator""_daK(long double value)
+                -> thermodynamic_temperature<double, std::deca>
+            {
+                return thermodynamic_temperature<double, std::deca>(value);
+            }
+
+            constexpr auto operator""_hK(unsigned long long value) -> hectokelvins
+            {
+                return hectokelvins(value);
+            }
+
+            constexpr auto operator""_hK(long double value)
+                -> thermodynamic_temperature<double, std::hecto>
+            {
+                return thermodynamic_temperature<double, std::hecto>(value);
+            }
+
+            constexpr auto operator""_kK(unsigned long long value) -> kilokelvins
+            {
+                return kilokelvins(value);
+            }
+
+            constexpr auto operator""_kK(long double value)
+                -> thermodynamic_temperature<double, std::kilo>
+            {
+                return thermodynamic_temperature<double, std::kilo>(value);
+            }
+
+            constexpr auto operator""_MK(unsigned long long value) -> megakelvins
+            {
+                return megakelvins(value);
+            }
+
+            constexpr auto operator""_MK(long double value)
+                -> thermodynamic_temperature<double, std::mega>
+            {
+                return thermodynamic_temperature<double, std::mega>(value);
+            }
+
+            constexpr auto operator""_GK(unsigned long long value) -> gigakelvins
+            {
+                return gigakelvins(value);
+            }
+
+            constexpr auto operator""_GK(long double value)
+                -> thermodynamic_temperature<double, std::giga>
+            {
+                return thermodynamic_temperature<double, std::giga>(value);
+            }
+
+            constexpr auto operator""_TK(unsigned long long value) -> terakelvins
+            {
+                return terakelvins(value);
+            }
+
+            constexpr auto operator""_TK(long double value)
+                -> thermodynamic_temperature<double, std::tera>
+            {
+                return thermodynamic_temperature<double, std::tera>(value);
+            }
+
+            constexpr auto operator""_PK(unsigned long long value) -> petakelvins
+            {
+                return petakelvins(value);
+            }
+
+            constexpr auto operator""_PK(long double value)
+                -> thermodynamic_temperature<double, std::peta>
+            {
+                return thermodynamic_temperature<double, std::peta>(value);
+            }
+
+            constexpr auto operator""_EK(unsigned long long value) -> exakelvins
+            {
+                return exakelvins(value);
+            }
+
+            constexpr auto operator""_EK(long double value)
+                -> thermodynamic_temperature<double, std::exa>
+            {
+                return thermodynamic_temperature<double, std::exa>(value);
+            }
+
+        } // namespace thermodynamic_temperature_literals
+
     } // namespace literals
 
 } // namespace posu::units
