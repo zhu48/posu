@@ -460,6 +460,68 @@ namespace posu::units {
     using petamoles  = amount_of_substance<int, std::peta>;
     using examoles   = amount_of_substance<int, std::exa>;
 
+    inline namespace literals {
+
+        inline namespace amount_of_substance_literals {
+
+            constexpr auto operator""_amol(unsigned long long value) -> attomoles;
+            constexpr auto operator""_amol(long double value)
+                -> amount_of_substance<double, std::atto>;
+            constexpr auto operator""_fmol(unsigned long long value) -> femtomoles;
+            constexpr auto operator""_fmol(long double value)
+                -> amount_of_substance<double, std::femto>;
+            constexpr auto operator""_pmol(unsigned long long value) -> picomoles;
+            constexpr auto operator""_pmol(long double value)
+                -> amount_of_substance<double, std::pico>;
+            constexpr auto operator""_nmol(unsigned long long value) -> nanomoles;
+            constexpr auto operator""_nmol(long double value)
+                -> amount_of_substance<double, std::nano>;
+            constexpr auto operator""_umol(unsigned long long value) -> micromoles;
+            constexpr auto operator""_umol(long double value)
+                -> amount_of_substance<double, std::micro>;
+            constexpr auto operator""_mmol(unsigned long long value) -> millimoles;
+            constexpr auto operator""_mmol(long double value)
+                -> amount_of_substance<double, std::milli>;
+            constexpr auto operator""_cmol(unsigned long long value) -> centimoles;
+            constexpr auto operator""_cmol(long double value)
+                -> amount_of_substance<double, std::centi>;
+            constexpr auto operator""_dmol(unsigned long long value) -> decimoles;
+            constexpr auto operator""_dmol(long double value)
+                -> amount_of_substance<double, std::deci>;
+            constexpr auto operator""_mol(unsigned long long value) -> moles;
+            constexpr auto operator""_mol(long double value)
+                -> amount_of_substance<double, std::ratio<1>>;
+            constexpr auto operator""_damol(unsigned long long value) -> decamoles;
+            constexpr auto operator""_damol(long double value)
+                -> amount_of_substance<double, std::deca>;
+            constexpr auto operator""_hmol(unsigned long long value) -> hectomoles;
+            constexpr auto operator""_hmol(long double value)
+                -> amount_of_substance<double, std::hecto>;
+            constexpr auto operator""_kmol(unsigned long long value) -> kilomoles;
+            constexpr auto operator""_kmol(long double value)
+                -> amount_of_substance<double, std::kilo>;
+            constexpr auto operator""_Mmol(unsigned long long value) -> megamoles;
+            constexpr auto operator""_Mmol(long double value)
+                -> amount_of_substance<double, std::mega>;
+            constexpr auto operator""_Gmol(unsigned long long value) -> gigamoles;
+            constexpr auto operator""_Gmol(long double value)
+                -> amount_of_substance<double, std::giga>;
+            constexpr auto operator""_Tmol(unsigned long long value) -> teramoles;
+            constexpr auto operator""_Tmol(long double value)
+                -> amount_of_substance<double, std::tera>;
+            constexpr auto operator""_Pmol(unsigned long long value) -> petamoles;
+            constexpr auto operator""_Pmol(long double value)
+                -> amount_of_substance<double, std::peta>;
+            constexpr auto operator""_Emol(unsigned long long value) -> examoles;
+            constexpr auto operator""_Emol(long double value)
+                -> amount_of_substance<double, std::exa>;
+
+        } // namespace amount_of_substance_literals
+
+    } // namespace literals
+
+    using namespace literals::amount_of_substance_literals;
+
     struct luminous_intensity_tag {
         constexpr luminous_intensity_tag() noexcept = default;
     };
