@@ -194,6 +194,6 @@ namespace posu::units {
 
         } // namespace length_literals
 
-    }
+    } // namespace literals
 
-}
+} // namespace posu::units

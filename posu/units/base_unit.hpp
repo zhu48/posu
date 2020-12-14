@@ -44,7 +44,7 @@ namespace posu::units {
             const base_unit<Rep2, Period2, TypeTag>& rhs) -> bool;
     };
 
-}
+} // namespace posu::units
 
 #include "posu/units/ipp/base_unit.ipp"
 

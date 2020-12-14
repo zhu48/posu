@@ -90,7 +90,7 @@ namespace posu::units {
 
     using namespace literals::length_literals;
 
-}
+} // namespace posu::units
 
 #include "posu/units/si/ipp/length.ipp"
 
