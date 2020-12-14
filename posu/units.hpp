@@ -308,6 +308,74 @@ namespace posu::units {
     using petagrams  = mass<int, std::peta>;
     using exagrams   = mass<int, std::exa>;
 
+    inline namespace literals {
+
+        inline namespace mass_literals {
+
+            constexpr auto operator""_ag(unsigned long long value) -> attograms;
+            constexpr auto operator""_ag(long double value)
+                -> mass<double, std::atto>;
+            constexpr auto operator""_fg(unsigned long long value)
+                -> femtograms;
+            constexpr auto operator""_fg(long double value)
+                -> mass<double, std::femto>;
+            constexpr auto operator""_pg(unsigned long long value) -> picograms;
+            constexpr auto operator""_pg(long double value)
+                -> mass<double, std::pico>;
+            constexpr auto operator""_ng(unsigned long long value) -> nanograms;
+            constexpr auto operator""_ng(long double value)
+                -> mass<double, std::nano>;
+            constexpr auto operator""_ug(unsigned long long value)
+                -> micrograms;
+            constexpr auto operator""_ug(long double value)
+                -> mass<double, std::micro>;
+            constexpr auto operator""_mg(unsigned long long value)
+                -> milligrams;
+            constexpr auto operator""_mg(long double value)
+                -> mass<double, std::milli>;
+            constexpr auto operator""_cg(unsigned long long value)
+                -> centigrams;
+            constexpr auto operator""_cg(long double value)
+                -> mass<double, std::centi>;
+            constexpr auto operator""_dg(unsigned long long value) -> decigrams;
+            constexpr auto operator""_dg(long double value)
+                -> mass<double, std::deci>;
+            constexpr auto operator""_g(unsigned long long value) -> grams;
+            constexpr auto operator""_g(long double value)
+                -> mass<double, std::ratio<1>>;
+            constexpr auto operator""_dag(unsigned long long value)
+                -> decagrams;
+            constexpr auto operator""_dag(long double value)
+                -> mass<double, std::deca>;
+            constexpr auto operator""_hg(unsigned long long value)
+                -> hectograms;
+            constexpr auto operator""_hg(long double value)
+                -> mass<double, std::hecto>;
+            constexpr auto operator""_kg(unsigned long long value) -> kilograms;
+            constexpr auto operator""_kg(long double value)
+                -> mass<double, std::kilo>;
+            constexpr auto operator""_Mg(unsigned long long value) -> megagrams;
+            constexpr auto operator""_Mg(long double value)
+                -> mass<double, std::mega>;
+            constexpr auto operator""_Gg(unsigned long long value) -> gigagrams;
+            constexpr auto operator""_Gg(long double value)
+                -> mass<double, std::giga>;
+            constexpr auto operator""_Tg(unsigned long long value) -> teragrams;
+            constexpr auto operator""_Tg(long double value)
+                -> mass<double, std::tera>;
+            constexpr auto operator""_Pg(unsigned long long value) -> petagrams;
+            constexpr auto operator""_Pg(long double value)
+                -> mass<double, std::peta>;
+            constexpr auto operator""_Eg(unsigned long long value) -> exagrams;
+            constexpr auto operator""_Eg(long double value)
+                -> mass<double, std::exa>;
+
+        } // namespace mass_literals
+
+    } // namespace literals
+
+    using namespace literals::length_literals;
+
     struct electric_current_tag {
         constexpr electric_current_tag() noexcept = default;
     };
