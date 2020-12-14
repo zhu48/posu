@@ -160,6 +160,12 @@ if(POSU_CLANG_FORMAT)
                     ${CMAKE_CURRENT_LIST_DIR}/test/units/test_units.cpp
             DEPENDS
                 ${POSU_HPP_FILES}
+                ${POSU_IPP_FILES}
+                ${POSU_UNITS_HPP_FILES}
+                ${POSU_UNITS_IPP_FILES}
+                ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
+                ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
+                ${CMAKE_CURRENT_LIST_DIR}/test/units/test_units.cpp
     )
 else()
     message(STATUS "clang-format not found")
