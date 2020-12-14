@@ -78,6 +78,90 @@ namespace posu::units {
     using months = time<std::chrono::months::rep, std::chrono::months::period>;
     using years  = time<std::chrono::years::rep, std::chrono::years::period>;
 
+    inline namespace literals {
+
+        inline namespace chrono_literals {
+
+            constexpr auto operator""_as(unsigned long long value)
+                -> attoseconds;
+            constexpr auto operator""_as(long double value)
+                -> time<double, std::atto>;
+            constexpr auto operator""_fs(unsigned long long value)
+                -> femtoseconds;
+            constexpr auto operator""_fs(long double value)
+                -> time<double, std::femto>;
+            constexpr auto operator""_ps(unsigned long long value)
+                -> picoseconds;
+            constexpr auto operator""_ps(long double value)
+                -> time<double, std::pico>;
+            constexpr auto operator""_ns(unsigned long long value)
+                -> nanoseconds;
+            constexpr auto operator""_ns(long double value)
+                -> time<double, std::nano>;
+            constexpr auto operator""_us(unsigned long long value)
+                -> microseconds;
+            constexpr auto operator""_us(long double value)
+                -> time<double, std::micro>;
+            constexpr auto operator""_ms(unsigned long long value)
+                -> milliseconds;
+            constexpr auto operator""_ms(long double value)
+                -> time<double, std::milli>;
+            constexpr auto operator""_cs(unsigned long long value)
+                -> centiseconds;
+            constexpr auto operator""_cs(long double value)
+                -> time<double, std::centi>;
+            constexpr auto operator""_ds(unsigned long long value)
+                -> deciseconds;
+            constexpr auto operator""_ds(long double value)
+                -> time<double, std::deci>;
+            constexpr auto operator""_s(unsigned long long value) -> seconds;
+            constexpr auto operator""_s(long double value)
+                -> time<double, std::ratio<1>>;
+            constexpr auto operator""_das(unsigned long long value)
+                -> decaseconds;
+            constexpr auto operator""_das(long double value)
+                -> time<double, std::deca>;
+            constexpr auto operator""_hs(unsigned long long value)
+                -> hectoseconds;
+            constexpr auto operator""_hs(long double value)
+                -> time<double, std::hecto>;
+            constexpr auto operator""_ks(unsigned long long value)
+                -> kiloseconds;
+            constexpr auto operator""_ks(long double value)
+                -> time<double, std::kilo>;
+            constexpr auto operator""_Ms(unsigned long long value)
+                -> megaseconds;
+            constexpr auto operator""_Ms(long double value)
+                -> time<double, std::mega>;
+            constexpr auto operator""_Gs(unsigned long long value)
+                -> gigaseconds;
+            constexpr auto operator""_Gs(long double value)
+                -> time<double, std::giga>;
+            constexpr auto operator""_Ts(unsigned long long value)
+                -> teraseconds;
+            constexpr auto operator""_Ts(long double value)
+                -> time<double, std::tera>;
+            constexpr auto operator""_Ps(unsigned long long value)
+                -> petaseconds;
+            constexpr auto operator""_Ps(long double value)
+                -> time<double, std::peta>;
+            constexpr auto operator""_Es(unsigned long long value)
+                -> exaseconds;
+            constexpr auto operator""_Es(long double value)
+                -> time<double, std::exa>;
+            constexpr auto operator""_min(unsigned long long value) -> minutes;
+            constexpr auto operator""_min(long double value)
+                -> time<double, std::chrono::minutes::period>;
+            constexpr auto operator""_h(unsigned long long value) -> hours;
+            constexpr auto operator""_h(long double value)
+                -> time<double, std::chrono::hours::period>;
+
+        } // namespace chrono_literals
+
+    } // namespace literals
+
+    using namespace literals::chrono_literals;
+
     struct length_tag {
         constexpr length_tag() noexcept = default;
     };
@@ -230,5 +314,7 @@ namespace posu::units {
     using exacandelas   = luminous_intensity<int, std::exa>;
 
 } // namespace posu::units
+
+#include "posu/ipp/units.ipp"
 
 #endif // #ifndef POSU_UNITS_HPP
