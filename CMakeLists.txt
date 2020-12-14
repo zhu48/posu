@@ -111,6 +111,7 @@ set(
     POSU_UNITS_TEST_CPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/test/units/test_units.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_amount_of_substance.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_electric_current.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_length.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_mass.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_time.cpp
