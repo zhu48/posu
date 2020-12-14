@@ -1131,6 +1131,196 @@ namespace posu::units {
 
         } // namespace amount_of_substance_literals
 
+        inline namespace luminous_intensity_literals {
+
+            constexpr auto operator""_acd(unsigned long long value) -> attocandelas
+            {
+                return attocandelas(value);
+            }
+
+            constexpr auto operator""_acd(long double value)
+                -> luminous_intensity<double, std::atto>
+            {
+                return luminous_intensity<double, std::atto>(value);
+            }
+
+            constexpr auto operator""_fcd(unsigned long long value) -> femtocandelas
+            {
+                return femtocandelas(value);
+            }
+
+            constexpr auto operator""_fcd(long double value)
+                -> luminous_intensity<double, std::femto>
+            {
+                return luminous_intensity<double, std::femto>(value);
+            }
+
+            constexpr auto operator""_pcd(unsigned long long value) -> picocandelas
+            {
+                return picocandelas(value);
+            }
+
+            constexpr auto operator""_pcd(long double value)
+                -> luminous_intensity<double, std::pico>
+            {
+                return luminous_intensity<double, std::pico>(value);
+            }
+
+            constexpr auto operator""_ncd(unsigned long long value) -> nanocandelas
+            {
+                return nanocandelas(value);
+            }
+
+            constexpr auto operator""_ncd(long double value)
+                -> luminous_intensity<double, std::nano>
+            {
+                return luminous_intensity<double, std::nano>(value);
+            }
+
+            constexpr auto operator""_ucd(unsigned long long value) -> microcandelas
+            {
+                return microcandelas(value);
+            }
+
+            constexpr auto operator""_ucd(long double value)
+                -> luminous_intensity<double, std::micro>
+            {
+                return luminous_intensity<double, std::micro>(value);
+            }
+
+            constexpr auto operator""_mcd(unsigned long long value) -> millicandelas
+            {
+                return millicandelas(value);
+            }
+
+            constexpr auto operator""_mcd(long double value)
+                -> luminous_intensity<double, std::milli>
+            {
+                return luminous_intensity<double, std::milli>(value);
+            }
+
+            constexpr auto operator""_ccd(unsigned long long value) -> centicandelas
+            {
+                return centicandelas(value);
+            }
+
+            constexpr auto operator""_ccd(long double value)
+                -> luminous_intensity<double, std::centi>
+            {
+                return luminous_intensity<double, std::centi>(value);
+            }
+
+            constexpr auto operator""_dcd(unsigned long long value) -> decicandelas
+            {
+                return decicandelas(value);
+            }
+
+            constexpr auto operator""_dcd(long double value)
+                -> luminous_intensity<double, std::deci>
+            {
+                return luminous_intensity<double, std::deci>(value);
+            }
+
+            constexpr auto operator""_cd(unsigned long long value) -> candelas
+            {
+                return candelas(value);
+            }
+
+            constexpr auto operator""_cd(long double value)
+                -> luminous_intensity<double, std::ratio<1>>
+            {
+                return luminous_intensity<double, std::ratio<1>>(value);
+            }
+
+            constexpr auto operator""_dacd(unsigned long long value) -> decacandelas
+            {
+                return decacandelas(value);
+            }
+
+            constexpr auto operator""_dacd(long double value)
+                -> luminous_intensity<double, std::deca>
+            {
+                return luminous_intensity<double, std::deca>(value);
+            }
+
+            constexpr auto operator""_hcd(unsigned long long value) -> hectocandelas
+            {
+                return hectocandelas(value);
+            }
+
+            constexpr auto operator""_hcd(long double value)
+                -> luminous_intensity<double, std::hecto>
+            {
+                return luminous_intensity<double, std::hecto>(value);
+            }
+
+            constexpr auto operator""_kcd(unsigned long long value) -> kilocandelas
+            {
+                return kilocandelas(value);
+            }
+
+            constexpr auto operator""_kcd(long double value)
+                -> luminous_intensity<double, std::kilo>
+            {
+                return luminous_intensity<double, std::kilo>(value);
+            }
+
+            constexpr auto operator""_Mcd(unsigned long long value) -> megacandelas
+            {
+                return megacandelas(value);
+            }
+
+            constexpr auto operator""_Mcd(long double value)
+                -> luminous_intensity<double, std::mega>
+            {
+                return luminous_intensity<double, std::mega>(value);
+            }
+
+            constexpr auto operator""_Gcd(unsigned long long value) -> gigacandelas
+            {
+                return gigacandelas(value);
+            }
+
+            constexpr auto operator""_Gcd(long double value)
+                -> luminous_intensity<double, std::giga>
+            {
+                return luminous_intensity<double, std::giga>(value);
+            }
+
+            constexpr auto operator""_Tcd(unsigned long long value) -> teracandelas
+            {
+                return teracandelas(value);
+            }
+
+            constexpr auto operator""_Tcd(long double value)
+                -> luminous_intensity<double, std::tera>
+            {
+                return luminous_intensity<double, std::tera>(value);
+            }
+
+            constexpr auto operator""_Pcd(unsigned long long value) -> petacandelas
+            {
+                return petacandelas(value);
+            }
+
+            constexpr auto operator""_Pcd(long double value)
+                -> luminous_intensity<double, std::peta>
+            {
+                return luminous_intensity<double, std::peta>(value);
+            }
+
+            constexpr auto operator""_Ecd(unsigned long long value) -> exacandelas
+            {
+                return exacandelas(value);
+            }
+
+            constexpr auto operator""_Ecd(long double value) -> luminous_intensity<double, std::exa>
+            {
+                return luminous_intensity<double, std::exa>(value);
+            }
+
+        } // namespace luminous_intensity_literals
+
     } // namespace literals
 
 } // namespace posu::units

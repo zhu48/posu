@@ -547,6 +547,68 @@ namespace posu::units {
     using petacandelas  = luminous_intensity<int, std::peta>;
     using exacandelas   = luminous_intensity<int, std::exa>;
 
+    inline namespace literals {
+
+        inline namespace luminous_intensity_literals {
+
+            constexpr auto operator""_acd(unsigned long long value) -> attocandelas;
+            constexpr auto operator""_acd(long double value)
+                -> luminous_intensity<double, std::atto>;
+            constexpr auto operator""_fcd(unsigned long long value) -> femtocandelas;
+            constexpr auto operator""_fcd(long double value)
+                -> luminous_intensity<double, std::femto>;
+            constexpr auto operator""_pcd(unsigned long long value) -> picocandelas;
+            constexpr auto operator""_pcd(long double value)
+                -> luminous_intensity<double, std::pico>;
+            constexpr auto operator""_ncd(unsigned long long value) -> nanocandelas;
+            constexpr auto operator""_ncd(long double value)
+                -> luminous_intensity<double, std::nano>;
+            constexpr auto operator""_ucd(unsigned long long value) -> microcandelas;
+            constexpr auto operator""_ucd(long double value)
+                -> luminous_intensity<double, std::micro>;
+            constexpr auto operator""_mcd(unsigned long long value) -> millicandelas;
+            constexpr auto operator""_mcd(long double value)
+                -> luminous_intensity<double, std::milli>;
+            constexpr auto operator""_ccd(unsigned long long value) -> centicandelas;
+            constexpr auto operator""_ccd(long double value)
+                -> luminous_intensity<double, std::centi>;
+            constexpr auto operator""_dcd(unsigned long long value) -> decicandelas;
+            constexpr auto operator""_dcd(long double value)
+                -> luminous_intensity<double, std::deci>;
+            constexpr auto operator""_cd(unsigned long long value) -> candelas;
+            constexpr auto operator""_cd(long double value)
+                -> luminous_intensity<double, std::ratio<1>>;
+            constexpr auto operator""_dacd(unsigned long long value) -> decacandelas;
+            constexpr auto operator""_dacd(long double value)
+                -> luminous_intensity<double, std::deca>;
+            constexpr auto operator""_hcd(unsigned long long value) -> hectocandelas;
+            constexpr auto operator""_hcd(long double value)
+                -> luminous_intensity<double, std::hecto>;
+            constexpr auto operator""_kcd(unsigned long long value) -> kilocandelas;
+            constexpr auto operator""_kcd(long double value)
+                -> luminous_intensity<double, std::kilo>;
+            constexpr auto operator""_Mcd(unsigned long long value) -> megacandelas;
+            constexpr auto operator""_Mcd(long double value)
+                -> luminous_intensity<double, std::mega>;
+            constexpr auto operator""_Gcd(unsigned long long value) -> gigacandelas;
+            constexpr auto operator""_Gcd(long double value)
+                -> luminous_intensity<double, std::giga>;
+            constexpr auto operator""_Tcd(unsigned long long value) -> teracandelas;
+            constexpr auto operator""_Tcd(long double value)
+                -> luminous_intensity<double, std::tera>;
+            constexpr auto operator""_Pcd(unsigned long long value) -> petacandelas;
+            constexpr auto operator""_Pcd(long double value)
+                -> luminous_intensity<double, std::peta>;
+            constexpr auto operator""_Ecd(unsigned long long value) -> exacandelas;
+            constexpr auto operator""_Ecd(long double value)
+                -> luminous_intensity<double, std::exa>;
+
+        } // namespace luminous_intensity_literals
+
+    } // namespace literals
+
+    using namespace literals::amount_of_substance_literals;
+
 } // namespace posu::units
 
 #include "posu/ipp/units.ipp"
