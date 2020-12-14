@@ -90,7 +90,7 @@ namespace posu::units {
 
     } // namespace literals
 
-    using namespace literals::amount_of_substance_literals;
+    using namespace literals::luminous_intensity_literals;
 
 } // namespace posu::units
 

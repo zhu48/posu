@@ -113,6 +113,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_amount_of_substance.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_electric_current.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_length.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_luminous_intensity.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_mass.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_thermodynamic_temperature.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_time.cpp
