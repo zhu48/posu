@@ -13,15 +13,14 @@ namespace posu::vmath {
         using first_type_t = typename first_type<T, Rest...>::type;
 
         template<typename Arg>
-        constexpr decltype(auto)
-        expand_forward_helper(Arg&& arg, std::size_t /*unused*/) noexcept
+        constexpr decltype(auto) expand_forward_helper(Arg&& arg, std::size_t /*unused*/) noexcept
         {
             return std::forward<Arg>(arg);
         }
 
         template<typename Tuple, typename Arg, std::size_t... I>
-        constexpr auto expand_as_tuple_impl(
-            Arg&& arg, std::index_sequence<I...> /*unused*/) noexcept -> Tuple
+        constexpr auto
+        expand_as_tuple_impl(Arg&& arg, std::index_sequence<I...> /*unused*/) noexcept -> Tuple
         {
             return {expand_forward_helper<Arg>(arg, I)...};
         }
@@ -30,19 +29,16 @@ namespace posu::vmath {
         constexpr auto expand_as_tuple(Arg&& arg) -> Tuple
         {
             return expand_as_tuple_impl<Tuple>(
-                std::forward<Arg>(arg),
-                std::make_index_sequence<std::tuple_size_v<Tuple>>{});
+                std::forward<Arg>(arg), std::make_index_sequence<std::tuple_size_v<Tuple>>{});
         }
 
         template<std::size_t I = 0, typename... T>
-        constexpr auto
-        obtain_value(const std::tuple<T...>& value) noexcept(false)
+        constexpr auto obtain_value(const std::tuple<T...>& value) noexcept(false)
             -> std::common_type_t<T...>
         {
             if constexpr(I < sizeof...(T) && I + 1 < sizeof...(T)) {
                 if(std::get<I>(value) != std::get<I + 1>(value)) {
-                    throw not_pure_diagonal(
-                        "scaler conversion requires all elements to be equal");
+                    throw not_pure_diagonal("scaler conversion requires all elements to be equal");
                 }
                 return obtain_value<I + 1>(value);
             }
@@ -52,11 +48,11 @@ namespace posu::vmath {
         }
 
         template<typename T, std::size_t... I>
-        [[nodiscard]] constexpr decltype(auto) make_arith_tuple_from_size(
-            T&& t, std::index_sequence<I...> /*unused*/) noexcept
+        [[nodiscard]] constexpr decltype(auto)
+        make_arith_tuple_from_size(T&& t, std::index_sequence<I...> /*unused*/) noexcept
         {
-            return arith_tuple<std::remove_cvref_t<
-                first_type_t<T, std::integral_constant<std::size_t, I>>>...>{
+            return arith_tuple<
+                std::remove_cvref_t<first_type_t<T, std::integral_constant<std::size_t, I>>>...>{
                 std::forward<T>(t)};
         }
 
@@ -102,9 +98,7 @@ namespace posu::vmath {
         operator+(const arith_tuple& rhs) const noexcept -> arith_tuple
     {
         return posu::make_from_for_each<arith_tuple<T...>>(
-            [](const auto& l, const auto& r) { return l + r; },
-            m_data,
-            rhs.m_data);
+            [](const auto& l, const auto& r) { return l + r; }, m_data, rhs.m_data);
     }
 
     template<typename... T> // clang-format off
@@ -122,9 +116,7 @@ namespace posu::vmath {
         operator-(const arith_tuple& rhs) const noexcept -> arith_tuple
     {
         return posu::make_from_for_each<arith_tuple<T...>>(
-            [](const auto& l, const auto& r) { return l - r; },
-            m_data,
-            rhs.m_data);
+            [](const auto& l, const auto& r) { return l - r; }, m_data, rhs.m_data);
     }
 
     template<typename... T> // clang-format off
@@ -159,8 +151,7 @@ namespace posu::vmath {
     constexpr auto arith_tuple<T...>:: // clang-format on
     operator+=(const arith_tuple& rhs) noexcept -> arith_tuple&
     {
-        posu::for_each(
-            [](auto& l, const auto& r) { l += r; }, m_data, rhs.m_data);
+        posu::for_each([](auto& l, const auto& r) { l += r; }, m_data, rhs.m_data);
         return *this;
     }
 
@@ -178,8 +169,7 @@ namespace posu::vmath {
     constexpr auto arith_tuple<T...>:: // clang-format on
     operator-=(const arith_tuple& rhs) noexcept -> arith_tuple&
     {
-        posu::for_each(
-            [](auto& l, const auto& r) { l -= r; }, m_data, rhs.m_data);
+        posu::for_each([](auto& l, const auto& r) { l -= r; }, m_data, rhs.m_data);
         return *this;
     }
 
@@ -259,61 +249,55 @@ namespace posu::vmath {
 
 namespace std {
     template<size_t I, typename... Types>
-    [[nodiscard]] constexpr auto
-    get(posu::vmath::arith_tuple<Types...>& value) noexcept
+    [[nodiscard]] constexpr auto get(posu::vmath::arith_tuple<Types...>& value) noexcept
         -> tuple_element_t<I, tuple<Types...>>&
     {
         return get<I>((std::tuple<Types...>&)(value));
     }
 
     template<size_t I, typename... Types>
-    [[nodiscard]] constexpr auto
-    get(posu::vmath::arith_tuple<Types...>&& value) noexcept
+    [[nodiscard]] constexpr auto get(posu::vmath::arith_tuple<Types...>&& value) noexcept
         -> tuple_element_t<I, tuple<Types...>>&&
     {
         return get<I>((std::tuple<Types...> &&)(value));
     }
 
     template<size_t I, typename... Types>
-    [[nodiscard]] constexpr auto
-    get(const posu::vmath::arith_tuple<Types...>& value) noexcept
+    [[nodiscard]] constexpr auto get(const posu::vmath::arith_tuple<Types...>& value) noexcept
         -> const tuple_element_t<I, tuple<Types...>>&
     {
         return get<I>((const std::tuple<Types...>&)(value));
     }
 
     template<size_t I, typename... Types>
-    [[nodiscard]] constexpr auto
-    get(const posu::vmath::arith_tuple<Types...>&& value) noexcept
+    [[nodiscard]] constexpr auto get(const posu::vmath::arith_tuple<Types...>&& value) noexcept
         -> const tuple_element_t<I, tuple<Types...>>&&
     {
         return get<I>((const std::tuple<Types...>&&)(value));
     }
 
     template<typename T, typename... Types>
-    [[nodiscard]] constexpr auto
-    get(posu::vmath::arith_tuple<Types...>& value) noexcept -> T&
+    [[nodiscard]] constexpr auto get(posu::vmath::arith_tuple<Types...>& value) noexcept -> T&
     {
         return get<T>((std::tuple<Types...>&)(value));
     }
 
     template<typename T, typename... Types>
-    [[nodiscard]] constexpr auto
-    get(posu::vmath::arith_tuple<Types...>&& value) noexcept -> T&&
+    [[nodiscard]] constexpr auto get(posu::vmath::arith_tuple<Types...>&& value) noexcept -> T&&
     {
         return get<T>((std::tuple<Types...> &&)(value));
     }
 
     template<typename T, typename... Types>
-    [[nodiscard]] constexpr auto
-    get(const posu::vmath::arith_tuple<Types...>& value) noexcept -> const T&
+    [[nodiscard]] constexpr auto get(const posu::vmath::arith_tuple<Types...>& value) noexcept
+        -> const T&
     {
         return get<T>((const std::tuple<Types...>&)(value));
     }
 
     template<typename T, typename... Types>
-    [[nodiscard]] constexpr auto
-    get(const posu::vmath::arith_tuple<Types...>&& value) noexcept -> const T&&
+    [[nodiscard]] constexpr auto get(const posu::vmath::arith_tuple<Types...>&& value) noexcept
+        -> const T&&
     {
         return get<T>((const std::tuple<Types...>&&)(value));
     }

@@ -32,8 +32,7 @@ TEST_CASE("construction invariants", "[construct]")
         constexpr auto constant_2 = type_2{-2.44};
 
         constexpr auto test_value =
-            posu::vmath::arith_tuple<type_0, type_1, type_2>{
-                constant_0, constant_1, constant_2};
+            posu::vmath::arith_tuple<type_0, type_1, type_2>{constant_0, constant_1, constant_2};
 
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<0>(test_value) == constant_0);
@@ -49,8 +48,7 @@ TEST_CASE("construction invariants", "[construct]")
         constexpr auto constant_1 = type_1{557};
         constexpr auto constant_2 = type_2{-2.44};
 
-        constexpr auto test_value =
-            posu::vmath::arith_tuple{constant_0, constant_1, constant_2};
+        constexpr auto test_value = posu::vmath::arith_tuple{constant_0, constant_1, constant_2};
 
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<0>(test_value) == constant_0);
@@ -65,8 +63,7 @@ TEST_CASE("construction invariants", "[construct]")
         constexpr auto size           = std::size_t{3};
         constexpr auto constant_value = common_type{22};
 
-        constexpr auto test_value =
-            posu::vmath::make_arith_tuple<size>(constant_value);
+        constexpr auto test_value = posu::vmath::make_arith_tuple<size>(constant_value);
 
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<0>(test_value) == constant_value);
@@ -109,9 +106,8 @@ TEST_CASE("arithmetic operations", "[arithmetic]")
 
         constexpr auto add_value = common_type{1};
 
-        constexpr auto initial =
-            posu::vmath::arith_tuple{value_0, value_1, value_3};
-        constexpr auto result = initial + add_value;
+        constexpr auto initial = posu::vmath::arith_tuple{value_0, value_1, value_3};
+        constexpr auto result  = initial + add_value;
 
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<0>(result) == std::get<0>(initial) + add_value);
@@ -129,9 +125,8 @@ TEST_CASE("arithmetic operations", "[arithmetic]")
 
         constexpr auto sub_value = common_type{1};
 
-        constexpr auto initial =
-            posu::vmath::arith_tuple{value_0, value_1, value_3};
-        constexpr auto result = initial - sub_value;
+        constexpr auto initial = posu::vmath::arith_tuple{value_0, value_1, value_3};
+        constexpr auto result  = initial - sub_value;
 
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<0>(result) == std::get<0>(initial) - sub_value);
@@ -149,9 +144,8 @@ TEST_CASE("arithmetic operations", "[arithmetic]")
 
         constexpr auto mul_value = common_type{2};
 
-        constexpr auto initial =
-            posu::vmath::arith_tuple{value_0, value_1, value_3};
-        constexpr auto result = initial * mul_value;
+        constexpr auto initial = posu::vmath::arith_tuple{value_0, value_1, value_3};
+        constexpr auto result  = initial * mul_value;
 
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<0>(result) == std::get<0>(initial) * mul_value);
@@ -169,9 +163,8 @@ TEST_CASE("arithmetic operations", "[arithmetic]")
 
         constexpr auto div_value = common_type{2};
 
-        constexpr auto initial =
-            posu::vmath::arith_tuple{value_0, value_1, value_3};
-        constexpr auto result = initial / div_value;
+        constexpr auto initial = posu::vmath::arith_tuple{value_0, value_1, value_3};
+        constexpr auto result  = initial / div_value;
 
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
         CHECK(std::get<0>(result) == std::get<0>(initial) / div_value);
@@ -190,24 +183,16 @@ TEST_CASE("arithmetic operations", "[arithmetic]")
         constexpr auto value_2_0 = type_2{1};
         constexpr auto value_2_1 = type_2{7.8};
 
-        constexpr auto initial =
-            posu::vmath::arith_tuple{value_0_0, value_1_0, value_2_0};
-        constexpr auto add_value =
-            posu::vmath::arith_tuple{value_0_1, value_1_1, value_2_1};
-        constexpr auto result = initial + add_value;
+        constexpr auto initial   = posu::vmath::arith_tuple{value_0_0, value_1_0, value_2_0};
+        constexpr auto add_value = posu::vmath::arith_tuple{value_0_1, value_1_1, value_2_1};
+        constexpr auto result    = initial + add_value;
 
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
-        CHECK(
-            std::get<0>(result) ==
-            std::get<0>(initial) + std::get<0>(add_value));
+        CHECK(std::get<0>(result) == std::get<0>(initial) + std::get<0>(add_value));
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
-        CHECK(
-            std::get<1>(result) ==
-            std::get<1>(initial) + std::get<1>(add_value));
+        CHECK(std::get<1>(result) == std::get<1>(initial) + std::get<1>(add_value));
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
-        CHECK(
-            std::get<2>(result) ==
-            std::get<2>(initial) + std::get<2>(add_value));
+        CHECK(std::get<2>(result) == std::get<2>(initial) + std::get<2>(add_value));
     }
 
     SECTION("vector subtraction")
@@ -219,24 +204,16 @@ TEST_CASE("arithmetic operations", "[arithmetic]")
         constexpr auto value_2_0 = type_2{1};
         constexpr auto value_2_1 = type_2{7.8};
 
-        constexpr auto initial =
-            posu::vmath::arith_tuple{value_0_0, value_1_0, value_2_0};
-        constexpr auto sub_value =
-            posu::vmath::arith_tuple{value_0_1, value_1_1, value_2_1};
-        constexpr auto result = initial - sub_value;
+        constexpr auto initial   = posu::vmath::arith_tuple{value_0_0, value_1_0, value_2_0};
+        constexpr auto sub_value = posu::vmath::arith_tuple{value_0_1, value_1_1, value_2_1};
+        constexpr auto result    = initial - sub_value;
 
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
-        CHECK(
-            std::get<0>(result) ==
-            std::get<0>(initial) - std::get<0>(sub_value));
+        CHECK(std::get<0>(result) == std::get<0>(initial) - std::get<0>(sub_value));
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
-        CHECK(
-            std::get<1>(result) ==
-            std::get<1>(initial) - std::get<1>(sub_value));
+        CHECK(std::get<1>(result) == std::get<1>(initial) - std::get<1>(sub_value));
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
-        CHECK(
-            std::get<2>(result) ==
-            std::get<2>(initial) - std::get<2>(sub_value));
+        CHECK(std::get<2>(result) == std::get<2>(initial) - std::get<2>(sub_value));
     }
 }
 
@@ -255,8 +232,7 @@ TEST_CASE("arithmetic assignment operations", "[arithmetic][assignment]")
 
         constexpr auto add_value = common_type{1};
 
-        constexpr auto initial =
-            posu::vmath::arith_tuple{value_0, value_1, value_3};
+        constexpr auto initial = posu::vmath::arith_tuple{value_0, value_1, value_3};
 
         auto result = initial;
         result += add_value;
@@ -277,8 +253,7 @@ TEST_CASE("arithmetic assignment operations", "[arithmetic][assignment]")
 
         constexpr auto sub_value = common_type{1};
 
-        constexpr auto initial =
-            posu::vmath::arith_tuple{value_0, value_1, value_3};
+        constexpr auto initial = posu::vmath::arith_tuple{value_0, value_1, value_3};
 
         auto result = initial;
         result -= sub_value;
@@ -299,8 +274,7 @@ TEST_CASE("arithmetic assignment operations", "[arithmetic][assignment]")
 
         constexpr auto mul_value = common_type{2};
 
-        constexpr auto initial =
-            posu::vmath::arith_tuple{value_0, value_1, value_3};
+        constexpr auto initial = posu::vmath::arith_tuple{value_0, value_1, value_3};
 
         auto result = initial;
         result *= mul_value;
@@ -321,8 +295,7 @@ TEST_CASE("arithmetic assignment operations", "[arithmetic][assignment]")
 
         constexpr auto div_value = common_type{2};
 
-        constexpr auto initial =
-            posu::vmath::arith_tuple{value_0, value_1, value_3};
+        constexpr auto initial = posu::vmath::arith_tuple{value_0, value_1, value_3};
 
         auto result = initial;
         result /= div_value;
@@ -344,26 +317,18 @@ TEST_CASE("arithmetic assignment operations", "[arithmetic][assignment]")
         constexpr auto value_2_0 = type_2{1};
         constexpr auto value_2_1 = type_2{7.8};
 
-        constexpr auto initial =
-            posu::vmath::arith_tuple{value_0_0, value_1_0, value_2_0};
-        constexpr auto add_value =
-            posu::vmath::arith_tuple{value_0_1, value_1_1, value_2_1};
+        constexpr auto initial   = posu::vmath::arith_tuple{value_0_0, value_1_0, value_2_0};
+        constexpr auto add_value = posu::vmath::arith_tuple{value_0_1, value_1_1, value_2_1};
 
         auto result = initial;
         result += add_value;
 
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
-        CHECK(
-            std::get<0>(result) ==
-            std::get<0>(initial) + std::get<0>(add_value));
+        CHECK(std::get<0>(result) == std::get<0>(initial) + std::get<0>(add_value));
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
-        CHECK(
-            std::get<1>(result) ==
-            std::get<1>(initial) + std::get<1>(add_value));
+        CHECK(std::get<1>(result) == std::get<1>(initial) + std::get<1>(add_value));
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
-        CHECK(
-            std::get<2>(result) ==
-            std::get<2>(initial) + std::get<2>(add_value));
+        CHECK(std::get<2>(result) == std::get<2>(initial) + std::get<2>(add_value));
     }
 
     SECTION("vector subtraction")
@@ -375,25 +340,17 @@ TEST_CASE("arithmetic assignment operations", "[arithmetic][assignment]")
         constexpr auto value_2_0 = type_2{1};
         constexpr auto value_2_1 = type_2{7.8};
 
-        constexpr auto initial =
-            posu::vmath::arith_tuple{value_0_0, value_1_0, value_2_0};
-        constexpr auto sub_value =
-            posu::vmath::arith_tuple{value_0_1, value_1_1, value_2_1};
+        constexpr auto initial   = posu::vmath::arith_tuple{value_0_0, value_1_0, value_2_0};
+        constexpr auto sub_value = posu::vmath::arith_tuple{value_0_1, value_1_1, value_2_1};
 
         auto result = initial;
         result -= sub_value;
 
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
-        CHECK(
-            std::get<0>(result) ==
-            std::get<0>(initial) - std::get<0>(sub_value));
+        CHECK(std::get<0>(result) == std::get<0>(initial) - std::get<0>(sub_value));
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
-        CHECK(
-            std::get<1>(result) ==
-            std::get<1>(initial) - std::get<1>(sub_value));
+        CHECK(std::get<1>(result) == std::get<1>(initial) - std::get<1>(sub_value));
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg): CHECK macro
-        CHECK(
-            std::get<2>(result) ==
-            std::get<2>(initial) - std::get<2>(sub_value));
+        CHECK(std::get<2>(result) == std::get<2>(initial) - std::get<2>(sub_value));
     }
 }

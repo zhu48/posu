@@ -13,8 +13,7 @@ namespace posu {
         struct tuple_index_valid<
             I,
             Tuple,
-            std::enable_if_t<std::less{}(
-                I, std::tuple_size_v<std::remove_cvref_t<Tuple>>)>>
+            std::enable_if_t<std::less{}(I, std::tuple_size_v<std::remove_cvref_t<Tuple>>)>>
             : std::true_type {
         };
 
@@ -23,8 +22,7 @@ namespace posu {
         {
             if constexpr(std::conjunction_v<tuple_index_valid<I, Tuple>...>) {
                 f(std::get<I>(std::forward<Tuple>(tuple))...);
-                for_each_impl<I + 1>(
-                    std::forward<F>(f), std::forward<Tuple>(tuple)...);
+                for_each_impl<I + 1>(std::forward<F>(f), std::forward<Tuple>(tuple)...);
             }
         }
 
@@ -35,11 +33,10 @@ namespace posu {
         }
 
         template<typename T, typename F, std::size_t... I, typename... Tuple>
-        constexpr decltype(auto) make_from_for_each_impl(
-            F&& f, std::index_sequence<I...> /*unused*/, Tuple&&... tuple)
+        constexpr decltype(auto)
+        make_from_for_each_impl(F&& f, std::index_sequence<I...> /*unused*/, Tuple&&... tuple)
         {
-            return T(
-                make_indexed_element<I>(f, std::forward<Tuple>(tuple)...)...);
+            return T(make_indexed_element<I>(f, std::forward<Tuple>(tuple)...)...);
         }
 
     } // namespace detail
@@ -47,8 +44,7 @@ namespace posu {
     template<typename F, typename... Tuple>
     constexpr void for_each(F&& f, Tuple&&... tuple)
     {
-        detail::for_each_impl(
-            std::forward<F>(f), std::forward<Tuple>(tuple)...);
+        detail::for_each_impl(std::forward<F>(f), std::forward<Tuple>(tuple)...);
     }
 
     template<typename T, typename F, typename... Tuple> // clang-format off
