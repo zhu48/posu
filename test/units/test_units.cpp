@@ -1,4 +1,4 @@
-#include "posu/units.hpp"
+#include "posu/units/units.hpp"
 
 #define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
