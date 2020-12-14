@@ -107,6 +107,11 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/time.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/thermodynamic_temperature.ipp
 )
+set(
+    POSU_UNITS_TEST_CPP_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/test_units.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_amount_of_substance.cpp
+)
 
 set(
     POSU_HPP_FILES
@@ -143,7 +148,7 @@ if(BUILD_TESTING AND POSU_ENABLE_TESTING)
     add_test(NAME test_zip_range COMMAND test_zip_range)
     set_tests_properties(test_zip_range PROPERTIES DEPENDS test_arith_tuple)
 
-    add_executable(test_units ${CMAKE_CURRENT_LIST_DIR}/test/units/test_units.cpp)
+    add_executable(test_units ${POSU_UNITS_TEST_CPP_FILES})
     target_link_libraries(test_units PRIVATE Catch2::Catch2)
     target_link_libraries(test_units PRIVATE posu)
     add_test(NAME test_units COMMAND test_units)
@@ -166,7 +171,7 @@ if(POSU_CLANG_FORMAT)
                     ${POSU_UNITS_IPP_FILES}
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
-                    ${CMAKE_CURRENT_LIST_DIR}/test/units/test_units.cpp
+                    ${POSU_UNITS_TEST_CPP_FILES}
             DEPENDS
                 ${POSU_HPP_FILES}
                 ${POSU_IPP_FILES}
@@ -174,7 +179,7 @@ if(POSU_CLANG_FORMAT)
                 ${POSU_UNITS_IPP_FILES}
                 ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
                 ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
-                ${CMAKE_CURRENT_LIST_DIR}/test/units/test_units.cpp
+                ${POSU_UNITS_TEST_CPP_FILES}
     )
 else()
     message(STATUS "clang-format not found")
@@ -194,15 +199,15 @@ if(POSU_CLANG_TIDY)
                     -p ${CMAKE_CURRENT_BINARY_DIR}
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
-                    ${CMAKE_CURRENT_LIST_DIR}/test/units/test_units.cpp
-                DEPENDS
-                    ${POSU_HPP_FILES}
-                    ${POSU_IPP_FILES}
-                    ${POSU_UNITS_HPP_FILES}
-                    ${POSU_UNITS_IPP_FILES}
-                    ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
-                    ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
-                    ${CMAKE_CURRENT_LIST_DIR}/test/units/test_units.cpp
+                    ${POSU_UNITS_TEST_CPP_FILES}
+            DEPENDS
+                ${POSU_HPP_FILES}
+                ${POSU_IPP_FILES}
+                ${POSU_UNITS_HPP_FILES}
+                ${POSU_UNITS_IPP_FILES}
+                ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
+                ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
+                ${POSU_UNITS_TEST_CPP_FILES}
     )
 else()
     message(STATUS "clang-tidy not found")
