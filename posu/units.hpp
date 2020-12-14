@@ -34,21 +34,11 @@ namespace posu::units {
             )
         constexpr base_unit( const base_unit<Rep2, Period2, Tag>& d ); // clang-format on
 
-        template<
-            typename Rep1,
-            typename Period1,
-            typename Rep2,
-            typename Period2,
-            typename TypeTag>
+        template<typename Rep1, typename Period1, typename Rep2, typename Period2, typename TypeTag>
         friend constexpr auto operator==(
             const base_unit<Rep1, Period1, TypeTag>& lhs,
             const base_unit<Rep2, Period2, TypeTag>& rhs) -> bool;
-        template<
-            typename Rep1,
-            typename Period1,
-            typename Rep2,
-            typename Period2,
-            typename TypeTag>
+        template<typename Rep1, typename Period1, typename Rep2, typename Period2, typename TypeTag>
         friend constexpr auto operator!=(
             const base_unit<Rep1, Period1, TypeTag>& lhs,
             const base_unit<Rep2, Period2, TypeTag>& rhs) -> bool;
@@ -89,85 +79,51 @@ namespace posu::units {
     using teraseconds  = time<int, std::tera>;
     using petaseconds  = time<int, std::peta>;
     using exaseconds   = time<int, std::exa>;
-    using minutes =
-        time<std::chrono::minutes::rep, std::chrono::minutes::period>;
-    using hours  = time<std::chrono::hours::rep, std::chrono::hours::period>;
-    using days   = time<std::chrono::days::rep, std::chrono::days::period>;
-    using weeks  = time<std::chrono::weeks::rep, std::chrono::weeks::period>;
-    using months = time<std::chrono::months::rep, std::chrono::months::period>;
-    using years  = time<std::chrono::years::rep, std::chrono::years::period>;
+    using minutes      = time<std::chrono::minutes::rep, std::chrono::minutes::period>;
+    using hours        = time<std::chrono::hours::rep, std::chrono::hours::period>;
+    using days         = time<std::chrono::days::rep, std::chrono::days::period>;
+    using weeks        = time<std::chrono::weeks::rep, std::chrono::weeks::period>;
+    using months       = time<std::chrono::months::rep, std::chrono::months::period>;
+    using years        = time<std::chrono::years::rep, std::chrono::years::period>;
 
     inline namespace literals {
 
         inline namespace chrono_literals {
 
-            constexpr auto operator""_as(unsigned long long value)
-                -> attoseconds;
-            constexpr auto operator""_as(long double value)
-                -> time<double, std::atto>;
-            constexpr auto operator""_fs(unsigned long long value)
-                -> femtoseconds;
-            constexpr auto operator""_fs(long double value)
-                -> time<double, std::femto>;
-            constexpr auto operator""_ps(unsigned long long value)
-                -> picoseconds;
-            constexpr auto operator""_ps(long double value)
-                -> time<double, std::pico>;
-            constexpr auto operator""_ns(unsigned long long value)
-                -> nanoseconds;
-            constexpr auto operator""_ns(long double value)
-                -> time<double, std::nano>;
-            constexpr auto operator""_us(unsigned long long value)
-                -> microseconds;
-            constexpr auto operator""_us(long double value)
-                -> time<double, std::micro>;
-            constexpr auto operator""_ms(unsigned long long value)
-                -> milliseconds;
-            constexpr auto operator""_ms(long double value)
-                -> time<double, std::milli>;
-            constexpr auto operator""_cs(unsigned long long value)
-                -> centiseconds;
-            constexpr auto operator""_cs(long double value)
-                -> time<double, std::centi>;
-            constexpr auto operator""_ds(unsigned long long value)
-                -> deciseconds;
-            constexpr auto operator""_ds(long double value)
-                -> time<double, std::deci>;
+            constexpr auto operator""_as(unsigned long long value) -> attoseconds;
+            constexpr auto operator""_as(long double value) -> time<double, std::atto>;
+            constexpr auto operator""_fs(unsigned long long value) -> femtoseconds;
+            constexpr auto operator""_fs(long double value) -> time<double, std::femto>;
+            constexpr auto operator""_ps(unsigned long long value) -> picoseconds;
+            constexpr auto operator""_ps(long double value) -> time<double, std::pico>;
+            constexpr auto operator""_ns(unsigned long long value) -> nanoseconds;
+            constexpr auto operator""_ns(long double value) -> time<double, std::nano>;
+            constexpr auto operator""_us(unsigned long long value) -> microseconds;
+            constexpr auto operator""_us(long double value) -> time<double, std::micro>;
+            constexpr auto operator""_ms(unsigned long long value) -> milliseconds;
+            constexpr auto operator""_ms(long double value) -> time<double, std::milli>;
+            constexpr auto operator""_cs(unsigned long long value) -> centiseconds;
+            constexpr auto operator""_cs(long double value) -> time<double, std::centi>;
+            constexpr auto operator""_ds(unsigned long long value) -> deciseconds;
+            constexpr auto operator""_ds(long double value) -> time<double, std::deci>;
             constexpr auto operator""_s(unsigned long long value) -> seconds;
-            constexpr auto operator""_s(long double value)
-                -> time<double, std::ratio<1>>;
-            constexpr auto operator""_das(unsigned long long value)
-                -> decaseconds;
-            constexpr auto operator""_das(long double value)
-                -> time<double, std::deca>;
-            constexpr auto operator""_hs(unsigned long long value)
-                -> hectoseconds;
-            constexpr auto operator""_hs(long double value)
-                -> time<double, std::hecto>;
-            constexpr auto operator""_ks(unsigned long long value)
-                -> kiloseconds;
-            constexpr auto operator""_ks(long double value)
-                -> time<double, std::kilo>;
-            constexpr auto operator""_Ms(unsigned long long value)
-                -> megaseconds;
-            constexpr auto operator""_Ms(long double value)
-                -> time<double, std::mega>;
-            constexpr auto operator""_Gs(unsigned long long value)
-                -> gigaseconds;
-            constexpr auto operator""_Gs(long double value)
-                -> time<double, std::giga>;
-            constexpr auto operator""_Ts(unsigned long long value)
-                -> teraseconds;
-            constexpr auto operator""_Ts(long double value)
-                -> time<double, std::tera>;
-            constexpr auto operator""_Ps(unsigned long long value)
-                -> petaseconds;
-            constexpr auto operator""_Ps(long double value)
-                -> time<double, std::peta>;
-            constexpr auto operator""_Es(unsigned long long value)
-                -> exaseconds;
-            constexpr auto operator""_Es(long double value)
-                -> time<double, std::exa>;
+            constexpr auto operator""_s(long double value) -> time<double, std::ratio<1>>;
+            constexpr auto operator""_das(unsigned long long value) -> decaseconds;
+            constexpr auto operator""_das(long double value) -> time<double, std::deca>;
+            constexpr auto operator""_hs(unsigned long long value) -> hectoseconds;
+            constexpr auto operator""_hs(long double value) -> time<double, std::hecto>;
+            constexpr auto operator""_ks(unsigned long long value) -> kiloseconds;
+            constexpr auto operator""_ks(long double value) -> time<double, std::kilo>;
+            constexpr auto operator""_Ms(unsigned long long value) -> megaseconds;
+            constexpr auto operator""_Ms(long double value) -> time<double, std::mega>;
+            constexpr auto operator""_Gs(unsigned long long value) -> gigaseconds;
+            constexpr auto operator""_Gs(long double value) -> time<double, std::giga>;
+            constexpr auto operator""_Ts(unsigned long long value) -> teraseconds;
+            constexpr auto operator""_Ts(long double value) -> time<double, std::tera>;
+            constexpr auto operator""_Ps(unsigned long long value) -> petaseconds;
+            constexpr auto operator""_Ps(long double value) -> time<double, std::peta>;
+            constexpr auto operator""_Es(unsigned long long value) -> exaseconds;
+            constexpr auto operator""_Es(long double value) -> time<double, std::exa>;
             constexpr auto operator""_min(unsigned long long value) -> minutes;
             constexpr auto operator""_min(long double value)
                 -> time<double, std::chrono::minutes::period>;
@@ -210,72 +166,40 @@ namespace posu::units {
 
         inline namespace length_literals {
 
-            constexpr auto operator""_am(unsigned long long value)
-                -> attometers;
-            constexpr auto operator""_am(long double value)
-                -> length<double, std::atto>;
-            constexpr auto operator""_fm(unsigned long long value)
-                -> femtometers;
-            constexpr auto operator""_fm(long double value)
-                -> length<double, std::femto>;
-            constexpr auto operator""_pm(unsigned long long value)
-                -> picometers;
-            constexpr auto operator""_pm(long double value)
-                -> length<double, std::pico>;
-            constexpr auto operator""_nm(unsigned long long value)
-                -> nanometers;
-            constexpr auto operator""_nm(long double value)
-                -> length<double, std::nano>;
-            constexpr auto operator""_um(unsigned long long value)
-                -> micrometers;
-            constexpr auto operator""_um(long double value)
-                -> length<double, std::micro>;
-            constexpr auto operator""_mm(unsigned long long value)
-                -> millimeters;
-            constexpr auto operator""_mm(long double value)
-                -> length<double, std::milli>;
-            constexpr auto operator""_cm(unsigned long long value)
-                -> centimeters;
-            constexpr auto operator""_cm(long double value)
-                -> length<double, std::centi>;
-            constexpr auto operator""_dm(unsigned long long value)
-                -> decimeters;
-            constexpr auto operator""_dm(long double value)
-                -> length<double, std::deci>;
+            constexpr auto operator""_am(unsigned long long value) -> attometers;
+            constexpr auto operator""_am(long double value) -> length<double, std::atto>;
+            constexpr auto operator""_fm(unsigned long long value) -> femtometers;
+            constexpr auto operator""_fm(long double value) -> length<double, std::femto>;
+            constexpr auto operator""_pm(unsigned long long value) -> picometers;
+            constexpr auto operator""_pm(long double value) -> length<double, std::pico>;
+            constexpr auto operator""_nm(unsigned long long value) -> nanometers;
+            constexpr auto operator""_nm(long double value) -> length<double, std::nano>;
+            constexpr auto operator""_um(unsigned long long value) -> micrometers;
+            constexpr auto operator""_um(long double value) -> length<double, std::micro>;
+            constexpr auto operator""_mm(unsigned long long value) -> millimeters;
+            constexpr auto operator""_mm(long double value) -> length<double, std::milli>;
+            constexpr auto operator""_cm(unsigned long long value) -> centimeters;
+            constexpr auto operator""_cm(long double value) -> length<double, std::centi>;
+            constexpr auto operator""_dm(unsigned long long value) -> decimeters;
+            constexpr auto operator""_dm(long double value) -> length<double, std::deci>;
             constexpr auto operator""_m(unsigned long long value) -> meters;
-            constexpr auto operator""_m(long double value)
-                -> length<double, std::ratio<1>>;
-            constexpr auto operator""_dam(unsigned long long value)
-                -> decameters;
-            constexpr auto operator""_dam(long double value)
-                -> length<double, std::deca>;
-            constexpr auto operator""_hm(unsigned long long value)
-                -> hectometers;
-            constexpr auto operator""_hm(long double value)
-                -> length<double, std::hecto>;
-            constexpr auto operator""_km(unsigned long long value)
-                -> kilometers;
-            constexpr auto operator""_km(long double value)
-                -> length<double, std::kilo>;
-            constexpr auto operator""_Mm(unsigned long long value)
-                -> megameters;
-            constexpr auto operator""_Mm(long double value)
-                -> length<double, std::mega>;
-            constexpr auto operator""_Gm(unsigned long long value)
-                -> gigameters;
-            constexpr auto operator""_Gm(long double value)
-                -> length<double, std::giga>;
-            constexpr auto operator""_Tm(unsigned long long value)
-                -> terameters;
-            constexpr auto operator""_Tm(long double value)
-                -> length<double, std::tera>;
-            constexpr auto operator""_Pm(unsigned long long value)
-                -> petameters;
-            constexpr auto operator""_Pm(long double value)
-                -> length<double, std::peta>;
+            constexpr auto operator""_m(long double value) -> length<double, std::ratio<1>>;
+            constexpr auto operator""_dam(unsigned long long value) -> decameters;
+            constexpr auto operator""_dam(long double value) -> length<double, std::deca>;
+            constexpr auto operator""_hm(unsigned long long value) -> hectometers;
+            constexpr auto operator""_hm(long double value) -> length<double, std::hecto>;
+            constexpr auto operator""_km(unsigned long long value) -> kilometers;
+            constexpr auto operator""_km(long double value) -> length<double, std::kilo>;
+            constexpr auto operator""_Mm(unsigned long long value) -> megameters;
+            constexpr auto operator""_Mm(long double value) -> length<double, std::mega>;
+            constexpr auto operator""_Gm(unsigned long long value) -> gigameters;
+            constexpr auto operator""_Gm(long double value) -> length<double, std::giga>;
+            constexpr auto operator""_Tm(unsigned long long value) -> terameters;
+            constexpr auto operator""_Tm(long double value) -> length<double, std::tera>;
+            constexpr auto operator""_Pm(unsigned long long value) -> petameters;
+            constexpr auto operator""_Pm(long double value) -> length<double, std::peta>;
             constexpr auto operator""_Em(unsigned long long value) -> exameters;
-            constexpr auto operator""_Em(long double value)
-                -> length<double, std::exa>;
+            constexpr auto operator""_Em(long double value) -> length<double, std::exa>;
 
         } // namespace length_literals
 
@@ -313,62 +237,39 @@ namespace posu::units {
         inline namespace mass_literals {
 
             constexpr auto operator""_ag(unsigned long long value) -> attograms;
-            constexpr auto operator""_ag(long double value)
-                -> mass<double, std::atto>;
-            constexpr auto operator""_fg(unsigned long long value)
-                -> femtograms;
-            constexpr auto operator""_fg(long double value)
-                -> mass<double, std::femto>;
+            constexpr auto operator""_ag(long double value) -> mass<double, std::atto>;
+            constexpr auto operator""_fg(unsigned long long value) -> femtograms;
+            constexpr auto operator""_fg(long double value) -> mass<double, std::femto>;
             constexpr auto operator""_pg(unsigned long long value) -> picograms;
-            constexpr auto operator""_pg(long double value)
-                -> mass<double, std::pico>;
+            constexpr auto operator""_pg(long double value) -> mass<double, std::pico>;
             constexpr auto operator""_ng(unsigned long long value) -> nanograms;
-            constexpr auto operator""_ng(long double value)
-                -> mass<double, std::nano>;
-            constexpr auto operator""_ug(unsigned long long value)
-                -> micrograms;
-            constexpr auto operator""_ug(long double value)
-                -> mass<double, std::micro>;
-            constexpr auto operator""_mg(unsigned long long value)
-                -> milligrams;
-            constexpr auto operator""_mg(long double value)
-                -> mass<double, std::milli>;
-            constexpr auto operator""_cg(unsigned long long value)
-                -> centigrams;
-            constexpr auto operator""_cg(long double value)
-                -> mass<double, std::centi>;
+            constexpr auto operator""_ng(long double value) -> mass<double, std::nano>;
+            constexpr auto operator""_ug(unsigned long long value) -> micrograms;
+            constexpr auto operator""_ug(long double value) -> mass<double, std::micro>;
+            constexpr auto operator""_mg(unsigned long long value) -> milligrams;
+            constexpr auto operator""_mg(long double value) -> mass<double, std::milli>;
+            constexpr auto operator""_cg(unsigned long long value) -> centigrams;
+            constexpr auto operator""_cg(long double value) -> mass<double, std::centi>;
             constexpr auto operator""_dg(unsigned long long value) -> decigrams;
-            constexpr auto operator""_dg(long double value)
-                -> mass<double, std::deci>;
+            constexpr auto operator""_dg(long double value) -> mass<double, std::deci>;
             constexpr auto operator""_g(unsigned long long value) -> grams;
-            constexpr auto operator""_g(long double value)
-                -> mass<double, std::ratio<1>>;
-            constexpr auto operator""_dag(unsigned long long value)
-                -> decagrams;
-            constexpr auto operator""_dag(long double value)
-                -> mass<double, std::deca>;
-            constexpr auto operator""_hg(unsigned long long value)
-                -> hectograms;
-            constexpr auto operator""_hg(long double value)
-                -> mass<double, std::hecto>;
+            constexpr auto operator""_g(long double value) -> mass<double, std::ratio<1>>;
+            constexpr auto operator""_dag(unsigned long long value) -> decagrams;
+            constexpr auto operator""_dag(long double value) -> mass<double, std::deca>;
+            constexpr auto operator""_hg(unsigned long long value) -> hectograms;
+            constexpr auto operator""_hg(long double value) -> mass<double, std::hecto>;
             constexpr auto operator""_kg(unsigned long long value) -> kilograms;
-            constexpr auto operator""_kg(long double value)
-                -> mass<double, std::kilo>;
+            constexpr auto operator""_kg(long double value) -> mass<double, std::kilo>;
             constexpr auto operator""_Mg(unsigned long long value) -> megagrams;
-            constexpr auto operator""_Mg(long double value)
-                -> mass<double, std::mega>;
+            constexpr auto operator""_Mg(long double value) -> mass<double, std::mega>;
             constexpr auto operator""_Gg(unsigned long long value) -> gigagrams;
-            constexpr auto operator""_Gg(long double value)
-                -> mass<double, std::giga>;
+            constexpr auto operator""_Gg(long double value) -> mass<double, std::giga>;
             constexpr auto operator""_Tg(unsigned long long value) -> teragrams;
-            constexpr auto operator""_Tg(long double value)
-                -> mass<double, std::tera>;
+            constexpr auto operator""_Tg(long double value) -> mass<double, std::tera>;
             constexpr auto operator""_Pg(unsigned long long value) -> petagrams;
-            constexpr auto operator""_Pg(long double value)
-                -> mass<double, std::peta>;
+            constexpr auto operator""_Pg(long double value) -> mass<double, std::peta>;
             constexpr auto operator""_Eg(unsigned long long value) -> exagrams;
-            constexpr auto operator""_Eg(long double value)
-                -> mass<double, std::exa>;
+            constexpr auto operator""_Eg(long double value) -> mass<double, std::exa>;
 
         } // namespace mass_literals
 
@@ -406,8 +307,7 @@ namespace posu::units {
     };
 
     template<typename Rep, typename Period>
-    using thermodynamic_temperature =
-        base_unit<Rep, Period, thermodynamic_temperature_tag>;
+    using thermodynamic_temperature = base_unit<Rep, Period, thermodynamic_temperature_tag>;
 
     using attokelvins  = thermodynamic_temperature<int, std::atto>;
     using femtokelvins = thermodynamic_temperature<int, std::femto>;

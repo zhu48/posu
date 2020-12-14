@@ -16,29 +16,19 @@ namespace posu::units {
     {
     }
 
-    template<
-        typename Rep1,
-        typename Period1,
-        typename Rep2,
-        typename Period2,
-        typename TypeTag>
+    template<typename Rep1, typename Period1, typename Rep2, typename Period2, typename TypeTag>
     [[nodiscard]] constexpr auto operator==(
-        const base_unit<Rep1, Period1, TypeTag>& lhs,
-        const base_unit<Rep2, Period2, TypeTag>& rhs) -> bool
+        const base_unit<Rep1, Period1, TypeTag>& lhs, const base_unit<Rep2, Period2, TypeTag>& rhs)
+        -> bool
     {
         return static_cast<const std::chrono::duration<Rep1, Period1>&>(lhs) ==
                static_cast<const std::chrono::duration<Rep2, Period2>&>(rhs);
     }
 
-    template<
-        typename Rep1,
-        typename Period1,
-        typename Rep2,
-        typename Period2,
-        typename TypeTag>
+    template<typename Rep1, typename Period1, typename Rep2, typename Period2, typename TypeTag>
     [[nodiscard]] constexpr auto operator!=(
-        const base_unit<Rep1, Period1, TypeTag>& lhs,
-        const base_unit<Rep2, Period2, TypeTag>& rhs) -> bool
+        const base_unit<Rep1, Period1, TypeTag>& lhs, const base_unit<Rep2, Period2, TypeTag>& rhs)
+        -> bool
     {
         return static_cast<const std::chrono::duration<Rep1, Period1>&>(lhs) !=
                static_cast<const std::chrono::duration<Rep2, Period2>&>(rhs);
@@ -48,98 +38,82 @@ namespace posu::units {
 
         inline namespace chrono_literals {
 
-            constexpr auto operator""_as(unsigned long long value)
-                -> attoseconds
+            constexpr auto operator""_as(unsigned long long value) -> attoseconds
             {
                 return attoseconds(value);
             }
 
-            constexpr auto operator""_as(long double value)
-                -> time<double, std::atto>
+            constexpr auto operator""_as(long double value) -> time<double, std::atto>
             {
                 return time<double, std::atto>(value);
             }
 
-            constexpr auto operator""_fs(unsigned long long value)
-                -> femtoseconds
+            constexpr auto operator""_fs(unsigned long long value) -> femtoseconds
             {
                 return femtoseconds(value);
             }
 
-            constexpr auto operator""_fs(long double value)
-                -> time<double, std::femto>
+            constexpr auto operator""_fs(long double value) -> time<double, std::femto>
             {
                 return time<double, std::femto>(value);
             }
 
-            constexpr auto operator""_ps(unsigned long long value)
-                -> picoseconds
+            constexpr auto operator""_ps(unsigned long long value) -> picoseconds
             {
                 return picoseconds(value);
             }
 
-            constexpr auto operator""_ps(long double value)
-                -> time<double, std::pico>
+            constexpr auto operator""_ps(long double value) -> time<double, std::pico>
             {
                 return time<double, std::pico>(value);
             }
 
-            constexpr auto operator""_ns(unsigned long long value)
-                -> nanoseconds
+            constexpr auto operator""_ns(unsigned long long value) -> nanoseconds
             {
                 return nanoseconds(value);
             }
 
-            constexpr auto operator""_ns(long double value)
-                -> time<double, std::nano>
+            constexpr auto operator""_ns(long double value) -> time<double, std::nano>
             {
                 return time<double, std::nano>(value);
             }
 
-            constexpr auto operator""_us(unsigned long long value)
-                -> microseconds
+            constexpr auto operator""_us(unsigned long long value) -> microseconds
             {
                 return microseconds(value);
             }
 
-            constexpr auto operator""_us(long double value)
-                -> time<double, std::micro>
+            constexpr auto operator""_us(long double value) -> time<double, std::micro>
             {
                 return time<double, std::micro>(value);
             }
 
-            constexpr auto operator""_ms(unsigned long long value)
-                -> milliseconds
+            constexpr auto operator""_ms(unsigned long long value) -> milliseconds
             {
                 return milliseconds(value);
             }
 
-            constexpr auto operator""_ms(long double value)
-                -> time<double, std::milli>
+            constexpr auto operator""_ms(long double value) -> time<double, std::milli>
             {
                 return time<double, std::milli>(value);
             }
 
-            constexpr auto operator""_cs(unsigned long long value)
-                -> centiseconds
+            constexpr auto operator""_cs(unsigned long long value) -> centiseconds
             {
                 return centiseconds(value);
             }
 
-            constexpr auto operator""_cs(long double value)
-                -> time<double, std::centi>
+            constexpr auto operator""_cs(long double value) -> time<double, std::centi>
             {
                 return time<double, std::centi>(value);
             }
 
-            constexpr auto operator""_ds(unsigned long long value)
-                -> deciseconds
+            constexpr auto operator""_ds(unsigned long long value) -> deciseconds
             {
                 return deciseconds(value);
             }
 
-            constexpr auto operator""_ds(long double value)
-                -> time<double, std::deci>
+            constexpr auto operator""_ds(long double value) -> time<double, std::deci>
             {
                 return time<double, std::deci>(value);
             }
@@ -149,92 +123,77 @@ namespace posu::units {
                 return seconds(value);
             }
 
-            constexpr auto operator""_s(long double value)
-                -> time<double, std::ratio<1>>
+            constexpr auto operator""_s(long double value) -> time<double, std::ratio<1>>
             {
                 return time<double, std::ratio<1>>(value);
             }
 
-            constexpr auto operator""_das(unsigned long long value)
-                -> decaseconds
+            constexpr auto operator""_das(unsigned long long value) -> decaseconds
             {
                 return decaseconds(value);
             }
 
-            constexpr auto operator""_das(long double value)
-                -> time<double, std::deca>
+            constexpr auto operator""_das(long double value) -> time<double, std::deca>
             {
                 return time<double, std::deca>(value);
             }
 
-            constexpr auto operator""_hs(unsigned long long value)
-                -> hectoseconds
+            constexpr auto operator""_hs(unsigned long long value) -> hectoseconds
             {
                 return hectoseconds(value);
             }
 
-            constexpr auto operator""_hs(long double value)
-                -> time<double, std::hecto>
+            constexpr auto operator""_hs(long double value) -> time<double, std::hecto>
             {
                 return time<double, std::hecto>(value);
             }
 
-            constexpr auto operator""_ks(unsigned long long value)
-                -> kiloseconds
+            constexpr auto operator""_ks(unsigned long long value) -> kiloseconds
             {
                 return kiloseconds(value);
             }
 
-            constexpr auto operator""_ks(long double value)
-                -> time<double, std::kilo>
+            constexpr auto operator""_ks(long double value) -> time<double, std::kilo>
             {
                 return time<double, std::kilo>(value);
             }
 
-            constexpr auto operator""_Ms(unsigned long long value)
-                -> megaseconds
+            constexpr auto operator""_Ms(unsigned long long value) -> megaseconds
             {
                 return megaseconds(value);
             }
 
-            constexpr auto operator""_Ms(long double value)
-                -> time<double, std::mega>
+            constexpr auto operator""_Ms(long double value) -> time<double, std::mega>
             {
                 return time<double, std::mega>(value);
             }
 
-            constexpr auto operator""_Gs(unsigned long long value)
-                -> gigaseconds
+            constexpr auto operator""_Gs(unsigned long long value) -> gigaseconds
             {
                 return gigaseconds(value);
             }
 
-            constexpr auto operator""_Gs(long double value)
-                -> time<double, std::giga>
+            constexpr auto operator""_Gs(long double value) -> time<double, std::giga>
             {
                 return time<double, std::giga>(value);
             }
 
-            constexpr auto operator""_Ts(unsigned long long value)
-                -> teraseconds
+            constexpr auto operator""_Ts(unsigned long long value) -> teraseconds
             {
                 return teraseconds(value);
             }
 
-            constexpr auto operator""_Ts(long double value)
-                -> time<double, std::tera>
+            constexpr auto operator""_Ts(long double value) -> time<double, std::tera>
             {
                 return time<double, std::tera>(value);
             }
 
-            constexpr auto operator""_Ps(unsigned long long value)
-                -> petaseconds
+            constexpr auto operator""_Ps(unsigned long long value) -> petaseconds
             {
                 return petaseconds(value);
             }
 
-            constexpr auto operator""_Ps(long double value)
-                -> time<double, std::peta>
+            constexpr auto operator""_Ps(long double value) -> time<double, std::peta>
             {
                 return time<double, std::peta>(value);
             }
@@ -244,8 +203,7 @@ namespace posu::units {
                 return exaseconds(value);
             }
 
-            constexpr auto operator""_Es(long double value)
-                -> time<double, std::exa>
+            constexpr auto operator""_Es(long double value) -> time<double, std::exa>
             {
                 return time<double, std::exa>(value);
             }
@@ -261,10 +219,7 @@ namespace posu::units {
                 return time<double, std::chrono::minutes::period>(value);
             }
 
-            constexpr auto operator""_h(unsigned long long value) -> hours
-            {
-                return hours(value);
-            }
+            constexpr auto operator""_h(unsigned long long value) -> hours { return hours(value); }
 
             constexpr auto operator""_h(long double value)
                 -> time<double, std::chrono::hours::period>
@@ -281,20 +236,17 @@ namespace posu::units {
                 return attometers(value);
             }
 
-            constexpr auto operator""_am(long double value)
-                -> length<double, std::atto>
+            constexpr auto operator""_am(long double value) -> length<double, std::atto>
             {
                 return length<double, std::atto>(value);
             }
 
-            constexpr auto operator""_fm(unsigned long long value)
-                -> femtometers
+            constexpr auto operator""_fm(unsigned long long value) -> femtometers
             {
                 return femtometers(value);
             }
 
-            constexpr auto operator""_fm(long double value)
-                -> length<double, std::femto>
+            constexpr auto operator""_fm(long double value) -> length<double, std::femto>
             {
                 return length<double, std::femto>(value);
             }
@@ -304,8 +256,7 @@ namespace posu::units {
                 return picometers(value);
             }
 
-            constexpr auto operator""_pm(long double value)
-                -> length<double, std::pico>
+            constexpr auto operator""_pm(long double value) -> length<double, std::pico>
             {
                 return length<double, std::pico>(value);
             }
@@ -315,44 +266,37 @@ namespace posu::units {
                 return nanometers(value);
             }
 
-            constexpr auto operator""_nm(long double value)
-                -> length<double, std::nano>
+            constexpr auto operator""_nm(long double value) -> length<double, std::nano>
             {
                 return length<double, std::nano>(value);
             }
 
-            constexpr auto operator""_um(unsigned long long value)
-                -> micrometers
+            constexpr auto operator""_um(unsigned long long value) -> micrometers
             {
                 return micrometers(value);
             }
 
-            constexpr auto operator""_um(long double value)
-                -> length<double, std::micro>
+            constexpr auto operator""_um(long double value) -> length<double, std::micro>
             {
                 return length<double, std::micro>(value);
             }
 
-            constexpr auto operator""_mm(unsigned long long value)
-                -> millimeters
+            constexpr auto operator""_mm(unsigned long long value) -> millimeters
             {
                 return millimeters(value);
             }
 
-            constexpr auto operator""_mm(long double value)
-                -> length<double, std::milli>
+            constexpr auto operator""_mm(long double value) -> length<double, std::milli>
             {
                 return length<double, std::milli>(value);
             }
 
-            constexpr auto operator""_cm(unsigned long long value)
-                -> centimeters
+            constexpr auto operator""_cm(unsigned long long value) -> centimeters
             {
                 return centimeters(value);
             }
 
-            constexpr auto operator""_cm(long double value)
-                -> length<double, std::centi>
+            constexpr auto operator""_cm(long double value) -> length<double, std::centi>
             {
                 return length<double, std::centi>(value);
             }
@@ -362,8 +306,7 @@ namespace posu::units {
                 return decimeters(value);
             }
 
-            constexpr auto operator""_dm(long double value)
-                -> length<double, std::deci>
+            constexpr auto operator""_dm(long double value) -> length<double, std::deci>
             {
                 return length<double, std::deci>(value);
             }
@@ -373,32 +316,27 @@ namespace posu::units {
                 return meters(value);
             }
 
-            constexpr auto operator""_m(long double value)
-                -> length<double, std::ratio<1>>
+            constexpr auto operator""_m(long double value) -> length<double, std::ratio<1>>
             {
                 return length<double, std::ratio<1>>(value);
             }
 
-            constexpr auto operator""_dam(unsigned long long value)
-                -> decameters
+            constexpr auto operator""_dam(unsigned long long value) -> decameters
             {
                 return decameters(value);
             }
 
-            constexpr auto operator""_dam(long double value)
-                -> length<double, std::deca>
+            constexpr auto operator""_dam(long double value) -> length<double, std::deca>
             {
                 return length<double, std::deca>(value);
             }
 
-            constexpr auto operator""_hm(unsigned long long value)
-                -> hectometers
+            constexpr auto operator""_hm(unsigned long long value) -> hectometers
             {
                 return hectometers(value);
             }
 
-            constexpr auto operator""_hm(long double value)
-                -> length<double, std::hecto>
+            constexpr auto operator""_hm(long double value) -> length<double, std::hecto>
             {
                 return length<double, std::hecto>(value);
             }
@@ -408,8 +346,7 @@ namespace posu::units {
                 return kilometers(value);
             }
 
-            constexpr auto operator""_km(long double value)
-                -> length<double, std::kilo>
+            constexpr auto operator""_km(long double value) -> length<double, std::kilo>
             {
                 return length<double, std::kilo>(value);
             }
@@ -419,8 +356,7 @@ namespace posu::units {
                 return megameters(value);
             }
 
-            constexpr auto operator""_Mm(long double value)
-                -> length<double, std::mega>
+            constexpr auto operator""_Mm(long double value) -> length<double, std::mega>
             {
                 return length<double, std::mega>(value);
             }
@@ -430,8 +366,7 @@ namespace posu::units {
                 return gigameters(value);
             }
 
-            constexpr auto operator""_Gm(long double value)
-                -> length<double, std::giga>
+            constexpr auto operator""_Gm(long double value) -> length<double, std::giga>
             {
                 return length<double, std::giga>(value);
             }
@@ -441,8 +376,7 @@ namespace posu::units {
                 return terameters(value);
             }
 
-            constexpr auto operator""_Tm(long double value)
-                -> length<double, std::tera>
+            constexpr auto operator""_Tm(long double value) -> length<double, std::tera>
             {
                 return length<double, std::tera>(value);
             }
@@ -452,8 +386,7 @@ namespace posu::units {
                 return petameters(value);
             }
 
-            constexpr auto operator""_Pm(long double value)
-                -> length<double, std::peta>
+            constexpr auto operator""_Pm(long double value) -> length<double, std::peta>
             {
                 return length<double, std::peta>(value);
             }
@@ -463,8 +396,7 @@ namespace posu::units {
                 return exameters(value);
             }
 
-            constexpr auto operator""_Em(long double value)
-                -> length<double, std::exa>
+            constexpr auto operator""_Em(long double value) -> length<double, std::exa>
             {
                 return length<double, std::exa>(value);
             }
@@ -478,8 +410,7 @@ namespace posu::units {
                 return attograms(value);
             }
 
-            constexpr auto operator""_ag(long double value)
-                -> mass<double, std::atto>
+            constexpr auto operator""_ag(long double value) -> mass<double, std::atto>
             {
                 return mass<double, std::atto>(value);
             }
@@ -489,8 +420,7 @@ namespace posu::units {
                 return femtograms(value);
             }
 
-            constexpr auto operator""_fg(long double value)
-                -> mass<double, std::femto>
+            constexpr auto operator""_fg(long double value) -> mass<double, std::femto>
             {
                 return mass<double, std::femto>(value);
             }
@@ -500,8 +430,7 @@ namespace posu::units {
                 return picograms(value);
             }
 
-            constexpr auto operator""_pg(long double value)
-                -> mass<double, std::pico>
+            constexpr auto operator""_pg(long double value) -> mass<double, std::pico>
             {
                 return mass<double, std::pico>(value);
             }
@@ -511,8 +440,7 @@ namespace posu::units {
                 return nanograms(value);
             }
 
-            constexpr auto operator""_ng(long double value)
-                -> mass<double, std::nano>
+            constexpr auto operator""_ng(long double value) -> mass<double, std::nano>
             {
                 return mass<double, std::nano>(value);
             }
@@ -522,8 +450,7 @@ namespace posu::units {
                 return micrograms(value);
             }
 
-            constexpr auto operator""_ug(long double value)
-                -> mass<double, std::micro>
+            constexpr auto operator""_ug(long double value) -> mass<double, std::micro>
             {
                 return mass<double, std::micro>(value);
             }
@@ -533,8 +460,7 @@ namespace posu::units {
                 return milligrams(value);
             }
 
-            constexpr auto operator""_mg(long double value)
-                -> mass<double, std::milli>
+            constexpr auto operator""_mg(long double value) -> mass<double, std::milli>
             {
                 return mass<double, std::milli>(value);
             }
@@ -544,8 +470,7 @@ namespace posu::units {
                 return centigrams(value);
             }
 
-            constexpr auto operator""_cg(long double value)
-                -> mass<double, std::centi>
+            constexpr auto operator""_cg(long double value) -> mass<double, std::centi>
             {
                 return mass<double, std::centi>(value);
             }
@@ -555,19 +480,14 @@ namespace posu::units {
                 return decigrams(value);
             }
 
-            constexpr auto operator""_dg(long double value)
-                -> mass<double, std::deci>
+            constexpr auto operator""_dg(long double value) -> mass<double, std::deci>
             {
                 return mass<double, std::deci>(value);
             }
 
-            constexpr auto operator""_g(unsigned long long value) -> grams
-            {
-                return grams(value);
-            }
+            constexpr auto operator""_g(unsigned long long value) -> grams { return grams(value); }
 
-            constexpr auto operator""_g(long double value)
-                -> mass<double, std::ratio<1>>
+            constexpr auto operator""_g(long double value) -> mass<double, std::ratio<1>>
             {
                 return mass<double, std::ratio<1>>(value);
             }
@@ -577,8 +497,7 @@ namespace posu::units {
                 return decagrams(value);
             }
 
-            constexpr auto operator""_dag(long double value)
-                -> mass<double, std::deca>
+            constexpr auto operator""_dag(long double value) -> mass<double, std::deca>
             {
                 return mass<double, std::deca>(value);
             }
@@ -588,8 +507,7 @@ namespace posu::units {
                 return hectograms(value);
             }
 
-            constexpr auto operator""_hg(long double value)
-                -> mass<double, std::hecto>
+            constexpr auto operator""_hg(long double value) -> mass<double, std::hecto>
             {
                 return mass<double, std::hecto>(value);
             }
@@ -599,8 +517,7 @@ namespace posu::units {
                 return kilograms(value);
             }
 
-            constexpr auto operator""_kg(long double value)
-                -> mass<double, std::kilo>
+            constexpr auto operator""_kg(long double value) -> mass<double, std::kilo>
             {
                 return mass<double, std::kilo>(value);
             }
@@ -610,8 +527,7 @@ namespace posu::units {
                 return megagrams(value);
             }
 
-            constexpr auto operator""_Mg(long double value)
-                -> mass<double, std::mega>
+            constexpr auto operator""_Mg(long double value) -> mass<double, std::mega>
             {
                 return mass<double, std::mega>(value);
             }
@@ -621,8 +537,7 @@ namespace posu::units {
                 return gigagrams(value);
             }
 
-            constexpr auto operator""_Gg(long double value)
-                -> mass<double, std::giga>
+            constexpr auto operator""_Gg(long double value) -> mass<double, std::giga>
             {
                 return mass<double, std::giga>(value);
             }
@@ -632,8 +547,7 @@ namespace posu::units {
                 return teragrams(value);
             }
 
-            constexpr auto operator""_Tg(long double value)
-                -> mass<double, std::tera>
+            constexpr auto operator""_Tg(long double value) -> mass<double, std::tera>
             {
                 return mass<double, std::tera>(value);
             }
@@ -643,8 +557,7 @@ namespace posu::units {
                 return petagrams(value);
             }
 
-            constexpr auto operator""_Pg(long double value)
-                -> mass<double, std::peta>
+            constexpr auto operator""_Pg(long double value) -> mass<double, std::peta>
             {
                 return mass<double, std::peta>(value);
             }
@@ -654,8 +567,7 @@ namespace posu::units {
                 return exagrams(value);
             }
 
-            constexpr auto operator""_Eg(long double value)
-                -> mass<double, std::exa>
+            constexpr auto operator""_Eg(long double value) -> mass<double, std::exa>
             {
                 return mass<double, std::exa>(value);
             }
