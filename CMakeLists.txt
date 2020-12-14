@@ -92,6 +92,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/mass.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/si.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/time.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/thermodynamic_temperature.hpp
 )
 set(
     POSU_UNITS_IPP_FILES
@@ -101,6 +102,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/mass.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/si.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/time.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/thermodynamic_temperature.ipp
 )
 
 set(
