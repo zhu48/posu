@@ -30,8 +30,8 @@ namespace posu::vmath {
     /**
      * A tuple-like aggregate of arithmetic types.
      *
-     * This template behaves much like an `std::tuple` of arithmetic types, and
-     * supports arithmetic operations on its members as a vector.
+     * This template behaves much like an `std::tuple` of arithmetic types, and supports arithmetic
+     * operations on its members as a vector.
      *
      * @tparam T The tuple arithmetic type members.
      */
@@ -69,10 +69,9 @@ namespace posu::vmath {
         /**
          * Arithmetic operators.
          *
-         * Perform vector addition, subtraction, multiplication, or division on
-         * the tuple. Operating on a tuple and a scaler applies the same
-         * operation to each tuple member. Adding or subtracting two tuples adds
-         * or subtracts element-wise.
+         * Perform vector addition, subtraction, multiplication, or division on the tuple. Operating
+         * on a tuple and a scaler applies the same operation to each tuple member. Adding or
+         * subtracting two tuples adds or subtracts element-wise.
          *
          * @param rhs The value to add, subtract, multiply, or divide.
          *
@@ -80,27 +79,23 @@ namespace posu::vmath {
          *
          * @{
          */
-        [[nodiscard]] constexpr auto operator+(scaler_type rhs) const noexcept
+        [[nodiscard]] constexpr auto operator+(scaler_type rhs) const noexcept -> arith_tuple;
+        [[nodiscard]] constexpr auto operator+(const arith_tuple& rhs) const noexcept
             -> arith_tuple;
-        [[nodiscard]] constexpr auto
-        operator+(const arith_tuple& rhs) const noexcept -> arith_tuple;
 
-        [[nodiscard]] constexpr auto operator-(scaler_type rhs) const noexcept
+        [[nodiscard]] constexpr auto operator-(scaler_type rhs) const noexcept -> arith_tuple;
+        [[nodiscard]] constexpr auto operator-(const arith_tuple& rhs) const noexcept
             -> arith_tuple;
-        [[nodiscard]] constexpr auto
-        operator-(const arith_tuple& rhs) const noexcept -> arith_tuple;
 
-        [[nodiscard]] constexpr auto operator*(scaler_type rhs) const noexcept
-            -> arith_tuple;
-        [[nodiscard]] constexpr auto operator/(scaler_type rhs) const noexcept
-            -> arith_tuple;
+        [[nodiscard]] constexpr auto operator*(scaler_type rhs) const noexcept -> arith_tuple;
+        [[nodiscard]] constexpr auto operator/(scaler_type rhs) const noexcept -> arith_tuple;
         //! @}
 
         /**
          * Arithmetic assignment operators.
          *
-         * Perform the same operations as the arithmetic operators, but assigns
-         * the operation result value to this object.
+         * Perform the same operations as the arithmetic operators, but assigns the operation result
+         * value to this object.
          *
          * @param rhs The value to add, subtract, multiple, or divide.
          *
@@ -109,11 +104,9 @@ namespace posu::vmath {
          * @{
          */
         constexpr auto operator+=(scaler_type rhs) noexcept -> arith_tuple&;
-        constexpr auto operator+=(const arith_tuple& rhs) noexcept
-            -> arith_tuple&;
+        constexpr auto operator+=(const arith_tuple& rhs) noexcept -> arith_tuple&;
         constexpr auto operator-=(scaler_type rhs) noexcept -> arith_tuple&;
-        constexpr auto operator-=(const arith_tuple& rhs) noexcept
-            -> arith_tuple&;
+        constexpr auto operator-=(const arith_tuple& rhs) noexcept -> arith_tuple&;
         constexpr auto operator*=(scaler_type rhs) noexcept -> arith_tuple&;
         constexpr auto operator/=(scaler_type rhs) noexcept -> arith_tuple&;
         //! @}
@@ -127,8 +120,7 @@ namespace posu::vmath {
          *
          * @throw not_pure_diagonal Not all elements compare equal.
          */
-        [[nodiscard]] explicit constexpr operator scaler_type() const
-            noexcept(false);
+        [[nodiscard]] explicit constexpr operator scaler_type() const noexcept(false);
 
         /**
          * Convert to an `std::tuple` of the member types.
@@ -137,14 +129,10 @@ namespace posu::vmath {
          *
          * @{
          */
-        [[nodiscard]] explicit constexpr
-        operator std::tuple<T...>&() & noexcept;
-        [[nodiscard]] explicit constexpr
-        operator std::tuple<T...>&&() && noexcept;
-        [[nodiscard]] explicit constexpr
-        operator const std::tuple<T...>&() const& noexcept;
-        [[nodiscard]] explicit constexpr
-        operator const std::tuple<T...>&&() const&& noexcept;
+        [[nodiscard]] explicit constexpr operator std::tuple<T...>&() & noexcept;
+        [[nodiscard]] explicit constexpr operator std::tuple<T...>&&() && noexcept;
+        [[nodiscard]] explicit constexpr operator const std::tuple<T...>&() const& noexcept;
+        [[nodiscard]] explicit constexpr operator const std::tuple<T...>&&() const&& noexcept;
         //! @}
 
     private:
@@ -154,8 +142,8 @@ namespace posu::vmath {
     /**
      * Construct an arithmetic tuple where all members are equal.
      *
-     * The constructed tuple has size `I`, and all members are of type `T` minus
-     * cv-qualifiers and references.
+     * The constructed tuple has size `I`, and all members are of type `T` minus cv-qualifiers and
+     * references.
      *
      * @tparam I The size of the arithmetic tuple to make.
      * @tparam T The type of the arithmetic tuple members.
@@ -170,9 +158,8 @@ namespace posu::vmath {
     /**
      * Construct an arithmetic tuple from the given arguments.
      *
-     * The constructed tuple has as many members as there are arguments, and the
-     * members are the same type as the arguments, minus cv-qualifiers and
-     * references.
+     * The constructed tuple has as many members as there are arguments, and the members are the
+     * same type as the arguments, minus cv-qualifiers and references.
      *
      * @tparam T The types of the arithmetic tuple members.
      *
@@ -211,33 +198,26 @@ namespace std {
      * @{
      */
     template<size_t I, typename... Types>
-    [[nodiscard]] constexpr auto
-    get(posu::vmath::arith_tuple<Types...>& value) noexcept
+    [[nodiscard]] constexpr auto get(posu::vmath::arith_tuple<Types...>& value) noexcept
         -> tuple_element_t<I, tuple<Types...>>&;
     template<size_t I, typename... Types>
-    [[nodiscard]] constexpr auto
-    get(posu::vmath::arith_tuple<Types...>&& value) noexcept
+    [[nodiscard]] constexpr auto get(posu::vmath::arith_tuple<Types...>&& value) noexcept
         -> tuple_element_t<I, tuple<Types...>>&&;
     template<size_t I, typename... Types>
-    [[nodiscard]] constexpr auto
-    get(const posu::vmath::arith_tuple<Types...>& value) noexcept
+    [[nodiscard]] constexpr auto get(const posu::vmath::arith_tuple<Types...>& value) noexcept
         -> const tuple_element_t<I, tuple<Types...>>&;
     template<size_t I, typename... Types>
-    [[nodiscard]] constexpr auto
-    get(const posu::vmath::arith_tuple<Types...>&& value) noexcept
+    [[nodiscard]] constexpr auto get(const posu::vmath::arith_tuple<Types...>&& value) noexcept
         -> const tuple_element_t<I, tuple<Types...>>&&;
     template<typename Ty, typename... Types>
-    [[nodiscard]] constexpr auto
-    get(posu::vmath::arith_tuple<Types...>& value) noexcept -> Ty&;
+    [[nodiscard]] constexpr auto get(posu::vmath::arith_tuple<Types...>& value) noexcept -> Ty&;
     template<typename Ty, typename... Types>
-    [[nodiscard]] constexpr auto
-    get(posu::vmath::arith_tuple<Types...>&& value) noexcept -> Ty&&;
+    [[nodiscard]] constexpr auto get(posu::vmath::arith_tuple<Types...>&& value) noexcept -> Ty&&;
     template<typename Ty, typename... Types>
-    [[nodiscard]] constexpr auto
-    get(const posu::vmath::arith_tuple<Types...>& value) noexcept -> const Ty&;
+    [[nodiscard]] constexpr auto get(const posu::vmath::arith_tuple<Types...>& value) noexcept
+        -> const Ty&;
     template<typename Ty, typename... Types>
-    [[nodiscard]] constexpr auto
-    get(const posu::vmath::arith_tuple<Types...>&& value) noexcept
+    [[nodiscard]] constexpr auto get(const posu::vmath::arith_tuple<Types...>&& value) noexcept
         -> const Ty&&;
     //! @}
 
