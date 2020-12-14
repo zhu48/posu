@@ -302,6 +302,52 @@ namespace posu::units {
     using petaamperes  = electric_current<int, std::peta>;
     using exaamperes   = electric_current<int, std::exa>;
 
+    inline namespace literals {
+
+        inline namespace electric_current_literals {
+
+            constexpr auto operator""_aA(unsigned long long value) -> attoamperes;
+            constexpr auto operator""_aA(long double value) -> electric_current<double, std::atto>;
+            constexpr auto operator""_fA(unsigned long long value) -> femtoamperes;
+            constexpr auto operator""_fA(long double value) -> electric_current<double, std::femto>;
+            constexpr auto operator""_pA(unsigned long long value) -> picoamperes;
+            constexpr auto operator""_pA(long double value) -> electric_current<double, std::pico>;
+            constexpr auto operator""_nA(unsigned long long value) -> nanoamperes;
+            constexpr auto operator""_nA(long double value) -> electric_current<double, std::nano>;
+            constexpr auto operator""_uA(unsigned long long value) -> microamperes;
+            constexpr auto operator""_uA(long double value) -> electric_current<double, std::micro>;
+            constexpr auto operator""_mA(unsigned long long value) -> milliamperes;
+            constexpr auto operator""_mA(long double value) -> electric_current<double, std::milli>;
+            constexpr auto operator""_cA(unsigned long long value) -> centiamperes;
+            constexpr auto operator""_cA(long double value) -> electric_current<double, std::centi>;
+            constexpr auto operator""_dA(unsigned long long value) -> deciamperes;
+            constexpr auto operator""_dA(long double value) -> electric_current<double, std::deci>;
+            constexpr auto operator""_A(unsigned long long value) -> amperes;
+            constexpr auto operator""_A(long double value)
+                -> electric_current<double, std::ratio<1>>;
+            constexpr auto operator""_daA(unsigned long long value) -> decaamperes;
+            constexpr auto operator""_daA(long double value) -> electric_current<double, std::deca>;
+            constexpr auto operator""_hA(unsigned long long value) -> hectoamperes;
+            constexpr auto operator""_hA(long double value) -> electric_current<double, std::hecto>;
+            constexpr auto operator""_kA(unsigned long long value) -> kiloamperes;
+            constexpr auto operator""_kA(long double value) -> electric_current<double, std::kilo>;
+            constexpr auto operator""_MA(unsigned long long value) -> megaamperes;
+            constexpr auto operator""_MA(long double value) -> electric_current<double, std::mega>;
+            constexpr auto operator""_GA(unsigned long long value) -> gigaamperes;
+            constexpr auto operator""_GA(long double value) -> electric_current<double, std::giga>;
+            constexpr auto operator""_TA(unsigned long long value) -> teraamperes;
+            constexpr auto operator""_TA(long double value) -> electric_current<double, std::tera>;
+            constexpr auto operator""_PA(unsigned long long value) -> petaamperes;
+            constexpr auto operator""_PA(long double value) -> electric_current<double, std::peta>;
+            constexpr auto operator""_EA(unsigned long long value) -> exaamperes;
+            constexpr auto operator""_EA(long double value) -> electric_current<double, std::exa>;
+
+        } // namespace electric_current_literals
+
+    } // namespace literals
+
+    using namespace literals::electric_current_literals;
+
     struct thermodynamic_temperature_tag {
         constexpr thermodynamic_temperature_tag() noexcept = default;
     };
