@@ -89,6 +89,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/units.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/amount_of_substance.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/electric_current.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/luminous_intensity.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/length.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/mass.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/si.hpp
@@ -100,9 +101,9 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/base_unit.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/amount_of_substance.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/electric_current.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/luminous_intensity.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/length.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/mass.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/si.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/time.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/thermodynamic_temperature.ipp
 )
