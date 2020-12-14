@@ -87,11 +87,12 @@ set(
     POSU_UNITS_HPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/base_unit.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/units.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/si.hpp
 )
 set(
     POSU_UNITS_IPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/base_unit.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/units.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/si.ipp
 )
 
 set(

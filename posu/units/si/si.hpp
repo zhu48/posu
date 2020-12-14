@@ -1,5 +1,5 @@
-#ifndef POSU_UNITS_HPP
-#define POSU_UNITS_HPP
+#ifndef POSU_UNITS_SI_SI_HPP
+#define POSU_UNITS_SI_SI_HPP
 
 #include "posu/units/base_unit.hpp"
 
@@ -635,8 +635,8 @@ namespace posu::units {
 
     using namespace literals::amount_of_substance_literals;
 
-} // namespace posu::units
+}
 
-#include "posu/units/ipp/units.ipp"
+#include "posu/units/si/ipp/si.ipp"
 
-#endif // #ifndef POSU_UNITS_HPP
+#endif // #ifndef POSU_UNITS_SI_SI_HPP
