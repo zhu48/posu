@@ -374,7 +374,7 @@ namespace posu::units {
 
     } // namespace literals
 
-    using namespace literals::length_literals;
+    using namespace literals::mass_literals;
 
     struct electric_current_tag {
         constexpr electric_current_tag() noexcept = default;
