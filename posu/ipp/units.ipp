@@ -16,6 +16,34 @@ namespace posu::units {
     {
     }
 
+    template<
+        typename Rep1,
+        typename Period1,
+        typename Rep2,
+        typename Period2,
+        typename TypeTag>
+    [[nodiscard]] constexpr auto operator==(
+        const base_unit<Rep1, Period1, TypeTag>& lhs,
+        const base_unit<Rep2, Period2, TypeTag>& rhs) -> bool
+    {
+        return static_cast<const std::chrono::duration<Rep1, Period1>&>(lhs) ==
+               static_cast<const std::chrono::duration<Rep2, Period2>&>(rhs);
+    }
+
+    template<
+        typename Rep1,
+        typename Period1,
+        typename Rep2,
+        typename Period2,
+        typename TypeTag>
+    [[nodiscard]] constexpr auto operator!=(
+        const base_unit<Rep1, Period1, TypeTag>& lhs,
+        const base_unit<Rep2, Period2, TypeTag>& rhs) -> bool
+    {
+        return static_cast<const std::chrono::duration<Rep1, Period1>&>(lhs) !=
+               static_cast<const std::chrono::duration<Rep2, Period2>&>(rhs);
+    }
+
     inline namespace literals {
 
         inline namespace chrono_literals {
@@ -245,6 +273,207 @@ namespace posu::units {
             }
 
         } // namespace chrono_literals
+
+    } // namespace literals
+
+    inline namespace literals {
+
+        inline namespace length_literals {
+
+            constexpr auto operator""_am(unsigned long long value) -> attometers
+            {
+                return attometers(value);
+            }
+
+            constexpr auto operator""_am(long double value)
+                -> length<double, std::atto>
+            {
+                return length<double, std::atto>(value);
+            }
+
+            constexpr auto operator""_fm(unsigned long long value)
+                -> femtometers
+            {
+                return femtometers(value);
+            }
+
+            constexpr auto operator""_fm(long double value)
+                -> length<double, std::femto>
+            {
+                return length<double, std::femto>(value);
+            }
+
+            constexpr auto operator""_pm(unsigned long long value) -> picometers
+            {
+                return picometers(value);
+            }
+
+            constexpr auto operator""_pm(long double value)
+                -> length<double, std::pico>
+            {
+                return length<double, std::pico>(value);
+            }
+
+            constexpr auto operator""_nm(unsigned long long value) -> nanometers
+            {
+                return nanometers(value);
+            }
+
+            constexpr auto operator""_nm(long double value)
+                -> length<double, std::nano>
+            {
+                return length<double, std::nano>(value);
+            }
+
+            constexpr auto operator""_um(unsigned long long value)
+                -> micrometers
+            {
+                return micrometers(value);
+            }
+
+            constexpr auto operator""_um(long double value)
+                -> length<double, std::micro>
+            {
+                return length<double, std::micro>(value);
+            }
+
+            constexpr auto operator""_mm(unsigned long long value)
+                -> millimeters
+            {
+                return millimeters(value);
+            }
+
+            constexpr auto operator""_mm(long double value)
+                -> length<double, std::milli>
+            {
+                return length<double, std::milli>(value);
+            }
+
+            constexpr auto operator""_cm(unsigned long long value)
+                -> centimeters
+            {
+                return centimeters(value);
+            }
+
+            constexpr auto operator""_cm(long double value)
+                -> length<double, std::centi>
+            {
+                return length<double, std::centi>(value);
+            }
+
+            constexpr auto operator""_dm(unsigned long long value) -> decimeters
+            {
+                return decimeters(value);
+            }
+
+            constexpr auto operator""_dm(long double value)
+                -> length<double, std::deci>
+            {
+                return length<double, std::deci>(value);
+            }
+
+            constexpr auto operator""_m(unsigned long long value) -> meters
+            {
+                return meters(value);
+            }
+
+            constexpr auto operator""_m(long double value)
+                -> length<double, std::ratio<1>>
+            {
+                return length<double, std::ratio<1>>(value);
+            }
+
+            constexpr auto operator""_dam(unsigned long long value)
+                -> decameters
+            {
+                return decameters(value);
+            }
+
+            constexpr auto operator""_dam(long double value)
+                -> length<double, std::deca>
+            {
+                return length<double, std::deca>(value);
+            }
+
+            constexpr auto operator""_hm(unsigned long long value)
+                -> hectometers
+            {
+                return hectometers(value);
+            }
+
+            constexpr auto operator""_hm(long double value)
+                -> length<double, std::hecto>
+            {
+                return length<double, std::hecto>(value);
+            }
+
+            constexpr auto operator""_km(unsigned long long value) -> kilometers
+            {
+                return kilometers(value);
+            }
+
+            constexpr auto operator""_km(long double value)
+                -> length<double, std::kilo>
+            {
+                return length<double, std::kilo>(value);
+            }
+
+            constexpr auto operator""_Mm(unsigned long long value) -> megameters
+            {
+                return megameters(value);
+            }
+
+            constexpr auto operator""_Mm(long double value)
+                -> length<double, std::mega>
+            {
+                return length<double, std::mega>(value);
+            }
+
+            constexpr auto operator""_Gm(unsigned long long value) -> gigameters
+            {
+                return gigameters(value);
+            }
+
+            constexpr auto operator""_Gm(long double value)
+                -> length<double, std::giga>
+            {
+                return length<double, std::giga>(value);
+            }
+
+            constexpr auto operator""_Tm(unsigned long long value) -> terameters
+            {
+                return terameters(value);
+            }
+
+            constexpr auto operator""_Tm(long double value)
+                -> length<double, std::tera>
+            {
+                return length<double, std::tera>(value);
+            }
+
+            constexpr auto operator""_Pm(unsigned long long value) -> petameters
+            {
+                return petameters(value);
+            }
+
+            constexpr auto operator""_Pm(long double value)
+                -> length<double, std::peta>
+            {
+                return length<double, std::peta>(value);
+            }
+
+            constexpr auto operator""_Em(unsigned long long value) -> exameters
+            {
+                return exameters(value);
+            }
+
+            constexpr auto operator""_Em(long double value)
+                -> length<double, std::exa>
+            {
+                return length<double, std::exa>(value);
+            }
+
+        } // namespace length_literals
 
     } // namespace literals
 

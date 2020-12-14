@@ -33,6 +33,25 @@ namespace posu::units {
                 )
             )
         constexpr base_unit( const base_unit<Rep2, Period2, Tag>& d ); // clang-format on
+
+        template<
+            typename Rep1,
+            typename Period1,
+            typename Rep2,
+            typename Period2,
+            typename TypeTag>
+        friend constexpr auto operator==(
+            const base_unit<Rep1, Period1, TypeTag>& lhs,
+            const base_unit<Rep2, Period2, TypeTag>& rhs) -> bool;
+        template<
+            typename Rep1,
+            typename Period1,
+            typename Rep2,
+            typename Period2,
+            typename TypeTag>
+        friend constexpr auto operator!=(
+            const base_unit<Rep1, Period1, TypeTag>& lhs,
+            const base_unit<Rep2, Period2, TypeTag>& rhs) -> bool;
     };
 
     struct time_tag {
@@ -186,6 +205,83 @@ namespace posu::units {
     using terameters  = length<int, std::tera>;
     using petameters  = length<int, std::peta>;
     using exameters   = length<int, std::exa>;
+
+    inline namespace literals {
+
+        inline namespace length_literals {
+
+            constexpr auto operator""_am(unsigned long long value)
+                -> attometers;
+            constexpr auto operator""_am(long double value)
+                -> length<double, std::atto>;
+            constexpr auto operator""_fm(unsigned long long value)
+                -> femtometers;
+            constexpr auto operator""_fm(long double value)
+                -> length<double, std::femto>;
+            constexpr auto operator""_pm(unsigned long long value)
+                -> picometers;
+            constexpr auto operator""_pm(long double value)
+                -> length<double, std::pico>;
+            constexpr auto operator""_nm(unsigned long long value)
+                -> nanometers;
+            constexpr auto operator""_nm(long double value)
+                -> length<double, std::nano>;
+            constexpr auto operator""_um(unsigned long long value)
+                -> micrometers;
+            constexpr auto operator""_um(long double value)
+                -> length<double, std::micro>;
+            constexpr auto operator""_mm(unsigned long long value)
+                -> millimeters;
+            constexpr auto operator""_mm(long double value)
+                -> length<double, std::milli>;
+            constexpr auto operator""_cm(unsigned long long value)
+                -> centimeters;
+            constexpr auto operator""_cm(long double value)
+                -> length<double, std::centi>;
+            constexpr auto operator""_dm(unsigned long long value)
+                -> decimeters;
+            constexpr auto operator""_dm(long double value)
+                -> length<double, std::deci>;
+            constexpr auto operator""_m(unsigned long long value) -> meters;
+            constexpr auto operator""_m(long double value)
+                -> length<double, std::ratio<1>>;
+            constexpr auto operator""_dam(unsigned long long value)
+                -> decameters;
+            constexpr auto operator""_dam(long double value)
+                -> length<double, std::deca>;
+            constexpr auto operator""_hm(unsigned long long value)
+                -> hectometers;
+            constexpr auto operator""_hm(long double value)
+                -> length<double, std::hecto>;
+            constexpr auto operator""_km(unsigned long long value)
+                -> kilometers;
+            constexpr auto operator""_km(long double value)
+                -> length<double, std::kilo>;
+            constexpr auto operator""_Mm(unsigned long long value)
+                -> megameters;
+            constexpr auto operator""_Mm(long double value)
+                -> length<double, std::mega>;
+            constexpr auto operator""_Gm(unsigned long long value)
+                -> gigameters;
+            constexpr auto operator""_Gm(long double value)
+                -> length<double, std::giga>;
+            constexpr auto operator""_Tm(unsigned long long value)
+                -> terameters;
+            constexpr auto operator""_Tm(long double value)
+                -> length<double, std::tera>;
+            constexpr auto operator""_Pm(unsigned long long value)
+                -> petameters;
+            constexpr auto operator""_Pm(long double value)
+                -> length<double, std::peta>;
+            constexpr auto operator""_Em(unsigned long long value) -> exameters;
+            constexpr auto operator""_Em(long double value)
+                -> length<double, std::exa>;
+
+        } // namespace length_literals
+
+    } // namespace literals
+
+    using namespace literals::length_literals;
 
     struct mass_tag {
         constexpr mass_tag() noexcept = default;
