@@ -13,11 +13,11 @@ option(POSU_ENABLE_TESTING                       OFF)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-if(DEFINED POSU_STDLIB)
+if(DEFINED POSU_STDLIB AND NOT POSU_STDLIB STREQUAL "default")
     if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=${POSU_STDLIB}")
     else()
-        message(FATAL_ERROR "POSU_STDLIB only supported when using Clang")
+        message(FATAL_ERROR "POSU_STDLIB must be \"default\" unless using Clang")
     endif()
 endif()
 
@@ -90,7 +90,6 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/vmath.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/zip_range.hpp
 )
-
 set(
     POSU_IPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/utility.ipp
@@ -145,6 +144,8 @@ if(POSU_CLANG_FORMAT)
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
             DEPENDS
                 ${POSU_HPP_FILES}
+                ${POSU_IPP_FILES}
+                ${POSU_UNITS_TEST_CPP_FILES}
     )
 else()
     message(STATUS "clang-format not found")
@@ -162,15 +163,14 @@ if(POSU_CLANG_TIDY)
             COMMAND
                 ${POSU_CLANG_TIDY}
                     -p ${CMAKE_CURRENT_BINARY_DIR}
-                    ${POSU_HPP_FILES}
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_type_list.cpp
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
-                DEPENDS
-                    ${POSU_HPP_FILES}
-                    ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
-                    ${CMAKE_CURRENT_LIST_DIR}/test/test_type_list.cpp
-                    ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
+            DEPENDS
+                ${POSU_HPP_FILES}
+                ${POSU_IPP_FILES}
+                ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
+                ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
     )
 else()
     message(STATUS "clang-tidy not found")
