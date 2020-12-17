@@ -10,6 +10,12 @@ namespace posu {
     public:
         template<std::size_t I>
         using at = std::tuple_element_t<I, std::tuple<Types...>>;
+
+        using size  = std::integral_constant<std::size_t, sizeof...(Types)>;
+        using empty = std::bool_constant<size::value == 0>;
+
+        using front = at<0>;
+        using back  = at<size::value - 1>;
     };
 
 } // namespace posu
