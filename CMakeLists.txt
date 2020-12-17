@@ -92,6 +92,7 @@ set(
 )
 set(
     POSU_IPP_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/type_list.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/utility.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/vmath.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/zip_range.ipp

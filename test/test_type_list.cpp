@@ -24,3 +24,13 @@ TEST_CASE("initialization", "[construct]")
     static_assert(
         std::same_as<list::back, const double&>, "the last element must be const double&");
 }
+
+TEST_CASE("algebraic types", "[algebraic][tuple][variant]")
+{
+    using list = posu::type_list<unsigned int, double>;
+
+    REQUIRE(list::make_tuple(11, 5.5) == std::make_tuple(11, 5.5));
+    REQUIRE(posu::make_tuple_from(list{}, 11, 5.5) == std::make_tuple(11, 5.5));
+    REQUIRE(std::get<double>(list::make_variant(11.8)) == 11.8);
+    REQUIRE(std::get<double>(posu::make_variant_from(list{}, 11.8)) == 11.8);
+}
