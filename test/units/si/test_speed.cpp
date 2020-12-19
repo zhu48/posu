@@ -53,6 +53,15 @@ TEST_CASE("speed from division", "[construct][expression][speed][si]")
     using namespace posu::units::chrono_literals;
     using namespace posu::units::speed_literals;
 
-    REQUIRE(5_m / 1_s == 5_m_per_sec);
-    REQUIRE(2.5_km / 5_s == 0.5_km_per_sec);
+    SECTION("integer literals")
+    {
+        REQUIRE(5_m / 1_s == 5_m_per_sec);
+        REQUIRE(2_mm / 8_ks == 0_m_per_sec);
+    }
+
+    SECTION("floating point literals")
+    {
+        REQUIRE(2.5_km / 5_s == 0.5_km_per_sec);
+        REQUIRE(2_mm / 8.0_ks == 0.25_um_per_sec);
+    }
 }
