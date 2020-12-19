@@ -54,4 +54,5 @@ TEST_CASE("speed from division", "[construct][expression][speed][si]")
     using namespace posu::units::speed_literals;
 
     REQUIRE(5_m / 1_s == 5_m_per_sec);
+    REQUIRE(2.5_km / 5_s == 0.5_km_per_sec);
 }

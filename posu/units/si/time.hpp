@@ -18,13 +18,6 @@ namespace posu::units {
 
     public:
         using parent_type::parent_type;
-
-    private:
-        template<typename Value>
-        friend constexpr auto detail::as_parent(Value&& value) noexcept;
-
-        template<typename TagType, typename Value>
-        friend constexpr auto detail::as_quantity(Value&& value) noexcept;
     };
 
     template<typename Rep, typename Period>

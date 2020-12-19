@@ -8,8 +8,7 @@ namespace posu::units {
     {
         return speed<
             std::common_type_t<LengthRep, TimeRep>,
-            std::ratio_divide<LengthPeriod, TimePeriod>>(
-            detail::as_parent(lhs) / detail::as_parent(rhs));
+            std::ratio_divide<LengthPeriod, TimePeriod>>(lhs.count() / rhs.count());
     }
 
     inline namespace literals {
