@@ -30,6 +30,10 @@ namespace posu::units {
     using petameters_per_second  = speed<int, std::peta>;
     using exameters_per_second   = speed<int, std::exa>;
 
+    template<typename LengthRep, typename LengthPeriod, typename TimeRep, typename TimePeriod>
+    [[nodiscard]] constexpr auto
+    operator/(const length<LengthRep, LengthPeriod>& lhs, const time<TimeRep, TimePeriod>& rhs);
+
     inline namespace literals {
 
         inline namespace speed_literals {

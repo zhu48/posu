@@ -5,6 +5,16 @@
 
 namespace posu::units {
 
+    namespace detail {
+
+        template<typename Value>
+        [[nodiscard]] constexpr auto as_parent(Value&& value) noexcept;
+
+        template<typename TagType, typename Value>
+        [[nodiscard]] constexpr auto as_quantity(Value&& value) noexcept;
+
+    } // namespace detail
+
     template<typename Rep, typename Period, typename Tag> // clang-format off
         requires( std::integral<Rep> || std::floating_point<Rep> )
     class base_unit : private std::chrono::duration<Rep, Period> { // clang-format on
@@ -33,6 +43,13 @@ namespace posu::units {
                 )
             )
         constexpr base_unit( const base_unit<Rep2, Period2, Tag>& d ); // clang-format on
+
+    private:
+        template<typename Value>
+        friend constexpr auto detail::as_parent(Value&& value) noexcept;
+
+        template<typename TagType, typename Value>
+        friend constexpr auto detail::as_quantity(Value&& value) noexcept;
 
         template<typename Rep1, typename Period1, typename Rep2, typename Period2, typename TypeTag>
         friend constexpr auto operator==(

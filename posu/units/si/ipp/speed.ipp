@@ -1,5 +1,16 @@
+#include "posu/utility.hpp"
 
 namespace posu::units {
+
+    template<typename LengthRep, typename LengthPeriod, typename TimeRep, typename TimePeriod>
+    [[nodiscard]] constexpr auto
+    operator/(const length<LengthRep, LengthPeriod>& lhs, const time<TimeRep, TimePeriod>& rhs)
+    {
+        return speed<
+            std::common_type_t<LengthRep, TimeRep>,
+            std::ratio_divide<LengthPeriod, TimePeriod>>(
+            detail::as_parent(lhs) / detail::as_parent(rhs));
+    }
 
     inline namespace literals {
 

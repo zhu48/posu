@@ -46,3 +46,12 @@ TEST_CASE("speed literals", "[construct][literals][speed][si]")
         REQUIRE(1.0_Pm_per_sec == 0.001_Em_per_sec);
     }
 }
+
+TEST_CASE("speed from division", "[construct][expression][speed][si]")
+{
+    using namespace posu::units::length_literals;
+    using namespace posu::units::chrono_literals;
+    using namespace posu::units::speed_literals;
+
+    REQUIRE(5_m / 1_s == 5_m_per_sec);
+}
