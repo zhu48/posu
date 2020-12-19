@@ -7,8 +7,10 @@
 
 namespace posu::units {
 
+    using speed_tag = ratio<type_list<length_tag>, type_list<time_tag>>;
+
     template<typename Rep, typename Period>
-    using speed = derived_unit<type_list<length_tag>, type_list<time_tag>, Rep, Period>;
+    using speed = derived_unit<Rep, Period, speed_tag>;
 
     using attometers_per_second  = speed<int, std::atto>;
     using femtometers_per_second = speed<int, std::femto>;
