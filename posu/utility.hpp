@@ -73,6 +73,57 @@ namespace posu {
             F&& f,
             Tuple&&... tuple) -> T;
 
+    template<typename T, typename U> // clang-format off
+        requires(
+            !std::is_const_v<U&&> &&
+            !std::is_volatile_v<U&&> &&
+            std::is_lvalue_reference_v<U&&> )
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> T&;          // clang-format on
+    template<typename T, typename U> // clang-format off
+        requires(
+            std::is_const_v<U&&> &&
+            !std::is_volatile_v<U&&> &&
+            std::is_lvalue_reference_v<U&&> )
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> const T&;    // clang-format on
+    template<typename T, typename U> // clang-format off
+        requires(
+            !std::is_const_v<U&&> &&
+            std::is_volatile_v<U&&> &&
+            std::is_lvalue_reference_v<U&&> )
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> volatile T&; // clang-format on
+    template<typename T, typename U> // clang-format off
+        requires(
+            std::is_const_v<U&&> &&
+            std::is_volatile_v<U&&> &&
+            std::is_lvalue_reference_v<U&&> )
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept                 // clang-format on
+        -> const volatile T&;
+    template<typename T, typename U> // clang-format off
+        requires(
+            !std::is_const_v<U&&> &&
+            !std::is_volatile_v<U&&> &&
+            std::is_rvalue_reference_v<U&&> )
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> T&&;          // clang-format on
+    template<typename T, typename U> // clang-format off
+        requires(
+            std::is_const_v<U&&> &&
+            !std::is_volatile_v<U&&> &&
+            std::is_rvalue_reference_v<U&&> )
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> const T&&;    // clang-format on
+    template<typename T, typename U> // clang-format off
+        requires(
+            !std::is_const_v<U&&> &&
+            std::is_volatile_v<U&&> &&
+            std::is_rvalue_reference_v<U&&> )
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> volatile T&&; // clang-format on
+    template<typename T, typename U> // clang-format off
+        requires(
+            std::is_const_v<U&&> &&
+            std::is_volatile_v<U&&> &&
+            std::is_rvalue_reference_v<U&&> )
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept                  // clang-format on
+        -> const volatile T&&;
+
 } // namespace posu
 
 #include "posu/ipp/utility.ipp"
