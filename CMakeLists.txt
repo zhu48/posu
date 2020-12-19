@@ -121,12 +121,14 @@ set(
 
 set(
     POSU_HPP_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/posu/type_list.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/utility.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/vmath.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/zip_range.hpp
 )
 set(
     POSU_IPP_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/type_list.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/utility.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/vmath.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/zip_range.ipp
@@ -158,6 +160,12 @@ if(BUILD_TESTING AND POSU_ENABLE_TESTING)
     target_link_libraries(test_units PRIVATE Catch2::Catch2)
     target_link_libraries(test_units PRIVATE posu)
     add_test(NAME test_units COMMAND test_units)
+
+    add_executable(test_type_list ${CMAKE_CURRENT_LIST_DIR}/test/test_type_list.cpp)
+    target_link_libraries(test_type_list PRIVATE Catch2::Catch2)
+    target_link_libraries(test_type_list PRIVATE posu)
+    add_test(NAME test_type_list COMMAND test_type_list)
+    set_tests_properties(test_type_list PROPERTIES DEPENDS test_arith_tuple)
 endif()
 
 ################
@@ -176,6 +184,7 @@ if(POSU_CLANG_FORMAT)
                     ${POSU_UNITS_HPP_FILES}
                     ${POSU_UNITS_IPP_FILES}
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
+                    ${CMAKE_CURRENT_LIST_DIR}/test/test_type_list.cpp
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
                     ${POSU_UNITS_TEST_CPP_FILES}
             DEPENDS
@@ -204,6 +213,7 @@ if(POSU_CLANG_TIDY)
                 ${POSU_CLANG_TIDY}
                     -p ${CMAKE_CURRENT_BINARY_DIR}
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
+                    ${CMAKE_CURRENT_LIST_DIR}/test/test_type_list.cpp
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
                     ${POSU_UNITS_TEST_CPP_FILES}
             DEPENDS
