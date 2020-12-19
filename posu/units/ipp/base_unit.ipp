@@ -25,13 +25,4 @@ namespace posu::units {
                static_cast<const std::chrono::duration<Rep2, Period2>&>(rhs);
     }
 
-    template<typename Rep1, typename Period1, typename Rep2, typename Period2, typename TypeTag>
-    [[nodiscard]] constexpr auto operator!=(
-        const base_unit<Rep1, Period1, TypeTag>& lhs, const base_unit<Rep2, Period2, TypeTag>& rhs)
-        -> bool
-    {
-        return static_cast<const std::chrono::duration<Rep1, Period1>&>(lhs) !=
-               static_cast<const std::chrono::duration<Rep2, Period2>&>(rhs);
-    }
-
 } // namespace posu::units

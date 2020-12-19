@@ -38,10 +38,6 @@ namespace posu::units {
         friend constexpr auto operator==(
             const base_unit<Rep1, Period1, TypeTag>& lhs,
             const base_unit<Rep2, Period2, TypeTag>& rhs) -> bool;
-        template<typename Rep1, typename Period1, typename Rep2, typename Period2, typename TypeTag>
-        friend constexpr auto operator!=(
-            const base_unit<Rep1, Period1, TypeTag>& lhs,
-            const base_unit<Rep2, Period2, TypeTag>& rhs) -> bool;
     };
 
 } // namespace posu::units

@@ -86,6 +86,7 @@ find_program(POSU_CLANG_TIDY   clang-tidy)
 set(
     POSU_UNITS_HPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/base_unit.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/derived_unit.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/units.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/amount_of_substance.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/electric_current.hpp
@@ -93,17 +94,20 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/length.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/mass.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/si.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/speed.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/time.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/thermodynamic_temperature.hpp
 )
 set(
     POSU_UNITS_IPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/base_unit.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/derived_unit.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/amount_of_substance.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/electric_current.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/luminous_intensity.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/length.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/mass.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/speed.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/time.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/thermodynamic_temperature.ipp
 )
@@ -115,6 +119,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_length.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_luminous_intensity.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_mass.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_speed.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_thermodynamic_temperature.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_time.cpp
 )
