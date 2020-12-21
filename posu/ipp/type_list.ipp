@@ -16,6 +16,26 @@ namespace posu {
             : concatenate_impl<concatenate_impl_t<First, Second>, Rest...> {
         };
 
+        template<typename... Types, typename T>
+        struct prepend_impl<type_list<Types...>, T>
+            : concatenate_impl<type_list<T>, type_list<Types...>> {
+        };
+
+        template<typename... Types, typename T>
+        struct prepend_impl<type_list<Types...>, type_list<T>>
+            : concatenate_impl<type_list<T>, type_list<Types...>> {
+        };
+
+        template<typename... Types, typename T>
+        struct append_impl<type_list<Types...>, T>
+            : concatenate_impl<type_list<Types...>, type_list<T>> {
+        };
+
+        template<typename... Types, typename T>
+        struct append_impl<type_list<Types...>, type_list<T>>
+            : concatenate_impl<type_list<Types...>, type_list<T>> {
+        };
+
     } // namespace detail
 
     template<typename... Types>

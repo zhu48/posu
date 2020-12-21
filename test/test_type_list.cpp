@@ -40,6 +40,19 @@ TEST_CASE("range operations", "[algorithms]")
                       posu::concatenate<lhs, rhs, lhs, rhs>,
                       posu::concatenate<result, lhs, rhs>>);
     }
+
+    SECTION("prepending and appending")
+    {
+        using original = posu::type_list<>;
+
+        using add_one   = posu::append<original, int>;
+        using add_two   = posu::append<add_one, double>;
+        using add_three = posu::prepend<add_two, long double>;
+
+        static_assert(std::same_as<add_one, posu::type_list<int>>);
+        static_assert(std::same_as<add_two, posu::type_list<int, double>>);
+        static_assert(std::same_as<add_three, posu::type_list<long double, int, double>>);
+    }
 }
 
 TEST_CASE("algebraic types", "[algebraic][tuple][variant]")

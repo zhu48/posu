@@ -104,6 +104,12 @@ namespace posu {
         template<typename... Lists>
         struct concatenate_impl;
 
+        template<typename List, typename T>
+        struct prepend_impl;
+
+        template<typename List, typename T>
+        struct append_impl;
+
     } // namespace detail
 
     /**
@@ -114,6 +120,14 @@ namespace posu {
     template<typename... Lists> // clang-format off
         requires( is_type_list_v<Lists> && ... )
     using concatenate = typename detail::concatenate_impl<Lists...>::type; // clang-format on
+
+    template<typename List, typename Type> // clang-format off
+        requires( is_type_list_v<List> )
+    using prepend = typename detail::prepend_impl<List, Type>::type; // clang-format on
+
+    template<typename List, typename Type> // clang-format off
+        requires( is_type_list_v<List> )
+    using append = typename detail::append_impl<List, Type>::type; // clang-format on
 
     /**
      * @brief Transform a `type_list` to its corresponding tuple type.
