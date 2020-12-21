@@ -1,6 +1,23 @@
 
 namespace posu {
 
+    namespace detail {
+
+        template<typename... Lists>
+        using concatenate_impl_t = typename concatenate_impl<Lists...>::type;
+
+        template<typename... LhsTypes, typename... RhsTypes>
+        struct concatenate_impl<type_list<LhsTypes...>, type_list<RhsTypes...>> {
+            using type = type_list<LhsTypes..., RhsTypes...>;
+        };
+
+        template<typename First, typename Second, typename... Rest>
+        struct concatenate_impl<First, Second, Rest...>
+            : concatenate_impl<concatenate_impl_t<First, Second>, Rest...> {
+        };
+
+    } // namespace detail
+
     template<typename... Types>
     template<typename... Args>
     [[nodiscard]] constexpr auto type_list<Types...>::make_tuple(Args&&... args) noexcept(

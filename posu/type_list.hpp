@@ -104,18 +104,16 @@ namespace posu {
         template<typename... Lists>
         struct concatenate_impl;
 
-        template<typename... Lists>
-        using concatenate_impl_t = typename concatenate_impl<Lists...>::type;
-
-        template<typename... LhsTypes, typename... RhsTypes>
-        struct concatenate_impl<type_list<LhsTypes...>, type_list<RhsTypes...>> {
-            using type = type_list<LhsTypes..., RhsTypes...>;
-        };
-
     } // namespace detail
 
-    template<typename... Lists>
-    using concatenate = concatenate_impl_t<Lists...>;
+    /**
+     * @brief Concatenate multiple `type_list`s into a single `type_list`.
+     *
+     * @tparam Lists The lists to concatenate together.
+     */
+    template<typename... Lists> // clang-format off
+        requires( is_type_list_v<Lists> && ... )
+    using concatenate = typename detail::concatenate_impl<Lists...>::type; // clang-format on
 
     /**
      * @brief Transform a `type_list` to its corresponding tuple type.

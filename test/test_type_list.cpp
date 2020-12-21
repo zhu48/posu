@@ -36,6 +36,9 @@ TEST_CASE("range operations", "[algorithms]")
 
         static_assert(
             std::same_as<result, posu::type_list<int, float, double, unsigned int, unsigned char>>);
+        static_assert(std::same_as<
+                      posu::concatenate<lhs, rhs, lhs, rhs>,
+                      posu::concatenate<result, lhs, rhs>>);
     }
 }
 
