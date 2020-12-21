@@ -34,6 +34,14 @@ namespace posu::units {
     [[nodiscard]] constexpr auto
     operator/(const length<LengthRep, LengthPeriod>& lhs, const time<TimeRep, TimePeriod>& rhs);
 
+    template<typename SpeedRep, typename SpeedPeriod, typename TimeRep, typename TimePeriod>
+    [[nodiscard]] constexpr auto
+    operator*(const speed<SpeedRep, SpeedPeriod>& lhs, const time<TimeRep, TimePeriod>& rhs);
+
+    template<typename SpeedRep, typename SpeedPeriod, typename TimeRep, typename TimePeriod>
+    [[nodiscard]] constexpr auto
+    operator*(const time<TimeRep, TimePeriod>& rhs, const speed<SpeedRep, SpeedPeriod>& lhs);
+
     inline namespace literals {
 
         inline namespace speed_literals {

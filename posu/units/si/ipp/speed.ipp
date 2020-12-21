@@ -11,6 +11,22 @@ namespace posu::units {
             std::ratio_divide<LengthPeriod, TimePeriod>>(lhs.count() / rhs.count());
     }
 
+    template<typename SpeedRep, typename SpeedPeriod, typename TimeRep, typename TimePeriod>
+    [[nodiscard]] constexpr auto
+    operator*(const speed<SpeedRep, SpeedPeriod>& lhs, const time<TimeRep, TimePeriod>& rhs)
+    {
+        return length<
+            std::common_type_t<SpeedRep, TimeRep>,
+            std::ratio_multiply<SpeedPeriod, TimePeriod>>(lhs.count() * rhs.count());
+    }
+
+    template<typename SpeedRep, typename SpeedPeriod, typename TimeRep, typename TimePeriod>
+    [[nodiscard]] constexpr auto
+    operator*(const time<TimeRep, TimePeriod>& rhs, const speed<SpeedRep, SpeedPeriod>& lhs)
+    {
+        return lhs * rhs;
+    }
+
     inline namespace literals {
 
         inline namespace speed_literals {

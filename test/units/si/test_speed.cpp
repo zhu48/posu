@@ -65,3 +65,26 @@ TEST_CASE("speed from division", "[construct][expression][speed][si]")
         REQUIRE(2_mm / 8.0_ks == 0.25_um_per_sec);
     }
 }
+
+TEST_CASE("length from multiplication", "[construct][expression][speed][si]")
+{
+    using namespace posu::units::length_literals;
+    using namespace posu::units::chrono_literals;
+    using namespace posu::units::speed_literals;
+
+    SECTION("integer literals")
+    {
+        REQUIRE(5_m_per_sec * 1_s == 5_m);
+        REQUIRE(1_s * 5_m_per_sec == 5_m);
+        REQUIRE(32_m_per_sec * 8_ks == 4_mm);
+        REQUIRE(8_ks * 32_m_per_sec == 4_mm);
+    }
+
+    SECTION("floating point literals")
+    {
+        REQUIRE(0.5_km_per_sec * 5_s == 2.5_km);
+        REQUIRE(5_s * 0.5_km_per_sec == 2.5_km);
+        REQUIRE(0.25_um_per_sec * 8.0_ks == 2_mm);
+        REQUIRE(8.0_ks * 0.25_um_per_sec == 2_mm);
+    }
+}
