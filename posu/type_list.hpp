@@ -121,10 +121,24 @@ namespace posu {
         requires( is_type_list_v<Lists> && ... )
     using concatenate = typename detail::concatenate_impl<Lists...>::type; // clang-format on
 
+    /**
+     * @brief Prepend a type to a `type_list`.
+     *
+     * @tparam List The list to prepend a type to.
+     * @tparam Type The type to prepend to the list. If `Type` is an single-element list
+     *              `type_list<T>`, prepends `T` instead.
+     */
     template<typename List, typename Type> // clang-format off
         requires( is_type_list_v<List> )
     using prepend = typename detail::prepend_impl<List, Type>::type; // clang-format on
 
+    /**
+     * @brief Append a type to a `type_list`.
+     *
+     * @tparam List The list to append a type to.
+     * @tparam Type The type to append to the list. If `Type` is an single-element list
+     *              `type_list<T>`, appends `T` instead.
+     */
     template<typename List, typename Type> // clang-format off
         requires( is_type_list_v<List> )
     using append = typename detail::append_impl<List, Type>::type; // clang-format on
