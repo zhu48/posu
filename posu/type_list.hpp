@@ -115,7 +115,7 @@ namespace posu {
     } // namespace detail
 
     template<typename... Lists>
-    using concatenate = typename detail::concatenate_impl<Lists...>::type;
+    using concatenate = concatenate_impl_t<Lists...>;
 
     /**
      * @brief Transform a `type_list` to its corresponding tuple type.
