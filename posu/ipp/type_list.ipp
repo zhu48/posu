@@ -36,6 +36,26 @@ namespace posu {
             : concatenate_impl<type_list<Types...>, type_list<T>> {
         };
 
+        template<typename First, typename... Rest>
+        struct pop_front_impl<type_list<First, Rest...>> {
+            using type = type_list<Rest...>;
+        };
+
+        template<typename Type>
+        struct pop_back_impl<type_list<Type>> {
+            using type = type_list<>;
+        };
+
+        template<typename First, typename Second>
+        struct pop_back_impl<type_list<First, Second>> {
+            using type = type_list<First>;
+        };
+
+        template<typename First, typename... Rest>
+        struct pop_back_impl<type_list<First, Rest...>>
+            : prepend_impl<pop_back<type_list<Rest...>>, First> {
+        };
+
     } // namespace detail
 
     template<typename... Types>

@@ -110,6 +110,12 @@ namespace posu {
         template<typename List, typename T>
         struct append_impl;
 
+        template<typename List>
+        struct pop_front_impl;
+
+        template<typename List>
+        struct pop_back_impl;
+
     } // namespace detail
 
     /**
@@ -142,6 +148,24 @@ namespace posu {
     template<typename List, typename Type> // clang-format off
         requires( is_type_list_v<List> )
     using push_back = typename detail::append_impl<List, Type>::type; // clang-format on
+
+    /**
+     * @brief Remove the first type in a `type_list`.
+     *
+     * @tparam List The list to pop a type from.
+     */
+    template<typename List> // clang-format off
+        requires( is_type_list_v<List> )
+    using pop_front = typename detail::pop_front_impl<List>::type; // clang-format on
+
+    /**
+     * @brief Remove the last type in a `type_list`.
+     *
+     * @tparam List The list to pop a type from.
+     */
+    template<typename List> // clang-format off
+        requires( is_type_list_v<List> )
+    using pop_back = typename detail::pop_back_impl<List>::type; // clang-format on
 
     /**
      * @brief Transform a `type_list` to its corresponding tuple type.

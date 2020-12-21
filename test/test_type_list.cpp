@@ -41,7 +41,7 @@ TEST_CASE("range operations", "[algorithms]")
                       posu::concatenate<result, lhs, rhs>>);
     }
 
-    SECTION("pusing types")
+    SECTION("pushing types")
     {
         using original = posu::type_list<>;
 
@@ -58,6 +58,17 @@ TEST_CASE("range operations", "[algorithms]")
         static_assert(std::same_as<
                       posu::push_back<add_three, posu::type_list<char>>,
                       posu::push_back<add_three, char>>);
+    }
+
+    SECTION("popping types")
+    {
+        using list = posu::type_list<char, int, long, float, double>;
+
+        using pop_one = posu::pop_front<list>;
+        using pop_two = posu::pop_back<pop_one>;
+
+        static_assert(std::same_as<pop_one, posu::type_list<int, long, float, double>>);
+        static_assert(std::same_as<pop_two, posu::type_list<int, long, float>>);
     }
 }
 
