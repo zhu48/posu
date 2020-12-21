@@ -41,20 +41,20 @@ TEST_CASE("range operations", "[algorithms]")
                       posu::concatenate<result, lhs, rhs>>);
     }
 
-    SECTION("prepending and appending")
+    SECTION("pusing types")
     {
         using original = posu::type_list<>;
 
         using add_one   = posu::push_back<original, int>;
         using add_two   = posu::push_back<add_one, double>;
-        using add_three = posu::push_back<add_two, long double>;
+        using add_three = posu::push_front<add_two, long double>;
 
         static_assert(std::same_as<add_one, posu::type_list<int>>);
         static_assert(std::same_as<add_two, posu::type_list<int, double>>);
         static_assert(std::same_as<add_three, posu::type_list<long double, int, double>>);
         static_assert(std::same_as<
-                      posu::push_back<add_three, posu::type_list<char>>,
-                      posu::push_back<add_three, char>>);
+                      posu::push_front<add_three, posu::type_list<char>>,
+                      posu::push_front<add_three, char>>);
         static_assert(std::same_as<
                       posu::push_back<add_three, posu::type_list<char>>,
                       posu::push_back<add_three, char>>);
