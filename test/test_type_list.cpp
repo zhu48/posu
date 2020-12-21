@@ -25,6 +25,20 @@ TEST_CASE("initialization", "[construct]")
         std::same_as<list::back, const double&>, "the last element must be const double&");
 }
 
+TEST_CASE("range operations", "[algorithms]")
+{
+    SECTION("concatenation")
+    {
+        using lhs = posu::type_list<int, float, double>;
+        using rhs = posu::type_list<unsigned int, unsigned char>;
+
+        using result = posu::concatenate<lhs, rhs>;
+
+        static_assert(
+            std::same_as<result, posu::type_list<int, float, double, unsigned int, unsigned char>>);
+    }
+}
+
 TEST_CASE("algebraic types", "[algebraic][tuple][variant]")
 {
     using list = posu::type_list<unsigned int, double>;

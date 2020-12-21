@@ -99,6 +99,24 @@ namespace posu {
     template<typename T>
     inline constexpr bool is_type_list_v = is_type_list<T>::value;
 
+    namespace detail {
+
+        template<typename... Lists>
+        struct concatenate_impl;
+
+        template<typename... Lists>
+        using concatenate_impl_t = typename concatenate_impl<Lists...>::type;
+
+        template<typename... LhsTypes, typename... RhsTypes>
+        struct concatenate_impl<type_list<LhsTypes...>, type_list<RhsTypes...>> {
+            using type = type_list<LhsTypes..., RhsTypes...>;
+        };
+
+    } // namespace detail
+
+    template<typename... Lists>
+    using concatenate = typename detail::concatenate_impl<Lists...>::type;
+
     /**
      * @brief Transform a `type_list` to its corresponding tuple type.
      *
