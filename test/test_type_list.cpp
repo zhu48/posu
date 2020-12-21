@@ -45,19 +45,19 @@ TEST_CASE("range operations", "[algorithms]")
     {
         using original = posu::type_list<>;
 
-        using add_one   = posu::append<original, int>;
-        using add_two   = posu::append<add_one, double>;
-        using add_three = posu::prepend<add_two, long double>;
+        using add_one   = posu::push_back<original, int>;
+        using add_two   = posu::push_back<add_one, double>;
+        using add_three = posu::push_back<add_two, long double>;
 
         static_assert(std::same_as<add_one, posu::type_list<int>>);
         static_assert(std::same_as<add_two, posu::type_list<int, double>>);
         static_assert(std::same_as<add_three, posu::type_list<long double, int, double>>);
         static_assert(std::same_as<
-                      posu::prepend<add_three, posu::type_list<char>>,
-                      posu::prepend<add_three, char>>);
+                      posu::push_back<add_three, posu::type_list<char>>,
+                      posu::push_back<add_three, char>>);
         static_assert(std::same_as<
-                      posu::append<add_three, posu::type_list<char>>,
-                      posu::append<add_three, char>>);
+                      posu::push_back<add_three, posu::type_list<char>>,
+                      posu::push_back<add_three, char>>);
     }
 }
 

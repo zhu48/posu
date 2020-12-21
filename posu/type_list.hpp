@@ -130,7 +130,7 @@ namespace posu {
      */
     template<typename List, typename Type> // clang-format off
         requires( is_type_list_v<List> )
-    using prepend = typename detail::prepend_impl<List, Type>::type; // clang-format on
+    using push_front = typename detail::prepend_impl<List, Type>::type; // clang-format on
 
     /**
      * @brief Append a type to a `type_list`.
@@ -141,7 +141,7 @@ namespace posu {
      */
     template<typename List, typename Type> // clang-format off
         requires( is_type_list_v<List> )
-    using append = typename detail::append_impl<List, Type>::type; // clang-format on
+    using push_back = typename detail::append_impl<List, Type>::type; // clang-format on
 
     /**
      * @brief Transform a `type_list` to its corresponding tuple type.
