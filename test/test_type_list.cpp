@@ -52,6 +52,12 @@ TEST_CASE("range operations", "[algorithms]")
         static_assert(std::same_as<add_one, posu::type_list<int>>);
         static_assert(std::same_as<add_two, posu::type_list<int, double>>);
         static_assert(std::same_as<add_three, posu::type_list<long double, int, double>>);
+        static_assert(std::same_as<
+                      posu::prepend<add_three, posu::type_list<char>>,
+                      posu::prepend<add_three, char>>);
+        static_assert(std::same_as<
+                      posu::append<add_three, posu::type_list<char>>,
+                      posu::append<add_three, char>>);
     }
 }
 
