@@ -116,6 +116,9 @@ namespace posu {
         template<typename List>
         struct pop_back_impl;
 
+        template<typename List, typename IndexSequence>
+        struct first_impl;
+
     } // namespace detail
 
     /**
@@ -166,6 +169,17 @@ namespace posu {
     template<typename List> // clang-format off
         requires( is_type_list_v<List> )
     using pop_back = typename detail::pop_back_impl<List>::type; // clang-format on
+
+    /**
+     * @brief Get the first `I` elements of the given list as a `type_list`.
+     *
+     * @tparam List The list to insert a type into.
+     * @tparam I    The index to insert a type at.
+     */
+    template<typename List, std::size_t I> // clang-format off
+        requires( is_type_list_v<List> && I <= typename List::size() )
+    using first = // clang-format on
+        typename detail::first_impl<List, std::make_index_sequence<I>>::type;
 
     /**
      * @brief Transform a `type_list` to its corresponding tuple type.

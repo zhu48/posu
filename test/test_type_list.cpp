@@ -70,6 +70,24 @@ TEST_CASE("range operations", "[algorithms]")
         static_assert(std::same_as<pop_one, posu::type_list<int, long, float, double>>);
         static_assert(std::same_as<pop_two, posu::type_list<int, long, float>>);
     }
+
+    SECTION("sub-lists")
+    {
+        SECTION("first N elements")
+        {
+            using list = posu::type_list<char, int, long, float, double>;
+
+            static_assert(std::same_as<posu::first<list, 0>, posu::type_list<>>);
+            static_assert(std::same_as<posu::first<list, 1>, posu::type_list<char>>);
+            static_assert(std::same_as<posu::first<list, 2>, posu::type_list<char, int>>);
+            static_assert(std::same_as<posu::first<list, 3>, posu::type_list<char, int, long>>);
+            static_assert(
+                std::same_as<posu::first<list, 4>, posu::type_list<char, int, long, float>>);
+            static_assert(
+                std::
+                    same_as<posu::first<list, 5>, posu::type_list<char, int, long, float, double>>);
+        }
+    }
 }
 
 TEST_CASE("algebraic types", "[algebraic][tuple][variant]")

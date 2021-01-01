@@ -56,6 +56,11 @@ namespace posu {
             : prepend_impl<pop_back<type_list<Rest...>>, First> {
         };
 
+        template<typename List, std::size_t... I>
+        struct first_impl<List, std::index_sequence<I...>> {
+            using type = type_list<typename List::template at<I>...>;
+        };
+
     } // namespace detail
 
     template<typename... Types>
