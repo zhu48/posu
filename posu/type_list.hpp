@@ -171,6 +171,9 @@ namespace posu {
         template<typename List, typename T>
         using find_impl = std::integral_constant<std::size_t, find_impl_fn<List, T>()>;
 
+        template<typename List, std::size_t I, typename T>
+        struct insert_impl;
+
     } // namespace detail
 
     /**
@@ -251,6 +254,17 @@ namespace posu {
     template<typename List, typename T> // clang-format off
         requires( is_type_list_v<List> )
     using find = typename detail::find_impl<List, T>::type; // clang-format on
+
+    /**
+     * @brief Insert the given type into the given type list at the given index.
+     *
+     * @tparam List The list to insert a type into.
+     * @tparam I    The index to insert a new type at.
+     * @tparam T    The type to insert.
+     */
+    template<typename List, std::size_t I, typename T> // clang-format off
+        requires( is_type_list_v<List> && I <= typename List::size() )
+    using insert = typename detail::insert_impl<List, I, T>::type; // clang-format off
 
     /**
      * @brief Transform a `type_list` to its corresponding tuple type.

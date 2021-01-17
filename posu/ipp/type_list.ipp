@@ -76,6 +76,12 @@ namespace posu {
             return I;
         }
 
+        template<typename List, std::size_t I, typename T>
+        struct insert_impl {
+            using type =
+                concatenate<push_back<first<List, I>, T>, last<List, std::tuple_size_v<List> - I>>;
+        };
+
     } // namespace detail
 
     template<typename... Types>

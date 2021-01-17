@@ -113,6 +113,30 @@ TEST_CASE("range operations", "[algorithms]")
                 std::same_as<posu::last<list, 5>, posu::type_list<char, int, long, float, double>>);
         }
     }
+
+    SECTION("inserting types")
+    {
+        using list = posu::type_list<char, int, long, float, double>;
+
+        static_assert(std::same_as<
+                      posu::insert<list, 0, int>,
+                      posu::type_list<int, char, int, long, float, double>>);
+        static_assert(std::same_as<
+                      posu::insert<list, 1, int>,
+                      posu::type_list<char, int, int, long, float, double>>);
+        static_assert(std::same_as<
+                      posu::insert<list, 2, int>,
+                      posu::type_list<char, int, int, long, float, double>>);
+        static_assert(std::same_as<
+                      posu::insert<list, 3, int>,
+                      posu::type_list<char, int, long, int, float, double>>);
+        static_assert(std::same_as<
+                      posu::insert<list, 4, int>,
+                      posu::type_list<char, int, long, float, int, double>>);
+        static_assert(std::same_as<
+                      posu::insert<list, 5, int>,
+                      posu::type_list<char, int, long, float, double, int>>);
+    }
 }
 
 TEST_CASE("algebraic types", "[algebraic][tuple][variant]")
