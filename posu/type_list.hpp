@@ -174,6 +174,9 @@ namespace posu {
         template<typename List, std::size_t I, typename T>
         struct insert_impl;
 
+        template<typename List, std::size_t I>
+        struct remove_impl;
+
     } // namespace detail
 
     /**
@@ -265,6 +268,16 @@ namespace posu {
     template<typename List, std::size_t I, typename T> // clang-format off
         requires( is_type_list_v<List> && I <= typename List::size() )
     using insert = typename detail::insert_impl<List, I, T>::type; // clang-format off
+
+    /**
+     * @brief Remove the type at the givien position in the type list.
+     * 
+     * @tparam List The list to remove a type from.
+     * @tparam I    The index of the type to remove.
+     */
+    template<typename List, std::size_t I> // clang-format off
+        requires( is_type_list_v<List> && I < typename List::size() )
+    using remove = typename detail::remove_impl<List, I>::type; // clang-format off
 
     /**
      * @brief Transform a `type_list` to its corresponding tuple type.

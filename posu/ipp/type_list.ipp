@@ -82,6 +82,17 @@ namespace posu {
                 concatenate<push_back<first<List, I>, T>, last<List, std::tuple_size_v<List> - I>>;
         };
 
+        template<typename List, std::size_t I>
+        struct remove_impl {
+            using type =
+                concatenate<first<List, I>, pop_front<last<List, std::tuple_size_v<List> - I>>>;
+        };
+
+        template<typename List>
+        struct remove_impl<List, 0> {
+            using type = pop_front<List>;
+        };
+
     } // namespace detail
 
     template<typename... Types>

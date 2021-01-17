@@ -137,6 +137,21 @@ TEST_CASE("range operations", "[algorithms]")
                       posu::insert<list, 5, int>,
                       posu::type_list<char, int, long, float, double, int>>);
     }
+
+    SECTION("removing types")
+    {
+        using list = posu::type_list<char, int, long, float, double>;
+
+        static_assert(
+            std::same_as<posu::remove<list, 0>, posu::type_list<int, long, float, double>>);
+        static_assert(
+            std::same_as<posu::remove<list, 1>, posu::type_list<char, long, float, double>>);
+        static_assert(
+            std::same_as<posu::remove<list, 2>, posu::type_list<char, int, float, double>>);
+        static_assert(
+            std::same_as<posu::remove<list, 3>, posu::type_list<char, int, long, double>>);
+        static_assert(std::same_as<posu::remove<list, 4>, posu::type_list<char, int, long, float>>);
+    }
 }
 
 TEST_CASE("algebraic types", "[algebraic][tuple][variant]")
