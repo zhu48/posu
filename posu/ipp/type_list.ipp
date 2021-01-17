@@ -61,6 +61,21 @@ namespace posu {
             using type = type_list<typename List::template at<I>...>;
         };
 
+        template<typename List, typename T, std::size_t I>
+        [[nodiscard]] constexpr auto find_impl_fn() noexcept -> std::size_t
+        {
+            if constexpr(I < std::tuple_size_v<List>) {
+                if constexpr(std::same_as<std::tuple_element_t<I, List>, T>) {
+                    return I;
+                }
+                else {
+                    return find_impl_fn<List, T, I + 1>();
+                }
+            }
+
+            return I;
+        }
+
     } // namespace detail
 
     template<typename... Types>

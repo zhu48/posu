@@ -71,6 +71,17 @@ TEST_CASE("range operations", "[algorithms]")
         static_assert(std::same_as<pop_two, posu::type_list<int, long, float>>);
     }
 
+    SECTION("finding types")
+    {
+        using list = posu::type_list<char, int, int, long, float, double>;
+
+        REQUIRE(posu::find<list, char>() == 0);
+        REQUIRE(posu::find<list, int>() == 1);
+        REQUIRE(posu::find<list, long>() == 3);
+        REQUIRE(posu::find<list, float>() == 4);
+        REQUIRE(posu::find<list, double>() == 5);
+    }
+
     SECTION("sub-lists")
     {
         SECTION("first N elements")

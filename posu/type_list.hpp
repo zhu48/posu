@@ -90,6 +90,16 @@ namespace std {
     struct tuple_size<posu::type_list<T...>> : std::integral_constant<std::size_t, sizeof...(T)> {
     };
 
+    /**
+     * @brief `std::tuple_element` specialization for `posu::type_list`.
+     *
+     * @tparam I The index of the element to get.
+     * @tparam T The types in the type list.
+     */
+    template<size_t I, typename... T>
+    struct tuple_element<I, posu::type_list<T...>> : std::tuple_element<I, std::tuple<T...>> {
+    };
+
 } // namespace std
 
 namespace posu {
@@ -154,6 +164,12 @@ namespace posu {
         using last_impl = take_items<
             List,
             add_offset_t<std::tuple_size_v<List> - I, std::make_index_sequence<I>>>;
+
+        template<typename List, typename T, std::size_t I = 0>
+        [[nodiscard]] constexpr auto find_impl_fn() noexcept -> std::size_t;
+
+        template<typename List, typename T>
+        using find_impl = std::integral_constant<std::size_t, find_impl_fn<List, T>()>;
 
     } // namespace detail
 
@@ -225,6 +241,16 @@ namespace posu {
     template<typename List, std::size_t I> // clang-format off
         requires( is_type_list_v<List> && I <= typename List::size() )
     using last = typename detail::last_impl<List, I>::type; // clang-format on
+
+    /**
+     * @brief Find the index of the first ocurrence of the given type.
+     *
+     * @tparam List The list to find the given type in.
+     * @tparam T    The type to find in the given list.
+     */
+    template<typename List, typename T> // clang-format off
+        requires( is_type_list_v<List> )
+    using find = typename detail::find_impl<List, T>::type; // clang-format on
 
     /**
      * @brief Transform a `type_list` to its corresponding tuple type.
