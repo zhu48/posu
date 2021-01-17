@@ -86,6 +86,7 @@ find_program(POSU_CLANG_TIDY   clang-tidy)
 set(
     POSU_HPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/type_list.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/type_ratio.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/utility.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/vmath.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/zip_range.hpp
@@ -93,6 +94,7 @@ set(
 set(
     POSU_IPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/type_list.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/type_ratio.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/utility.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/vmath.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/zip_range.ipp
@@ -125,6 +127,12 @@ if(BUILD_TESTING AND POSU_ENABLE_TESTING)
     target_link_libraries(test_type_list PRIVATE posu)
     add_test(NAME test_type_list COMMAND test_type_list)
     set_tests_properties(test_type_list PROPERTIES DEPENDS test_arith_tuple)
+
+    add_executable(test_type_ratio ${CMAKE_CURRENT_LIST_DIR}/test/test_type_ratio.cpp)
+    target_link_libraries(test_type_ratio PRIVATE Catch2::Catch2)
+    target_link_libraries(test_type_ratio PRIVATE posu)
+    add_test(NAME test_type_ratio COMMAND test_type_ratio)
+    set_tests_properties(test_type_ratio PROPERTIES DEPENDS test_arith_tuple)
 endif()
 
 ################

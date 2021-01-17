@@ -234,7 +234,7 @@ namespace posu {
      * @tparam List The list get the first types of.
      * @tparam I    The number of elements to get.
      */
-    template<typename List, std::size_t I> // clang-format off
+    template<typename List, std::size_t I = 0> // clang-format off
         requires( is_type_list_v<List> && I <= typename List::size() )
     using first = typename detail::first_impl<List, I>::type; // clang-format on
 
@@ -244,7 +244,7 @@ namespace posu {
      * @tparam List The list get the last types of.
      * @tparam I    The number of elements to get.
      */
-    template<typename List, std::size_t I> // clang-format off
+    template<typename List, std::size_t I = 0> // clang-format off
         requires( is_type_list_v<List> && I <= typename List::size() )
     using last = typename detail::last_impl<List, I>::type; // clang-format on
 
