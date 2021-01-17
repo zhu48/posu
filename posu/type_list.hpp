@@ -77,6 +77,23 @@ namespace posu {
             -> variant;
     };
 
+} // namespace posu
+
+namespace std {
+
+    /**
+     * `std::tuple_size` specialization for `posu::type_list`.
+     *
+     * @tparam T The type list's elements.
+     */
+    template<typename... T>
+    struct tuple_size<posu::type_list<T...>> : std::integral_constant<std::size_t, sizeof...(T)> {
+    };
+
+} // namespace std
+
+namespace posu {
+
     /**
      * @brief Traits template to detect whether a type specializes `type_list` or not.
      * @{
@@ -117,7 +134,26 @@ namespace posu {
         struct pop_back_impl;
 
         template<typename List, typename IndexSequence>
-        struct first_impl;
+        struct take_items;
+
+        template<std::size_t Offset, typename IndexSequence>
+        struct add_offset;
+
+        template<std::size_t Offset, std::size_t... Values>
+        struct add_offset<Offset, std::index_sequence<Values...>> {
+            using type = std::index_sequence<(Values + Offset)...>;
+        };
+
+        template<std::size_t Offset, typename IndexSequence>
+        using add_offset_t = typename add_offset<Offset, IndexSequence>::type;
+
+        template<typename List, std::size_t I>
+        using first_impl = take_items<List, std::make_index_sequence<I>>;
+
+        template<typename List, std::size_t I>
+        using last_impl = take_items<
+            List,
+            add_offset_t<std::tuple_size_v<List> - I, std::make_index_sequence<I>>>;
 
     } // namespace detail
 
@@ -173,13 +209,22 @@ namespace posu {
     /**
      * @brief Get the first `I` elements of the given list as a `type_list`.
      *
-     * @tparam List The list to insert a type into.
-     * @tparam I    The index to insert a type at.
+     * @tparam List The list get the first types of.
+     * @tparam I    The number of elements to get.
      */
     template<typename List, std::size_t I> // clang-format off
         requires( is_type_list_v<List> && I <= typename List::size() )
-    using first = // clang-format on
-        typename detail::first_impl<List, std::make_index_sequence<I>>::type;
+    using first = typename detail::first_impl<List, I>::type; // clang-format on
+
+    /**
+     * @brief Get the last `I` elements of the given list as a `type_list`.
+     *
+     * @tparam List The list get the last types of.
+     * @tparam I    The number of elements to get.
+     */
+    template<typename List, std::size_t I> // clang-format off
+        requires( is_type_list_v<List> && I <= typename List::size() )
+    using last = typename detail::last_impl<List, I>::type; // clang-format on
 
     /**
      * @brief Transform a `type_list` to its corresponding tuple type.

@@ -57,7 +57,7 @@ namespace posu {
         };
 
         template<typename List, std::size_t... I>
-        struct first_impl<List, std::index_sequence<I...>> {
+        struct take_items<List, std::index_sequence<I...>> {
             using type = type_list<typename List::template at<I>...>;
         };
 

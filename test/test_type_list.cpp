@@ -87,6 +87,20 @@ TEST_CASE("range operations", "[algorithms]")
                 std::
                     same_as<posu::first<list, 5>, posu::type_list<char, int, long, float, double>>);
         }
+
+        SECTION("last N elements")
+        {
+            using list = posu::type_list<char, int, long, float, double>;
+
+            static_assert(std::same_as<posu::last<list, 0>, posu::type_list<>>);
+            static_assert(std::same_as<posu::last<list, 1>, posu::type_list<double>>);
+            static_assert(std::same_as<posu::last<list, 2>, posu::type_list<float, double>>);
+            static_assert(std::same_as<posu::last<list, 3>, posu::type_list<long, float, double>>);
+            static_assert(
+                std::same_as<posu::last<list, 4>, posu::type_list<int, long, float, double>>);
+            static_assert(
+                std::same_as<posu::last<list, 5>, posu::type_list<char, int, long, float, double>>);
+        }
     }
 }
 
