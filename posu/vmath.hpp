@@ -35,9 +35,9 @@ namespace posu::vmath {
      *
      * @tparam T The tuple arithmetic type members.
      */
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    class arith_tuple { // clang-format on
+    template<typename... T>
+        requires((std::integral<T> || std::floating_point<T>)&&...)
+    class arith_tuple {
     public:
         //! The scaler type that all member types can convert to.
         using scaler_type = std::common_type_t<T...>;
