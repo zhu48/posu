@@ -286,9 +286,9 @@ namespace posu {
      *
      * @{
      */
-    template<typename TypeList> // clang-format off
+    template<typename TypeList>
         requires is_type_list_v<TypeList>
-    struct tuple_from { // clang-format on
+    struct tuple_from {
         using type = typename TypeList::tuple;
     };
     template<typename TypeList>
@@ -302,9 +302,9 @@ namespace posu {
      *
      * @{
      */
-    template<typename TypeList> // clang-format off
+    template<typename TypeList>
         requires is_type_list_v<TypeList>
-    struct variant_from { // clang-format on
+    struct variant_from {
         using type = typename TypeList::variant;
     };
     template<typename TypeList>
@@ -320,10 +320,10 @@ namespace posu {
      * @param args The arguments to forward to the tuple constructor.
      * @return Returns the constructed tuple.
      */
-    template<typename TypeList, typename... Args> // clang-format off
+    template<typename TypeList, typename... Args>
         requires is_type_list_v<TypeList>
-    [[nodiscard]] constexpr auto make_tuple_from(TypeList list, Args&&... args) // clang-format on
-        noexcept(std::is_nothrow_constructible_v<tuple_from_t<TypeList>>) -> tuple_from_t<TypeList>;
+    [[nodiscard]] constexpr auto make_tuple_from(TypeList list, Args&&... args) noexcept(
+        std::is_nothrow_constructible_v<tuple_from_t<TypeList>>) -> tuple_from_t<TypeList>;
 
     /**
      * @brief Construct a variant from its corresponding `type_list`.
@@ -334,11 +334,10 @@ namespace posu {
      * @param args The arguments to forward to the variant constructor.
      * @return Returns the constructed variant.
      */
-    template<typename TypeList, typename... Args> // clang-format off
+    template<typename TypeList, typename... Args>
         requires is_type_list_v<TypeList>
-    [[nodiscard]] constexpr auto make_variant_from(TypeList list, Args&&... args) // clang-format on
-        noexcept(std::is_nothrow_constructible_v<variant_from_t<TypeList>>)
-            -> variant_from_t<TypeList>;
+    [[nodiscard]] constexpr auto make_variant_from(TypeList list, Args&&... args) noexcept(
+        std::is_nothrow_constructible_v<variant_from_t<TypeList>>) -> variant_from_t<TypeList>;
 
 } // namespace posu
 
