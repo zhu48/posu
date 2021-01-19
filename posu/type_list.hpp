@@ -77,6 +77,59 @@ namespace posu {
             -> variant;
     };
 
+    /**
+     * @brief Empty type list.
+     *
+     * An empty type list lacks the `front`, `back`, and `at` members.
+     */
+    template<>
+    struct type_list<> {
+    public:
+        /**
+         * @brief The number of elements in the list.
+         */
+        using size = std::integral_constant<std::size_t, 0>;
+
+        /**
+         * @brief Whether the list is empty or not.
+         */
+        using empty = std::true_type;
+
+        /**
+         * @brief The tuple type that has the listed types as its elements.
+         */
+        using tuple = std::tuple<>;
+
+        /**
+         * @brief The variant type that has the listed types as its alternatives.
+         */
+        using variant = std::variant<>;
+
+        /**
+         * @brief Construct an object of the corresponding tuple type.
+         *
+         * @tparam Args The types of arguments to forward to the tuple constructor.
+         * @param args The arguments to forward to the tuple constructor.
+         * @return Returns the constructed tuple.
+         */
+        template<typename... Args>
+        [[nodiscard]] static constexpr auto
+        make_tuple(Args&&... args) noexcept(std::is_nothrow_constructible_v<tuple, Args...>)
+            -> tuple;
+
+        /**
+         * @brief Construct an object of the corresponding variant type.
+         *
+         * @tparam Args The types of arguments to forward to the variant constructor.
+         * @param args The arguments to forward to the variant constructor.
+         * @return Returns the constructed variant.
+         */
+        template<typename... Args>
+        [[nodiscard]] static constexpr auto
+        make_variant(Args&&... args) noexcept(std::is_nothrow_constructible_v<variant, Args...>)
+            -> variant;
+    };
+
 } // namespace posu
 
 namespace std {

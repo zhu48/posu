@@ -7,7 +7,7 @@
 
 namespace posu {
 
-    template<typename Numerator, typename Denominator = type_list<>>
+    template<typename Numerator = type_list<>, typename Denominator = type_list<>>
     struct type_ratio {
         using num = Numerator;
         using den = Denominator;
