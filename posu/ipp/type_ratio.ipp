@@ -22,6 +22,7 @@ namespace posu {
         };
 
         template<typename... LhsTypes, typename Rhs>
+            requires(sizeof...(LhsTypes) != 0 && !std::same_as<Rhs, type_list<>>)
         struct ratio_reduce_impl<type_list<LhsTypes...>, Rhs, sizeof...(LhsTypes)> {
         private:
             using lhs = type_list<LhsTypes...>;
@@ -35,8 +36,20 @@ namespace posu {
                 type_ratio<pop_front<lhs>, remove<Rhs, lfirst_idx_in_rhs>>>;
         };
 
-        template<typename Rhs>
-        struct ratio_reduce_impl<type_list<>, Rhs, 0> {
+        template<std::size_t I>
+        struct ratio_reduce_impl<type_list<>, type_list<>, I> {
+            using type = type_ratio<>;
+        };
+
+        template<typename Lhs, std::size_t I>
+            requires(!std::same_as<Lhs, type_list<>>)
+        struct ratio_reduce_impl<Lhs, type_list<>, I> {
+            using type = type_ratio<Lhs>;
+        };
+
+        template<typename Rhs, std::size_t I>
+            requires(!std::same_as<Rhs, type_list<>>)
+        struct ratio_reduce_impl<type_list<>, Rhs, I> {
             using type = type_ratio<type_list<>, Rhs>;
         };
 

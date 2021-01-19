@@ -6,7 +6,23 @@
 TEMPLATE_TEST_CASE(
     "multiplication",
     "[ratio][multiply]",
-    (std::tuple<posu::type_ratio<>, posu::type_ratio<>, posu::type_ratio<>>))
+    (std::tuple<posu::type_ratio<>, posu::type_ratio<>, posu::type_ratio<>>),
+    (std::tuple<
+        posu::type_ratio<posu::type_list<int>>,
+        posu::type_ratio<>,
+        posu::type_ratio<posu::type_list<int>>>),
+    (std::tuple<
+        posu::type_ratio<>,
+        posu::type_ratio<posu::type_list<int>>,
+        posu::type_ratio<posu::type_list<int>>>),
+    (std::tuple<
+        posu::type_ratio<posu::type_list<>, posu::type_list<int>>,
+        posu::type_ratio<>,
+        posu::type_ratio<posu::type_list<>, posu::type_list<int>>>),
+    (std::tuple<
+        posu::type_ratio<>,
+        posu::type_ratio<posu::type_list<>, posu::type_list<int>>,
+        posu::type_ratio<posu::type_list<>, posu::type_list<int>>>))
 {
     using lhs     = std::tuple_element_t<0, TestType>;
     using rhs     = std::tuple_element_t<1, TestType>;
