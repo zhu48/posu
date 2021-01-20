@@ -376,6 +376,22 @@ namespace posu {
     using remove = typename detail::remove_impl<List, I>::type;
 
     /**
+     * @brief Check whether or not the given type exists in the given type list.
+     *
+     * @tparam List The list to check for the given type in.
+     * @tparam T    The type to check the existence of in the given list.
+     *
+     * @{
+     */
+    template<typename List, typename T>
+    struct contains
+        : public std::bool_constant<std::less{}(find<List, T>::value, List::size::value)> {
+    };
+    template<typename List, typename T>
+    inline constexpr auto contains_v = contains<List, T>::value;
+    //! @}
+
+    /**
      * @brief Transform a `type_list` to its corresponding tuple type.
      *
      * @tparam TypeList The list to transform.
