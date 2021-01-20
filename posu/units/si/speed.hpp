@@ -7,7 +7,7 @@
 
 namespace posu::units {
 
-    using speed_tag = ratio<type_list<length_tag>, type_list<time_tag>>;
+    using speed_tag = type_ratio<type_list<length_tag>, type_list<time_tag>>;
 
     template<typename Rep, typename Period>
     using speed = derived_unit<Rep, Period, speed_tag>;

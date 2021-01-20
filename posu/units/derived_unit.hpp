@@ -1,30 +1,35 @@
 #ifndef POSU_UNITS_DERIVED_UNIT_HPP
 #define POSU_UNITS_DERIVED_UNIT_HPP
 
-#include "posu/type_list.hpp"
+#include "posu/concepts.hpp"
+#include "posu/type_ratio.hpp"
 #include "posu/units/base_unit.hpp"
 
 namespace posu::units {
 
-    template<typename Numerator, typename Denominator>
-        requires(is_type_list_v<Numerator>&& is_type_list_v<Denominator>)
-    struct ratio {
+    /**
+     * @brief A quantity with units derived from a unit system's base units.
+     *
+     * @tparam Rep    The numeric representation type.
+     * @tparam Ratio  This quantity's ratio in relation to the related unit quantity.
+     * @tparam Units  The derivation of the related unit quantity's units of measure.
+     * @tparam Scale  The scaling factor in relation to the related unit quantity.
+     * @tparam Offset The offset in relation to the related unit quantity.
+     */
+    template<
+        typename Rep,
+        typename Ratio,
+        typename Units          = type_ratio<>,
+        typename Scale          = std::ratio<1>,
+        numeric_constant Offset = std::integral_constant<int, 0>>
+        requires(is_type_ratio_v<Units>)
+    class derived_unit : public base_unit<Rep, Ratio, type_list<Units, Scale, Offset>> {
+    private:
+        using parent_type = base_unit<Rep, Ratio, type_list<Units, Scale, Offset>>;
+
+    public:
+        using parent_type::parent_type;
     };
-
-    template<typename T>
-    struct is_ratio : std::false_type {
-    };
-
-    template<typename Numerator, typename Denominator>
-    struct is_ratio<ratio<Numerator, Denominator>> : std::true_type {
-    };
-
-    template<typename T>
-    inline constexpr bool is_ratio_v = is_ratio<T>::value;
-
-    template<typename Rep, typename Period, typename Ratio>
-        requires(is_ratio_v<Ratio>)
-    using derived_unit = base_unit<Rep, Period, Ratio>;
 
 } // namespace posu::units
 
