@@ -330,6 +330,16 @@ namespace posu {
     //! @}
 
     /**
+     * @brief Get the type at the given index in the type list.
+     *
+     * @tparam List The list to get an element of.
+     * @tparam I    The index of the list element to get.
+     */
+    template<typename List, std::size_t I>
+        requires(is_type_list_v<List> && (I < typename List::size()))
+    using at = typename List::template at<I>;
+
+    /**
      * @brief Find the index of the first ocurrence of the given type.
      *
      * @tparam List The list to find the given type in.
