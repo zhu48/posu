@@ -15,6 +15,8 @@ namespace posu::units {
         using typename parent_type::period;
         using typename parent_type::rep;
 
+        using units = Tag;
+
         template<typename Rep2>
             requires(
                 std::convertible_to<Rep, const Rep2&> &&
@@ -36,6 +38,25 @@ namespace posu::units {
             const base_unit<Rep1, Period1, TypeTag>& lhs,
             const base_unit<Rep2, Period2, TypeTag>& rhs) -> bool;
     };
+
+    /**
+     * @brief Check whether a type specializes the `base_unit` template or not.
+     *
+     * @tparam T The type to check.
+     *
+     * @{
+     */
+    template<typename T>
+    struct is_base_quantity : std::false_type {
+    };
+    template<typename Rep, typename Ratio, typename Tag>
+    struct is_base_quantity<base_unit<Rep, Ratio, Tag>> : std::true_type {
+    };
+    template<typename T>
+    inline constexpr bool is_base_quantity_v = is_base_quantity<T>::value;
+    template<typename T>
+    concept base_quantity = is_base_quantity_v<T>;
+    //! @}
 
 } // namespace posu::units
 
