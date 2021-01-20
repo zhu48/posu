@@ -38,3 +38,39 @@ TEMPLATE_TEST_CASE(
 
     static_assert(std::same_as<product, posu::ratio_multiply<lhs, rhs>>);
 }
+
+TEMPLATE_TEST_CASE(
+    "division",
+    "[ratio][divide]",
+    (std::tuple<posu::type_ratio<>, posu::type_ratio<>, posu::type_ratio<>>),
+    (std::tuple<
+        posu::type_ratio<posu::type_list<int>>,
+        posu::type_ratio<>,
+        posu::type_ratio<posu::type_list<int>>>),
+    (std::tuple<
+        posu::type_ratio<>,
+        posu::type_ratio<posu::type_list<int>>,
+        posu::type_ratio<posu::type_list<>, posu::type_list<int>>>),
+    (std::tuple<
+        posu::type_ratio<posu::type_list<>, posu::type_list<int>>,
+        posu::type_ratio<>,
+        posu::type_ratio<posu::type_list<>, posu::type_list<int>>>),
+    (std::tuple<
+        posu::type_ratio<>,
+        posu::type_ratio<posu::type_list<>, posu::type_list<int>>,
+        posu::type_ratio<posu::type_list<int>, posu::type_list<>>>),
+    (std::tuple<
+        posu::type_ratio<posu::type_list<int>, posu::type_list<double>>,
+        posu::type_ratio<posu::type_list<int>, posu::type_list<double>>,
+        posu::type_ratio<>>),
+    (std::tuple<
+        posu::type_ratio<posu::type_list<int>, posu::type_list<double>>,
+        posu::type_ratio<posu::type_list<double>, posu::type_list<int>>,
+        posu::type_ratio<posu::type_list<int, int>, posu::type_list<double, double>>>))
+{
+    using dividend = std::tuple_element_t<0, TestType>;
+    using divisor  = std::tuple_element_t<1, TestType>;
+    using quotient = std::tuple_element_t<2, TestType>;
+
+    static_assert(std::same_as<quotient, posu::ratio_divide<dividend, divisor>>);
+}
