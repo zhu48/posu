@@ -56,6 +56,25 @@ namespace posu::units {
         using parent_type::parent_type;
     };
 
+    /**
+     * @brief Check whether a type specializes the `derived_unit` template or not.
+     *
+     * @tparam T The type to check.
+     *
+     * @{
+     */
+    template<typename T>
+    struct is_derived_quantity : std::false_type {
+    };
+    template<typename Rep, typename Ratio, typename Units, typename Scale, numeric_constant Offset>
+    struct is_derived_quantity<derived_unit<Rep, Ratio, Units, Scale, Offset>> : std::true_type {
+    };
+    template<typename T>
+    inline constexpr bool is_derived_quantity_v = is_derived_quantity<T>::value;
+    template<typename T>
+    concept derived_quantity = is_derived_quantity_v<T>;
+    //! @}
+
 } // namespace posu::units
 
 #endif // #ifndef POSU_UNITS_DERIVED_UNIT_HPP
