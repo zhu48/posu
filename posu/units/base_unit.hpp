@@ -5,9 +5,9 @@
 
 namespace posu::units {
 
-    template<typename Rep, typename Period, typename Tag> // clang-format off
-        requires( std::integral<Rep> || std::floating_point<Rep> )
-    class base_unit : private std::chrono::duration<Rep, Period> { // clang-format on
+    template<typename Rep, typename Period, typename Tag>
+        requires(std::integral<Rep> || std::floating_point<Rep>)
+    class base_unit : private std::chrono::duration<Rep, Period> {
     private:
         using parent_type = std::chrono::duration<Rep, Period>;
 
@@ -15,25 +15,19 @@ namespace posu::units {
         using typename parent_type::period;
         using typename parent_type::rep;
 
-        template<typename Rep2> // clang-format off
+        template<typename Rep2>
             requires(
                 std::convertible_to<Rep, const Rep2&> &&
-                (
-                    std::chrono::treat_as_floating_point_v<Rep> ||
-                    !std::chrono::treat_as_floating_point_v<Rep2>
-                )
-            )
-        constexpr explicit base_unit( const Rep2& r ); // clang-format on
+                (std::chrono::treat_as_floating_point_v<Rep> ||
+                 !std::chrono::treat_as_floating_point_v<Rep2>))
+        constexpr explicit base_unit(const Rep2& r);
 
-        template<typename Rep2, typename Period2> // clang-format off
+        template<typename Rep2, typename Period2>
             requires(
                 std::chrono::treat_as_floating_point_v<Rep> ||
-                (
-                    (std::ratio_divide<Period2, Period>::den == 1) &&
-                    !std::chrono::treat_as_floating_point_v<Rep2>
-                )
-            )
-        constexpr base_unit( const base_unit<Rep2, Period2, Tag>& d ); // clang-format on
+                ((std::ratio_divide<Period2, Period>::den == 1) &&
+                 !std::chrono::treat_as_floating_point_v<Rep2>))
+        constexpr base_unit(const base_unit<Rep2, Period2, Tag>& d);
 
         using parent_type::count;
 

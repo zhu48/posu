@@ -6,9 +6,9 @@
 
 namespace posu::units {
 
-    template<typename Numerator, typename Denominator> // clang-format off
-        requires( is_type_list_v<Numerator> && is_type_list_v<Denominator> )
-    struct ratio { // clang-format on
+    template<typename Numerator, typename Denominator>
+        requires(is_type_list_v<Numerator>&& is_type_list_v<Denominator>)
+    struct ratio {
     };
 
     template<typename T>
@@ -22,9 +22,9 @@ namespace posu::units {
     template<typename T>
     inline constexpr bool is_ratio_v = is_ratio<T>::value;
 
-    template<typename Rep, typename Period, typename Ratio> // clang-format off
-        requires( is_ratio_v<Ratio> )
-    using derived_unit = base_unit<Rep, Period, Ratio>; // clang-format on
+    template<typename Rep, typename Period, typename Ratio>
+        requires(is_ratio_v<Ratio>)
+    using derived_unit = base_unit<Rep, Period, Ratio>;
 
 } // namespace posu::units
 

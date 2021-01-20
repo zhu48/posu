@@ -29,7 +29,8 @@ namespace posu::vmath {
         constexpr auto expand_as_tuple(Arg&& arg) -> Tuple
         {
             return expand_as_tuple_impl<Tuple>(
-                std::forward<Arg>(arg), std::make_index_sequence<std::tuple_size_v<Tuple>>{});
+                std::forward<Arg>(arg),
+                std::make_index_sequence<std::tuple_size_v<Tuple>>{});
         }
 
         template<std::size_t I = 0, typename... T>
@@ -86,7 +87,8 @@ namespace posu::vmath {
         -> arith_tuple
     {
         return posu::make_from_for_each<arith_tuple<T...>>(
-            [&](const auto& l) { return l + rhs; }, m_data);
+            [&](const auto& l) { return l + rhs; },
+            m_data);
     }
 
     template<typename... T>
@@ -95,7 +97,9 @@ namespace posu::vmath {
         -> arith_tuple
     {
         return posu::make_from_for_each<arith_tuple<T...>>(
-            [](const auto& l, const auto& r) { return l + r; }, m_data, rhs.m_data);
+            [](const auto& l, const auto& r) { return l + r; },
+            m_data,
+            rhs.m_data);
     }
 
     template<typename... T>
@@ -104,7 +108,8 @@ namespace posu::vmath {
         -> arith_tuple
     {
         return posu::make_from_for_each<arith_tuple<T...>>(
-            [&](const auto& l) { return l - rhs; }, m_data);
+            [&](const auto& l) { return l - rhs; },
+            m_data);
     }
 
     template<typename... T>
@@ -113,7 +118,9 @@ namespace posu::vmath {
         -> arith_tuple
     {
         return posu::make_from_for_each<arith_tuple<T...>>(
-            [](const auto& l, const auto& r) { return l - r; }, m_data, rhs.m_data);
+            [](const auto& l, const auto& r) { return l - r; },
+            m_data,
+            rhs.m_data);
     }
 
     template<typename... T>
@@ -122,7 +129,8 @@ namespace posu::vmath {
         -> arith_tuple
     {
         return posu::make_from_for_each<arith_tuple<T...>>(
-            [&](const auto& l) { return l * rhs; }, m_data);
+            [&](const auto& l) { return l * rhs; },
+            m_data);
     }
 
     template<typename... T>
@@ -131,7 +139,8 @@ namespace posu::vmath {
         -> arith_tuple
     {
         return posu::make_from_for_each<arith_tuple<T...>>(
-            [&](const auto& l) { return l / rhs; }, m_data);
+            [&](const auto& l) { return l / rhs; },
+            m_data);
     }
 
     template<typename... T>
@@ -221,7 +230,8 @@ namespace posu::vmath {
     [[nodiscard]] constexpr decltype(auto) make_arith_tuple(T&& t) noexcept
     {
         return detail::make_arith_tuple_from_size(
-            std::forward<T>(t), std::make_index_sequence<I>{});
+            std::forward<T>(t),
+            std::make_index_sequence<I>{});
     }
 
     template<typename... T>

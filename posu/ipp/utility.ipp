@@ -62,9 +62,8 @@ namespace posu {
     template<typename T, typename U>
         requires(
             !std::is_const_v<std::remove_reference_t<U>> &&
-            !std::is_volatile_v<std::remove_reference_t<U>> &&
-            std::is_lvalue_reference_v<U&&> )
-    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> T& 
+            !std::is_volatile_v<std::remove_reference_t<U>> && std::is_lvalue_reference_v<U&&>)
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> T&
     {
         return static_cast<T&>(std::forward<U>(u));
     }
@@ -72,9 +71,8 @@ namespace posu {
     template<typename T, typename U>
         requires(
             std::is_const_v<std::remove_reference_t<U>> &&
-            !std::is_volatile_v<std::remove_reference_t<U>> &&
-            std::is_lvalue_reference_v<U&&> )
-    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> const T& 
+            !std::is_volatile_v<std::remove_reference_t<U>> && std::is_lvalue_reference_v<U&&>)
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> const T&
     {
         return static_cast<const T&>(std::forward<U>(u));
     }
@@ -82,20 +80,16 @@ namespace posu {
     template<typename T, typename U>
         requires(
             !std::is_const_v<std::remove_reference_t<U>> &&
-            std::is_volatile_v<std::remove_reference_t<U>> &&
-            std::is_lvalue_reference_v<U&&> )
-    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> volatile T& 
+            std::is_volatile_v<std::remove_reference_t<U>> && std::is_lvalue_reference_v<U&&>)
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> volatile T&
     {
         return static_cast<volatile T&>(std::forward<U>(u));
     }
 
-    template<typename T, typename U> 
-        requires(
-            std::is_const_v<std::remove_reference_t<U>> &&
-            std::is_volatile_v<std::remove_reference_t<U>> &&
-            std::is_lvalue_reference_v<U&&> )
-    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept 
-        -> const volatile T&
+    template<typename T, typename U>
+        requires(std::is_const_v<std::remove_reference_t<U>>&& std::is_volatile_v<
+                 std::remove_reference_t<U>>&& std::is_lvalue_reference_v<U&&>)
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> const volatile T&
     {
         return static_cast<const volatile T&>(std::forward<U>(u));
     }
@@ -103,9 +97,8 @@ namespace posu {
     template<typename T, typename U>
         requires(
             !std::is_const_v<std::remove_reference_t<U>> &&
-            !std::is_volatile_v<std::remove_reference_t<U>> &&
-            std::is_rvalue_reference_v<U&&> )
-    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> T&& 
+            !std::is_volatile_v<std::remove_reference_t<U>> && std::is_rvalue_reference_v<U&&>)
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> T&&
     {
         return static_cast<T&&>(std::forward<U>(u));
     }
@@ -113,9 +106,8 @@ namespace posu {
     template<typename T, typename U>
         requires(
             std::is_const_v<std::remove_reference_t<U>> &&
-            !std::is_volatile_v<std::remove_reference_t<U>> &&
-            std::is_rvalue_reference_v<U&&> )
-    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> const T&& 
+            !std::is_volatile_v<std::remove_reference_t<U>> && std::is_rvalue_reference_v<U&&>)
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> const T&&
     {
         return static_cast<const T&&>(std::forward<U>(u));
     }
@@ -123,20 +115,16 @@ namespace posu {
     template<typename T, typename U>
         requires(
             !std::is_const_v<std::remove_reference_t<U>> &&
-            std::is_volatile_v<std::remove_reference_t<U>> &&
-            std::is_rvalue_reference_v<U&&> )
-    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> volatile T&& 
+            std::is_volatile_v<std::remove_reference_t<U>> && std::is_rvalue_reference_v<U&&>)
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> volatile T&&
     {
         return static_cast<volatile T&&>(std::forward<U>(u));
     }
 
-    template<typename T, typename U> 
-        requires(
-            std::is_const_v<std::remove_reference_t<U>> &&
-            std::is_volatile_v<std::remove_reference_t<U>> &&
-            std::is_rvalue_reference_v<U&&> )
-    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept 
-        -> const volatile T&&
+    template<typename T, typename U>
+        requires(std::is_const_v<std::remove_reference_t<U>>&& std::is_volatile_v<
+                 std::remove_reference_t<U>>&& std::is_rvalue_reference_v<U&&>)
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> const volatile T&&
     {
         return static_cast<const volatile T&&>(std::forward<U>(u));
     }

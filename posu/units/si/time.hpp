@@ -9,10 +9,9 @@ namespace posu::units {
         constexpr time_tag() noexcept = default;
     };
 
-    template<typename Rep, typename Period> // clang-format off
-        requires( std::integral<Rep> || std::floating_point<Rep> )
-    class base_unit<Rep, Period, time_tag> : // clang-format on
-          public std::chrono::duration<Rep, Period> {
+    template<typename Rep, typename Period>
+        requires(std::integral<Rep> || std::floating_point<Rep>)
+    class base_unit<Rep, Period, time_tag> : public std::chrono::duration<Rep, Period> {
     private:
         using parent_type = std::chrono::duration<Rep, Period>;
 
