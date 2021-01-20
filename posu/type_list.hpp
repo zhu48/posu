@@ -1,6 +1,7 @@
 #ifndef POSU_TYPE_LIST_HPP
 #define POSU_TYPE_LIST_HPP
 
+#include <functional>
 #include <tuple>
 #include <variant>
 
@@ -24,8 +25,12 @@ namespace posu {
 
         /**
          * @brief The number of elements in the list.
+         *
+         * @{
          */
-        using size = std::integral_constant<std::size_t, sizeof...(Types)>;
+        using size  = std::integral_constant<std::size_t, sizeof...(Types)>;
+        using ssize = std::integral_constant<std::make_signed_t<std::size_t>, sizeof...(Types)>;
+        //! @}
 
         /**
          * @brief Whether the list is empty or not.
@@ -87,8 +92,12 @@ namespace posu {
     public:
         /**
          * @brief The number of elements in the list.
+         *
+         * @{
          */
-        using size = std::integral_constant<std::size_t, 0>;
+        using size  = std::integral_constant<std::size_t, 0>;
+        using ssize = std::integral_constant<std::make_signed_t<std::size_t>, 0>;
+        //! @}
 
         /**
          * @brief Whether the list is empty or not.
@@ -300,6 +309,25 @@ namespace posu {
     template<typename List, std::size_t I = 0>
         requires(is_type_list_v<List> && (I <= typename List::size()))
     using last = typename detail::last_impl<List, I>::type;
+
+    /**
+     * @brief Get the number of elements in the given type list.
+     *
+     * @tparam List The list to get an element of.
+     *
+     * @{
+     */
+    template<typename List>
+        requires(is_type_list_v<List>)
+    using size = typename List::size;
+    template<typename List>
+        requires(is_type_list_v<List>)
+    using ssize = typename List::ssize;
+    template<typename List>
+    inline constexpr auto size_v = size<List>::value;
+    template<typename List>
+    inline constexpr auto ssize_v = ssize<List>::value;
+    //! @}
 
     /**
      * @brief Find the index of the first ocurrence of the given type.
