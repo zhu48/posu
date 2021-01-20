@@ -22,7 +22,11 @@ TEMPLATE_TEST_CASE(
     (std::tuple<
         posu::type_ratio<>,
         posu::type_ratio<posu::type_list<>, posu::type_list<int>>,
-        posu::type_ratio<posu::type_list<>, posu::type_list<int>>>))
+        posu::type_ratio<posu::type_list<>, posu::type_list<int>>>),
+    (std::tuple<
+        posu::type_ratio<posu::type_list<int>, posu::type_list<double>>,
+        posu::type_ratio<posu::type_list<int>, posu::type_list<double>>,
+        posu::type_ratio<posu::type_list<int, int>, posu::type_list<double, double>>>))
 {
     using lhs     = std::tuple_element_t<0, TestType>;
     using rhs     = std::tuple_element_t<1, TestType>;
