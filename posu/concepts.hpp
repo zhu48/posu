@@ -26,15 +26,21 @@ namespace posu {
      * @{
      */
     template<typename T>
-    concept integral =
-        represents<T, short> && represents<T, unsigned short> && represents<T, int> &&
-        represents<T, unsigned int> && represents<T, long> && represents<T, unsigned long> &&
-        represents<T, long long> && represents<T, unsigned long long>;
+    concept signed_integral = represents<T, short> && represents<T, int> && represents<T, long> &&
+        represents<T, long long>;
     template<typename T>
-    concept weak_integral_wrapper =
-        represents<T, short> || represents<T, unsigned short> || represents<T, int> ||
-        represents<T, unsigned int> || represents<T, long> || represents<T, unsigned long> ||
-        represents<T, long long> || represents<T, unsigned long long>;
+    concept unsigned_integral = represents<T, unsigned short> && represents<T, unsigned int> &&
+        represents<T, unsigned long> && represents<T, unsigned long long>;
+    template<typename T>
+    concept integral = signed_integral<T> && unsigned_integral<T>;
+    template<typename T>
+    concept weak_signed_integral = represents<T, short> || represents<T, int> ||
+        represents<T, long> || represents<T, long long>;
+    template<typename T>
+    concept weak_unsigned_integral = represents<T, unsigned short> || represents<T, unsigned int> ||
+        represents<T, unsigned long> || represents<T, unsigned long long>;
+    template<typename T>
+    concept weak_integral = weak_signed_integral<T> || weak_unsigned_integral<T>;
     //! @}
 
     /**
@@ -64,9 +70,17 @@ namespace posu {
      * @{
      */
     template<typename T>
-    concept numeric = integral<T> && floating_point<T>;
+    concept signed_numeric = signed_integral<T> && floating_point<T>;
     template<typename T>
-    concept weak_numeric = integral<T> || floating_point<T>;
+    concept unsigned_numeric = unsigned_integral<T>;
+    template<typename T>
+    concept numeric = signed_numeric<T> && unsigned_numeric<T>;
+    template<typename T>
+    concept weak_signed_numeric = weak_signed_integral<T> || weak_floating_point<T>;
+    template<typename T>
+    concept weak_unsigned_numeric = weak_unsigned_integral<T>;
+    template<typename T>
+    concept weak_numeric = weak_signed_numeric<T> || weak_unsigned_numeric<T>;
     //! @}
 
     namespace detail
@@ -115,6 +129,10 @@ namespace posu {
      * @{
      */
     template<typename T>
+    concept signed_integral_arithmetic = signed_integral<T> && arithmetic_operable<T>;
+    template<typename T>
+    concept unsigned_integral_arithmetic = unsigned_integral<T> && arithmetic_operable<T>;
+    template<typename T>
     concept integral_arithmetic = integral<T> && arithmetic_operable<T>;
     template<typename T>
     concept floating_point_arithmetic = floating_point<T> && arithmetic_operable<T>;
@@ -139,9 +157,18 @@ namespace posu {
      * @brief An integral compile-time constant.
      *
      * @tparam T The type to check against this concept.
+     *
+     * @{
      */
     template<typename T>
+    concept signed_integral_constant =
+        meta_value_constant<T> && signed_integral<typename T::value_type>;
+    template<typename T>
+    concept unsigned_integral_constant =
+        meta_value_constant<T> && unsigned_integral<typename T::value_type>;
+    template<typename T>
     concept integral_constant = meta_value_constant<T> && integral<typename T::value_type>;
+    //! @}
 
     /**
      * @brief A floating point compile-time constant.
@@ -156,9 +183,16 @@ namespace posu {
      * @brief A numeric compile-time constant.
      *
      * @tparam T The type to check against this concept.
+     *
+     * @{
      */
     template<typename T>
+    concept signed_numeric_constant = signed_integral_constant<T> || floating_point_constant<T>;
+    template<typename T>
+    concept unsigned_numeric_constant = unsigned_integral_constant<T>;
+    template<typename T>
     concept numeric_constant = integral_constant<T> || floating_point_constant<T>;
+    //! @}
 
 } // namespace posu
 

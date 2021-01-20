@@ -5,23 +5,33 @@
 
 TEMPLATE_TEST_CASE(
     "fundamental integral types",
-    "[integral][arithmetic]",
+    "[signed][integral][arithmetic]",
     short,
-    unsigned short,
     int,
-    unsigned int,
     long,
-    unsigned long,
-    long long,
-    unsigned long long)
+    long long)
 {
+    static_assert(posu::signed_integral_arithmetic<TestType>);
     static_assert(posu::integral_arithmetic<TestType>);
     static_assert(posu::arithmetic<TestType>);
 }
 
 TEMPLATE_TEST_CASE(
     "fundamental integral types",
-    "[integral][arithmetic]",
+    "[unsigned][integral][arithmetic]",
+    unsigned short,
+    unsigned int,
+    unsigned long,
+    unsigned long long)
+{
+    static_assert(posu::unsigned_integral_arithmetic<TestType>);
+    static_assert(posu::integral_arithmetic<TestType>);
+    static_assert(posu::arithmetic<TestType>);
+}
+
+TEMPLATE_TEST_CASE(
+    "fundamental integral types",
+    "[signed][floating-point][arithmetic]",
     float,
     double,
     long double)
