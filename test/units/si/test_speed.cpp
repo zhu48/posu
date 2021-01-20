@@ -76,8 +76,8 @@ TEST_CASE("length from multiplication", "[construct][expression][speed][si]")
     {
         REQUIRE(5_m_per_sec * 1_s == 5_m);
         REQUIRE(1_s * 5_m_per_sec == 5_m);
-        REQUIRE(32_m_per_sec * 8_ks == 4_mm);
-        REQUIRE(8_ks * 32_m_per_sec == 4_mm);
+        REQUIRE(32_m_per_sec * 8_ks == 256_km);
+        REQUIRE(8_ks * 32_m_per_sec == 256_km);
     }
 
     SECTION("floating point literals")
