@@ -11,8 +11,8 @@ TEMPLATE_TEST_CASE(
     long,
     long long)
 {
-    static_assert(posu::signed_integral_arithmetic<TestType>);
     static_assert(posu::integral_arithmetic<TestType>);
+    static_assert(posu::signed_arithmetic<TestType>);
     static_assert(posu::arithmetic<TestType>);
 }
 
@@ -24,8 +24,8 @@ TEMPLATE_TEST_CASE(
     unsigned long,
     unsigned long long)
 {
-    static_assert(posu::unsigned_integral_arithmetic<TestType>);
     static_assert(posu::integral_arithmetic<TestType>);
+    static_assert(posu::unsigned_arithmetic<TestType>);
     static_assert(posu::arithmetic<TestType>);
 }
 
@@ -37,6 +37,7 @@ TEMPLATE_TEST_CASE(
     long double)
 {
     static_assert(posu::floating_point_arithmetic<TestType>);
+    static_assert(posu::signed_arithmetic<TestType>);
     static_assert(posu::arithmetic<TestType>);
 }
 

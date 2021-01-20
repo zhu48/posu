@@ -129,9 +129,9 @@ namespace posu {
      * @{
      */
     template<typename T>
-    concept signed_integral_arithmetic = signed_integral<T> && arithmetic_operable<T>;
+    concept signed_arithmetic = signed_numeric<T> && arithmetic_operable<T>;
     template<typename T>
-    concept unsigned_integral_arithmetic = unsigned_integral<T> && arithmetic_operable<T>;
+    concept unsigned_arithmetic = unsigned_numeric<T> && arithmetic_operable<T>;
     template<typename T>
     concept integral_arithmetic = integral<T> && arithmetic_operable<T>;
     template<typename T>
