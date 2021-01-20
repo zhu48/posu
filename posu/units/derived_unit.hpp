@@ -28,6 +28,31 @@ namespace posu::units {
         using parent_type = base_unit<Rep, Ratio, type_list<Units, Scale, Offset>>;
 
     public:
+        using scale  = Scale;
+        using offset = Offset;
+
+        using parent_type::parent_type;
+    };
+
+    /**
+     * @brief Partial specialization for a quantity exactly equivalent to a base unit.
+     *
+     * @tparam Rep      The numeric representation type.
+     * @tparam Ratio    This quantity's ratio in relation to the related unit quantity.
+     * @tparam BaseUnit The equivalent base unit tag.
+     * @tparam Offset   An offset exactly equal to zero.
+     */
+    template<typename Rep, typename Ratio, typename BaseUnit, numeric_constant Offset>
+        requires(!is_type_ratio_v<BaseUnit> && (Offset{}() == 0))
+    class derived_unit<Rep, Ratio, type_ratio<type_list<BaseUnit>>, std::ratio<1>, Offset>
+        : public base_unit<Rep, Ratio, BaseUnit> {
+    private:
+        using parent_type = base_unit<Rep, Ratio, BaseUnit>;
+
+    public:
+        using scale  = std::ratio<1>;
+        using offset = Offset;
+
         using parent_type::parent_type;
     };
 
