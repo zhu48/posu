@@ -24,12 +24,7 @@ namespace posu {
      * @tparam T The type to check against this concept.
      */
     template<typename T>
-    concept integral_constant = meta_value_constant<T> && requires
-    {
-        // clang-format off
-        { T::value } -> std::integral;
-        // clang-format on
-    };
+    concept integral_constant = meta_value_constant<T> && std::integral<typename T::value_type>;
 
     /**
      * @brief A floating point compile-time constant.
@@ -37,12 +32,8 @@ namespace posu {
      * @tparam T The type to check against this concept.
      */
     template<typename T>
-    concept floating_point_constant = meta_value_constant<T> && requires
-    {
-        // clang-format off
-        { T::value } -> std::floating_point;
-        // clang-format on
-    };
+    concept floating_point_constant =
+        meta_value_constant<T> && std::floating_point<typename T::value_type>;
 
     /**
      * @brief A numeric compile-time constant.
