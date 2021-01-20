@@ -344,10 +344,15 @@ namespace posu {
      *
      * @tparam List The list to find the given type in.
      * @tparam T    The type to find in the given list.
+     *
+     * @{
      */
-    template<typename List, typename T> // clang-format off
-        requires( is_type_list_v<List> )
-    using find = typename detail::find_impl<List, T>::type; // clang-format on
+    template<typename List, typename T>
+        requires(is_type_list_v<List>)
+    using find = typename detail::find_impl<List, T>::type;
+    template<typename List, typename T>
+    inline constexpr auto find_v = find<List, T>::value;
+    //! @}
 
     /**
      * @brief Insert the given type into the given type list at the given index.
