@@ -1,6 +1,6 @@
-#include "posu/type_list.hpp"
-
 #include <concepts>
+
+#include "posu/type_list.hpp"
 
 #define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
@@ -23,6 +23,135 @@ TEST_CASE("initialization", "[construct]")
     static_assert(std::same_as<list::front, int>, "the first element must be an int");
     static_assert(
         std::same_as<list::back, const double&>, "the last element must be const double&");
+}
+
+TEST_CASE("range operations", "[algorithms]")
+{
+    SECTION("concatenation")
+    {
+        using lhs = posu::type_list<int, float, double>;
+        using rhs = posu::type_list<unsigned int, unsigned char>;
+
+        using result = posu::concatenate<lhs, rhs>;
+
+        static_assert(
+            std::same_as<result, posu::type_list<int, float, double, unsigned int, unsigned char>>);
+        static_assert(std::same_as<
+                      posu::concatenate<lhs, rhs, lhs, rhs>,
+                      posu::concatenate<result, lhs, rhs>>);
+    }
+
+    SECTION("pushing types")
+    {
+        using original = posu::type_list<>;
+
+        using add_one   = posu::push_back<original, int>;
+        using add_two   = posu::push_back<add_one, double>;
+        using add_three = posu::push_front<add_two, long double>;
+
+        static_assert(std::same_as<add_one, posu::type_list<int>>);
+        static_assert(std::same_as<add_two, posu::type_list<int, double>>);
+        static_assert(std::same_as<add_three, posu::type_list<long double, int, double>>);
+        static_assert(std::same_as<
+                      posu::push_front<add_three, posu::type_list<char>>,
+                      posu::push_front<add_three, char>>);
+        static_assert(std::same_as<
+                      posu::push_back<add_three, posu::type_list<char>>,
+                      posu::push_back<add_three, char>>);
+    }
+
+    SECTION("popping types")
+    {
+        using list = posu::type_list<char, int, long, float, double>;
+
+        using pop_one = posu::pop_front<list>;
+        using pop_two = posu::pop_back<pop_one>;
+
+        static_assert(std::same_as<pop_one, posu::type_list<int, long, float, double>>);
+        static_assert(std::same_as<pop_two, posu::type_list<int, long, float>>);
+    }
+
+    SECTION("finding types")
+    {
+        using list = posu::type_list<char, int, int, long, float, double>;
+
+        REQUIRE(posu::find<list, char>() == 0);
+        REQUIRE(posu::find<list, int>() == 1);
+        REQUIRE(posu::find<list, long>() == 3);
+        REQUIRE(posu::find<list, float>() == 4);
+        REQUIRE(posu::find<list, double>() == 5);
+    }
+
+    SECTION("sub-lists")
+    {
+        SECTION("first N elements")
+        {
+            using list = posu::type_list<char, int, long, float, double>;
+
+            static_assert(std::same_as<posu::first<list, 0>, posu::type_list<>>);
+            static_assert(std::same_as<posu::first<list, 1>, posu::type_list<char>>);
+            static_assert(std::same_as<posu::first<list, 2>, posu::type_list<char, int>>);
+            static_assert(std::same_as<posu::first<list, 3>, posu::type_list<char, int, long>>);
+            static_assert(
+                std::same_as<posu::first<list, 4>, posu::type_list<char, int, long, float>>);
+            static_assert(
+                std::
+                    same_as<posu::first<list, 5>, posu::type_list<char, int, long, float, double>>);
+        }
+
+        SECTION("last N elements")
+        {
+            using list = posu::type_list<char, int, long, float, double>;
+
+            static_assert(std::same_as<posu::last<list, 0>, posu::type_list<>>);
+            static_assert(std::same_as<posu::last<list, 1>, posu::type_list<double>>);
+            static_assert(std::same_as<posu::last<list, 2>, posu::type_list<float, double>>);
+            static_assert(std::same_as<posu::last<list, 3>, posu::type_list<long, float, double>>);
+            static_assert(
+                std::same_as<posu::last<list, 4>, posu::type_list<int, long, float, double>>);
+            static_assert(
+                std::same_as<posu::last<list, 5>, posu::type_list<char, int, long, float, double>>);
+        }
+    }
+
+    SECTION("inserting types")
+    {
+        using list = posu::type_list<char, int, long, float, double>;
+
+        static_assert(std::same_as<
+                      posu::insert<list, 0, int>,
+                      posu::type_list<int, char, int, long, float, double>>);
+        static_assert(std::same_as<
+                      posu::insert<list, 1, int>,
+                      posu::type_list<char, int, int, long, float, double>>);
+        static_assert(std::same_as<
+                      posu::insert<list, 2, int>,
+                      posu::type_list<char, int, int, long, float, double>>);
+        static_assert(std::same_as<
+                      posu::insert<list, 3, int>,
+                      posu::type_list<char, int, long, int, float, double>>);
+        static_assert(std::same_as<
+                      posu::insert<list, 4, int>,
+                      posu::type_list<char, int, long, float, int, double>>);
+        static_assert(std::same_as<
+                      posu::insert<list, 5, int>,
+                      posu::type_list<char, int, long, float, double, int>>);
+    }
+
+    SECTION("removing types")
+    {
+        using list = posu::type_list<char, int, long, float, double>;
+
+        static_assert(
+            std::same_as<posu::remove<list, 0>, posu::type_list<int, long, float, double>>);
+        static_assert(
+            std::same_as<posu::remove<list, 1>, posu::type_list<char, long, float, double>>);
+        static_assert(
+            std::same_as<posu::remove<list, 2>, posu::type_list<char, int, float, double>>);
+        static_assert(
+            std::same_as<posu::remove<list, 3>, posu::type_list<char, int, long, double>>);
+        static_assert(std::same_as<posu::remove<list, 4>, posu::type_list<char, int, long, float>>);
+    }
 }
 
 TEST_CASE("algebraic types", "[algebraic][tuple][variant]")

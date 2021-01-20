@@ -9,10 +9,9 @@ namespace posu {
         /**
          * A parallel view of multiple ranges.
          */
-        template<typename... Views> // clang-format off
-            requires ( std::ranges::view<Views> && ... )
-        class zip_view // clang-format on
-            : public std::ranges::view_interface<zip_view<Views...>> {
+        template<typename... Views>
+            requires(std::ranges::view<Views>&&...)
+        class zip_view : public std::ranges::view_interface<zip_view<Views...>> {
         public:
             class iterator;
             class sentinel;
