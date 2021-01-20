@@ -237,9 +237,9 @@ namespace posu {
      *
      * @tparam Lists The lists to concatenate together.
      */
-    template<typename... Lists> // clang-format off
-        requires( is_type_list_v<Lists> && ... )
-    using concatenate = typename detail::concatenate_impl<Lists...>::type; // clang-format on
+    template<typename... Lists>
+        requires(is_type_list_v<Lists>&&...)
+    using concatenate = typename detail::concatenate_impl<Lists...>::type;
 
     /**
      * @brief Prepend a type to a `type_list`.
@@ -248,9 +248,9 @@ namespace posu {
      * @tparam Type The type to prepend to the list. If `Type` is an single-element list
      *              `type_list<T>`, prepends `T` instead.
      */
-    template<typename List, typename Type> // clang-format off
-        requires( is_type_list_v<List> )
-    using push_front = typename detail::prepend_impl<List, Type>::type; // clang-format on
+    template<typename List, typename Type>
+        requires(is_type_list_v<List>)
+    using push_front = typename detail::prepend_impl<List, Type>::type;
 
     /**
      * @brief Append a type to a `type_list`.
@@ -259,27 +259,27 @@ namespace posu {
      * @tparam Type The type to append to the list. If `Type` is an single-element list
      *              `type_list<T>`, appends `T` instead.
      */
-    template<typename List, typename Type> // clang-format off
-        requires( is_type_list_v<List> )
-    using push_back = typename detail::append_impl<List, Type>::type; // clang-format on
+    template<typename List, typename Type>
+        requires(is_type_list_v<List>)
+    using push_back = typename detail::append_impl<List, Type>::type;
 
     /**
      * @brief Remove the first type in a `type_list`.
      *
      * @tparam List The list to pop a type from.
      */
-    template<typename List> // clang-format off
-        requires( is_type_list_v<List> )
-    using pop_front = typename detail::pop_front_impl<List>::type; // clang-format on
+    template<typename List>
+        requires(is_type_list_v<List>)
+    using pop_front = typename detail::pop_front_impl<List>::type;
 
     /**
      * @brief Remove the last type in a `type_list`.
      *
      * @tparam List The list to pop a type from.
      */
-    template<typename List> // clang-format off
-        requires( is_type_list_v<List> )
-    using pop_back = typename detail::pop_back_impl<List>::type; // clang-format on
+    template<typename List>
+        requires(is_type_list_v<List>)
+    using pop_back = typename detail::pop_back_impl<List>::type;
 
     /**
      * @brief Get the first `I` elements of the given list as a `type_list`.
@@ -287,9 +287,9 @@ namespace posu {
      * @tparam List The list get the first types of.
      * @tparam I    The number of elements to get.
      */
-    template<typename List, std::size_t I = 0> // clang-format off
-        requires( is_type_list_v<List> && I <= typename List::size() )
-    using first = typename detail::first_impl<List, I>::type; // clang-format on
+    template<typename List, std::size_t I = 0>
+        requires(is_type_list_v<List> && (I <= typename List::size()))
+    using first = typename detail::first_impl<List, I>::type;
 
     /**
      * @brief Get the last `I` elements of the given list as a `type_list`.
@@ -297,9 +297,9 @@ namespace posu {
      * @tparam List The list get the last types of.
      * @tparam I    The number of elements to get.
      */
-    template<typename List, std::size_t I = 0> // clang-format off
-        requires( is_type_list_v<List> && I <= typename List::size() )
-    using last = typename detail::last_impl<List, I>::type; // clang-format on
+    template<typename List, std::size_t I = 0>
+        requires(is_type_list_v<List> && (I <= typename List::size()))
+    using last = typename detail::last_impl<List, I>::type;
 
     /**
      * @brief Find the index of the first ocurrence of the given type.
@@ -318,19 +318,19 @@ namespace posu {
      * @tparam I    The index to insert a new type at.
      * @tparam T    The type to insert.
      */
-    template<typename List, std::size_t I, typename T> // clang-format off
-        requires( is_type_list_v<List> && I <= typename List::size() )
-    using insert = typename detail::insert_impl<List, I, T>::type; // clang-format off
+    template<typename List, std::size_t I, typename T>
+        requires(is_type_list_v<List> && (I <= typename List::size()))
+    using insert = typename detail::insert_impl<List, I, T>::type;
 
     /**
      * @brief Remove the type at the givien position in the type list.
-     * 
+     *
      * @tparam List The list to remove a type from.
      * @tparam I    The index of the type to remove.
      */
-    template<typename List, std::size_t I> // clang-format off
-        requires( is_type_list_v<List> && I < typename List::size() )
-    using remove = typename detail::remove_impl<List, I>::type; // clang-format off
+    template<typename List, std::size_t I>
+        requires(is_type_list_v<List> && (I < typename List::size()))
+    using remove = typename detail::remove_impl<List, I>::type;
 
     /**
      * @brief Transform a `type_list` to its corresponding tuple type.
