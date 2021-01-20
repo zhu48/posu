@@ -58,175 +58,161 @@ namespace posu::vmath {
 
     } // namespace detail
 
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    constexpr arith_tuple<T...>:: // clang-format on
-        arith_tuple(scaler_type n) noexcept
+    template<typename... T>
+        requires((std::integral<T> || std::floating_point<T>)&&...)
+    constexpr arith_tuple<T...>::arith_tuple(scaler_type n) noexcept
         : m_data{detail::expand_as_tuple<std::tuple<T...>>(n)}
     {
     }
 
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    constexpr arith_tuple<T...>:: // clang-format on
-        arith_tuple(T... n) noexcept requires(sizeof...(T) != 1)
+    template<typename... T>
+        requires((std::integral<T> || std::floating_point<T>)&&...)
+    constexpr arith_tuple<T...>::arith_tuple(T... n) noexcept requires(sizeof...(T) != 1)
         : m_data{n...}
     {
     }
 
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    constexpr auto arith_tuple<T...>:: // clang-format on
-    operator=(scaler_type n) noexcept -> arith_tuple&
+    template<typename... T>
+        requires((std::integral<T> || std::floating_point<T>)&&...)
+    constexpr auto arith_tuple<T...>::operator=(scaler_type n) noexcept -> arith_tuple&
     {
         posu::for_each([&](auto& elem) { elem = n; }, m_data);
         return *this;
     }
 
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    [[nodiscard]] constexpr auto arith_tuple<T...>:: // clang-format on
-        operator+(scaler_type rhs) const noexcept -> arith_tuple
+    template<typename... T>
+        requires((std::integral<T> || std::floating_point<T>)&&...)
+    [[nodiscard]] constexpr auto arith_tuple<T...>::operator+(scaler_type rhs) const noexcept
+        -> arith_tuple
     {
         return posu::make_from_for_each<arith_tuple<T...>>(
             [&](const auto& l) { return l + rhs; }, m_data);
     }
 
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    [[nodiscard]] constexpr auto arith_tuple<T...>:: // clang-format on
-        operator+(const arith_tuple& rhs) const noexcept -> arith_tuple
+    template<typename... T>
+        requires((std::integral<T> || std::floating_point<T>)&&...)
+    [[nodiscard]] constexpr auto arith_tuple<T...>::operator+(const arith_tuple& rhs) const noexcept
+        -> arith_tuple
     {
         return posu::make_from_for_each<arith_tuple<T...>>(
             [](const auto& l, const auto& r) { return l + r; }, m_data, rhs.m_data);
     }
 
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    [[nodiscard]] constexpr auto arith_tuple<T...>:: // clang-format on
-        operator-(scaler_type rhs) const noexcept -> arith_tuple
+    template<typename... T>
+        requires((std::integral<T> || std::floating_point<T>)&&...)
+    [[nodiscard]] constexpr auto arith_tuple<T...>::operator-(scaler_type rhs) const noexcept
+        -> arith_tuple
     {
         return posu::make_from_for_each<arith_tuple<T...>>(
             [&](const auto& l) { return l - rhs; }, m_data);
     }
 
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    [[nodiscard]] constexpr auto arith_tuple<T...>:: // clang-format on
-        operator-(const arith_tuple& rhs) const noexcept -> arith_tuple
+    template<typename... T>
+        requires((std::integral<T> || std::floating_point<T>)&&...)
+    [[nodiscard]] constexpr auto arith_tuple<T...>::operator-(const arith_tuple& rhs) const noexcept
+        -> arith_tuple
     {
         return posu::make_from_for_each<arith_tuple<T...>>(
             [](const auto& l, const auto& r) { return l - r; }, m_data, rhs.m_data);
     }
 
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    [[nodiscard]] constexpr auto arith_tuple<T...>:: // clang-format on
-        operator*(scaler_type rhs) const noexcept -> arith_tuple
+    template<typename... T>
+        requires((std::integral<T> || std::floating_point<T>)&&...)
+    [[nodiscard]] constexpr auto arith_tuple<T...>::operator*(scaler_type rhs) const noexcept
+        -> arith_tuple
     {
         return posu::make_from_for_each<arith_tuple<T...>>(
             [&](const auto& l) { return l * rhs; }, m_data);
     }
 
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    [[nodiscard]] constexpr auto arith_tuple<T...>:: // clang-format on
-        operator/(scaler_type rhs) const noexcept -> arith_tuple
+    template<typename... T>
+        requires((std::integral<T> || std::floating_point<T>)&&...)
+    [[nodiscard]] constexpr auto arith_tuple<T...>::operator/(scaler_type rhs) const noexcept
+        -> arith_tuple
     {
         return posu::make_from_for_each<arith_tuple<T...>>(
             [&](const auto& l) { return l / rhs; }, m_data);
     }
 
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    constexpr auto arith_tuple<T...>:: // clang-format on
-    operator+=(scaler_type rhs) noexcept -> arith_tuple&
+    template<typename... T>
+        requires((std::integral<T> || std::floating_point<T>)&&...)
+    constexpr auto arith_tuple<T...>::operator+=(scaler_type rhs) noexcept -> arith_tuple&
     {
         posu::for_each([&](auto& l) { l += rhs; }, m_data);
         return *this;
     }
 
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    constexpr auto arith_tuple<T...>:: // clang-format on
-    operator+=(const arith_tuple& rhs) noexcept -> arith_tuple&
+    template<typename... T>
+        requires((std::integral<T> || std::floating_point<T>)&&...)
+    constexpr auto arith_tuple<T...>::operator+=(const arith_tuple& rhs) noexcept -> arith_tuple&
     {
         posu::for_each([](auto& l, const auto& r) { l += r; }, m_data, rhs.m_data);
         return *this;
     }
 
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    constexpr auto arith_tuple<T...>:: // clang-format on
-    operator-=(scaler_type rhs) noexcept -> arith_tuple&
+    template<typename... T>
+        requires((std::integral<T> || std::floating_point<T>)&&...)
+    constexpr auto arith_tuple<T...>::operator-=(scaler_type rhs) noexcept -> arith_tuple&
     {
         posu::for_each([&](auto& l) { l -= rhs; }, m_data);
         return *this;
     }
 
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    constexpr auto arith_tuple<T...>:: // clang-format on
-    operator-=(const arith_tuple& rhs) noexcept -> arith_tuple&
+    template<typename... T>
+        requires((std::integral<T> || std::floating_point<T>)&&...)
+    constexpr auto arith_tuple<T...>::operator-=(const arith_tuple& rhs) noexcept -> arith_tuple&
     {
         posu::for_each([](auto& l, const auto& r) { l -= r; }, m_data, rhs.m_data);
         return *this;
     }
 
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    constexpr auto arith_tuple<T...>:: // clang-format on
-    operator*=(scaler_type rhs) noexcept -> arith_tuple&
+    template<typename... T>
+        requires((std::integral<T> || std::floating_point<T>)&&...)
+    constexpr auto arith_tuple<T...>::operator*=(scaler_type rhs) noexcept -> arith_tuple&
     {
         posu::for_each([&](auto& l) { l *= rhs; }, m_data);
         return *this;
     }
 
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    constexpr auto arith_tuple<T...>:: // clang-format on
-    operator/=(scaler_type rhs) noexcept -> arith_tuple&
+    template<typename... T>
+        requires((std::integral<T> || std::floating_point<T>)&&...)
+    constexpr auto arith_tuple<T...>::operator/=(scaler_type rhs) noexcept -> arith_tuple&
     {
         posu::for_each([&](auto& l) { l /= rhs; }, m_data);
         return *this;
     }
 
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    [[nodiscard]] constexpr arith_tuple<T...>:: // clang-format on
-        operator scaler_type() const noexcept(false)
+    template<typename... T>
+        requires((std::integral<T> || std::floating_point<T>)&&...)
+    [[nodiscard]] constexpr arith_tuple<T...>::operator scaler_type() const noexcept(false)
     {
         return detail::obtain_value(m_data);
     }
 
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    [[nodiscard]] constexpr arith_tuple<T...>:: // clang-format on
-        operator std::tuple<T...>&() & noexcept
+    template<typename... T>
+        requires((std::integral<T> || std::floating_point<T>)&&...)
+    [[nodiscard]] constexpr arith_tuple<T...>::operator std::tuple<T...>&() & noexcept
     {
         return m_data;
     }
 
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    [[nodiscard]] constexpr arith_tuple<T...>:: // clang-format on
-        operator std::tuple<T...>&&() && noexcept
+    template<typename... T>
+        requires((std::integral<T> || std::floating_point<T>)&&...)
+    [[nodiscard]] constexpr arith_tuple<T...>::operator std::tuple<T...>&&() && noexcept
     {
         return std::move(m_data);
     }
 
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    [[nodiscard]] constexpr arith_tuple<T...>:: // clang-format on
-        operator const std::tuple<T...>&() const& noexcept
+    template<typename... T>
+        requires((std::integral<T> || std::floating_point<T>)&&...)
+    [[nodiscard]] constexpr arith_tuple<T...>::operator const std::tuple<T...>&() const& noexcept
     {
         return m_data;
     }
 
-    template<typename... T> // clang-format off
-        requires((std::integral<T> || std::floating_point<T>) && ...)
-    [[nodiscard]] constexpr arith_tuple<T...>:: // clang-format on
-        operator const std::tuple<T...>&&() const&& noexcept
+    template<typename... T>
+        requires((std::integral<T> || std::floating_point<T>)&&...)
+    [[nodiscard]] constexpr arith_tuple<T...>::operator const std::tuple<T...>&&() const&& noexcept
     {
         return std::move(m_data);
     }

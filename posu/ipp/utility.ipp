@@ -47,16 +47,11 @@ namespace posu {
         detail::for_each_impl(std::forward<F>(f), std::forward<Tuple>(tuple)...);
     }
 
-    template<typename T, typename F, typename... Tuple> // clang-format off
-        requires(
-            std::less_equal{}(
-                std::tuple_size_v<T>,
-                std::tuple_size_v<std::remove_cvref_t<Tuple>>
-            ) && ...
-        )
-    [[nodiscard]] constexpr auto make_from_for_each( // clang-format on
-            F&& f,
-            Tuple&&... tuple) -> T
+    template<typename T, typename F, typename... Tuple>
+        requires(std::less_equal{}(
+            std::tuple_size_v<T>,
+            std::tuple_size_v<std::remove_cvref_t<Tuple>>)&&...)
+    [[nodiscard]] constexpr auto make_from_for_each(F&& f, Tuple&&... tuple) -> T
     {
         return detail::make_from_for_each_impl<T>(
             std::forward<F>(f),
@@ -64,83 +59,83 @@ namespace posu {
             std::forward<Tuple>(tuple)...);
     }
 
-    template<typename T, typename U> // clang-format off
+    template<typename T, typename U>
         requires(
             !std::is_const_v<std::remove_reference_t<U>> &&
             !std::is_volatile_v<std::remove_reference_t<U>> &&
             std::is_lvalue_reference_v<U&&> )
-    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> T& // clang-format on
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> T& 
     {
         return static_cast<T&>(std::forward<U>(u));
     }
 
-    template<typename T, typename U> // clang-format off
+    template<typename T, typename U>
         requires(
             std::is_const_v<std::remove_reference_t<U>> &&
             !std::is_volatile_v<std::remove_reference_t<U>> &&
             std::is_lvalue_reference_v<U&&> )
-    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> const T& // clang-format on
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> const T& 
     {
         return static_cast<const T&>(std::forward<U>(u));
     }
 
-    template<typename T, typename U> // clang-format off
+    template<typename T, typename U>
         requires(
             !std::is_const_v<std::remove_reference_t<U>> &&
             std::is_volatile_v<std::remove_reference_t<U>> &&
             std::is_lvalue_reference_v<U&&> )
-    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> volatile T& // clang-format on
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> volatile T& 
     {
         return static_cast<volatile T&>(std::forward<U>(u));
     }
 
-    template<typename T, typename U> // clang-format off
+    template<typename T, typename U> 
         requires(
             std::is_const_v<std::remove_reference_t<U>> &&
             std::is_volatile_v<std::remove_reference_t<U>> &&
             std::is_lvalue_reference_v<U&&> )
-    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept // clang-format on
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept 
         -> const volatile T&
     {
         return static_cast<const volatile T&>(std::forward<U>(u));
     }
 
-    template<typename T, typename U> // clang-format off
+    template<typename T, typename U>
         requires(
             !std::is_const_v<std::remove_reference_t<U>> &&
             !std::is_volatile_v<std::remove_reference_t<U>> &&
             std::is_rvalue_reference_v<U&&> )
-    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> T&& // clang-format on
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> T&& 
     {
         return static_cast<T&&>(std::forward<U>(u));
     }
 
-    template<typename T, typename U> // clang-format off
+    template<typename T, typename U>
         requires(
             std::is_const_v<std::remove_reference_t<U>> &&
             !std::is_volatile_v<std::remove_reference_t<U>> &&
             std::is_rvalue_reference_v<U&&> )
-    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> const T&& // clang-format on
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> const T&& 
     {
         return static_cast<const T&&>(std::forward<U>(u));
     }
 
-    template<typename T, typename U> // clang-format off
+    template<typename T, typename U>
         requires(
             !std::is_const_v<std::remove_reference_t<U>> &&
             std::is_volatile_v<std::remove_reference_t<U>> &&
             std::is_rvalue_reference_v<U&&> )
-    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> volatile T&& // clang-format on
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept -> volatile T&& 
     {
         return static_cast<volatile T&&>(std::forward<U>(u));
     }
 
-    template<typename T, typename U> // clang-format off
+    template<typename T, typename U> 
         requires(
             std::is_const_v<std::remove_reference_t<U>> &&
             std::is_volatile_v<std::remove_reference_t<U>> &&
             std::is_rvalue_reference_v<U&&> )
-    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept // clang-format on
+    [[nodiscard]] constexpr auto forward_as(U&& u) noexcept 
         -> const volatile T&&
     {
         return static_cast<const volatile T&&>(std::forward<U>(u));
