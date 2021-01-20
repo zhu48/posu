@@ -125,6 +125,7 @@ set(
 
 set(
     POSU_HPP_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/posu/concepts.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/type_list.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/type_ratio.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/utility.hpp
@@ -155,6 +156,11 @@ if(BUILD_TESTING AND POSU_ENABLE_TESTING)
     target_link_libraries(test_arith_tuple PRIVATE Catch2::Catch2)
     target_link_libraries(test_arith_tuple PRIVATE posu)
     add_test(NAME test_arith_tuple COMMAND test_arith_tuple)
+
+    add_executable(test_concepts ${CMAKE_CURRENT_LIST_DIR}/test/test_concepts.cpp)
+    target_link_libraries(test_concepts PRIVATE Catch2::Catch2)
+    target_link_libraries(test_concepts PRIVATE posu)
+    add_test(NAME test_concepts COMMAND test_concepts)
 
     add_executable(test_zip_range ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp)
     target_link_libraries(test_zip_range PRIVATE Catch2::Catch2)
