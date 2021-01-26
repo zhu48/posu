@@ -3,41 +3,20 @@
 
 #include <chrono>
 
+#include "posu/concepts.hpp"
+
 namespace posu::units {
 
+    /**
+     * @brief A quanity with a unit-of-measure represented by a tag type.
+     *
+     * @tparam Rep    The numeric representation type.
+     * @tparam Period The ratio with respect to the unit quantity type.
+     * @tparam Tag    The tag type representing this quantity's units.
+     */
     template<typename Rep, typename Period, typename Tag>
-        requires(std::integral<Rep> || std::floating_point<Rep>)
-    class base_unit : private std::chrono::duration<Rep, Period> {
-    private:
-        using parent_type = std::chrono::duration<Rep, Period>;
-
-    public:
-        using typename parent_type::period;
-        using typename parent_type::rep;
-
-        using units = Tag;
-
-        template<typename Rep2>
-            requires(
-                std::convertible_to<Rep, const Rep2&> &&
-                (std::chrono::treat_as_floating_point_v<Rep> ||
-                 !std::chrono::treat_as_floating_point_v<Rep2>))
-        constexpr explicit base_unit(const Rep2& r);
-
-        template<typename Rep2, typename Period2>
-            requires(
-                std::chrono::treat_as_floating_point_v<Rep> ||
-                ((std::ratio_divide<Period2, Period>::den == 1) &&
-                 !std::chrono::treat_as_floating_point_v<Rep2>))
-        constexpr base_unit(const base_unit<Rep2, Period2, Tag>& d);
-
-        using parent_type::count;
-
-        template<typename Rep1, typename Period1, typename Rep2, typename Period2, typename TypeTag>
-        friend constexpr auto operator==(
-            const base_unit<Rep1, Period1, TypeTag>& lhs,
-            const base_unit<Rep2, Period2, TypeTag>& rhs) -> bool;
-    };
+        requires(arithmetic<Rep>)
+    class base_unit;
 
     /**
      * @brief Check whether a type specializes the `base_unit` template or not.
@@ -57,6 +36,101 @@ namespace posu::units {
     template<typename T>
     concept base_quantity = is_base_quantity_v<T>;
     //! @}
+
+    /**
+     * @brief Check whether a quantity has the given units or not.
+     *
+     * @tparam T     The quantity type to check.
+     * @tparam Units The units tag type to check for.
+     *
+     * @{
+     */
+    template<typename T, typename Units>
+    concept quantity_of = base_quantity<T> && std::same_as<Units, typename T::units>;
+    template<typename T, typename Units>
+    struct is_quantity_of : std::bool_constant<quantity_of<T, Units>> {
+    };
+    template<typename T, typename Units>
+    inline constexpr bool is_quantity_of_v = is_quantity_of<T, Units>::value;
+    //! @}
+
+    namespace detail {
+
+        [[nodiscard]] constexpr auto to_duration(const base_quantity auto& quantity) noexcept;
+
+    }
+
+    template<typename Rep, typename Period, typename Tag>
+        requires(arithmetic<Rep>)
+    class base_unit {
+    public:
+        using rep    = Rep;    //!< The numeric representation type.
+        using period = Period; //!< The ratio with respect to the unit quantity type.
+        using units  = Tag;    //!< The tag type representing this quantity's units.
+
+        /**
+         * @brief Construct a quantity with the given number of ticks.
+         *
+         * @tparam Rep2 The numeric tick type.
+         *
+         * @param r The number of ticks to initialize this quantity with.
+         */
+        template<typename Rep2>
+            requires(
+                std::convertible_to<Rep, const Rep2&> &&
+                (std::chrono::treat_as_floating_point_v<Rep> ||
+                 !std::chrono::treat_as_floating_point_v<Rep2>))
+        constexpr explicit base_unit(const Rep2& r);
+
+        /**
+         * @brief Construct a quantity by converting from a different quantity with the same units.
+         *
+         * @tparam Rep2    The numeric representation type of the other quantity.
+         * @tparam Period2 The to-unit-quantity ratio of the other quantity.
+         *
+         * @param d The quantity to convert from.
+         */
+        template<typename Rep2, typename Period2>
+            requires(
+                std::chrono::treat_as_floating_point_v<Rep> ||
+                ((std::ratio_divide<Period2, Period>::den == 1) &&
+                 !std::chrono::treat_as_floating_point_v<Rep2>))
+        constexpr base_unit(const base_unit<Rep2, Period2, Tag>& d);
+
+        /**
+         * @brief Obtain the number of ticks this quantity has.
+         *
+         * @return Returns this quantity's numeric amount.
+         */
+        [[nodiscard]] constexpr auto count() const noexcept;
+
+        /**
+         * @brief Comparison operators.
+         *
+         * @tparam RRep    The numeric representation type of the quantity to compare against.
+         * @tparam RPeriod The to-unit-quantity ratio of the quantity to compare against.
+         *
+         * @param rhs The quantity to compare against.
+         *
+         * @return Returns the comparison result.
+         *
+         * @{
+         */
+        template<typename RRep, typename RPeriod>
+        [[nodiscard]] constexpr auto
+        operator==(const base_unit<RRep, RPeriod, units>& rhs) const noexcept;
+        template<typename RRep, typename RPeriod>
+        [[nodiscard]] constexpr auto
+        operator<=>(const base_unit<RRep, RPeriod, units>& rhs) const noexcept;
+        //! @}
+
+    private:
+        using underlying_type = std::chrono::duration<Rep, Period>;
+
+        friend constexpr auto detail::to_duration(const base_quantity auto& quantity) noexcept;
+
+        underlying_type m_duration;
+    };
 
 } // namespace posu::units
 

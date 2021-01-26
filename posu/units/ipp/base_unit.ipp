@@ -1,23 +1,55 @@
 #include <utility>
 
-namespace posu::units {
+[[nodiscard]] constexpr auto
+posu::units::detail::to_duration(const base_quantity auto& quantity) noexcept
+{
+    return quantity.m_duration;
+}
 
-    template<typename Rep, typename Period, typename Tag>
-        requires(std::integral<Rep> || std::floating_point<Rep>)
-    template<typename Rep2>
-        requires(
-            std::convertible_to<Rep, const Rep2&> &&
-            (std::chrono::treat_as_floating_point_v<Rep> ||
-             !std::chrono::treat_as_floating_point_v<Rep2>))
-    constexpr base_unit<Rep, Period, Tag>::base_unit(const Rep2& r) : parent_type(r) {}
+template<typename Rep, typename Period, typename Tag>
+    requires(posu::arithmetic<Rep>)
+template<typename Rep2>
+    requires(
+        std::convertible_to<Rep, const Rep2&> && (std::chrono::treat_as_floating_point_v<Rep> ||
+                                                  !std::chrono::treat_as_floating_point_v<Rep2>))
+constexpr posu::units::base_unit<Rep, Period, Tag>::base_unit(const Rep2& r) : m_duration(r)
+{
+}
 
-    template<typename Rep1, typename Period1, typename Rep2, typename Period2, typename TypeTag>
-    [[nodiscard]] constexpr auto operator==(
-        const base_unit<Rep1, Period1, TypeTag>& lhs,
-        const base_unit<Rep2, Period2, TypeTag>& rhs) -> bool
-    {
-        return static_cast<const std::chrono::duration<Rep1, Period1>&>(lhs) ==
-               static_cast<const std::chrono::duration<Rep2, Period2>&>(rhs);
-    }
+template<typename Rep, typename Period, typename Tag>
+    requires(posu::arithmetic<Rep>)
+template<typename Rep2, typename Period2>
+    requires(
+        std::chrono::treat_as_floating_point_v<Rep> ||
+        ((std::ratio_divide<Period2, Period>::den == 1) &&
+         !std::chrono::treat_as_floating_point_v<Rep2>))
+constexpr posu::units::base_unit<Rep, Period, Tag>::base_unit(
+    const base_unit<Rep2, Period2, Tag>& d)
+    : m_duration{detail::to_duration(d)}
+{
+}
 
-} // namespace posu::units
+template<typename Rep, typename Period, typename Tag>
+    requires(posu::arithmetic<Rep>)
+[[nodiscard]] constexpr auto posu::units::base_unit<Rep, Period, Tag>::count() const noexcept
+{
+    return m_duration.count();
+}
+
+template<typename Rep, typename Period, typename Tag>
+    requires(posu::arithmetic<Rep>)
+template<typename RRep, typename RPeriod>
+[[nodiscard]] constexpr auto posu::units::base_unit<Rep, Period, Tag>::operator==(
+    const base_unit<RRep, RPeriod, units>& rhs) const noexcept
+{
+    return m_duration == detail::to_duration(rhs);
+}
+
+template<typename Rep, typename Period, typename Tag>
+    requires(posu::arithmetic<Rep>)
+template<typename RRep, typename RPeriod>
+[[nodiscard]] constexpr auto posu::units::base_unit<Rep, Period, Tag>::operator<=>(
+    const base_unit<RRep, RPeriod, units>& rhs) const noexcept
+{
+    return m_duration <=> detail::to_duration(rhs);
+}
