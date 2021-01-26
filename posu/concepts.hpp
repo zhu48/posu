@@ -2,6 +2,8 @@
 #define POSU_CONCEPTS_HPP
 
 #include <concepts>
+#include <cstddef>
+#include <cstdint>
 #include <iterator>
 
 namespace posu {
@@ -146,12 +148,115 @@ namespace posu {
      * Modeled after `std::integral_constant`.
      *
      * @tparam T The type to check against this concept.
+     *
+     * @{
      */
     template<typename T>
     concept meta_value_constant = std::default_initializable<T> &&
         std::same_as<const typename T::value_type, decltype(T::value)> &&
         std::same_as<typename T::type, T> && std::convertible_to<T, typename T::value_type> &&
         std::is_invocable_r_v<typename T::value_type, T>;
+    //! @tparam Value The constant value type.
+    template<typename T, typename Value>
+    concept meta_constant = meta_value_constant<T> && std::same_as<Value, typename T::value_type>;
+    //! @}
+
+    /**
+     * @brief Fundamental, basic, and fixed-width numeric constants.
+     *
+     * @tparam T The type to check against this concept.
+     *
+     * @{
+     */
+    template<typename T>
+    concept bool_constant = meta_constant<T, bool>;
+    template<typename T>
+    concept float_constant = meta_constant<T, float>;
+    template<typename T>
+    concept double_constant = meta_constant<T, double>;
+    template<typename T>
+    concept long_double_constant = meta_constant<T, long double>;
+    template<typename T>
+    concept size_constant = meta_constant<T, std::size_t>;
+    template<typename T>
+    concept ptrdiff_constant = meta_constant<T, std::ptrdiff_t>;
+    template<typename T>
+    concept byte_constant = meta_constant<T, std::byte>;
+#ifdef UINT8_MAX
+    template<typename T>
+    concept uint8_constant = meta_constant<T, std::uint8_t>;
+#endif
+#ifdef INT8_MAX
+    template<typename T>
+    concept int8_constant = meta_constant<T, std::int8_t>;
+#endif
+    template<typename T>
+    concept uint_fast8_constant = meta_constant<T, std::uint_fast8_t>;
+    template<typename T>
+    concept int_fast8_constant = meta_constant<T, std::int_fast8_t>;
+    template<typename T>
+    concept uint_least8_constant = meta_constant<T, std::uint_least8_t>;
+    template<typename T>
+    concept int_least8_constant = meta_constant<T, std::int_least8_t>;
+#ifdef UINT16_MAX
+    template<typename T>
+    concept uint16_constant = meta_constant<T, std::uint16_t>;
+#endif
+#ifdef INT16_MAX
+    template<typename T>
+    concept int16_constant = meta_constant<T, std::int16_t>;
+#endif
+    template<typename T>
+    concept uint_fast16_constant = meta_constant<T, std::uint_fast16_t>;
+    template<typename T>
+    concept int_fast16_constant = meta_constant<T, std::int_fast16_t>;
+    template<typename T>
+    concept uint_least16_constant = meta_constant<T, std::uint_least16_t>;
+    template<typename T>
+    concept int_least16_constant = meta_constant<T, std::int_least16_t>;
+#ifdef UINT32_MAX
+    template<typename T>
+    concept uint32_constant = meta_constant<T, std::uint32_t>;
+#endif
+#ifdef INT32_MAX
+    template<typename T>
+    concept int32_constant = meta_constant<T, std::int32_t>;
+#endif
+    template<typename T>
+    concept uint_fast32_constant = meta_constant<T, std::uint_fast32_t>;
+    template<typename T>
+    concept int_fast32_constant = meta_constant<T, std::int_fast32_t>;
+    template<typename T>
+    concept uint_least32_constant = meta_constant<T, std::uint_least32_t>;
+    template<typename T>
+    concept int_least32_constant = meta_constant<T, std::int_least32_t>;
+#ifdef UINT64_MAX
+    template<typename T>
+    concept uint64_constant = meta_constant<T, std::uint64_t>;
+#endif
+#ifdef INT64_MAX
+    template<typename T>
+    concept int64_constant = meta_constant<T, std::int64_t>;
+#endif
+    template<typename T>
+    concept uint_fast64_constant = meta_constant<T, std::uint_fast64_t>;
+    template<typename T>
+    concept int_fast64_constant = meta_constant<T, std::int_fast64_t>;
+    template<typename T>
+    concept uint_least64_constant = meta_constant<T, std::uint_least64_t>;
+    template<typename T>
+    concept int_least64_constant = meta_constant<T, std::int_least64_t>;
+    template<typename T>
+    concept uintptr_constant = meta_constant<T, std::uintptr_t>;
+#ifdef INTPTR_MAX
+    template<typename T>
+    concept intptr_constant = meta_constant<T, std::intptr_t>;
+#endif
+    template<typename T>
+    concept uintmax_constant = meta_constant<T, std::uintmax_t>;
+    template<typename T>
+    concept intmax_constant = meta_constant<T, std::intmax_t>;
+    //! @}
 
     /**
      * @brief An integral compile-time constant.
@@ -192,6 +297,40 @@ namespace posu {
     concept unsigned_numeric_constant = unsigned_integral_constant<T>;
     template<typename T>
     concept numeric_constant = integral_constant<T> || floating_point_constant<T>;
+    //! @}
+
+    /**
+     * @brief An arithmetic compile-time constant.
+     *
+     * @tparam T The type to check against this concept.
+     *
+     * @{
+     */
+    template<typename T>
+    concept signed_arithmetic_constant =
+        meta_value_constant<T> && signed_arithmetic<typename T::value_type>;
+    template<typename T>
+    concept unsigned_arithmetic_constant =
+        meta_value_constant<T> && unsigned_arithmetic<typename T::value_type>;
+    template<typename T>
+    concept arithmetic_constant = meta_value_constant<T> && arithmetic<typename T::value_type>;
+    //! @}
+
+    /**
+     * @brief Specific value constants.
+     *
+     * @tparam T The type to check against this concept.
+     *
+     * @{
+     */
+    template<typename T>
+    concept zero_constant = meta_value_constant<T> && T::value == 0;
+    template<typename T>
+    concept one_constant = meta_value_constant<T> && T::value == 1;
+    template<typename T>
+    concept true_constant = bool_constant<T> && T::value;
+    template<typename T>
+    concept false_constant = bool_constant<T> && !T::value;
     //! @}
 
 } // namespace posu
