@@ -6,16 +6,23 @@
 namespace posu::units {
 
     struct time_tag {
-        constexpr time_tag() noexcept = default;
+        using type       = time_tag;
+        using value_type = std::string_view;
+
+        static constexpr auto value = std::string_view{"second"};
+
+        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
+        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
     template<typename Rep, typename Period>
-        requires(std::integral<Rep> || std::floating_point<Rep>)
     class base_unit<Rep, Period, time_tag> : public std::chrono::duration<Rep, Period> {
     private:
         using parent_type = std::chrono::duration<Rep, Period>;
 
     public:
+        using units = time_tag;
+
         using parent_type::parent_type;
     };
 

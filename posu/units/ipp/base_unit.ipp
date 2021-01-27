@@ -7,7 +7,7 @@ posu::units::detail::to_duration(const base_quantity auto& quantity) noexcept
 }
 
 template<typename Rep, typename Period, typename Tag>
-    requires(posu::arithmetic<Rep>)
+    requires(posu::arithmetic<Rep> && (posu::meta_constant<Tag, std::string_view>))
 template<typename Rep2>
     requires(
         std::convertible_to<Rep, const Rep2&> && (std::chrono::treat_as_floating_point_v<Rep> ||
@@ -17,7 +17,7 @@ constexpr posu::units::base_unit<Rep, Period, Tag>::base_unit(const Rep2& r) : m
 }
 
 template<typename Rep, typename Period, typename Tag>
-    requires(posu::arithmetic<Rep>)
+    requires(posu::arithmetic<Rep> && (posu::meta_constant<Tag, std::string_view>))
 template<typename Rep2, typename Period2>
     requires(
         std::chrono::treat_as_floating_point_v<Rep> ||
@@ -30,14 +30,14 @@ constexpr posu::units::base_unit<Rep, Period, Tag>::base_unit(
 }
 
 template<typename Rep, typename Period, typename Tag>
-    requires(posu::arithmetic<Rep>)
+    requires(posu::arithmetic<Rep> && (posu::meta_constant<Tag, std::string_view>))
 [[nodiscard]] constexpr auto posu::units::base_unit<Rep, Period, Tag>::count() const noexcept
 {
     return m_duration.count();
 }
 
 template<typename Rep, typename Period, typename Tag>
-    requires(posu::arithmetic<Rep>)
+    requires(posu::arithmetic<Rep> && (posu::meta_constant<Tag, std::string_view>))
 template<typename RRep, typename RPeriod>
 [[nodiscard]] constexpr auto posu::units::base_unit<Rep, Period, Tag>::operator==(
     const base_unit<RRep, RPeriod, units>& rhs) const noexcept
@@ -46,7 +46,7 @@ template<typename RRep, typename RPeriod>
 }
 
 template<typename Rep, typename Period, typename Tag>
-    requires(posu::arithmetic<Rep>)
+    requires(posu::arithmetic<Rep> && (posu::meta_constant<Tag, std::string_view>))
 template<typename RRep, typename RPeriod>
 [[nodiscard]] constexpr auto posu::units::base_unit<Rep, Period, Tag>::operator<=>(
     const base_unit<RRep, RPeriod, units>& rhs) const noexcept

@@ -6,7 +6,13 @@
 namespace posu::units {
 
     struct thermodynamic_temperature_tag {
-        constexpr thermodynamic_temperature_tag() noexcept = default;
+        using type       = thermodynamic_temperature_tag;
+        using value_type = std::string_view;
+
+        static constexpr auto value = std::string_view{"kelvin"};
+
+        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
+        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
     template<typename Rep, typename Period>

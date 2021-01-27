@@ -6,7 +6,13 @@
 namespace posu::units {
 
     struct length_tag {
-        constexpr length_tag() noexcept = default;
+        using type       = length_tag;
+        using value_type = std::string_view;
+
+        static constexpr auto value = std::string_view{"meter"};
+
+        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
+        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
     template<typename Rep, typename Period>

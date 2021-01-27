@@ -2,6 +2,7 @@
 #define POSU_UNITS_BASE_UNIT_HPP
 
 #include <chrono>
+#include <string_view>
 
 #include "posu/concepts.hpp"
 
@@ -15,7 +16,7 @@ namespace posu::units {
      * @tparam Tag    The tag type representing this quantity's units.
      */
     template<typename Rep, typename Period, typename Tag>
-        requires(arithmetic<Rep>)
+        requires(arithmetic<Rep> && (meta_constant<Tag, std::string_view>))
     class base_unit;
 
     /**
@@ -54,6 +55,33 @@ namespace posu::units {
     inline constexpr bool is_quantity_of_v = is_quantity_of<T, Units>::value;
     //! @}
 
+    /**
+     * @brief Base unit tag type template.
+     *
+     * @tparam UnitsString The unit string.
+     */
+    template<const char* const UnitsString>
+    struct base_unit_tag {
+        using type       = base_unit_tag<UnitsString>; //!< Self-type.
+        using value_type = std::string_view;           //!< The unit string literal type.
+
+        static constexpr auto value = std::string_view{UnitsString}; //!< The unit string literal.
+
+        /**
+         * @brief Obtain the wrapped unit string literal.
+         *
+         * @return Returns the wrapped unit string literal.
+         */
+        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
+
+        /**
+         * @brief Conversion to wrapped unit string literal.
+         *
+         * @return Returns the wrapped unit string literal.
+         */
+        [[nodiscard]] constexpr operator value_type() const noexcept { return value; }
+    };
+
     namespace detail {
 
         [[nodiscard]] constexpr auto to_duration(const base_quantity auto& quantity) noexcept;
@@ -61,7 +89,7 @@ namespace posu::units {
     }
 
     template<typename Rep, typename Period, typename Tag>
-        requires(arithmetic<Rep>)
+        requires(arithmetic<Rep> && (meta_constant<Tag, std::string_view>))
     class base_unit {
     public:
         using rep    = Rep;    //!< The numeric representation type.

@@ -6,7 +6,13 @@
 namespace posu::units {
 
     struct amount_of_substance_tag {
-        constexpr amount_of_substance_tag() noexcept = default;
+        using type       = amount_of_substance_tag;
+        using value_type = std::string_view;
+
+        static constexpr auto value = std::string_view{"mole"};
+
+        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
+        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
     template<typename Rep, typename Period>

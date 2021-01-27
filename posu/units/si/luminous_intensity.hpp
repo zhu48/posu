@@ -6,7 +6,13 @@
 namespace posu::units {
 
     struct luminous_intensity_tag {
-        constexpr luminous_intensity_tag() noexcept = default;
+        using type       = luminous_intensity_tag;
+        using value_type = std::string_view;
+
+        static constexpr auto value = std::string_view{"candela"};
+
+        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
+        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
     template<typename Rep, typename Period>
