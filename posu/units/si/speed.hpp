@@ -7,7 +7,14 @@
 
 namespace posu::units {
 
-    using speed_tag = type_ratio<type_list<length_tag>, type_list<time_tag>>;
+    using speed_derivation = type_ratio<type_list<length_tag>, type_list<time_tag>>;
+    using speed_scale      = std::ratio<1>;
+    using speed_offset     = std::integral_constant<int, 0>;
+
+    inline constexpr char speed_units_string[] = "meters per second";
+
+    using speed_tag =
+        derived_unit_tag<speed_derivation, speed_scale, speed_offset, speed_units_string>;
 
     template<typename Rep, typename Period>
     using speed = derived_unit<Rep, Period, speed_tag>;
