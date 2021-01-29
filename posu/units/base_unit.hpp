@@ -15,8 +15,7 @@ namespace posu::units {
      * @tparam Period The ratio with respect to the unit quantity type.
      * @tparam Tag    The tag type representing this quantity's units.
      */
-    template<typename Rep, typename Period, typename Tag>
-        requires(arithmetic<Rep> && (meta_constant<Tag, std::string_view>))
+    template<arithmetic Rep, typename Period, meta_constant<std::string_view> Tag>
     class base_unit;
 
     /**
@@ -88,8 +87,7 @@ namespace posu::units {
 
     }
 
-    template<typename Rep, typename Period, typename Tag>
-        requires(arithmetic<Rep> && (meta_constant<Tag, std::string_view>))
+    template<arithmetic Rep, typename Period, meta_constant<std::string_view> Tag>
     class base_unit {
     public:
         using rep    = Rep;    //!< The numeric representation type.
