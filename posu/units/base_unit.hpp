@@ -46,7 +46,9 @@ namespace posu::units {
      * @{
      */
     template<typename T, typename Units>
-    concept quantity_of = base_quantity<T> && std::same_as<Units, typename T::units>;
+    concept quantity_of = base_quantity<T> &&
+        (std::same_as<Units, typename T::units> ||
+         (base_quantity<Units> && std::same_as<typename T::units, typename Units::units>));
     template<typename T, typename Units>
     struct is_quantity_of : std::bool_constant<quantity_of<T, Units>> {
     };
@@ -150,6 +152,44 @@ namespace posu::units {
         operator<=>(const base_unit<RRep, RPeriod, units>& rhs) const noexcept;
         //! @}
 
+        /**
+         * @name Unary Arithetic Operators
+         *
+         * @brief Unary plus and minus, pre- and post-increment and decrement.
+         *
+         * @return Unary plus and minus return the result by copy.
+         * @return Pre-increment and pre-decrement return self-reference.
+         * @return Post-increment and post-decrement return the original value by copy.
+         *
+         * @{
+         */
+        [[nodiscard]] constexpr auto operator+() const noexcept;
+        [[nodiscard]] constexpr auto operator-() const noexcept;
+        constexpr auto&              operator++() noexcept;
+        constexpr auto               operator++(int) noexcept;
+        constexpr auto&              operator--() noexcept;
+        constexpr auto               operator--(int) noexcept;
+        //! @}
+
+        /**
+         * @name Arithmetic Assignment Operators
+         *
+         * @brief Arithmetic assignment operators.
+         *
+         * @param rhs The right-hand-side operand.
+         *
+         * @return Returns self-reference.
+         *
+         * @{
+         */
+        constexpr auto& operator+=(const base_unit& rhs) noexcept;
+        constexpr auto& operator-=(const base_unit& rhs) noexcept;
+        constexpr auto& operator*=(const rep& rhs) noexcept;
+        constexpr auto& operator/=(const rep& rhs) noexcept;
+        constexpr auto& operator%=(const rep& rhs) noexcept;
+        constexpr auto& operator%=(const base_unit& rhs) noexcept;
+        //! @}
+
     private:
         using underlying_type = std::chrono::duration<Rep, Period>;
 
@@ -158,7 +198,65 @@ namespace posu::units {
         underlying_type m_duration;
     };
 
+    /**
+     * @name Arithmetic Operators
+     *
+     * @brief Arithmetic operations on base-unit quantities.
+     *
+     * @tparam Lhs    The type of the left-hand-side operand.
+     * @tparam Rhs    The type of the right-hand-side operand.
+     * @tparam Rep    The quantity type's numeric representation type.
+     * @tparam Period The quantity type's to-unit-quantity ratio.
+     * @tparam Units  The quantity type's units-of-measure tag type.
+     *
+     * @param lhs The left-hand-side operand.
+     * @param rhs The right-hand-side operand.
+     *
+     * @return Returns the arithmeitc operation result.
+     *
+     * @{
+     */
+    template<base_quantity Lhs, quantity_of<Lhs> Rhs>
+    [[nodiscard]] auto operator+(const Lhs& lhs, const Rhs& rhs) noexcept;
+    template<base_quantity Lhs, quantity_of<Lhs> Rhs>
+    [[nodiscard]] auto operator-(const Lhs& lhs, const Rhs& rhs) noexcept;
+    template<arithmetic Lhs, typename Rep, typename Period, typename Units>
+    [[nodiscard]] auto operator*(const Lhs& lhs, const base_unit<Rep, Period, Units>& rhs) noexcept;
+    [[nodiscard]] auto
+    operator*(const base_quantity auto& lhs, const arithmetic auto& rhs) noexcept;
+    template<base_quantity Lhs>
+    [[nodiscard]] auto operator/(const Lhs& lhs, const quantity_of<Lhs> auto& rhs) noexcept;
+    template<typename Rep, typename Period, typename Units, arithmetic Rhs>
+    [[nodiscard]] auto operator/(const base_unit<Rep, Period, Units>& lhs, const Rhs& rhs) noexcept;
+    template<base_quantity Lhs, quantity_of<Lhs> Rhs>
+    [[nodiscard]] auto operator%(const Lhs& lhs, const Rhs& rhs) noexcept;
+    template<typename Rep, typename Period, typename Units, arithmetic Rhs>
+    [[nodiscard]] auto operator%(const base_unit<Rep, Period, Units>& lhs, const Rhs& rhs) noexcept;
+    //! @}
+
 } // namespace posu::units
+
+/**
+ * @brief Specialization for finding the common type of two base quantities with the same units.
+ *
+ * @tparam LRep    The numeric representation type of the left-hand-side quantity type.
+ * @tparam LPeriod The to-unit-quantity ratio of the left-hand-side quantity type.
+ * @tparam RRep    The numeric representation type of the right-hand-side quantity type.
+ * @tparam RPeriod The to-unit-quantity ratio of the right-hand-side quantity type.
+ * @tparam Units   The units-of-measure tag type.
+ */
+template<typename LRep, typename LPeriod, typename RRep, typename RPeriod, typename Units>
+struct std::common_type<
+    posu::units::base_unit<LRep, LPeriod, Units>,
+    posu::units::base_unit<RRep, RPeriod, Units>> {
+    //! The common quantity type.
+    using type = posu::units::base_unit<
+        std::common_type_t<LRep, RRep>,
+        typename std::common_type_t<
+            std::chrono::duration<LRep, LPeriod>,
+            std::chrono::duration<RRep, RPeriod>>::period,
+        Units>;
+};
 
 #include "posu/units/ipp/base_unit.ipp"
 

@@ -114,3 +114,84 @@ TEMPLATE_TEST_CASE(
         }
     }
 }
+
+TEST_CASE("comparison operations", "[compare]")
+{
+    REQUIRE(drop(1) < dash(1));
+    REQUIRE(drop(1) <= dash(1));
+    REQUIRE(drop(100) <= dash(1));
+    REQUIRE(drop(100) == dash(1));
+    REQUIRE(drop(100) >= dash(1));
+    REQUIRE(drop(1000) >= dash(1));
+    REQUIRE(drop(1000) > dash(1));
+}
+
+TEMPLATE_TEST_CASE(
+    "arithmetic operations on the same type",
+    "[arithmetic]",
+    drop,
+    dash,
+    pinch,
+    dollop,
+    skip,
+    hop,
+    stretch,
+    trek)
+{
+    SECTION("unary +/-")
+    {
+        constexpr auto value = TestType(1);
+
+        REQUIRE(TestType(1) == +value);
+        REQUIRE(TestType(-1) == -value);
+    }
+
+    SECTION("increment/decrement")
+    {
+        auto value = TestType(0);
+
+        REQUIRE(--value == TestType(-1));
+        REQUIRE(value == TestType(-1));
+        REQUIRE(value-- == TestType(-1));
+        REQUIRE(value == TestType(-2));
+        REQUIRE(++value == TestType(-1));
+        REQUIRE(value == TestType(-1));
+        REQUIRE(value++ == TestType(-1));
+        REQUIRE(value == TestType(0));
+    }
+
+    SECTION("arithmetic assignment")
+    {
+        auto value = TestType(0);
+
+        REQUIRE((value += TestType(1)) == TestType(1));
+        REQUIRE((value -= TestType(2)) == TestType(-1));
+        REQUIRE((value *= 100) == TestType(-100));
+        REQUIRE((value /= -2) == TestType(50));
+        REQUIRE((value %= 30) == TestType(20));
+        REQUIRE((value %= TestType(15)) == TestType(5));
+    }
+
+    SECTION("arithmetics")
+    {
+        constexpr auto lhs = TestType(10);
+        constexpr auto rhs = TestType(2);
+
+        REQUIRE((lhs + rhs) == TestType(12));
+        REQUIRE((lhs - rhs) == TestType(8));
+        REQUIRE((lhs * 4) == TestType(40));
+        REQUIRE((3 * rhs) == TestType(6));
+        REQUIRE((lhs / rhs) == 5);
+        REQUIRE((lhs / 5) == TestType(2));
+        REQUIRE((lhs % rhs) == TestType(0));
+        REQUIRE((lhs % 7) == TestType(3));
+    }
+}
+
+TEST_CASE("arithmetic operations on related types", "[arithmetic]")
+{
+    REQUIRE((drop(2) + pinch(1)) == drop(1002));
+    REQUIRE((pinch(1) - drop(250)) == drop(750));
+    REQUIRE((pinch(1) / drop(250)) == 4);
+    REQUIRE((drop(2500) % pinch(1)) == drop(500));
+}
