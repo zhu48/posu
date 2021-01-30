@@ -1,60 +1,48 @@
-#include "posu/units/units.hpp"
+#include "posu/units/base_unit.hpp"
 
-#define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
 
+namespace {
+
+    constexpr char ingredients_unit_string[] = "pinch";
+    constexpr char distance_unit_string[]    = "stretch";
+
+    using ingredients_tag = posu::units::base_unit_tag<ingredients_unit_string>;
+    using distance_tag    = posu::units::base_unit_tag<distance_unit_string>;
+
+    template<typename Rep, typename Period>
+    using ingredients = posu::units::base_unit<Rep, Period, ingredients_tag>;
+    using drop        = ingredients<int, std::milli>;
+    using dash        = ingredients<int, std::deci>;
+    using pinch       = ingredients<int, std::ratio<1>>;
+    using dollop      = ingredients<int, std::kilo>;
+
+    template<typename Rep, typename Period>
+    using distance = posu::units::base_unit<Rep, Period, distance_tag>;
+    using skip     = distance<int, std::milli>;
+    using hop      = distance<int, std::deci>;
+    using stretch  = distance<int, std::ratio<1>>;
+    using trek     = distance<int, std::kilo>;
+
+} // namespace
+
 TEMPLATE_TEST_CASE(
-    "SI units conversion rules",
-    "[si][construct][convert]",
+    "conversion rules",
+    "[construct][convert]",
     (std::tuple<
-        posu::units::kiloseconds,
-        posu::units::seconds,
-        posu::units::time<int, std::ratio<1, 3>>,
-        posu::units::time<int, std::ratio<1, 5>>,
-        posu::units::time<double, std::ratio<1>>,
-        posu::units::candelas>),
+        dollop,
+        pinch,
+        ingredients<int, std::ratio<1, 3>>,
+        ingredients<int, std::ratio<1, 5>>,
+        ingredients<double, std::ratio<1>>,
+        stretch>),
     (std::tuple<
-        posu::units::kilometers,
-        posu::units::meters,
-        posu::units::length<int, std::ratio<1, 3>>,
-        posu::units::length<int, std::ratio<1, 5>>,
-        posu::units::length<double, std::ratio<1>>,
-        posu::units::seconds>),
-    (std::tuple<
-        posu::units::kilograms,
-        posu::units::grams,
-        posu::units::mass<int, std::ratio<1, 3>>,
-        posu::units::mass<int, std::ratio<1, 5>>,
-        posu::units::mass<double, std::ratio<1>>,
-        posu::units::meters>),
-    (std::tuple<
-        posu::units::kiloamperes,
-        posu::units::amperes,
-        posu::units::electric_current<int, std::ratio<1, 3>>,
-        posu::units::electric_current<int, std::ratio<1, 5>>,
-        posu::units::electric_current<double, std::ratio<1>>,
-        posu::units::grams>),
-    (std::tuple<
-        posu::units::kilokelvins,
-        posu::units::kelvins,
-        posu::units::thermodynamic_temperature<int, std::ratio<1, 3>>,
-        posu::units::thermodynamic_temperature<int, std::ratio<1, 5>>,
-        posu::units::thermodynamic_temperature<double, std::ratio<1>>,
-        posu::units::amperes>),
-    (std::tuple<
-        posu::units::kilomoles,
-        posu::units::moles,
-        posu::units::amount_of_substance<int, std::ratio<1, 3>>,
-        posu::units::amount_of_substance<int, std::ratio<1, 5>>,
-        posu::units::amount_of_substance<double, std::ratio<1>>,
-        posu::units::kelvins>),
-    (std::tuple<
-        posu::units::kilocandelas,
-        posu::units::candelas,
-        posu::units::luminous_intensity<int, std::ratio<1, 3>>,
-        posu::units::luminous_intensity<int, std::ratio<1, 5>>,
-        posu::units::luminous_intensity<double, std::ratio<1>>,
-        posu::units::moles>))
+        trek,
+        stretch,
+        distance<int, std::ratio<1, 3>>,
+        distance<int, std::ratio<1, 5>>,
+        distance<double, std::ratio<1>>,
+        pinch>))
 {
     using kilo_type      = std::tuple_element_t<0, TestType>;
     using base_type      = std::tuple_element_t<1, TestType>;
