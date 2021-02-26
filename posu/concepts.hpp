@@ -8,6 +8,23 @@
 
 namespace posu {
 
+    template<typename T>
+    concept weakly_incrementable = std::default_initializable<T> && std::movable<T> && requires(T i)
+    {
+        // clang-format off
+        { ++i } -> std::same_as<T&>;
+        i++;
+        // clang-format on
+    };
+
+    template<typename T>
+    concept incrementable = std::regular<T> && weakly_incrementable<T> && requires(T i)
+    {
+        // clang-format off
+        { i++ } -> std::same_as<T>;
+        // clang-format on
+    };
+
     /**
      * @brief A type that represents values of another type.
      *
@@ -89,7 +106,7 @@ namespace posu {
     {
         template<typename T>
         concept arithmetic_operable_class =
-            std::totally_ordered<T> && std::incrementable<T> && requires(T lhs, T rhs)
+            std::totally_ordered<T> && incrementable<T> && requires(T lhs, T rhs)
         {
             // clang-format off
             // decrement operators
