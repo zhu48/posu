@@ -35,6 +35,8 @@ namespace posu {
     };
     template<typename T>
     inline constexpr bool is_type_ratio_v = is_type_ratio<T>::value;
+    template<typename T>
+    concept meta_ratio = is_type_ratio_v<T>;
     //! @}
 
     /**
