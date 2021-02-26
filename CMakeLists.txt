@@ -58,12 +58,32 @@ if(POSU_ENABLE_WERROR)
 endif()
 
 # handle detailed-concepts-diagnostics
-if(POSU_ENABLE_DETAILED_CONCEPTS_DIAGNOSTICS)
-    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    if(POSU_ENABLE_DETAILED_CONCEPTS_DIAGNOSTICS)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fconcepts-diagnostics-depth=9")
-    elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-        message(STATUS "ignoring POSU_ENABLE_DETAILED_CONCEPTS_DIAGNOSTICS on clang")
     else()
+        string(
+            REGEX_REPLACE
+                " -fconcepts-diagnostics-depth=9"
+                " "
+            CMAKE_CXX_FLAGS
+            ${CMAKE_CXX_FLAGS}
+        )
+    endif()
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    if(POSU_ENABLE_DETAILED_CONCEPTS_DIAGNOSTICS)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftemplate-backtrace-limit=0")
+    else()
+        string(
+            REGEX_REPLACE
+                " -ftemplate-backtrace-limit=0"
+                " "
+            CMAKE_CXX_FLAGS
+            ${CMAKE_CXX_FLAGS}
+        )
+    endif()
+else()
+    if(POSU_ENABLE_DETAILED_CONCEPTS_DIAGNOSTICS)
         message(SEND_ERROR  "option  : POSU_ENABLE_DETAILED_CONCEPTS_DIAGNOSTICS")
         message(SEND_ERROR  "compiler: ${CMAKE_CXX_COMPILER_ID}")
         message(FATAL_ERROR "concepts diagnostics on this compiler unsupported")
