@@ -1,12 +1,19 @@
 #include <utility>
 
+template<std::size_t Num, std::size_t Den>
+struct posu::units::detail::is_std_ratio<std::ratio<Num, Den>> : std::true_type {
+};
+
 [[nodiscard]] constexpr auto
 posu::units::detail::to_duration(const base_quantity auto& quantity) noexcept
 {
     return quantity.m_duration;
 }
 
-template<posu::arithmetic Rep, typename Period, posu::meta_constant<std::string_view> Tag>
+template<
+    posu::arithmetic                      Rep,
+    posu::units::detail::std_ratio        Period,
+    posu::meta_constant<std::string_view> Tag>
 template<typename Rep2>
     requires(
         std::convertible_to<Rep, const Rep2&> && (std::chrono::treat_as_floating_point_v<Rep> ||
@@ -15,7 +22,10 @@ constexpr posu::units::base_unit<Rep, Period, Tag>::base_unit(const Rep2& r) : m
 {
 }
 
-template<posu::arithmetic Rep, typename Period, posu::meta_constant<std::string_view> Tag>
+template<
+    posu::arithmetic                      Rep,
+    posu::units::detail::std_ratio        Period,
+    posu::meta_constant<std::string_view> Tag>
 template<typename Rep2, typename Period2>
     requires(
         std::chrono::treat_as_floating_point_v<Rep> ||
@@ -27,13 +37,19 @@ constexpr posu::units::base_unit<Rep, Period, Tag>::base_unit(
 {
 }
 
-template<posu::arithmetic Rep, typename Period, posu::meta_constant<std::string_view> Tag>
+template<
+    posu::arithmetic                      Rep,
+    posu::units::detail::std_ratio        Period,
+    posu::meta_constant<std::string_view> Tag>
 [[nodiscard]] constexpr auto posu::units::base_unit<Rep, Period, Tag>::count() const noexcept
 {
     return m_duration.count();
 }
 
-template<posu::arithmetic Rep, typename Period, posu::meta_constant<std::string_view> Tag>
+template<
+    posu::arithmetic                      Rep,
+    posu::units::detail::std_ratio        Period,
+    posu::meta_constant<std::string_view> Tag>
 template<typename RRep, typename RPeriod>
 [[nodiscard]] constexpr auto posu::units::base_unit<Rep, Period, Tag>::operator==(
     const base_unit<RRep, RPeriod, units>& rhs) const noexcept
@@ -41,7 +57,10 @@ template<typename RRep, typename RPeriod>
     return m_duration == detail::to_duration(rhs);
 }
 
-template<posu::arithmetic Rep, typename Period, posu::meta_constant<std::string_view> Tag>
+template<
+    posu::arithmetic                      Rep,
+    posu::units::detail::std_ratio        Period,
+    posu::meta_constant<std::string_view> Tag>
 template<typename RRep, typename RPeriod>
 [[nodiscard]] constexpr auto posu::units::base_unit<Rep, Period, Tag>::operator<=>(
     const base_unit<RRep, RPeriod, units>& rhs) const noexcept
@@ -49,19 +68,28 @@ template<typename RRep, typename RPeriod>
     return m_duration <=> detail::to_duration(rhs);
 }
 
-template<posu::arithmetic Rep, typename Period, posu::meta_constant<std::string_view> Tag>
+template<
+    posu::arithmetic                      Rep,
+    posu::units::detail::std_ratio        Period,
+    posu::meta_constant<std::string_view> Tag>
 [[nodiscard]] constexpr auto posu::units::base_unit<Rep, Period, Tag>::operator+() const noexcept
 {
     return base_unit(count());
 }
 
-template<posu::arithmetic Rep, typename Period, posu::meta_constant<std::string_view> Tag>
+template<
+    posu::arithmetic                      Rep,
+    posu::units::detail::std_ratio        Period,
+    posu::meta_constant<std::string_view> Tag>
 [[nodiscard]] constexpr auto posu::units::base_unit<Rep, Period, Tag>::operator-() const noexcept
 {
     return base_unit(-count());
 }
 
-template<posu::arithmetic Rep, typename Period, posu::meta_constant<std::string_view> Tag>
+template<
+    posu::arithmetic                      Rep,
+    posu::units::detail::std_ratio        Period,
+    posu::meta_constant<std::string_view> Tag>
 constexpr auto& posu::units::base_unit<Rep, Period, Tag>::operator++() noexcept
 {
     ++m_duration;
@@ -69,7 +97,10 @@ constexpr auto& posu::units::base_unit<Rep, Period, Tag>::operator++() noexcept
     return *this;
 }
 
-template<posu::arithmetic Rep, typename Period, posu::meta_constant<std::string_view> Tag>
+template<
+    posu::arithmetic                      Rep,
+    posu::units::detail::std_ratio        Period,
+    posu::meta_constant<std::string_view> Tag>
 constexpr auto posu::units::base_unit<Rep, Period, Tag>::operator++(int) noexcept
 {
     const auto old_val = count();
@@ -79,7 +110,10 @@ constexpr auto posu::units::base_unit<Rep, Period, Tag>::operator++(int) noexcep
     return base_unit(old_val);
 }
 
-template<posu::arithmetic Rep, typename Period, posu::meta_constant<std::string_view> Tag>
+template<
+    posu::arithmetic                      Rep,
+    posu::units::detail::std_ratio        Period,
+    posu::meta_constant<std::string_view> Tag>
 constexpr auto& posu::units::base_unit<Rep, Period, Tag>::operator--() noexcept
 {
     --m_duration;
@@ -87,7 +121,10 @@ constexpr auto& posu::units::base_unit<Rep, Period, Tag>::operator--() noexcept
     return *this;
 }
 
-template<posu::arithmetic Rep, typename Period, posu::meta_constant<std::string_view> Tag>
+template<
+    posu::arithmetic                      Rep,
+    posu::units::detail::std_ratio        Period,
+    posu::meta_constant<std::string_view> Tag>
 constexpr auto posu::units::base_unit<Rep, Period, Tag>::operator--(int) noexcept
 {
     const auto old_val = count();
@@ -97,7 +134,10 @@ constexpr auto posu::units::base_unit<Rep, Period, Tag>::operator--(int) noexcep
     return base_unit(old_val);
 }
 
-template<posu::arithmetic Rep, typename Period, posu::meta_constant<std::string_view> Tag>
+template<
+    posu::arithmetic                      Rep,
+    posu::units::detail::std_ratio        Period,
+    posu::meta_constant<std::string_view> Tag>
 constexpr auto& posu::units::base_unit<Rep, Period, Tag>::operator+=(const base_unit& rhs) noexcept
 {
     m_duration += rhs.m_duration;
@@ -105,7 +145,10 @@ constexpr auto& posu::units::base_unit<Rep, Period, Tag>::operator+=(const base_
     return *this;
 }
 
-template<posu::arithmetic Rep, typename Period, posu::meta_constant<std::string_view> Tag>
+template<
+    posu::arithmetic                      Rep,
+    posu::units::detail::std_ratio        Period,
+    posu::meta_constant<std::string_view> Tag>
 constexpr auto& posu::units::base_unit<Rep, Period, Tag>::operator-=(const base_unit& rhs) noexcept
 {
     m_duration -= rhs.m_duration;
@@ -113,7 +156,10 @@ constexpr auto& posu::units::base_unit<Rep, Period, Tag>::operator-=(const base_
     return *this;
 }
 
-template<posu::arithmetic Rep, typename Period, posu::meta_constant<std::string_view> Tag>
+template<
+    posu::arithmetic                      Rep,
+    posu::units::detail::std_ratio        Period,
+    posu::meta_constant<std::string_view> Tag>
 constexpr auto& posu::units::base_unit<Rep, Period, Tag>::operator*=(const rep& rhs) noexcept
 {
     m_duration *= rhs;
@@ -121,7 +167,10 @@ constexpr auto& posu::units::base_unit<Rep, Period, Tag>::operator*=(const rep& 
     return *this;
 }
 
-template<posu::arithmetic Rep, typename Period, posu::meta_constant<std::string_view> Tag>
+template<
+    posu::arithmetic                      Rep,
+    posu::units::detail::std_ratio        Period,
+    posu::meta_constant<std::string_view> Tag>
 constexpr auto& posu::units::base_unit<Rep, Period, Tag>::operator/=(const rep& rhs) noexcept
 {
     m_duration /= rhs;
@@ -129,7 +178,10 @@ constexpr auto& posu::units::base_unit<Rep, Period, Tag>::operator/=(const rep& 
     return *this;
 }
 
-template<posu::arithmetic Rep, typename Period, posu::meta_constant<std::string_view> Tag>
+template<
+    posu::arithmetic                      Rep,
+    posu::units::detail::std_ratio        Period,
+    posu::meta_constant<std::string_view> Tag>
 constexpr auto& posu::units::base_unit<Rep, Period, Tag>::operator%=(const rep& rhs) noexcept
 {
     m_duration %= rhs;
@@ -137,7 +189,10 @@ constexpr auto& posu::units::base_unit<Rep, Period, Tag>::operator%=(const rep& 
     return *this;
 }
 
-template<posu::arithmetic Rep, typename Period, posu::meta_constant<std::string_view> Tag>
+template<
+    posu::arithmetic                      Rep,
+    posu::units::detail::std_ratio        Period,
+    posu::meta_constant<std::string_view> Tag>
 constexpr auto& posu::units::base_unit<Rep, Period, Tag>::operator%=(const base_unit& rhs) noexcept
 {
     m_duration %= rhs.m_duration;

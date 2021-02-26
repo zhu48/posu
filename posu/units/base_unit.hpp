@@ -8,6 +8,20 @@
 
 namespace posu::units {
 
+    namespace detail {
+
+        template<typename T>
+        struct is_std_ratio : std::false_type {
+        };
+
+        template<typename T>
+        inline constexpr bool is_std_ratio_v = is_std_ratio<T>::value;
+
+        template<typename T>
+        concept std_ratio = is_std_ratio_v<T>;
+
+    } // namespace detail
+
     /**
      * @brief A quanity with a unit-of-measure represented by a tag type.
      *
@@ -15,7 +29,7 @@ namespace posu::units {
      * @tparam Period The ratio with respect to the unit quantity type.
      * @tparam Tag    The tag type representing this quantity's units.
      */
-    template<arithmetic Rep, typename Period, meta_constant<std::string_view> Tag>
+    template<arithmetic Rep, detail::std_ratio Period, meta_constant<std::string_view> Tag>
     class base_unit;
 
     /**
@@ -35,25 +49,6 @@ namespace posu::units {
     inline constexpr bool is_base_quantity_v = is_base_quantity<T>::value;
     template<typename T>
     concept base_quantity = is_base_quantity_v<T>;
-    //! @}
-
-    /**
-     * @brief Check whether a quantity has the given units or not.
-     *
-     * @tparam T     The quantity type to check.
-     * @tparam Units The units tag type to check for.
-     *
-     * @{
-     */
-    template<typename T, typename Units>
-    concept quantity_of = base_quantity<T> &&
-        (std::same_as<Units, typename T::units> ||
-         (base_quantity<Units> && std::same_as<typename T::units, typename Units::units>));
-    template<typename T, typename Units>
-    struct is_quantity_of : std::bool_constant<quantity_of<T, Units>> {
-    };
-    template<typename T, typename Units>
-    inline constexpr bool is_quantity_of_v = is_quantity_of<T, Units>::value;
     //! @}
 
     /**
@@ -83,18 +78,66 @@ namespace posu::units {
         [[nodiscard]] constexpr operator value_type() const noexcept { return value; }
     };
 
+    /**
+     * @brief A base unit-of-measure.
+     * 
+     * @tparam T The type to check against this concept.
+     * 
+     * @{
+     */
+    template<typename T>
+    concept base_units = meta_constant<T, std::string_view>;
+    template<typename T>
+    struct is_base_units : std::bool_constant<base_units<T>> {
+    };
+    template<typename T>
+    inline constexpr bool is_base_units_v = is_base_units<T>::value;
+    //! @}
+
+    /**
+     * @brief A quantity with a base unit-of-measure.
+     * 
+     * @tparam T The type to check against this concept.
+     */
+    template<typename T>
+    concept quantity = base_quantity<T> && base_units<typename T::units>;
+
+    /**
+     * @brief Check whether a quantity has the given units or not.
+     *
+     * @tparam T     The quantity type to check.
+     * @tparam Units The units tag type to check for.
+     *
+     * @{
+     */
+    template<typename T, typename Units>
+    concept quantity_of = quantity<T> &&
+        (std::same_as<Units, typename T::units> ||
+         (quantity<Units> && std::same_as<typename T::units, typename Units::units>));
+    template<typename T, typename Units>
+    struct is_quantity_of : std::bool_constant<quantity_of<T, Units>> {
+    };
+    template<typename T, typename Units>
+    inline constexpr bool is_quantity_of_v = is_quantity_of<T, Units>::value;
+    //! @}
+
     namespace detail {
 
         [[nodiscard]] constexpr auto to_duration(const base_quantity auto& quantity) noexcept;
 
     }
 
-    template<arithmetic Rep, typename Period, meta_constant<std::string_view> Tag>
+    template<arithmetic Rep, detail::std_ratio Period, meta_constant<std::string_view> Tag>
     class base_unit {
     public:
         using rep    = Rep;    //!< The numeric representation type.
         using period = Period; //!< The ratio with respect to the unit quantity type.
         using units  = Tag;    //!< The tag type representing this quantity's units.
+
+        /**
+         * @brief Defaulted default constructor.
+         */
+        constexpr base_unit() noexcept = default;
 
         /**
          * @brief Construct a quantity with the given number of ticks.
