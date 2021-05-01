@@ -350,6 +350,23 @@ namespace posu {
     concept false_constant = bool_constant<T> && !T::value;
     //! @}
 
+    /**
+     * @brief Equality comparison between meta-constants using their underlying values.
+     *
+     * @tparam Lhs The left-hand-side meta-constant type.
+     * @tparam Rhs The right-hand-side meta-constant type.
+     *
+     * @{
+     */
+    template<typename Lhs, typename Rhs>
+    concept meta_equal_to = Lhs::value == Rhs::value;
+    template<typename Lhs, typename Rhs>
+    struct is_meta_equal : public std::bool_constant<meta_equal_to<Lhs, Rhs>> {
+    };
+    template<typename Lhs, typename Rhs>
+    inline constexpr bool is_meta_equal_v = meta_equal_to<Lhs, Rhs>;
+    //! @}
+
 } // namespace posu
 
 #endif
