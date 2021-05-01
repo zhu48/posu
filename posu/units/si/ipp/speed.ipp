@@ -1,33 +1,5 @@
 #include "posu/utility.hpp"
 
-template<typename LengthRep, typename LengthPeriod, typename TimeRep, typename TimePeriod>
-[[nodiscard]] constexpr auto posu::units::operator/(
-    const length<LengthRep, LengthPeriod>& lhs,
-    const time<TimeRep, TimePeriod>&       rhs)
-{
-    return speed<
-        std::common_type_t<LengthRep, TimeRep>,
-        std::ratio_divide<LengthPeriod, TimePeriod>>(lhs.count() / rhs.count());
-}
-
-template<typename SpeedRep, typename SpeedPeriod, typename TimeRep, typename TimePeriod>
-[[nodiscard]] constexpr auto posu::units::operator*(
-    const speed<SpeedRep, SpeedPeriod>& lhs,
-    const time<TimeRep, TimePeriod>&    rhs)
-{
-    return length<
-        std::common_type_t<SpeedRep, TimeRep>,
-        std::ratio_multiply<SpeedPeriod, TimePeriod>>(lhs.count() * rhs.count());
-}
-
-template<typename SpeedRep, typename SpeedPeriod, typename TimeRep, typename TimePeriod>
-[[nodiscard]] constexpr auto posu::units::operator*(
-    const time<TimeRep, TimePeriod>&    rhs,
-    const speed<SpeedRep, SpeedPeriod>& lhs)
-{
-    return lhs * rhs;
-}
-
 [[nodiscard]] constexpr auto
     posu::units::literals::speed_literals::operator""_am_per_sec(unsigned long long value)
         -> attometers_per_second

@@ -5,6 +5,7 @@
 #include <string_view>
 
 #include "posu/concepts.hpp"
+#include "posu/type_ratio.hpp"
 
 namespace posu::units {
 
@@ -23,13 +24,61 @@ namespace posu::units {
     } // namespace detail
 
     /**
+     * @brief A tag type denoting a unit of measure.
+     *
+     * @tparam T The type to check against this concept.
+     */
+    template<typename T>
+    concept units = meta_constant<T, std::string_view>;
+    template<typename T>
+    struct is_units : public std::bool_constant<units<T>> {
+    };
+    template<typename T>
+    inline constexpr bool is_units_v = units<T>;
+    //! @}
+
+    /**
+     * @brief A unit-of-measure derived from base units.
+     *
+     * @tparam T The type to check against this concept.
+     *
+     * @{
+     */
+    template<typename T>
+    concept derived_units =
+        units<T> && std::same_as<T, typename T::type> && meta_ratio<typename T::derivation>;
+    template<typename T>
+    struct is_derived_units : public std::bool_constant<derived_units<T>> {
+    };
+    template<typename T>
+    inline constexpr bool is_derived_units_v = derived_units<T>;
+    //! @}
+
+    /**
+     * @brief A base unit-of-measure.
+     *
+     * @tparam T The type to check against this concept.
+     *
+     * @{
+     */
+    template<typename T>
+    concept base_units = units<T> && !derived_units<T>;
+    template<typename T>
+    struct is_base_units : public std::bool_constant<base_units<T>> {
+    };
+    template<typename T>
+    inline constexpr bool is_base_units_v = is_base_units<T>::value;
+    //! @}
+
+    /**
      * @brief A quanity with a unit-of-measure represented by a tag type.
      *
      * @tparam Rep    The numeric representation type.
      * @tparam Period The ratio with respect to the unit quantity type.
      * @tparam Tag    The tag type representing this quantity's units.
      */
-    template<arithmetic Rep, detail::std_ratio Period, meta_constant<std::string_view> Tag>
+    template<arithmetic Rep, detail::std_ratio Period, typename Tag>
+        requires(units<Tag>)
     class base_unit;
 
     /**
@@ -78,29 +127,34 @@ namespace posu::units {
         [[nodiscard]] constexpr operator value_type() const noexcept { return value; }
     };
 
-    /**
-     * @brief A base unit-of-measure.
-     * 
-     * @tparam T The type to check against this concept.
-     * 
-     * @{
-     */
     template<typename T>
-    concept base_units = meta_constant<T, std::string_view>;
-    template<typename T>
-    struct is_base_units : std::bool_constant<base_units<T>> {
+    struct derivation_traits;
+
+    template<meta_constant<std::string_view> T>
+    struct derivation_traits<T> {
+    public:
+        using units      = T;
+        using derivation = type_ratio<type_list<T>>;
+
+        static constexpr auto units_string = units::value;
     };
-    template<typename T>
-    inline constexpr bool is_base_units_v = is_base_units<T>::value;
-    //! @}
+
+    template<meta_constant<std::string_view> T>
+    struct derivation_traits<type_ratio<type_list<T>>> {
+    public:
+        using units      = T;
+        using derivation = type_ratio<type_list<T>>;
+
+        static constexpr auto units_string = units::value;
+    };
 
     /**
      * @brief A quantity with a base unit-of-measure.
-     * 
+     *
      * @tparam T The type to check against this concept.
      */
     template<typename T>
-    concept quantity = base_quantity<T> && base_units<typename T::units>;
+    concept quantity = base_quantity<T> && units<typename T::units>;
 
     /**
      * @brief Check whether a quantity has the given units or not.
@@ -121,13 +175,59 @@ namespace posu::units {
     inline constexpr bool is_quantity_of_v = is_quantity_of<T, Units>::value;
     //! @}
 
+    /**
+     * @brief A derived unit tag type equivalent to a base unit tag type.
+     *
+     * @tparam T The type to compare against this concept.
+     *
+     * @{
+     */
+    template<typename T>
+    concept base_unit_equivalent =
+        derived_units<T> && one_constant<size<typename T::derivation::num>> &&
+        empty_v<typename T::derivation::den> && base_units<typename T::derivation::num::front>;
+    template<typename T>
+    struct is_base_unit_equivalent : public std::bool_constant<base_unit_equivalent<T>> {
+    };
+    template<typename T>
+    inline constexpr bool is_base_unit_equivalent_v = base_unit_equivalent<T>;
+    //! @}
+
+    /**
+     * @brief Comparison between two unit derivations.
+     *
+     * @tparam Lhs The left-hand-side derivation type.
+     * @tparam Rhs The right-hand-side derivation type.
+     *
+     * @{
+     */
+    template<typename Lhs, typename Rhs>
+    concept derivation_equal_to =
+        meta_ratio<Lhs> && meta_ratio<Rhs> && std::same_as<type_ratio<>, ratio_divide<Lhs, Rhs>>;
+    template<meta_ratio Lhs, meta_ratio Rhs>
+    struct is_derivation_equal : public std::bool_constant<derivation_equal_to<Lhs, Rhs>> {
+    };
+    template<meta_ratio Lhs, meta_ratio Rhs>
+    inline constexpr bool is_derivation_equal_v = derivation_equal_to<Lhs, Rhs>;
+    //! @}
+
+    template<typename Lhs, typename Rhs>
+    concept units_equal_to =
+        derivation_equal_to<typename Lhs::derivation, typename Rhs::derivation>;
+    template<typename Lhs, typename Rhs>
+    struct is_units_equal : public std::bool_constant<units_equal_to<Lhs, Rhs>> {
+    };
+    template<typename Lhs, typename Rhs>
+    inline constexpr bool is_units_equal_v = units_equal_to<Lhs, Rhs>;
+
     namespace detail {
 
         [[nodiscard]] constexpr auto to_duration(const base_quantity auto& quantity) noexcept;
 
     }
 
-    template<arithmetic Rep, detail::std_ratio Period, meta_constant<std::string_view> Tag>
+    template<arithmetic Rep, detail::std_ratio Period, typename Tag>
+        requires(units<Tag>)
     class base_unit {
     public:
         using rep    = Rep;    //!< The numeric representation type.
@@ -187,12 +287,20 @@ namespace posu::units {
          *
          * @{
          */
-        template<typename RRep, typename RPeriod>
+        template<typename RRep, typename RPeriod, base_units RUnits>
+            requires(base_units<units>&& meta_equal_to<units, RUnits>)
         [[nodiscard]] constexpr auto
-        operator==(const base_unit<RRep, RPeriod, units>& rhs) const noexcept;
-        template<typename RRep, typename RPeriod>
+        operator==(const base_unit<RRep, RPeriod, RUnits>& rhs) const noexcept;
+        template<typename RRep, typename RPeriod, units_equal_to<units> RUnits>
         [[nodiscard]] constexpr auto
-        operator<=>(const base_unit<RRep, RPeriod, units>& rhs) const noexcept;
+        operator==(const base_unit<RRep, RPeriod, RUnits>& rhs) const noexcept;
+        template<typename RRep, typename RPeriod, base_units RUnits>
+            requires(base_units<units>&& meta_equal_to<units, RUnits>)
+        [[nodiscard]] constexpr auto
+        operator<=>(const base_unit<RRep, RPeriod, RUnits>& rhs) const noexcept;
+        template<typename RRep, typename RPeriod, units_equal_to<units> RUnits>
+        [[nodiscard]] constexpr auto
+        operator<=>(const base_unit<RRep, RPeriod, RUnits>& rhs) const noexcept;
         //! @}
 
         /**

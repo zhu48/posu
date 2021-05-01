@@ -7,14 +7,10 @@
 
 namespace posu::units {
 
-    using speed_derivation = type_ratio<type_list<length_tag>, type_list<time_tag>>;
-    using speed_scale      = std::ratio<1>;
-    using speed_offset     = std::integral_constant<int, 0>;
-
     inline constexpr char speed_units_string[] = "meters per second";
 
-    using speed_tag =
-        derived_unit_tag<speed_derivation, speed_scale, speed_offset, speed_units_string>;
+    using speed_derivation = type_ratio<type_list<length_tag>, type_list<time_tag>>;
+    using speed_tag        = derived_unit_tag<speed_derivation, speed_units_string>;
 
     template<typename Rep, typename Period>
     using speed = derived_unit<Rep, Period, speed_tag>;
@@ -37,17 +33,14 @@ namespace posu::units {
     using petameters_per_second  = speed<int, std::peta>;
     using exameters_per_second   = speed<int, std::exa>;
 
-    template<typename LengthRep, typename LengthPeriod, typename TimeRep, typename TimePeriod>
-    [[nodiscard]] constexpr auto
-    operator/(const length<LengthRep, LengthPeriod>& lhs, const time<TimeRep, TimePeriod>& rhs);
+    template<>
+    struct derivation_traits<speed_derivation> {
+    public:
+        using units      = speed_tag;
+        using derivation = speed_derivation;
 
-    template<typename SpeedRep, typename SpeedPeriod, typename TimeRep, typename TimePeriod>
-    [[nodiscard]] constexpr auto
-    operator*(const speed<SpeedRep, SpeedPeriod>& lhs, const time<TimeRep, TimePeriod>& rhs);
-
-    template<typename SpeedRep, typename SpeedPeriod, typename TimeRep, typename TimePeriod>
-    [[nodiscard]] constexpr auto
-    operator*(const time<TimeRep, TimePeriod>& rhs, const speed<SpeedRep, SpeedPeriod>& lhs);
+        static constexpr auto units_string = units::value;
+    };
 
     inline namespace literals {
 
