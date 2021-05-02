@@ -193,6 +193,17 @@ namespace posu::units {
     inline constexpr bool is_base_unit_equivalent_v = base_unit_equivalent<T>;
     //! @}
 
+    namespace detail {
+
+        template<typename Lhs, typename Rhs>
+        concept base_derivation_equal_to = base_units<Lhs> && std::same_as<Lhs, Rhs>;
+
+        template<typename Lhs, typename Rhs>
+        concept derived_derivation_equal_to = meta_ratio<Lhs> && meta_ratio<Rhs> &&
+            std::same_as<type_ratio<>, ratio_divide<Lhs, Rhs>>;
+
+    } // namespace detail
+
     /**
      * @brief Comparison between two unit derivations.
      *
@@ -203,7 +214,7 @@ namespace posu::units {
      */
     template<typename Lhs, typename Rhs>
     concept derivation_equal_to =
-        meta_ratio<Lhs> && meta_ratio<Rhs> && std::same_as<type_ratio<>, ratio_divide<Lhs, Rhs>>;
+        detail::base_derivation_equal_to<Lhs, Rhs> || detail::derived_derivation_equal_to<Lhs, Rhs>;
     template<meta_ratio Lhs, meta_ratio Rhs>
     struct is_derivation_equal : public std::bool_constant<derivation_equal_to<Lhs, Rhs>> {
     };
