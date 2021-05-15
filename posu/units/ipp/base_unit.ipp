@@ -1,6 +1,6 @@
 #include <utility>
 
-template<std::size_t Num, std::size_t Den>
+template<std::intmax_t Num, std::intmax_t Den>
 struct posu::units::detail::is_std_ratio<std::ratio<Num, Den>> : std::true_type {
 };
 
@@ -11,7 +11,20 @@ struct posu::units::is_quantity<posu::units::quantity<Rep, Period, Kind>> : publ
 [[nodiscard]] constexpr auto
 posu::units::detail::to_duration(const quantity_of_measure auto& quant) noexcept
 {
-    return quant.m_duration;
+    using quant_t = std::remove_cvref_t<decltype(quant)>;
+
+    return std::chrono::duration<rep_t<quant_t>, typename quant_t::period>(quant.count());
+}
+
+template<posu::units::quantity_of_measure To, posu::units::quantity_of_measure From>
+    requires(std::same_as<posu::units::dimension_t<To>, posu::units::dimension_t<From>>)
+[[nodiscard]] constexpr auto posu::units::quantity_cast(const From& quant) noexcept -> To
+{
+    using to_rep        = rep_t<To>;
+    using to_period     = typename To::period;
+    using to_underlying = std::chrono::duration<to_rep, to_period>;
+
+    return To(std::chrono::duration_cast<to_underlying>(detail::to_duration(quant)).count());
 }
 
 template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::kind Kind>

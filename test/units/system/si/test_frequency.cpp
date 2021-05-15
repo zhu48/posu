@@ -66,3 +66,35 @@ CATCH_TEST_CASE("frequency from division", "[construct][expression][frequency][s
         CATCH_CHECK(0.002 / 8.0_ks == 0.25_uHz);
     }
 }
+
+CATCH_TEST_CASE("scaler from multiplication", "[construct][expression][frequency][si]")
+{
+    using namespace posu::units::si::chrono_literals;
+    using namespace posu::units::si::frequency_literals;
+
+    CATCH_SECTION("integer literals")
+    {
+        CATCH_CHECK(5_Hz * 1_s == 5);
+        CATCH_CHECK(1_s * 5_Hz == 5);
+        CATCH_CHECK(32_Hz * 8_ks == 256'000);
+        CATCH_CHECK(8_ks * 32_Hz == 256'000);
+
+        CATCH_CHECK(5 == 5_Hz * 1_s);
+        CATCH_CHECK(5 == 1_s * 5_Hz);
+        CATCH_CHECK(256'000 == 32_Hz * 8_ks);
+        CATCH_CHECK(256'000 == 8_ks * 32_Hz);
+    }
+
+    CATCH_SECTION("floating point literals")
+    {
+        CATCH_CHECK(0.5_kHz * 5_s == 2'500);
+        CATCH_CHECK(5_s * 0.5_kHz == 2'500);
+        CATCH_CHECK(0.25_uHz * 8.0_ks == 0.002);
+        CATCH_CHECK(8.0_ks * 0.25_uHz == 0.002);
+
+        CATCH_CHECK(2'500 == 0.5_kHz * 5_s);
+        CATCH_CHECK(2'500 == 5_s * 0.5_kHz);
+        CATCH_CHECK(0.002 == 0.25_uHz * 8.0_ks);
+        CATCH_CHECK(0.002 == 8.0_ks * 0.25_uHz);
+    }
+}

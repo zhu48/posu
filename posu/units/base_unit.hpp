@@ -125,6 +125,16 @@ namespace posu::units {
 
     } // namespace detail
 
+    /**
+     * @brief Explicit, possibly lossy, cast between quantities with the same dimensions.
+     *
+     * @tparam To   The quantity to convert to.
+     * @tparam From The quantity to convert from.
+     */
+    template<quantity_of_measure To, quantity_of_measure From>
+        requires(std::same_as<dimension_t<To>, dimension_t<From>>)
+    [[nodiscard]] constexpr auto quantity_cast(const From& quant) noexcept -> To;
+
     template<arithmetic Rep, detail::std_ratio Period, kind Kind>
     class quantity {
     public:
@@ -236,30 +246,16 @@ namespace posu::units {
     private:
         using underlying_type = std::chrono::duration<Rep, Period>;
 
-        friend constexpr auto detail::to_duration(const quantity_of_measure auto& quant) noexcept;
-
         friend constexpr bool operator==(const quantity& lhs, const Rep& rhs) noexcept requires
             quantity_of<quantity, scaler>
         {
-            return lhs.m_duration.count() == rhs;
-        }
-
-        friend constexpr bool operator==(const Rep& rhs, const quantity& lhs) noexcept requires
-            quantity_of<quantity, scaler>
-        {
-            return lhs == rhs.m_duration.count();
+            return quantity_cast<quantity<Rep, std::ratio<1>, kind_type>>(lhs).count() == rhs;
         }
 
         friend constexpr bool operator<=>(const quantity& lhs, const Rep& rhs) noexcept requires
             quantity_of<quantity, scaler>
         {
             return lhs.m_duration.count() <=> rhs;
-        }
-
-        friend constexpr bool operator<=>(const Rep& rhs, const quantity& lhs) noexcept requires
-            quantity_of<quantity, scaler>
-        {
-            return lhs <=> rhs.m_duration.count();
         }
 
         underlying_type m_duration;
