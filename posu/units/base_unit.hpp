@@ -103,6 +103,14 @@ namespace posu::units {
     using kind_t = typename T::kind_type;
 
     /**
+     * @brief A quantity's numeric representation type.
+     *
+     * @tparam T The quantity type.
+     */
+    template<quantity_of_measure T>
+    using rep_t = typename T::rep;
+
+    /**
      * @brief A quantity of the given kind.
      *
      * @tparam T    The quantity type.

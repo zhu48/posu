@@ -26,6 +26,9 @@ namespace posu::units {
     operator*(const quantity_of_measure auto& lhs, const quantity_of_measure auto& rhs) noexcept;
     [[nodiscard]] constexpr auto
     operator/(const quantity_of_measure auto& lhs, const quantity_of_measure auto& rhs) noexcept;
+    template<quantity_of_measure Quantity>
+    [[nodiscard]] constexpr auto
+    operator/(const rep_t<Quantity>& lhs, const Quantity& rhs) noexcept;
     //! @}
 
 } // namespace posu::units

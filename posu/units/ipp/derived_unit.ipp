@@ -24,3 +24,14 @@
 
     return quantity<rep, period, kind_type>(lhs.count() / rhs.count());
 }
+
+template<posu::units::quantity_of_measure Quantity>
+[[nodiscard]] constexpr auto
+posu::units::operator/(const rep_t<Quantity>& lhs, const Quantity& rhs) noexcept
+{
+    using rep       = rep_t<Quantity>;
+    using period    = std::ratio_divide<std::ratio<1>, typename Quantity::period>;
+    using kind_type = kind_divide<scaler, kind_t<Quantity>>;
+
+    return quantity<rep, period, kind_type>(lhs / rhs.count());
+}
