@@ -107,6 +107,8 @@ set(
     POSU_UNITS_HPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/base_unit.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/derived_unit.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/dimension.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/kind.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/units.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/amount_of_substance.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/electric_current.hpp
@@ -122,6 +124,7 @@ set(
     POSU_UNITS_IPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/base_unit.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/derived_unit.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/dimension.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/amount_of_substance.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/electric_current.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/luminous_intensity.ipp
