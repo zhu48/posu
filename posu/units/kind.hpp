@@ -57,7 +57,7 @@ namespace posu::units {
     template<kind Lhs, kind Rhs>
     using kind_multiply = typename kind_multiply_result<Lhs, Rhs>::type;
     template<kind Lhs, kind Rhs>
-    using kind_divide = typename kind_multiply_result<Lhs, Rhs>::type;
+    using kind_divide = typename kind_divide_result<Lhs, Rhs>::type;
 
 } // namespace posu::units
 

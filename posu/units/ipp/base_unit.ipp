@@ -24,12 +24,13 @@ constexpr posu::units::quantity<Rep, Period, Kind>::quantity(const Rep2& r) : m_
 }
 
 template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::kind Kind>
-template<typename Rep2, typename Period2>
+template<typename Rep2, typename Period2, posu::units::kind_comparable_with<Kind> Kind2>
     requires(
         std::chrono::treat_as_floating_point_v<Rep> ||
         ((std::ratio_divide<Period2, Period>::den == 1) &&
          !std::chrono::treat_as_floating_point_v<Rep2>))
-constexpr posu::units::quantity<Rep, Period, Kind>::quantity(const quantity<Rep2, Period2, Kind>& d)
+constexpr posu::units::quantity<Rep, Period, Kind>::quantity(
+    const quantity<Rep2, Period2, Kind2>& d)
     : m_duration{detail::to_duration(d)}
 {
 }
@@ -41,19 +42,17 @@ template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::unit
 }
 
 template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::kind Kind>
-template<typename RRep, typename RPeriod, typename RKind>
-    requires(std::same_as<Kind, RKind> || posu::units::unknown_kind<RKind>)
+template<typename RRep, typename RPeriod>
 [[nodiscard]] constexpr bool posu::units::quantity<Rep, Period, Kind>::operator==(
-    const quantity<RRep, RPeriod, RKind>& rhs) const noexcept
+    const quantity<RRep, RPeriod, Kind>& rhs) const noexcept
 {
     return m_duration == detail::to_duration(rhs);
 }
 
 template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::kind Kind>
-template<typename RRep, typename RPeriod, typename RKind>
-    requires(std::same_as<Kind, RKind> || posu::units::unknown_kind<RKind>)
+template<typename RRep, typename RPeriod>
 [[nodiscard]] constexpr auto posu::units::quantity<Rep, Period, Kind>::operator<=>(
-    const quantity<RRep, RPeriod, RKind>& rhs) const noexcept
+    const quantity<RRep, RPeriod, Kind>& rhs) const noexcept
 {
     return m_duration <=> detail::to_duration(rhs);
 }

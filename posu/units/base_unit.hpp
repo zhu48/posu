@@ -151,12 +151,13 @@ namespace posu::units {
          *
          * @param d The quantity to convert from.
          */
-        template<typename Rep2, typename Period2>
+        template<typename Rep2, typename Period2, kind_comparable_with<kind_type> Kind2>
             requires(
                 std::chrono::treat_as_floating_point_v<Rep> ||
                 ((std::ratio_divide<Period2, Period>::den == 1) &&
                  !std::chrono::treat_as_floating_point_v<Rep2>))
-        constexpr quantity(const quantity<Rep2, Period2, kind_type>& d);
+        explicit(!std::same_as<kind_type, Kind2>) constexpr quantity(
+            const quantity<Rep2, Period2, Kind2>& d);
 
         /**
          * @brief Obtain the number of ticks this quantity has.
@@ -177,14 +178,12 @@ namespace posu::units {
          *
          * @{
          */
-        template<typename RRep, typename RPeriod, typename RKind>
-            requires(std::same_as<kind_type, RKind> || unknown_kind<RKind>)
+        template<typename RRep, typename RPeriod>
         [[nodiscard]] constexpr bool
-        operator==(const quantity<RRep, RPeriod, RKind>& rhs) const noexcept;
-        template<typename RRep, typename RPeriod, typename RKind>
-            requires(std::same_as<kind_type, RKind> || unknown_kind<RKind>)
+        operator==(const quantity<RRep, RPeriod, kind_type>& rhs) const noexcept;
+        template<typename RRep, typename RPeriod>
         [[nodiscard]] constexpr auto
-        operator<=>(const quantity<RRep, RPeriod, RKind>& rhs) const noexcept;
+        operator<=>(const quantity<RRep, RPeriod, kind_type>& rhs) const noexcept;
         //! @}
 
         /**
