@@ -112,6 +112,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/units.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/amount_of_substance.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/electric_current.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/frequency.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/luminous_intensity.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/length.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/mass.hpp
@@ -122,6 +123,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/amount_of_substance.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/defining_constants.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/electric_current.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/frequency.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/luminous_intensity.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/length.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/mass.hpp
