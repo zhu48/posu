@@ -120,6 +120,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/time.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/thermodynamic_temperature.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/amount_of_substance.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/defining_constants.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/electric_current.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/luminous_intensity.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/length.hpp
