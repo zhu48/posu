@@ -2,32 +2,27 @@
 #define POSU_UNITS_SI_TIME_HPP
 
 #include "posu/units/base_unit.hpp"
+#include "posu/units/system/time.hpp"
 
 namespace posu::units {
 
-    struct time_tag {
-        using type       = time_tag;
-        using value_type = std::string_view;
-
-        static constexpr auto value = std::string_view{"second"};
-
-        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
-        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
-    };
-
     template<typename Rep, typename Period>
-    class base_unit<Rep, Period, time_tag> : public std::chrono::duration<Rep, Period> {
+    class quantity<Rep, Period, posu::units::time> : public std::chrono::duration<Rep, Period> {
     private:
         using parent_type = std::chrono::duration<Rep, Period>;
 
     public:
-        using units = time_tag;
+        using kind_type = posu::units::time;
 
         using parent_type::parent_type;
     };
 
+} // namespace posu::units
+
+namespace posu::units::si {
+
     template<typename Rep, typename Period>
-    using time = base_unit<Rep, Period, time_tag>;
+    using time = quantity<Rep, Period, posu::units::time>;
 
     using attoseconds  = time<int, std::atto>;
     using femtoseconds = time<int, std::femto>;
@@ -120,7 +115,7 @@ namespace posu::units {
 
     using namespace literals::chrono_literals;
 
-} // namespace posu::units
+} // namespace posu::units::si
 
 #include "posu/units/si/ipp/time.ipp"
 

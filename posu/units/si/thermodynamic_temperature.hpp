@@ -2,21 +2,12 @@
 #define POSU_UNITS_SI_THERMODYNAMIC_TEMPERATURE_HPP
 
 #include "posu/units/base_unit.hpp"
+#include "posu/units/system/thermodynamic_temperature.hpp"
 
-namespace posu::units {
-
-    struct thermodynamic_temperature_tag {
-        using type       = thermodynamic_temperature_tag;
-        using value_type = std::string_view;
-
-        static constexpr auto value = std::string_view{"kelvin"};
-
-        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
-        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
-    };
+namespace posu::units::si {
 
     template<typename Rep, typename Period>
-    using thermodynamic_temperature = base_unit<Rep, Period, thermodynamic_temperature_tag>;
+    using thermodynamic_temperature = quantity<Rep, Period, posu::units::thermodynamic_temperature>;
 
     using attokelvins  = thermodynamic_temperature<int, std::atto>;
     using femtokelvins = thermodynamic_temperature<int, std::femto>;
@@ -98,7 +89,7 @@ namespace posu::units {
 
     using namespace literals::thermodynamic_temperature_literals;
 
-} // namespace posu::units
+} // namespace posu::units::si
 
 #include "posu/units/si/ipp/thermodynamic_temperature.ipp"
 

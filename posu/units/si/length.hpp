@@ -2,21 +2,12 @@
 #define POSU_UNITS_SI_LENGTH_HPP
 
 #include "posu/units/base_unit.hpp"
+#include "posu/units/system/length.hpp"
 
-namespace posu::units {
-
-    struct length_tag {
-        using type       = length_tag;
-        using value_type = std::string_view;
-
-        static constexpr auto value = std::string_view{"meter"};
-
-        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
-        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
-    };
+namespace posu::units::si {
 
     template<typename Rep, typename Period>
-    using length = base_unit<Rep, Period, length_tag>;
+    using length = quantity<Rep, Period, posu::units::length>;
 
     using attometers  = length<int, std::atto>;
     using femtometers = length<int, std::femto>;
@@ -98,7 +89,7 @@ namespace posu::units {
 
     using namespace literals::length_literals;
 
-} // namespace posu::units
+} // namespace posu::units::si
 
 #include "posu/units/si/ipp/length.ipp"
 

@@ -1,51 +1,26 @@
 
-namespace posu::units::detail {
-
-    template<typename T>
-    struct units_ratio_type {
-        using type = type_ratio<type_list<T>, type_list<>>;
-    };
-
-    template<typename T>
-        requires(meta_ratio<T>)
-    struct units_ratio_type<T> {
-        using type = T;
-    };
-
-    template<typename T>
-        requires(derived_units<T>)
-    struct units_ratio_type<T> : public units_ratio_type<typename T::derivation> {
-    };
-
-    template<typename T>
-    using units_ratio_type_t = typename units_ratio_type<T>::type;
-
-    inline constexpr char empty_string[] = "";
-
-} // namespace posu::units::detail
-
-template<posu::units::quantity Lhs, posu::units::quantity Rhs>
-[[nodiscard]] auto posu::units::operator*(const Lhs& lhs, const Rhs& rhs) noexcept
+[[nodiscard]] constexpr auto posu::units::operator*(
+    const quantity_of_measure auto& lhs,
+    const quantity_of_measure auto& rhs) noexcept
 {
-    using rep        = std::common_type_t<typename Lhs::rep, typename Rhs::rep>;
-    using period     = std::ratio_multiply<typename Lhs::period, typename Rhs::period>;
-    using derivation = ratio_multiply<
-        detail::units_ratio_type_t<typename Lhs::units>,
-        detail::units_ratio_type_t<typename Rhs::units>>;
-    using units = derived_unit_tag<derivation, detail::empty_string>;
+    using lhs_type  = std::remove_cvref_t<decltype(lhs)>;
+    using rhs_type  = std::remove_cvref_t<decltype(rhs)>;
+    using rep       = std::common_type_t<typename lhs_type::rep, typename rhs_type::rep>;
+    using period    = std::ratio_multiply<typename lhs_type::period, typename rhs_type::period>;
+    using kind_type = kind_multiply<kind_t<lhs_type>, kind_t<rhs_type>>;
 
-    return derived_unit<rep, period, units>(lhs.count() * rhs.count());
+    return quantity<rep, period, kind_type>(lhs.count() * rhs.count());
 }
 
-template<posu::units::quantity Lhs, posu::units::quantity Rhs>
-[[nodiscard]] auto posu::units::operator/(const Lhs& lhs, const Rhs& rhs) noexcept
+[[nodiscard]] constexpr auto posu::units::operator/(
+    const quantity_of_measure auto& lhs,
+    const quantity_of_measure auto& rhs) noexcept
 {
-    using rep        = std::common_type_t<typename Lhs::rep, typename Rhs::rep>;
-    using period     = std::ratio_divide<typename Lhs::period, typename Rhs::period>;
-    using derivation = ratio_divide<
-        detail::units_ratio_type_t<typename Lhs::units>,
-        detail::units_ratio_type_t<typename Rhs::units>>;
-    using units = derived_unit_tag<derivation, detail::empty_string>;
+    using lhs_type  = std::remove_cvref_t<decltype(lhs)>;
+    using rhs_type  = std::remove_cvref_t<decltype(rhs)>;
+    using rep       = std::common_type_t<typename lhs_type::rep, typename rhs_type::rep>;
+    using period    = std::ratio_divide<typename lhs_type::period, typename rhs_type::period>;
+    using kind_type = kind_divide<kind_t<lhs_type>, kind_t<rhs_type>>;
 
-    return derived_unit<rep, period, units>(lhs.count() / rhs.count());
+    return quantity<rep, period, kind_type>(lhs.count() / rhs.count());
 }

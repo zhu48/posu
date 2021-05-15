@@ -1,19 +1,15 @@
 #ifndef POSU_UNITS_SI_SPEED_HPP
 #define POSU_UNITS_SI_SPEED_HPP
 
-#include "posu/units/derived_unit.hpp"
+#include "posu/units/base_unit.hpp"
 #include "posu/units/si/length.hpp"
 #include "posu/units/si/time.hpp"
+#include "posu/units/system/velocity.hpp"
 
-namespace posu::units {
-
-    inline constexpr char speed_units_string[] = "meters per second";
-
-    using speed_derivation = type_ratio<type_list<length_tag>, type_list<time_tag>>;
-    using speed_tag        = derived_unit_tag<speed_derivation, speed_units_string>;
+namespace posu::units::si {
 
     template<typename Rep, typename Period>
-    using speed = derived_unit<Rep, Period, speed_tag>;
+    using speed = quantity<Rep, Period, posu::units::velocity>;
 
     using attometers_per_second  = speed<int, std::atto>;
     using femtometers_per_second = speed<int, std::femto>;
@@ -32,15 +28,6 @@ namespace posu::units {
     using terameters_per_second  = speed<int, std::tera>;
     using petameters_per_second  = speed<int, std::peta>;
     using exameters_per_second   = speed<int, std::exa>;
-
-    template<>
-    struct derivation_traits<speed_derivation> {
-    public:
-        using units      = speed_tag;
-        using derivation = speed_derivation;
-
-        static constexpr auto units_string = units::value;
-    };
 
     inline namespace literals {
 
@@ -121,7 +108,7 @@ namespace posu::units {
 
     using namespace literals::speed_literals;
 
-} // namespace posu::units
+} // namespace posu::units::si
 
 #include "posu/units/si/ipp/speed.ipp"
 

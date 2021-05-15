@@ -4,7 +4,7 @@
 
 TEST_CASE("length literals", "[construct][literals][length][si]")
 {
-    using namespace posu::units::length_literals;
+    using namespace posu::units::si::length_literals;
 
     SECTION("integer literals")
     {

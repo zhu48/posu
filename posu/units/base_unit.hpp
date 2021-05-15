@@ -4,8 +4,8 @@
 #include <chrono>
 #include <string_view>
 
-#include "posu/concepts.hpp"
 #include "posu/type_ratio.hpp"
+#include "posu/units/kind.hpp"
 
 namespace posu::units {
 
@@ -24,20 +24,6 @@ namespace posu::units {
     } // namespace detail
 
     /**
-     * @brief A tag type denoting a unit of measure.
-     *
-     * @tparam T The type to check against this concept.
-     */
-    template<typename T>
-    concept units = meta_constant<T, std::string_view>;
-    template<typename T>
-    struct is_units : public std::bool_constant<units<T>> {
-    };
-    template<typename T>
-    inline constexpr bool is_units_v = units<T>;
-    //! @}
-
-    /**
      * @brief A unit-of-measure derived from base units.
      *
      * @tparam T The type to check against this concept.
@@ -45,13 +31,10 @@ namespace posu::units {
      * @{
      */
     template<typename T>
-    concept derived_units =
-        units<T> && std::same_as<T, typename T::type> && meta_ratio<typename T::derivation>;
+    concept derived_kind = kind<T> && derived_dimension<dimension_t<T>>;
     template<typename T>
-    struct is_derived_units : public std::bool_constant<derived_units<T>> {
+    struct is_derived_kind : public std::bool_constant<derived_kind<T>> {
     };
-    template<typename T>
-    inline constexpr bool is_derived_units_v = derived_units<T>;
     //! @}
 
     /**
@@ -62,193 +45,89 @@ namespace posu::units {
      * @{
      */
     template<typename T>
-    concept base_units = units<T> && !derived_units<T>;
+    concept base_kind = kind<T> && base_dimension<dimension_t<T>>;
     template<typename T>
-    struct is_base_units : public std::bool_constant<base_units<T>> {
+    struct is_base_kind : public std::bool_constant<base_kind<T>> {
     };
-    template<typename T>
-    inline constexpr bool is_base_units_v = is_base_units<T>::value;
     //! @}
+
+    namespace detail {
+
+        template<typename Lhs, typename Rhs>
+        concept kind_compatible_with =
+            std::same_as<Lhs, Rhs> || unknown_kind<Lhs> || unknown_kind<Rhs>;
+
+    }
+
+    template<typename Lhs, typename Rhs>
+    concept kind_comparable_with = kind<Lhs> && kind<Rhs> &&
+        std::same_as<dimension_t<Lhs>, dimension_t<Rhs>> && detail::kind_compatible_with<Lhs, Rhs>;
 
     /**
      * @brief A quanity with a unit-of-measure represented by a tag type.
      *
      * @tparam Rep    The numeric representation type.
      * @tparam Period The ratio with respect to the unit quantity type.
-     * @tparam Tag    The tag type representing this quantity's units.
+     * @tparam Kind   The quantity's measurement kind.
      */
-    template<arithmetic Rep, detail::std_ratio Period, typename Tag>
-        requires(units<Tag>)
-    class base_unit;
+    template<arithmetic Rep, detail::std_ratio Period, kind Kind>
+    class quantity;
 
     /**
-     * @brief Check whether a type specializes the `base_unit` template or not.
+     * @brief Concept for a quantity type.
      *
-     * @tparam T The type to check.
+     * @tparam T The type to check againt the concept.
      *
      * @{
      */
+
     template<typename T>
-    struct is_base_quantity : std::false_type {
+    struct is_quantity : public std::false_type {
     };
-    template<typename Rep, typename Ratio, typename Tag>
-    struct is_base_quantity<base_unit<Rep, Ratio, Tag>> : std::true_type {
-    };
+
     template<typename T>
-    inline constexpr bool is_base_quantity_v = is_base_quantity<T>::value;
+    inline constexpr bool is_quantity_v = is_quantity<T>::value;
+
     template<typename T>
-    concept base_quantity = is_base_quantity_v<T>;
+    concept quantity_of_measure = is_quantity_v<T>;
+
     //! @}
 
     /**
-     * @brief Base unit tag type template.
+     * @brief A quantity's quantity kind type.
      *
-     * @tparam UnitsString The unit string.
+     * @tparam T The quantity type.
      */
-    template<const char* const UnitsString>
-    struct base_unit_tag {
-        using type       = base_unit_tag<UnitsString>; //!< Self-type.
-        using value_type = std::string_view;           //!< The unit string literal type.
-
-        static constexpr auto value = std::string_view{UnitsString}; //!< The unit string literal.
-
-        /**
-         * @brief Obtain the wrapped unit string literal.
-         *
-         * @return Returns the wrapped unit string literal.
-         */
-        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
-
-        /**
-         * @brief Conversion to wrapped unit string literal.
-         *
-         * @return Returns the wrapped unit string literal.
-         */
-        [[nodiscard]] constexpr operator value_type() const noexcept { return value; }
-    };
-
-    template<typename T>
-    struct derivation_traits;
-
-    template<meta_constant<std::string_view> T>
-    struct derivation_traits<T> {
-    public:
-        using units      = T;
-        using derivation = type_ratio<type_list<T>>;
-
-        static constexpr auto units_string = units::value;
-    };
-
-    template<meta_constant<std::string_view> T>
-    struct derivation_traits<type_ratio<type_list<T>>> {
-    public:
-        using units      = T;
-        using derivation = type_ratio<type_list<T>>;
-
-        static constexpr auto units_string = units::value;
-    };
+    template<quantity_of_measure T>
+    using kind_t = typename T::kind_type;
 
     /**
-     * @brief A quantity with a base unit-of-measure.
+     * @brief A quantity of the given kind.
      *
-     * @tparam T The type to check against this concept.
+     * @tparam T    The quantity type.
+     * @tparam Kind The quantity kind to check against.
      */
-    template<typename T>
-    concept quantity = base_quantity<T> && units<typename T::units>;
+    template<typename T, typename Kind>
+    concept quantity_of = quantity_of_measure<T> && std::same_as<kind_t<T>, Kind>;
 
-    /**
-     * @brief Check whether a quantity has the given units or not.
-     *
-     * @tparam T     The quantity type to check.
-     * @tparam Units The units tag type to check for.
-     *
-     * @{
-     */
-    template<typename T, typename Units>
-    concept quantity_of = quantity<T> &&
-        (std::same_as<Units, typename T::units> ||
-         (quantity<Units> && std::same_as<typename T::units, typename Units::units>));
-    template<typename T, typename Units>
-    struct is_quantity_of : std::bool_constant<quantity_of<T, Units>> {
-    };
-    template<typename T, typename Units>
-    inline constexpr bool is_quantity_of_v = is_quantity_of<T, Units>::value;
-    //! @}
-
-    /**
-     * @brief A derived unit tag type equivalent to a base unit tag type.
-     *
-     * @tparam T The type to compare against this concept.
-     *
-     * @{
-     */
-    template<typename T>
-    concept base_unit_equivalent =
-        derived_units<T> && one_constant<size<typename T::derivation::num>> &&
-        empty_v<typename T::derivation::den> && base_units<typename T::derivation::num::front>;
-    template<typename T>
-    struct is_base_unit_equivalent : public std::bool_constant<base_unit_equivalent<T>> {
-    };
-    template<typename T>
-    inline constexpr bool is_base_unit_equivalent_v = base_unit_equivalent<T>;
-    //! @}
-
-    namespace detail {
-
-        template<typename Lhs, typename Rhs>
-        concept base_derivation_equal_to = base_units<Lhs> && std::same_as<Lhs, Rhs>;
-
-        template<typename Lhs, typename Rhs>
-        concept derived_derivation_equal_to = meta_ratio<Lhs> && meta_ratio<Rhs> &&
-            std::same_as<type_ratio<>, ratio_divide<Lhs, Rhs>>;
+    namespace detail
+    {
+        [[nodiscard]] constexpr auto to_duration(const quantity_of_measure auto& quant) noexcept;
 
     } // namespace detail
 
-    /**
-     * @brief Comparison between two unit derivations.
-     *
-     * @tparam Lhs The left-hand-side derivation type.
-     * @tparam Rhs The right-hand-side derivation type.
-     *
-     * @{
-     */
-    template<typename Lhs, typename Rhs>
-    concept derivation_equal_to =
-        detail::base_derivation_equal_to<Lhs, Rhs> || detail::derived_derivation_equal_to<Lhs, Rhs>;
-    template<meta_ratio Lhs, meta_ratio Rhs>
-    struct is_derivation_equal : public std::bool_constant<derivation_equal_to<Lhs, Rhs>> {
-    };
-    template<meta_ratio Lhs, meta_ratio Rhs>
-    inline constexpr bool is_derivation_equal_v = derivation_equal_to<Lhs, Rhs>;
-    //! @}
-
-    template<typename Lhs, typename Rhs>
-    concept units_equal_to =
-        derivation_equal_to<typename Lhs::derivation, typename Rhs::derivation>;
-    template<typename Lhs, typename Rhs>
-    struct is_units_equal : public std::bool_constant<units_equal_to<Lhs, Rhs>> {
-    };
-    template<typename Lhs, typename Rhs>
-    inline constexpr bool is_units_equal_v = units_equal_to<Lhs, Rhs>;
-
-    namespace detail {
-
-        [[nodiscard]] constexpr auto to_duration(const base_quantity auto& quantity) noexcept;
-
-    }
-
-    template<arithmetic Rep, detail::std_ratio Period, typename Tag>
-        requires(units<Tag>)
-    class base_unit {
+    template<arithmetic Rep, detail::std_ratio Period, kind Kind>
+    class quantity {
     public:
-        using rep    = Rep;    //!< The numeric representation type.
-        using period = Period; //!< The ratio with respect to the unit quantity type.
-        using units  = Tag;    //!< The tag type representing this quantity's units.
+        using rep        = Rep;                    //!< The numeric representation type.
+        using period     = Period;                 //!< The ratio with respect to the unit quantity.
+        using kind_type  = Kind;                   //!< The quantity kind.
+        using dimensions = dimension_t<kind_type>; //!< The quantity dimension.
 
         /**
          * @brief Defaulted default constructor.
          */
-        constexpr base_unit() noexcept = default;
+        constexpr quantity() noexcept = default;
 
         /**
          * @brief Construct a quantity with the given number of ticks.
@@ -262,7 +141,7 @@ namespace posu::units {
                 std::convertible_to<Rep, const Rep2&> &&
                 (std::chrono::treat_as_floating_point_v<Rep> ||
                  !std::chrono::treat_as_floating_point_v<Rep2>))
-        constexpr explicit base_unit(const Rep2& r);
+        constexpr explicit quantity(const Rep2& r);
 
         /**
          * @brief Construct a quantity by converting from a different quantity with the same units.
@@ -277,7 +156,7 @@ namespace posu::units {
                 std::chrono::treat_as_floating_point_v<Rep> ||
                 ((std::ratio_divide<Period2, Period>::den == 1) &&
                  !std::chrono::treat_as_floating_point_v<Rep2>))
-        constexpr base_unit(const base_unit<Rep2, Period2, Tag>& d);
+        constexpr quantity(const quantity<Rep2, Period2, kind_type>& d);
 
         /**
          * @brief Obtain the number of ticks this quantity has.
@@ -298,20 +177,14 @@ namespace posu::units {
          *
          * @{
          */
-        template<typename RRep, typename RPeriod, base_units RUnits>
-            requires(base_units<units>&& meta_equal_to<units, RUnits>)
+        template<typename RRep, typename RPeriod, typename RKind>
+            requires(std::same_as<kind_type, RKind> || unknown_kind<RKind>)
+        [[nodiscard]] constexpr bool
+        operator==(const quantity<RRep, RPeriod, RKind>& rhs) const noexcept;
+        template<typename RRep, typename RPeriod, typename RKind>
+            requires(std::same_as<kind_type, RKind> || unknown_kind<RKind>)
         [[nodiscard]] constexpr auto
-        operator==(const base_unit<RRep, RPeriod, RUnits>& rhs) const noexcept;
-        template<typename RRep, typename RPeriod, units_equal_to<units> RUnits>
-        [[nodiscard]] constexpr auto
-        operator==(const base_unit<RRep, RPeriod, RUnits>& rhs) const noexcept;
-        template<typename RRep, typename RPeriod, base_units RUnits>
-            requires(base_units<units>&& meta_equal_to<units, RUnits>)
-        [[nodiscard]] constexpr auto
-        operator<=>(const base_unit<RRep, RPeriod, RUnits>& rhs) const noexcept;
-        template<typename RRep, typename RPeriod, units_equal_to<units> RUnits>
-        [[nodiscard]] constexpr auto
-        operator<=>(const base_unit<RRep, RPeriod, RUnits>& rhs) const noexcept;
+        operator<=>(const quantity<RRep, RPeriod, RKind>& rhs) const noexcept;
         //! @}
 
         /**
@@ -344,18 +217,42 @@ namespace posu::units {
          *
          * @{
          */
-        constexpr auto& operator+=(const base_unit& rhs) noexcept;
-        constexpr auto& operator-=(const base_unit& rhs) noexcept;
+        constexpr auto& operator+=(const quantity& rhs) noexcept;
+        constexpr auto& operator-=(const quantity& rhs) noexcept;
         constexpr auto& operator*=(const rep& rhs) noexcept;
         constexpr auto& operator/=(const rep& rhs) noexcept;
         constexpr auto& operator%=(const rep& rhs) noexcept;
-        constexpr auto& operator%=(const base_unit& rhs) noexcept;
+        constexpr auto& operator%=(const quantity& rhs) noexcept;
         //! @}
 
     private:
         using underlying_type = std::chrono::duration<Rep, Period>;
 
-        friend constexpr auto detail::to_duration(const base_quantity auto& quantity) noexcept;
+        friend constexpr auto detail::to_duration(const quantity_of_measure auto& quant) noexcept;
+
+        friend constexpr bool operator==(const quantity& lhs, const Rep& rhs) noexcept requires
+            quantity_of<quantity, scaler>
+        {
+            return lhs.m_duration.count() == rhs;
+        }
+
+        friend constexpr bool operator==(const Rep& rhs, const quantity& lhs) noexcept requires
+            quantity_of<quantity, scaler>
+        {
+            return lhs == rhs.m_duration.count();
+        }
+
+        friend constexpr bool operator<=>(const quantity& lhs, const Rep& rhs) noexcept requires
+            quantity_of<quantity, scaler>
+        {
+            return lhs.m_duration.count() <=> rhs;
+        }
+
+        friend constexpr bool operator<=>(const Rep& rhs, const quantity& lhs) noexcept requires
+            quantity_of<quantity, scaler>
+        {
+            return lhs <=> rhs.m_duration.count();
+        }
 
         underlying_type m_duration;
     };
@@ -366,7 +263,6 @@ namespace posu::units {
      * @brief Arithmetic operations on base-unit quantities.
      *
      * @tparam Lhs    The type of the left-hand-side operand.
-     * @tparam Rhs    The type of the right-hand-side operand.
      * @tparam Rep    The quantity type's numeric representation type.
      * @tparam Period The quantity type's to-unit-quantity ratio.
      * @tparam Units  The quantity type's units-of-measure tag type.
@@ -378,22 +274,26 @@ namespace posu::units {
      *
      * @{
      */
-    template<base_quantity Lhs, quantity_of<Lhs> Rhs>
-    [[nodiscard]] auto operator+(const Lhs& lhs, const Rhs& rhs) noexcept;
-    template<base_quantity Lhs, quantity_of<Lhs> Rhs>
-    [[nodiscard]] auto operator-(const Lhs& lhs, const Rhs& rhs) noexcept;
-    template<arithmetic Lhs, typename Rep, typename Period, typename Units>
-    [[nodiscard]] auto operator*(const Lhs& lhs, const base_unit<Rep, Period, Units>& rhs) noexcept;
-    [[nodiscard]] auto
-    operator*(const base_quantity auto& lhs, const arithmetic auto& rhs) noexcept;
-    template<base_quantity Lhs>
-    [[nodiscard]] auto operator/(const Lhs& lhs, const quantity_of<Lhs> auto& rhs) noexcept;
-    template<typename Rep, typename Period, typename Units, arithmetic Rhs>
-    [[nodiscard]] auto operator/(const base_unit<Rep, Period, Units>& lhs, const Rhs& rhs) noexcept;
-    template<base_quantity Lhs, quantity_of<Lhs> Rhs>
-    [[nodiscard]] auto operator%(const Lhs& lhs, const Rhs& rhs) noexcept;
-    template<typename Rep, typename Period, typename Units, arithmetic Rhs>
-    [[nodiscard]] auto operator%(const base_unit<Rep, Period, Units>& lhs, const Rhs& rhs) noexcept;
+    template<quantity_of_measure Lhs>
+    [[nodiscard]] constexpr auto
+    operator+(const Lhs& lhs, const quantity_of<kind_t<Lhs>> auto& rhs) noexcept;
+    template<quantity_of_measure Lhs>
+    [[nodiscard]] constexpr auto
+    operator-(const Lhs& lhs, const quantity_of<kind_t<Lhs>> auto& rhs) noexcept;
+    [[nodiscard]] constexpr auto
+    operator*(const arithmetic auto& lhs, const quantity_of_measure auto& rhs) noexcept;
+    [[nodiscard]] constexpr auto
+    operator*(const quantity_of_measure auto& lhs, const arithmetic auto& rhs) noexcept;
+    template<quantity_of_measure Lhs>
+    [[nodiscard]] constexpr auto
+    operator/(const Lhs& lhs, const quantity_of<kind_t<Lhs>> auto& rhs) noexcept;
+    [[nodiscard]] constexpr auto
+    operator/(const quantity_of_measure auto& lhs, const arithmetic auto& rhs) noexcept;
+    template<quantity_of_measure Lhs>
+    [[nodiscard]] constexpr auto
+    operator%(const Lhs& lhs, const quantity_of<kind_t<Lhs>> auto& rhs) noexcept;
+    [[nodiscard]] constexpr auto
+    operator%(const quantity_of_measure auto& lhs, const arithmetic auto& rhs) noexcept;
     //! @}
 
 } // namespace posu::units
@@ -405,19 +305,19 @@ namespace posu::units {
  * @tparam LPeriod The to-unit-quantity ratio of the left-hand-side quantity type.
  * @tparam RRep    The numeric representation type of the right-hand-side quantity type.
  * @tparam RPeriod The to-unit-quantity ratio of the right-hand-side quantity type.
- * @tparam Units   The units-of-measure tag type.
+ * @tparam Kind   The units-of-measure tag type.
  */
-template<typename LRep, typename LPeriod, typename RRep, typename RPeriod, typename Units>
+template<typename LRep, typename LPeriod, typename RRep, typename RPeriod, typename Kind>
 struct std::common_type<
-    posu::units::base_unit<LRep, LPeriod, Units>,
-    posu::units::base_unit<RRep, RPeriod, Units>> {
+    posu::units::quantity<LRep, LPeriod, Kind>,
+    posu::units::quantity<RRep, RPeriod, Kind>> {
     //! The common quantity type.
-    using type = posu::units::base_unit<
+    using type = posu::units::quantity<
         std::common_type_t<LRep, RRep>,
         typename std::common_type_t<
             std::chrono::duration<LRep, LPeriod>,
             std::chrono::duration<RRep, RPeriod>>::period,
-        Units>;
+        Kind>;
 };
 
 #include "posu/units/ipp/base_unit.ipp"

@@ -2,21 +2,12 @@
 #define POSU_UNITS_SI_ELECTRIC_CURRENT_HPP
 
 #include "posu/units/base_unit.hpp"
+#include "posu/units/system/electric_current.hpp"
 
-namespace posu::units {
-
-    struct electric_current_tag {
-        using type       = electric_current_tag;
-        using value_type = std::string_view;
-
-        static constexpr auto value = std::string_view{"ampere"};
-
-        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
-        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
-    };
+namespace posu::units::si {
 
     template<typename Rep, typename Period>
-    using electric_current = base_unit<Rep, Period, electric_current_tag>;
+    using electric_current = quantity<Rep, Period, posu::units::electric_current>;
 
     using attoamperes  = electric_current<int, std::atto>;
     using femtoamperes = electric_current<int, std::femto>;
@@ -98,7 +89,7 @@ namespace posu::units {
 
     using namespace literals::electric_current_literals;
 
-} // namespace posu::units
+} // namespace posu::units::si
 
 #include "posu/units/si/ipp/electric_current.ipp"
 

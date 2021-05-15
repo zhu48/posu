@@ -4,7 +4,7 @@
 
 TEST_CASE("time literals", "[construct][literals][time][si]")
 {
-    using namespace posu::units::chrono_literals;
+    using namespace posu::units::si::chrono_literals;
 
     SECTION("integer literals")
     {

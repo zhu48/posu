@@ -4,7 +4,7 @@
 
 TEST_CASE("amount of substance literals", "[construct][literals][amount][si]")
 {
-    using namespace posu::units::amount_of_substance_literals;
+    using namespace posu::units::si::amount_of_substance_literals;
 
     SECTION("integer literals")
     {

@@ -2,21 +2,12 @@
 #define POSU_UNITS_SI_LUMINOUS_INTENSITY_HPP
 
 #include "posu/units/base_unit.hpp"
+#include "posu/units/system/luminous_intensity.hpp"
 
-namespace posu::units {
-
-    struct luminous_intensity_tag {
-        using type       = luminous_intensity_tag;
-        using value_type = std::string_view;
-
-        static constexpr auto value = std::string_view{"candela"};
-
-        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
-        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
-    };
+namespace posu::units::si {
 
     template<typename Rep, typename Period>
-    using luminous_intensity = base_unit<Rep, Period, luminous_intensity_tag>;
+    using luminous_intensity = quantity<Rep, Period, posu::units::luminous_intensity>;
 
     using attocandelas  = luminous_intensity<int, std::atto>;
     using femtocandelas = luminous_intensity<int, std::femto>;
@@ -98,7 +89,7 @@ namespace posu::units {
 
     using namespace literals::luminous_intensity_literals;
 
-} // namespace posu::units
+} // namespace posu::units::si
 
 #include "posu/units/si/ipp/luminous_intensity.ipp"
 

@@ -4,7 +4,7 @@
 
 TEST_CASE("thermodynamic temperature literals", "[construct][literals][temperature][si]")
 {
-    using namespace posu::units::thermodynamic_temperature_literals;
+    using namespace posu::units::si::thermodynamic_temperature_literals;
 
     SECTION("integer literals")
     {

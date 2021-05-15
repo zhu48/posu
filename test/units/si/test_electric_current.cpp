@@ -4,7 +4,7 @@
 
 TEST_CASE("electric current literals", "[construct][literals][current][si]")
 {
-    using namespace posu::units::electric_current_literals;
+    using namespace posu::units::si::electric_current_literals;
 
     SECTION("integer literals")
     {

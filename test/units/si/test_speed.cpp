@@ -4,7 +4,7 @@
 
 TEST_CASE("speed literals", "[construct][literals][speed][si]")
 {
-    using namespace posu::units::speed_literals;
+    using namespace posu::units::si::speed_literals;
 
     SECTION("integer literals")
     {
@@ -49,9 +49,9 @@ TEST_CASE("speed literals", "[construct][literals][speed][si]")
 
 TEST_CASE("speed from division", "[construct][expression][speed][si]")
 {
-    using namespace posu::units::length_literals;
-    using namespace posu::units::chrono_literals;
-    using namespace posu::units::speed_literals;
+    using namespace posu::units::si::length_literals;
+    using namespace posu::units::si::chrono_literals;
+    using namespace posu::units::si::speed_literals;
 
     SECTION("integer literals")
     {
@@ -68,9 +68,9 @@ TEST_CASE("speed from division", "[construct][expression][speed][si]")
 
 TEST_CASE("length from multiplication", "[construct][expression][speed][si]")
 {
-    using namespace posu::units::length_literals;
-    using namespace posu::units::chrono_literals;
-    using namespace posu::units::speed_literals;
+    using namespace posu::units::si::length_literals;
+    using namespace posu::units::si::chrono_literals;
+    using namespace posu::units::si::speed_literals;
 
     SECTION("integer literals")
     {

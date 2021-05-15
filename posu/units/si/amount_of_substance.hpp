@@ -2,21 +2,12 @@
 #define POSU_UNITS_SI_AMOUNT_OF_SUBSTANCE_HPP
 
 #include "posu/units/base_unit.hpp"
+#include "posu/units/system/amount_of_substance.hpp"
 
-namespace posu::units {
-
-    struct amount_of_substance_tag {
-        using type       = amount_of_substance_tag;
-        using value_type = std::string_view;
-
-        static constexpr auto value = std::string_view{"mole"};
-
-        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
-        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
-    };
+namespace posu::units::si {
 
     template<typename Rep, typename Period>
-    using amount_of_substance = base_unit<Rep, Period, amount_of_substance_tag>;
+    using amount_of_substance = quantity<Rep, Period, posu::units::amount_of_substance>;
 
     using attomoles  = amount_of_substance<int, std::atto>;
     using femtomoles = amount_of_substance<int, std::femto>;
@@ -98,7 +89,7 @@ namespace posu::units {
 
     using namespace literals::amount_of_substance_literals;
 
-} // namespace posu::units
+} // namespace posu::units::si
 
 #include "posu/units/si/ipp/amount_of_substance.ipp"
 

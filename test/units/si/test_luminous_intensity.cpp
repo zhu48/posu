@@ -4,7 +4,7 @@
 
 TEST_CASE("luminous intensity literals", "[construct][literals][luminous][si]")
 {
-    using namespace posu::units::luminous_intensity_literals;
+    using namespace posu::units::si::luminous_intensity_literals;
 
     SECTION("integer literals")
     {

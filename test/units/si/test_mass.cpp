@@ -4,7 +4,7 @@
 
 TEST_CASE("mass literals", "[construct][literals][mass][si]")
 {
-    using namespace posu::units::mass_literals;
+    using namespace posu::units::si::mass_literals;
 
     SECTION("integer literals")
     {

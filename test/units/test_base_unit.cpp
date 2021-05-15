@@ -4,21 +4,53 @@
 
 namespace {
 
-    constexpr char ingredients_unit_string[] = "pinch";
-    constexpr char distance_unit_string[]    = "stretch";
+    struct amount_of_ingredients {
+        using type       = amount_of_ingredients;
+        using value_type = std::string_view;
+        using dimensions = type;
 
-    using ingredients_tag = posu::units::base_unit_tag<ingredients_unit_string>;
-    using distance_tag    = posu::units::base_unit_tag<distance_unit_string>;
+        static constexpr auto value = std::string_view{"amount of ingredients"};
+
+        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
+        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
+    };
+
+    struct distance_traveled {
+        using type       = distance_traveled;
+        using value_type = std::string_view;
+        using dimensions = type;
+
+        static constexpr auto value = std::string_view{"distance traveled"};
+
+        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
+        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
+    };
+
+} // namespace
+
+template<>
+inline constexpr bool posu::units::enable_as_dimension<amount_of_ingredients> = true;
+
+template<>
+inline constexpr bool posu::units::enable_as_kind<amount_of_ingredients> = true;
+
+template<>
+inline constexpr bool posu::units::enable_as_dimension<distance_traveled> = true;
+
+template<>
+inline constexpr bool posu::units::enable_as_kind<distance_traveled> = true;
+
+namespace {
 
     template<typename Rep, typename Period>
-    using ingredients = posu::units::base_unit<Rep, Period, ingredients_tag>;
+    using ingredients = posu::units::quantity<Rep, Period, amount_of_ingredients>;
     using drop        = ingredients<int, std::milli>;
     using dash        = ingredients<int, std::deci>;
     using pinch       = ingredients<int, std::ratio<1>>;
     using dollop      = ingredients<int, std::kilo>;
 
     template<typename Rep, typename Period>
-    using distance = posu::units::base_unit<Rep, Period, distance_tag>;
+    using distance = posu::units::quantity<Rep, Period, distance_traveled>;
     using skip     = distance<int, std::milli>;
     using hop      = distance<int, std::deci>;
     using stretch  = distance<int, std::ratio<1>>;

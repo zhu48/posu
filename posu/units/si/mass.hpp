@@ -2,21 +2,12 @@
 #define POSU_UNITS_SI_MASS_HPP
 
 #include "posu/units/base_unit.hpp"
+#include "posu/units/system/mass.hpp"
 
-namespace posu::units {
-
-    struct mass_tag {
-        using type       = mass_tag;
-        using value_type = std::string_view;
-
-        static constexpr auto value = std::string_view{"gram"};
-
-        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
-        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
-    };
+namespace posu::units::si {
 
     template<typename Rep, typename Period>
-    using mass = base_unit<Rep, Period, mass_tag>;
+    using mass = quantity<Rep, Period, posu::units::mass>;
 
     using attograms  = mass<int, std::atto>;
     using femtograms = mass<int, std::femto>;
@@ -97,7 +88,7 @@ namespace posu::units {
 
     using namespace literals::mass_literals;
 
-} // namespace posu::units
+} // namespace posu::units::si
 
 #include "posu/units/si/ipp/mass.ipp"
 
