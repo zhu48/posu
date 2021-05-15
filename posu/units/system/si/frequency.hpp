@@ -94,4 +94,6 @@ namespace posu::units::si {
 
 } // namespace posu::units::si
 
+#include "posu/units/system/si/ipp/frequency.ipp"
+
 #endif // #ifndef POSU_UNITS_SYSTEM_SI_FREQUENCY_HPP

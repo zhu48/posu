@@ -138,6 +138,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/kind.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/amount_of_substance.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/electric_current.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/frequency.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/luminous_intensity.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/length.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/mass.ipp
@@ -151,6 +152,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/test/units/test_units.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_amount_of_substance.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_electric_current.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_frequency.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_length.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_luminous_intensity.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_mass.cpp
