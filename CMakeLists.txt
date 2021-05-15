@@ -124,7 +124,7 @@ set(
     POSU_UNITS_IPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/base_unit.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/derived_unit.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/dimension.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/kind.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/amount_of_substance.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/electric_current.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/luminous_intensity.ipp

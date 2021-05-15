@@ -28,7 +28,7 @@ namespace posu::units {
 
     template<dimension Dimension>
     struct unknown {
-        using type       = scaler;
+        using type       = unknown;
         using value_type = std::string_view;
         using dimensions = Dimension;
 
@@ -37,6 +37,12 @@ namespace posu::units {
         [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
         [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
+
+    template<kind kind>
+    struct is_unknown_kind : public std::false_type {
+    };
+    template<typename T>
+    concept unknown_kind = is_unknown_kind<T>::value;
 
     template<kind Lhs, kind Rhs>
     struct kind_multiply_result {
@@ -57,5 +63,9 @@ namespace posu::units {
 
 template<>
 inline constexpr bool posu::units::enable_as_kind<posu::units::scaler> = true;
+template<posu::units::dimension Dimension>
+inline constexpr bool posu::units::enable_as_kind<posu::units::unknown<Dimension>> = true;
+
+#include "posu/units/ipp/kind.ipp"
 
 #endif // #ifndef POSU_UNITS_KIND_HPP
