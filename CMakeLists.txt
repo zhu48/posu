@@ -148,6 +148,7 @@ set(
 set(
     POSU_HPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/concepts.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/type_algorithm.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/type_list.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/type_ratio.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/utility.hpp
@@ -156,6 +157,7 @@ set(
 )
 set(
     POSU_IPP_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/type_algorithm.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/type_list.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/type_ratio.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/utility.ipp
