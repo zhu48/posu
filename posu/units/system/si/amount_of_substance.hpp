@@ -91,6 +91,6 @@ namespace posu::units::si {
 
 } // namespace posu::units::si
 
-#include "posu/units/si/ipp/amount_of_substance.ipp"
+#include "posu/units/system/si/ipp/amount_of_substance.ipp"
 
 #endif // #ifndef POSU_UNITS_SI_AMOUNT_OF_SUBSTANCE_HPP

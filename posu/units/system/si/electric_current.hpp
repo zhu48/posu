@@ -91,6 +91,6 @@ namespace posu::units::si {
 
 } // namespace posu::units::si
 
-#include "posu/units/si/ipp/electric_current.ipp"
+#include "posu/units/system/si/ipp/electric_current.ipp"
 
 #endif // #ifndef POSU_UNITS_SI_ELECTRIC_CURRENT_HPP

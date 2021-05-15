@@ -91,6 +91,6 @@ namespace posu::units::si {
 
 } // namespace posu::units::si
 
-#include "posu/units/si/ipp/luminous_intensity.ipp"
+#include "posu/units/system/si/ipp/luminous_intensity.ipp"
 
 #endif // #ifndef POSU_UNITS_SI_LUMINOUS_INTENSITY_HPP

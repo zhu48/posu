@@ -110,42 +110,58 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/dimension.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/kind.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/units.hpp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/amount_of_substance.hpp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/electric_current.hpp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/luminous_intensity.hpp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/length.hpp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/mass.hpp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/si.hpp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/speed.hpp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/time.hpp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/thermodynamic_temperature.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/amount_of_substance.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/electric_current.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/luminous_intensity.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/length.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/mass.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/speed.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/time.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/thermodynamic_temperature.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/amount_of_substance.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/electric_current.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/luminous_intensity.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/length.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/mass.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/speed.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/time.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/thermodynamic_temperature.hpp
 )
 set(
     POSU_UNITS_IPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/base_unit.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/derived_unit.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/kind.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/amount_of_substance.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/electric_current.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/luminous_intensity.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/length.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/mass.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/speed.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/time.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/si/ipp/thermodynamic_temperature.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/ipp/amount_of_substance.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/ipp/electric_current.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/ipp/luminous_intensity.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/ipp/length.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/ipp/mass.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/ipp/speed.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/ipp/time.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/ipp/thermodynamic_temperature.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/amount_of_substance.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/electric_current.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/luminous_intensity.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/length.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/mass.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/speed.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/time.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/thermodynamic_temperature.ipp
 )
 set(
     POSU_UNITS_TEST_CPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/test/units/test_base_unit.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/test_units.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_amount_of_substance.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_electric_current.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_length.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_luminous_intensity.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_mass.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_speed.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_thermodynamic_temperature.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/si/test_time.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_amount_of_substance.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_electric_current.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_length.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_luminous_intensity.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_mass.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_speed.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_thermodynamic_temperature.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_time.cpp
 )
 
 set(

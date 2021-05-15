@@ -117,6 +117,6 @@ namespace posu::units::si {
 
 } // namespace posu::units::si
 
-#include "posu/units/si/ipp/time.ipp"
+#include "posu/units/system/si/ipp/time.ipp"
 
 #endif // #ifndef POSU_UNITS_SI_TIME_HPP

@@ -1,4 +1,4 @@
-#include "posu/units/si/luminous_intensity.hpp"
+#include "posu/units/system/si/luminous_intensity.hpp"
 
 #include <catch2/catch.hpp>
 

@@ -91,6 +91,6 @@ namespace posu::units::si {
 
 } // namespace posu::units::si
 
-#include "posu/units/si/ipp/thermodynamic_temperature.ipp"
+#include "posu/units/system/si/ipp/thermodynamic_temperature.ipp"
 
 #endif // #ifndef POSU_UNITS_SI_THERMODYNAMIC_TEMPERATURE_HPP

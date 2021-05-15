@@ -91,6 +91,6 @@ namespace posu::units::si {
 
 } // namespace posu::units::si
 
-#include "posu/units/si/ipp/length.ipp"
+#include "posu/units/system/si/ipp/length.ipp"
 
 #endif // #ifndef POSU_UNITS_SI_LENGTH_HPP
