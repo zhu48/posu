@@ -2,6 +2,7 @@
 #define POSU_UNITS_SI_LENGTH_HPP
 
 #include "posu/units/base_unit.hpp"
+
 #include "posu/units/system/length.hpp"
 
 namespace posu::units::si {

@@ -5,6 +5,7 @@
 #include <string_view>
 
 #include "posu/type_ratio.hpp"
+
 #include "posu/units/kind.hpp"
 
 namespace posu::units {

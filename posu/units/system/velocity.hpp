@@ -2,6 +2,7 @@
 #define POSU_UNITS_SYSTEM_VELOCITY_HPP
 
 #include "posu/units/derived_unit.hpp"
+
 #include "posu/units/system/length.hpp"
 #include "posu/units/system/time.hpp"
 

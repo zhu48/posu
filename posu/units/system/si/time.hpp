@@ -2,6 +2,7 @@
 #define POSU_UNITS_SI_TIME_HPP
 
 #include "posu/units/base_unit.hpp"
+
 #include "posu/units/system/time.hpp"
 
 namespace posu::units {

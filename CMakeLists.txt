@@ -116,7 +116,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/length.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/mass.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si.hpp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/speed.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/velocity.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/time.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/thermodynamic_temperature.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/amount_of_substance.hpp
@@ -133,14 +133,6 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/base_unit.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/derived_unit.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/kind.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/ipp/amount_of_substance.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/ipp/electric_current.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/ipp/luminous_intensity.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/ipp/length.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/ipp/mass.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/ipp/speed.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/ipp/time.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/ipp/thermodynamic_temperature.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/amount_of_substance.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/electric_current.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/luminous_intensity.ipp

@@ -3,6 +3,7 @@
 
 #include "posu/concepts.hpp"
 #include "posu/type_ratio.hpp"
+
 #include "posu/units/base_unit.hpp"
 
 namespace posu::units {

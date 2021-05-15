@@ -2,6 +2,7 @@
 #define POSU_UNITS_SI_LUMINOUS_INTENSITY_HPP
 
 #include "posu/units/base_unit.hpp"
+
 #include "posu/units/system/luminous_intensity.hpp"
 
 namespace posu::units::si {

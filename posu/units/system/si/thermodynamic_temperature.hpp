@@ -2,6 +2,7 @@
 #define POSU_UNITS_SI_THERMODYNAMIC_TEMPERATURE_HPP
 
 #include "posu/units/base_unit.hpp"
+
 #include "posu/units/system/thermodynamic_temperature.hpp"
 
 namespace posu::units::si {

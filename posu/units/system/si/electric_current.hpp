@@ -2,6 +2,7 @@
 #define POSU_UNITS_SI_ELECTRIC_CURRENT_HPP
 
 #include "posu/units/base_unit.hpp"
+
 #include "posu/units/system/electric_current.hpp"
 
 namespace posu::units::si {

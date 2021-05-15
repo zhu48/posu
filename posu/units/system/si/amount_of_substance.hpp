@@ -2,6 +2,7 @@
 #define POSU_UNITS_SI_AMOUNT_OF_SUBSTANCE_HPP
 
 #include "posu/units/base_unit.hpp"
+
 #include "posu/units/system/amount_of_substance.hpp"
 
 namespace posu::units::si {

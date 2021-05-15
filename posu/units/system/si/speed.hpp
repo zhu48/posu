@@ -2,9 +2,11 @@
 #define POSU_UNITS_SI_SPEED_HPP
 
 #include "posu/units/base_unit.hpp"
+
+#include "posu/units/system/velocity.hpp"
+
 #include "posu/units/system/si/length.hpp"
 #include "posu/units/system/si/time.hpp"
-#include "posu/units/system/velocity.hpp"
 
 namespace posu::units::si {
 
