@@ -38,24 +38,44 @@ namespace posu::units {
 
     namespace detail {
 
-        template<typename Lhs, typename Rhs>
-        struct dimension_multiply_impl;
+        template<dimension Lhs, dimension Rhs>
+        [[nodiscard]] constexpr auto dimension_multiply_impl() noexcept
+        {
+            if constexpr(base_dimension<Lhs> && base_dimension<Rhs>) {
+                return type_ratio<type_list<Lhs, Rhs>>{};
+            }
+            else if constexpr(base_dimension<Lhs> && derived_dimension<Rhs>) {
+                return ratio_multiply<type_ratio<type_list<Lhs>>, Rhs>{};
+            }
+            else if constexpr(derived_dimension<Lhs> && base_dimension<Rhs>) {
+                return ratio_multiply<Lhs, type_ratio<type_list<Rhs>>>{};
+            }
+            else {
+                return ratio_multiply<Lhs, Rhs>{};
+            }
+        }
 
-        template<typename Lhs, typename Rhs>
-        struct dimension_divide_impl;
+        template<dimension Lhs, dimension Rhs>
+        [[nodiscard]] constexpr auto dimension_divide_impl() noexcept
+        {
+            if constexpr(base_dimension<Rhs>) {
+                return ratio_divide<Lhs, type_ratio<type_list<Rhs>>>{};
+            }
+            else {
+                return ratio_divide<Lhs, Rhs>{};
+            }
+        }
 
     } // namespace detail
 
     template<dimension Lhs, dimension Rhs>
-    using dimension_multiply = typename detail::dimension_multiply_impl<Lhs, Rhs>::type;
+    using dimension_multiply = decltype(detail::dimension_multiply_impl<Lhs, Rhs>());
     template<dimension Lhs, dimension Rhs>
-    using dimension_divide = typename detail::dimension_divide_impl<Lhs, Rhs>::type;
+    using dimension_divide = decltype(detail::dimension_divide_impl<Lhs, Rhs>());
 
 } // namespace posu::units
 
 template<>
 inline constexpr bool posu::units::enable_as_dimension<posu::units::dimensionless> = true;
-
-#include "posu/units/ipp/dimension.ipp"
 
 #endif // #ifndef POSU_UNITS_DIMENSION_HPP
