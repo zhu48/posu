@@ -127,7 +127,6 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/luminous_intensity.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/length.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/mass.hpp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/speed.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/time.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/thermodynamic_temperature.hpp
 )

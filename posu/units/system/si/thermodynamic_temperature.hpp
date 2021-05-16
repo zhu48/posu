@@ -94,4 +94,34 @@ namespace posu::units::si {
 
 #include "posu/units/system/si/ipp/thermodynamic_temperature.ipp"
 
+namespace posu::units::si {
+
+    inline namespace references {
+
+        inline namespace thermodynamic_temperature_references {
+
+            inline constexpr auto aK  = 1_aK;
+            inline constexpr auto fK  = 1_fK;
+            inline constexpr auto pK  = 1_pK;
+            inline constexpr auto nK  = 1_nK;
+            inline constexpr auto uK  = 1_uK;
+            inline constexpr auto mK  = 1_mK;
+            inline constexpr auto cK  = 1_cK;
+            inline constexpr auto dK  = 1_dK;
+            inline constexpr auto K   = 1_K;
+            inline constexpr auto daK = 1_daK;
+            inline constexpr auto hK  = 1_hK;
+            inline constexpr auto kK  = 1_kK;
+            inline constexpr auto MK  = 1_MK;
+            inline constexpr auto GK  = 1_GK;
+            inline constexpr auto TK  = 1_TK;
+            inline constexpr auto PK  = 1_PK;
+            inline constexpr auto EK  = 1_EK;
+
+        } // namespace thermodynamic_temperature_references
+
+    } // namespace references
+
+} // namespace posu::units::si
+
 #endif // #ifndef POSU_UNITS_SI_THERMODYNAMIC_TEMPERATURE_HPP

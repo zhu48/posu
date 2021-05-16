@@ -96,4 +96,34 @@ namespace posu::units::si {
 
 #include "posu/units/system/si/ipp/frequency.ipp"
 
+namespace posu::units::si {
+
+    inline namespace references {
+
+        inline namespace frequency_references {
+
+            inline constexpr auto aHz  = 1_aHz;
+            inline constexpr auto fHz  = 1_fHz;
+            inline constexpr auto pHz  = 1_pHz;
+            inline constexpr auto nHz  = 1_nHz;
+            inline constexpr auto uHz  = 1_uHz;
+            inline constexpr auto mHz  = 1_mHz;
+            inline constexpr auto cHz  = 1_cHz;
+            inline constexpr auto dHz  = 1_dHz;
+            inline constexpr auto Hz   = 1_Hz;
+            inline constexpr auto daHz = 1_daHz;
+            inline constexpr auto hHz  = 1_hHz;
+            inline constexpr auto kHz  = 1_kHz;
+            inline constexpr auto MHz  = 1_MHz;
+            inline constexpr auto GHz  = 1_GHz;
+            inline constexpr auto THz  = 1_THz;
+            inline constexpr auto PHz  = 1_PHz;
+            inline constexpr auto EHz  = 1_EHz;
+
+        } // namespace frequency_references
+
+    } // namespace references
+
+} // namespace posu::units::si
+
 #endif // #ifndef POSU_UNITS_SYSTEM_SI_FREQUENCY_HPP

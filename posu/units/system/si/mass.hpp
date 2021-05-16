@@ -93,4 +93,34 @@ namespace posu::units::si {
 
 #include "posu/units/system/si/ipp/mass.ipp"
 
+namespace posu::units::si {
+
+    inline namespace references {
+
+        inline namespace mass_references {
+
+            inline constexpr auto ag  = 1_ag;
+            inline constexpr auto fg  = 1_fg;
+            inline constexpr auto pg  = 1_pg;
+            inline constexpr auto ng  = 1_ng;
+            inline constexpr auto ug  = 1_ug;
+            inline constexpr auto mg  = 1_mg;
+            inline constexpr auto cg  = 1_cg;
+            inline constexpr auto dg  = 1_dg;
+            inline constexpr auto g   = 1_g;
+            inline constexpr auto dag = 1_dag;
+            inline constexpr auto hg  = 1_hg;
+            inline constexpr auto kg  = 1_kg;
+            inline constexpr auto Mg  = 1_Mg;
+            inline constexpr auto Gg  = 1_Gg;
+            inline constexpr auto Tg  = 1_Tg;
+            inline constexpr auto Pg  = 1_Pg;
+            inline constexpr auto Eg  = 1_Eg;
+
+        } // namespace mass_references
+
+    } // namespace references
+
+} // namespace posu::units::si
+
 #endif // #ifndef POSU_UNITS_SI_MASS_HPP

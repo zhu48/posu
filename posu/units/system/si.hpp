@@ -6,7 +6,6 @@
 #include "posu/units/system/si/length.hpp"
 #include "posu/units/system/si/luminous_intensity.hpp"
 #include "posu/units/system/si/mass.hpp"
-#include "posu/units/system/si/speed.hpp"
 #include "posu/units/system/si/thermodynamic_temperature.hpp"
 #include "posu/units/system/si/time.hpp"
 

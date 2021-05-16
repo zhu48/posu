@@ -94,4 +94,34 @@ namespace posu::units::si {
 
 #include "posu/units/system/si/ipp/amount_of_substance.ipp"
 
+namespace posu::units::si {
+
+    inline namespace references {
+
+        inline namespace amount_of_substance_references {
+
+            inline constexpr auto amol  = 1_amol;
+            inline constexpr auto fmol  = 1_fmol;
+            inline constexpr auto pmol  = 1_pmol;
+            inline constexpr auto nmol  = 1_nmol;
+            inline constexpr auto umol  = 1_umol;
+            inline constexpr auto mmol  = 1_mmol;
+            inline constexpr auto cmol  = 1_cmol;
+            inline constexpr auto dmol  = 1_dmol;
+            inline constexpr auto mol   = 1_mol;
+            inline constexpr auto damol = 1_damol;
+            inline constexpr auto hmol  = 1_hmol;
+            inline constexpr auto kmol  = 1_kmol;
+            inline constexpr auto Mmol  = 1_Mmol;
+            inline constexpr auto Gmol  = 1_Gmol;
+            inline constexpr auto Tmol  = 1_Tmol;
+            inline constexpr auto Pmol  = 1_Pmol;
+            inline constexpr auto Emol  = 1_Emol;
+
+        } // namespace amount_of_substance_references
+
+    } // namespace references
+
+} // namespace posu::units::si
+
 #endif // #ifndef POSU_UNITS_SI_AMOUNT_OF_SUBSTANCE_HPP

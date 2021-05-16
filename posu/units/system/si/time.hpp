@@ -120,4 +120,37 @@ namespace posu::units::si {
 
 #include "posu/units/system/si/ipp/time.ipp"
 
+namespace posu::units::si {
+
+    inline namespace references {
+
+        inline namespace chrono_references {
+
+            inline constexpr auto as  = 1_as;
+            inline constexpr auto fs  = 1_fs;
+            inline constexpr auto ps  = 1_ps;
+            inline constexpr auto ns  = 1_ns;
+            inline constexpr auto us  = 1_us;
+            inline constexpr auto ms  = 1_ms;
+            inline constexpr auto cs  = 1_cs;
+            inline constexpr auto ds  = 1_ds;
+            inline constexpr auto s   = 1_s;
+            inline constexpr auto das = 1_das;
+            inline constexpr auto hs  = 1_hs;
+            inline constexpr auto ks  = 1_ks;
+            inline constexpr auto Ms  = 1_Ms;
+            inline constexpr auto Gs  = 1_Gs;
+            inline constexpr auto Ts  = 1_Ts;
+            inline constexpr auto Ps  = 1_Ps;
+            inline constexpr auto Es  = 1_Es;
+
+            inline constexpr auto min = 1_min;
+            inline constexpr auto h   = 1_h;
+
+        } // namespace chrono_references
+
+    } // namespace references
+
+} // namespace posu::units::si
+
 #endif // #ifndef POSU_UNITS_SI_TIME_HPP

@@ -94,4 +94,34 @@ namespace posu::units::si {
 
 #include "posu/units/system/si/ipp/electric_current.ipp"
 
+namespace posu::units::si {
+
+    inline namespace references {
+
+        inline namespace electric_current_references {
+
+            inline constexpr auto aA  = 1_aA;
+            inline constexpr auto fA  = 1_fA;
+            inline constexpr auto pA  = 1_pA;
+            inline constexpr auto nA  = 1_nA;
+            inline constexpr auto uA  = 1_uA;
+            inline constexpr auto mA  = 1_mA;
+            inline constexpr auto cA  = 1_cA;
+            inline constexpr auto dA  = 1_dA;
+            inline constexpr auto A   = 1_A;
+            inline constexpr auto daA = 1_daA;
+            inline constexpr auto hA  = 1_hA;
+            inline constexpr auto kA  = 1_kA;
+            inline constexpr auto MA  = 1_MA;
+            inline constexpr auto GA  = 1_GA;
+            inline constexpr auto TA  = 1_TA;
+            inline constexpr auto PA  = 1_PA;
+            inline constexpr auto EA  = 1_EA;
+
+        } // namespace electric_current_references
+
+    } // namespace references
+
+} // namespace posu::units::si
+
 #endif // #ifndef POSU_UNITS_SI_ELECTRIC_CURRENT_HPP

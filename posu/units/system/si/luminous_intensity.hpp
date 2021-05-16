@@ -94,4 +94,34 @@ namespace posu::units::si {
 
 #include "posu/units/system/si/ipp/luminous_intensity.ipp"
 
+namespace posu::units::si {
+
+    inline namespace references {
+
+        inline namespace luminous_intensity_references {
+
+            inline constexpr auto acd  = 1_acd;
+            inline constexpr auto fcd  = 1_fcd;
+            inline constexpr auto pcd  = 1_pcd;
+            inline constexpr auto ncd  = 1_ncd;
+            inline constexpr auto ucd  = 1_ucd;
+            inline constexpr auto mcd  = 1_mcd;
+            inline constexpr auto ccd  = 1_ccd;
+            inline constexpr auto dcd  = 1_dcd;
+            inline constexpr auto cd   = 1_cd;
+            inline constexpr auto dacd = 1_dacd;
+            inline constexpr auto hcd  = 1_hcd;
+            inline constexpr auto kcd  = 1_kcd;
+            inline constexpr auto Mcd  = 1_Mcd;
+            inline constexpr auto Gcd  = 1_Gcd;
+            inline constexpr auto Tcd  = 1_Tcd;
+            inline constexpr auto Pcd  = 1_Pcd;
+            inline constexpr auto Ecd  = 1_Ecd;
+
+        } // namespace luminous_intensity_references
+
+    } // namespace references
+
+} // namespace posu::units::si
+
 #endif // #ifndef POSU_UNITS_SI_LUMINOUS_INTENSITY_HPP

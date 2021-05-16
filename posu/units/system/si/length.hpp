@@ -94,4 +94,34 @@ namespace posu::units::si {
 
 #include "posu/units/system/si/ipp/length.ipp"
 
+namespace posu::units::si {
+
+    inline namespace references {
+
+        inline namespace length_references {
+
+            inline constexpr auto am  = 1_am;
+            inline constexpr auto fm  = 1_fm;
+            inline constexpr auto pm  = 1_pm;
+            inline constexpr auto nm  = 1_nm;
+            inline constexpr auto um  = 1_um;
+            inline constexpr auto mm  = 1_mm;
+            inline constexpr auto cm  = 1_cm;
+            inline constexpr auto dm  = 1_dm;
+            inline constexpr auto m   = 1_m;
+            inline constexpr auto dam = 1_dam;
+            inline constexpr auto hm  = 1_hm;
+            inline constexpr auto km  = 1_km;
+            inline constexpr auto Mm  = 1_Mm;
+            inline constexpr auto Gm  = 1_Gm;
+            inline constexpr auto Tm  = 1_Tm;
+            inline constexpr auto Pm  = 1_Pm;
+            inline constexpr auto Em  = 1_Em;
+
+        } // namespace length_references
+
+    } // namespace references
+
+} // namespace posu::units::si
+
 #endif // #ifndef POSU_UNITS_SI_LENGTH_HPP
