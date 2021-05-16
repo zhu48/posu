@@ -110,6 +110,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/dimension.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/kind.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/units.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/acceleration.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/amount_of_substance.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/electric_current.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/frequency.hpp
@@ -149,6 +150,7 @@ set(
     POSU_UNITS_TEST_CPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/test/units/test_base_unit.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/test_units.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_acceleration.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_amount_of_substance.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_electric_current.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_frequency.cpp

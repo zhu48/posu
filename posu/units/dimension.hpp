@@ -59,10 +59,10 @@ namespace posu::units {
         [[nodiscard]] constexpr auto dimension_divide_impl() noexcept
         {
             if constexpr(base_dimension<Rhs>) {
-                return ratio_divide<Lhs, type_ratio<type_list<Rhs>>>{};
+                return dimension_multiply_impl<Lhs, ratio_invert<type_ratio<type_list<Rhs>>>>();
             }
             else {
-                return ratio_divide<Lhs, Rhs>{};
+                return dimension_multiply_impl<Lhs, ratio_invert<Rhs>>();
             }
         }
 

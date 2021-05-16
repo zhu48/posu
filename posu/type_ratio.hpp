@@ -73,6 +73,9 @@ namespace posu {
 
     } // namespace detail
 
+    template<meta_ratio Ratio>
+    using ratio_invert = type_ratio<typename Ratio::den, typename Ratio::num>;
+
     /**
      * @brief Multiply two type ratios together.
      *
