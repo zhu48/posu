@@ -241,3 +241,15 @@ posu::units::operator%(const quantity_of_measure auto& lhs, const arithmetic aut
 
     return quantity<std::common_type_t<rep, rhs_type>, period, kind_t<lhs_type>>(lhs.count() % rhs);
 }
+
+template<posu::units::kind Kind>
+[[nodiscard]] constexpr auto
+posu::units::of(const quantity_comparible_with<Kind> auto& quant) noexcept
+{
+    using from_type = std::remove_cvref_t<decltype(quant)>;
+    using rep       = rep_t<from_type>;
+    using period    = typename from_type::period;
+    using to_type   = quantity<rep, period, Kind>;
+
+    return quantity_cast<to_type>(quant);
+}

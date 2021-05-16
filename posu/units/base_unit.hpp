@@ -119,6 +119,16 @@ namespace posu::units {
     template<typename T, typename Kind>
     concept quantity_of = quantity_of_measure<T> && std::same_as<kind_t<T>, Kind>;
 
+    /**
+     * @brief A quantity comparible with quantities of the given kind.
+     *
+     * @tparam T    The quantity type to check against this concept.
+     * @tparam Kind The kind of quantities to check that the given quantity is comparable with.
+     */
+    template<typename T, typename Kind>
+    concept quantity_comparible_with =
+        quantity_of_measure<T> && kind_comparable_with<kind_t<T>, Kind>;
+
     namespace detail
     {
         [[nodiscard]] constexpr auto to_duration(const quantity_of_measure auto& quant) noexcept;
@@ -299,6 +309,20 @@ namespace posu::units {
     [[nodiscard]] constexpr auto
     operator%(const quantity_of_measure auto& lhs, const arithmetic auto& rhs) noexcept;
     //! @}
+
+    /**
+     * @brief Lock a quantity into the given quantity kind.
+     *
+     * This function fails to compile if the given quantity is of an incompatible kind.
+     *
+     * @tparam Kind The quantity kind type to lock the given quantity into.
+     *
+     * @param quant The quantity to lock into the given kind.
+     *
+     * @return Returns the given quantity, locked into the given kind.
+     */
+    template<kind Kind>
+    [[nodiscard]] constexpr auto of(const quantity_comparible_with<Kind> auto& quant) noexcept;
 
 } // namespace posu::units
 
