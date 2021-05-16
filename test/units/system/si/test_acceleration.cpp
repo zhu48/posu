@@ -37,6 +37,12 @@ CATCH_TEST_CASE("acceleration literals", "[construct][literals][acceleration][si
         CATCH_CHECK(1000 * (Gm / (s * s)) == 1 * (Tm / (s * s)));
         CATCH_CHECK(1000 * (Tm / (s * s)) == 1 * (Pm / (s * s)));
         CATCH_CHECK(1000 * (Pm / (s * s)) == 1 * (Em / (s * s)));
+
+        CATCH_CHECK(1 * (m / (s * s)) == 1 * (mm / (ms * s)));
+        CATCH_CHECK(1 * (m / (s * s)) == 1 * (mm / (ds * cs)));
+        CATCH_CHECK(1 * (m / (s * s)) == 1000 * (mm / (s * s)));
+        CATCH_CHECK(1 * (m / (s * s)) == 100 * (mm / (s * ds)));
+        CATCH_CHECK(1 * (m / (s * s)) == 10 * (mm / (ds * ds)));
     }
 
     CATCH_SECTION("floating point literals")
@@ -57,5 +63,11 @@ CATCH_TEST_CASE("acceleration literals", "[construct][literals][acceleration][si
         CATCH_CHECK(1.0 * (Gm / (s * s)) == 0.001 * (Tm / (s * s)));
         CATCH_CHECK(1.0 * (Tm / (s * s)) == 0.001 * (Pm / (s * s)));
         CATCH_CHECK(1.0 * (Pm / (s * s)) == 0.001 * (Em / (s * s)));
+
+        CATCH_CHECK(1.0 * (m / (s * s)) == 1.0 * (mm / (ms * s)));
+        CATCH_CHECK(1.0 * (m / (s * s)) == 1.0 * (mm / (ds * cs)));
+        CATCH_CHECK(1.0 * (m / (s * s)) == 1000.0 * (mm / (s * s)));
+        CATCH_CHECK(1.0 * (m / (s * s)) == 100.0 * (mm / (s * ds)));
+        CATCH_CHECK(1.0 * (m / (s * s)) == 10.0 * (mm / (ds * ds)));
     }
 }

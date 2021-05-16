@@ -37,6 +37,10 @@ CATCH_TEST_CASE("speed literals", "[construct][literals][speed][si]")
         CATCH_CHECK(1000 * (Gm / s) == 1 * (Tm / s));
         CATCH_CHECK(1000 * (Tm / s) == 1 * (Pm / s));
         CATCH_CHECK(1000 * (Pm / s) == 1 * (Em / s));
+
+        CATCH_CHECK(1 * (m / s) == 1 * (mm / ms));
+        CATCH_CHECK(1 * (m / s) == 1000 * (mm / s));
+        CATCH_CHECK(1 * (m / s) == 100 * (mm / ds));
     }
 
     CATCH_SECTION("floating point literals")
@@ -57,6 +61,10 @@ CATCH_TEST_CASE("speed literals", "[construct][literals][speed][si]")
         CATCH_CHECK(1.0 * (Gm / s) == 0.001 * (Tm / s));
         CATCH_CHECK(1.0 * (Tm / s) == 0.001 * (Pm / s));
         CATCH_CHECK(1.0 * (Pm / s) == 0.001 * (Em / s));
+
+        CATCH_CHECK(1.0 * (m / s) == 1.0 * (mm / ms));
+        CATCH_CHECK(1.0 * (m / s) == 1000.0 * (mm / s));
+        CATCH_CHECK(1.0 * (m / s) == 100.0 * (mm / ds));
     }
 }
 
