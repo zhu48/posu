@@ -16,12 +16,12 @@ namespace posu::units {
         [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
+    template<>
+    inline constexpr bool enable_as_dimension<length> = true;
+
+    template<>
+    inline constexpr bool enable_as_kind<length> = true;
+
 } // namespace posu::units
-
-template<>
-inline constexpr bool posu::units::enable_as_dimension<posu::units::length> = true;
-
-template<>
-inline constexpr bool posu::units::enable_as_kind<posu::units::length> = true;
 
 #endif // #ifndef POSU_UNITS_SYSTEM_LENGTH_HPP

@@ -16,9 +16,9 @@ namespace posu::units {
         [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
-} // namespace posu::units
+    template<>
+    inline constexpr bool enable_as_kind<amount_of_substance> = true;
 
-template<>
-inline constexpr bool posu::units::enable_as_kind<posu::units::amount_of_substance> = true;
+} // namespace posu::units
 
 #endif // #ifndef POSU_UNITS_SYSTEM_AMOUNT_OF_SUBSTANCE_HPP

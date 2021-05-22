@@ -16,13 +16,12 @@ namespace posu::units {
         [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
+    template<>
+    inline constexpr bool enable_as_dimension<thermodynamic_temperature> = true;
+
+    template<>
+    inline constexpr bool enable_as_kind<thermodynamic_temperature> = true;
+
 } // namespace posu::units
-
-template<>
-inline constexpr bool posu::units::enable_as_dimension<posu::units::thermodynamic_temperature> =
-    true;
-
-template<>
-inline constexpr bool posu::units::enable_as_kind<posu::units::thermodynamic_temperature> = true;
 
 #endif // #ifndef POSU_UNITS_SYSTEM_THERMODYNAMIC_TEMPERATURE_HPP

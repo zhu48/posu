@@ -16,12 +16,12 @@ namespace posu::units {
         [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
+    template<>
+    inline constexpr bool enable_as_dimension<luminous_intensity> = true;
+
+    template<>
+    inline constexpr bool enable_as_kind<luminous_intensity> = true;
+
 } // namespace posu::units
-
-template<>
-inline constexpr bool posu::units::enable_as_dimension<posu::units::luminous_intensity> = true;
-
-template<>
-inline constexpr bool posu::units::enable_as_kind<posu::units::luminous_intensity> = true;
 
 #endif // #ifndef POSU_UNITS_SYSTEM_LUMINOUS_INTENSITY_HPP

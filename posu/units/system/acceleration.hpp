@@ -18,24 +18,24 @@ namespace posu::units {
         [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
+    template<>
+    inline constexpr bool enable_as_kind<acceleration> = true;
+
+    template<>
+    struct kind_multiply_result<acceleration, time> {
+        using type = velocity;
+    };
+
+    template<>
+    struct kind_multiply_result<time, acceleration> {
+        using type = velocity;
+    };
+
+    template<>
+    struct kind_divide_result<velocity, time> {
+        using type = acceleration;
+    };
+
 } // namespace posu::units
-
-template<>
-inline constexpr bool posu::units::enable_as_kind<posu::units::acceleration> = true;
-
-template<>
-struct posu::units::kind_multiply_result<posu::units::acceleration, posu::units::time> {
-    using type = velocity;
-};
-
-template<>
-struct posu::units::kind_multiply_result<posu::units::time, posu::units::acceleration> {
-    using type = velocity;
-};
-
-template<>
-struct posu::units::kind_divide_result<posu::units::velocity, posu::units::time> {
-    using type = acceleration;
-};
 
 #endif // #ifndef POSU_UNITS_SYSTEM_ACCELERATION_HPP
