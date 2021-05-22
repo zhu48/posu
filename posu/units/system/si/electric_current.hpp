@@ -7,26 +7,42 @@
 
 namespace posu::units::si {
 
-    template<typename Rep, typename Period>
-    using electric_current = quantity<Rep, Period, posu::units::electric_current>;
+    struct electric_current : public posu::units::electric_current {
+        using type      = electric_current;
+        using kind_type = posu::units::electric_current;
+    };
 
-    using attoamperes  = electric_current<int, std::atto>;
-    using femtoamperes = electric_current<int, std::femto>;
-    using picoamperes  = electric_current<int, std::pico>;
-    using nanoamperes  = electric_current<int, std::nano>;
-    using microamperes = electric_current<int, std::micro>;
-    using milliamperes = electric_current<int, std::milli>;
-    using centiamperes = electric_current<int, std::centi>;
-    using deciamperes  = electric_current<int, std::deci>;
-    using amperes      = electric_current<int, std::ratio<1>>;
-    using decaamperes  = electric_current<int, std::deca>;
-    using hectoamperes = electric_current<int, std::hecto>;
-    using kiloamperes  = electric_current<int, std::kilo>;
-    using megaamperes  = electric_current<int, std::mega>;
-    using gigaamperes  = electric_current<int, std::giga>;
-    using teraamperes  = electric_current<int, std::tera>;
-    using petaamperes  = electric_current<int, std::peta>;
-    using exaamperes   = electric_current<int, std::exa>;
+} // namespace posu::units::si
+
+namespace posu::units {
+
+    template<>
+    inline constexpr bool enable_as_unit<si::electric_current> = true;
+
+}
+
+namespace posu::units::si {
+
+    template<typename Rep, typename Period>
+    using basic_ampere = quantity<Rep, Period, electric_current>;
+
+    using attoamperes  = basic_ampere<int, std::atto>;
+    using femtoamperes = basic_ampere<int, std::femto>;
+    using picoamperes  = basic_ampere<int, std::pico>;
+    using nanoamperes  = basic_ampere<int, std::nano>;
+    using microamperes = basic_ampere<int, std::micro>;
+    using milliamperes = basic_ampere<int, std::milli>;
+    using centiamperes = basic_ampere<int, std::centi>;
+    using deciamperes  = basic_ampere<int, std::deci>;
+    using amperes      = basic_ampere<int, std::ratio<1>>;
+    using decaamperes  = basic_ampere<int, std::deca>;
+    using hectoamperes = basic_ampere<int, std::hecto>;
+    using kiloamperes  = basic_ampere<int, std::kilo>;
+    using megaamperes  = basic_ampere<int, std::mega>;
+    using gigaamperes  = basic_ampere<int, std::giga>;
+    using teraamperes  = basic_ampere<int, std::tera>;
+    using petaamperes  = basic_ampere<int, std::peta>;
+    using exaamperes   = basic_ampere<int, std::exa>;
 
     inline namespace literals {
 
@@ -34,55 +50,55 @@ namespace posu::units::si {
 
             [[nodiscard]] constexpr auto operator""_aA(unsigned long long value) -> attoamperes;
             [[nodiscard]] constexpr auto operator""_aA(long double value)
-                -> electric_current<double, std::atto>;
+                -> basic_ampere<double, std::atto>;
             [[nodiscard]] constexpr auto operator""_fA(unsigned long long value) -> femtoamperes;
             [[nodiscard]] constexpr auto operator""_fA(long double value)
-                -> electric_current<double, std::femto>;
+                -> basic_ampere<double, std::femto>;
             [[nodiscard]] constexpr auto operator""_pA(unsigned long long value) -> picoamperes;
             [[nodiscard]] constexpr auto operator""_pA(long double value)
-                -> electric_current<double, std::pico>;
+                -> basic_ampere<double, std::pico>;
             [[nodiscard]] constexpr auto operator""_nA(unsigned long long value) -> nanoamperes;
             [[nodiscard]] constexpr auto operator""_nA(long double value)
-                -> electric_current<double, std::nano>;
+                -> basic_ampere<double, std::nano>;
             [[nodiscard]] constexpr auto operator""_uA(unsigned long long value) -> microamperes;
             [[nodiscard]] constexpr auto operator""_uA(long double value)
-                -> electric_current<double, std::micro>;
+                -> basic_ampere<double, std::micro>;
             [[nodiscard]] constexpr auto operator""_mA(unsigned long long value) -> milliamperes;
             [[nodiscard]] constexpr auto operator""_mA(long double value)
-                -> electric_current<double, std::milli>;
+                -> basic_ampere<double, std::milli>;
             [[nodiscard]] constexpr auto operator""_cA(unsigned long long value) -> centiamperes;
             [[nodiscard]] constexpr auto operator""_cA(long double value)
-                -> electric_current<double, std::centi>;
+                -> basic_ampere<double, std::centi>;
             [[nodiscard]] constexpr auto operator""_dA(unsigned long long value) -> deciamperes;
             [[nodiscard]] constexpr auto operator""_dA(long double value)
-                -> electric_current<double, std::deci>;
+                -> basic_ampere<double, std::deci>;
             [[nodiscard]] constexpr auto operator""_A(unsigned long long value) -> amperes;
             [[nodiscard]] constexpr auto operator""_A(long double value)
-                -> electric_current<double, std::ratio<1>>;
+                -> basic_ampere<double, std::ratio<1>>;
             [[nodiscard]] constexpr auto operator""_daA(unsigned long long value) -> decaamperes;
             [[nodiscard]] constexpr auto operator""_daA(long double value)
-                -> electric_current<double, std::deca>;
+                -> basic_ampere<double, std::deca>;
             [[nodiscard]] constexpr auto operator""_hA(unsigned long long value) -> hectoamperes;
             [[nodiscard]] constexpr auto operator""_hA(long double value)
-                -> electric_current<double, std::hecto>;
+                -> basic_ampere<double, std::hecto>;
             [[nodiscard]] constexpr auto operator""_kA(unsigned long long value) -> kiloamperes;
             [[nodiscard]] constexpr auto operator""_kA(long double value)
-                -> electric_current<double, std::kilo>;
+                -> basic_ampere<double, std::kilo>;
             [[nodiscard]] constexpr auto operator""_MA(unsigned long long value) -> megaamperes;
             [[nodiscard]] constexpr auto operator""_MA(long double value)
-                -> electric_current<double, std::mega>;
+                -> basic_ampere<double, std::mega>;
             [[nodiscard]] constexpr auto operator""_GA(unsigned long long value) -> gigaamperes;
             [[nodiscard]] constexpr auto operator""_GA(long double value)
-                -> electric_current<double, std::giga>;
+                -> basic_ampere<double, std::giga>;
             [[nodiscard]] constexpr auto operator""_TA(unsigned long long value) -> teraamperes;
             [[nodiscard]] constexpr auto operator""_TA(long double value)
-                -> electric_current<double, std::tera>;
+                -> basic_ampere<double, std::tera>;
             [[nodiscard]] constexpr auto operator""_PA(unsigned long long value) -> petaamperes;
             [[nodiscard]] constexpr auto operator""_PA(long double value)
-                -> electric_current<double, std::peta>;
+                -> basic_ampere<double, std::peta>;
             [[nodiscard]] constexpr auto operator""_EA(unsigned long long value) -> exaamperes;
             [[nodiscard]] constexpr auto operator""_EA(long double value)
-                -> electric_current<double, std::exa>;
+                -> basic_ampere<double, std::exa>;
 
         } // namespace electric_current_literals
 

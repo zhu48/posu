@@ -6,7 +6,7 @@
 
 #include "posu/type_ratio.hpp"
 
-#include "posu/units/kind.hpp"
+#include "posu/units/unit_of_measure.hpp"
 
 namespace posu::units {
 
@@ -25,53 +25,13 @@ namespace posu::units {
     } // namespace detail
 
     /**
-     * @brief A unit-of-measure derived from base units.
-     *
-     * @tparam T The type to check against this concept.
-     *
-     * @{
-     */
-    template<typename T>
-    concept derived_kind = kind<T> && derived_dimension<dimension_t<T>>;
-    template<typename T>
-    struct is_derived_kind : public std::bool_constant<derived_kind<T>> {
-    };
-    //! @}
-
-    /**
-     * @brief A base unit-of-measure.
-     *
-     * @tparam T The type to check against this concept.
-     *
-     * @{
-     */
-    template<typename T>
-    concept base_kind = kind<T> && base_dimension<dimension_t<T>>;
-    template<typename T>
-    struct is_base_kind : public std::bool_constant<base_kind<T>> {
-    };
-    //! @}
-
-    namespace detail {
-
-        template<typename Lhs, typename Rhs>
-        concept kind_compatible_with =
-            std::same_as<Lhs, Rhs> || unknown_kind<Lhs> || unknown_kind<Rhs>;
-
-    }
-
-    template<typename Lhs, typename Rhs>
-    concept kind_comparable_with = kind<Lhs> && kind<Rhs> &&
-        std::same_as<dimension_t<Lhs>, dimension_t<Rhs>> && detail::kind_compatible_with<Lhs, Rhs>;
-
-    /**
      * @brief A quanity with a unit-of-measure represented by a tag type.
      *
      * @tparam Rep    The numeric representation type.
      * @tparam Period The ratio with respect to the unit quantity type.
-     * @tparam Kind   The quantity's measurement kind.
+     * @tparam Unit   The quantity's measurement unit.
      */
-    template<arithmetic Rep, detail::std_ratio Period, kind Kind>
+    template<arithmetic Rep, detail::std_ratio Period, unit Unit>
     class quantity;
 
     /**
@@ -95,12 +55,12 @@ namespace posu::units {
     //! @}
 
     /**
-     * @brief A quantity's quantity kind type.
+     * @brief A quantity's units of measure type.
      *
      * @tparam T The quantity type.
      */
     template<quantity_of_measure T>
-    using kind_t = typename T::kind_type;
+    using unit_t = typename T::unit_type;
 
     /**
      * @brief A quantity's numeric representation type.
@@ -111,23 +71,34 @@ namespace posu::units {
     using rep_t = typename T::rep;
 
     /**
-     * @brief A quantity of the given kind.
+     * @brief A quantity's to-base-amount ratio.
      *
-     * @tparam T    The quantity type.
-     * @tparam Kind The quantity kind to check against.
+     * @tparam T The quantity type.
      */
+    template<quantity_of_measure T>
+    using period_t = typename T::period;
+
     template<typename T, typename Kind>
-    concept quantity_of = quantity_of_measure<T> && std::same_as<kind_t<T>, Kind>;
+    concept quantity_of_kind = quantity_of_measure<T> && std::same_as<kind_t<T>, Kind>;
+
+    template<typename T, typename Unit>
+    concept quantity_of_units = quantity_of_measure<T> && std::same_as<unit_t<T>, Unit>;
 
     /**
-     * @brief A quantity comparible with quantities of the given kind.
+     * @brief A quantity of the given category.
      *
-     * @tparam T    The quantity type to check against this concept.
-     * @tparam Kind The kind of quantities to check that the given quantity is comparable with.
+     * @tparam T        The quantity type.
+     * @tparam Category The quantity unit or kind to check against.
      */
-    template<typename T, typename Kind>
-    concept quantity_comparible_with =
-        quantity_of_measure<T> && kind_comparable_with<kind_t<T>, Kind>;
+    template<typename T, typename Category>
+    concept quantity_of = quantity_of_kind<T, Category> || quantity_of_units<T, Category>;
+
+    template<typename T>
+    concept quantity_category = kind<T> || unit<T>;
+
+    template<typename T, typename U>
+    concept quantity_comparable_with =
+        quantity_of_measure<T> && std::same_as<dimension_t<T>, dimension_t<U>>;
 
     namespace detail
     {
@@ -142,15 +113,16 @@ namespace posu::units {
      * @tparam From The quantity to convert from.
      */
     template<quantity_of_measure To, quantity_of_measure From>
-        requires(std::same_as<dimension_t<To>, dimension_t<From>>)
+        requires(quantity_comparable_with<To, From>)
     [[nodiscard]] constexpr auto quantity_cast(const From& quant) noexcept -> To;
 
-    template<arithmetic Rep, detail::std_ratio Period, kind Kind>
+    template<arithmetic Rep, detail::std_ratio Period, unit Unit>
     class quantity {
     public:
         using rep        = Rep;                    //!< The numeric representation type.
         using period     = Period;                 //!< The ratio with respect to the unit quantity.
-        using kind_type  = Kind;                   //!< The quantity kind.
+        using unit_type  = Unit;                   //!< The quantity units of measure.
+        using kind_type  = kind_t<unit_type>;      //!< The quantity kind.
         using dimensions = dimension_t<kind_type>; //!< The quantity dimension.
 
         /**
@@ -180,13 +152,13 @@ namespace posu::units {
          *
          * @param d The quantity to convert from.
          */
-        template<typename Rep2, typename Period2, kind_comparable_with<kind_type> Kind2>
+        template<typename Rep2, typename Period2, unit_comparable_with<unit_type> Unit2>
             requires(
                 std::chrono::treat_as_floating_point_v<Rep> ||
                 ((std::ratio_divide<Period2, Period>::den == 1) &&
                  !std::chrono::treat_as_floating_point_v<Rep2>))
-        explicit(!std::same_as<kind_type, Kind2>) constexpr quantity(
-            const quantity<Rep2, Period2, Kind2>& d);
+        explicit(!std::same_as<unit_type, Unit2>) constexpr quantity(
+            const quantity<Rep2, Period2, Unit2>& d);
 
         /**
          * @brief Obtain the number of ticks this quantity has.
@@ -200,6 +172,7 @@ namespace posu::units {
          *
          * @tparam RRep    The numeric representation type of the quantity to compare against.
          * @tparam RPeriod The to-unit-quantity ratio of the quantity to compare against.
+         * @tparam RUnit   The units of the quantity to compare against.
          *
          * @param rhs The quantity to compare against.
          *
@@ -207,12 +180,12 @@ namespace posu::units {
          *
          * @{
          */
-        template<typename RRep, typename RPeriod>
+        template<typename RRep, typename RPeriod, unit_of<kind_type> RUnit>
         [[nodiscard]] constexpr bool
-        operator==(const quantity<RRep, RPeriod, kind_type>& rhs) const noexcept;
-        template<typename RRep, typename RPeriod>
+        operator==(const quantity<RRep, RPeriod, RUnit>& rhs) const noexcept;
+        template<typename RRep, typename RPeriod, unit_of<kind_type> RUnit>
         [[nodiscard]] constexpr auto
-        operator<=>(const quantity<RRep, RPeriod, kind_type>& rhs) const noexcept;
+        operator<=>(const quantity<RRep, RPeriod, RUnit>& rhs) const noexcept;
         //! @}
 
         /**
@@ -253,76 +226,113 @@ namespace posu::units {
         constexpr auto& operator%=(const quantity& rhs) noexcept;
         //! @}
 
-    private:
-        using underlying_type = std::chrono::duration<Rep, Period>;
+        /**
+         * @name Arithmetic Operators
+         *
+         * @brief Arithmetic operations on base-unit quantities.
+         *
+         * @param lhs The left-hand-side operand.
+         * @param rhs The right-hand-side operand.
+         *
+         * @return Returns the arithmeitc operation result.
+         *
+         * @{
+         */
 
-        friend constexpr bool operator==(const quantity& lhs, const Rep& rhs) noexcept requires
-            quantity_of<quantity, scaler>
+        [[nodiscard]] friend constexpr auto
+        operator+(const quantity& lhs, const quantity_of<unit_type> auto& rhs) noexcept
         {
-            return quantity_cast<quantity<Rep, std::ratio<1>, kind_type>>(lhs).count() == rhs;
+            return std::common_type_t<quantity, std::remove_cvref_t<decltype(rhs)>>(
+                (lhs.m_duration + detail::to_duration(rhs)).count());
         }
 
-        friend constexpr bool operator<=>(const quantity& lhs, const Rep& rhs) noexcept requires
-            quantity_of<quantity, scaler>
+        [[nodiscard]] friend constexpr auto
+        operator-(const quantity& lhs, const quantity_of<unit_type> auto& rhs) noexcept
+        {
+            return std::common_type_t<quantity, std::remove_cvref_t<decltype(rhs)>>(
+                (lhs.m_duration - detail::to_duration(rhs)).count());
+        }
+
+        [[nodiscard]] friend constexpr auto
+        operator*(const arithmetic auto& lhs, const quantity& rhs) noexcept
+        {
+            using lhs_type = std::remove_cvref_t<decltype(lhs)>;
+
+            return quantity<std::common_type_t<lhs_type, rep>, period, unit_type>(
+                (lhs * detail::to_duration(rhs)).count());
+        }
+
+        [[nodiscard]] friend constexpr auto
+        operator*(const quantity& lhs, const arithmetic auto& rhs) noexcept
+        {
+            return rhs * lhs;
+        }
+
+        [[nodiscard]] friend constexpr auto
+        operator/(const quantity& lhs, const quantity_of<unit_type> auto& rhs) noexcept
+        {
+            using rep = decltype(lhs.m_duration / detail::to_duration(rhs));
+
+            return quantity<rep, std::ratio<1>, scaler>(lhs.m_duration / detail::to_duration(rhs));
+        }
+
+        [[nodiscard]] friend constexpr auto
+        operator/(const quantity& lhs, const arithmetic auto& rhs) noexcept
+        {
+            using rhs_type = std::remove_cvref_t<decltype(rhs)>;
+
+            return quantity<std::common_type_t<rep, rhs_type>, period, unit_type>(
+                lhs.count() / rhs);
+        }
+
+        [[nodiscard]] friend constexpr auto
+        operator%(const quantity& lhs, const quantity_of<unit_type> auto& rhs) noexcept
+        {
+            return std::common_type_t<quantity, std::remove_cvref_t<decltype(rhs)>>(
+                (lhs.m_duration % detail::to_duration(rhs)).count());
+        }
+
+        [[nodiscard]] friend constexpr auto
+        operator%(const quantity& lhs, const arithmetic auto& rhs) noexcept
+        {
+            using rhs_type = std::remove_cvref_t<decltype(rhs)>;
+
+            return quantity<std::common_type_t<rep, rhs_type>, period, unit_type>(
+                lhs.count() % rhs);
+        }
+
+        //! @}
+
+        [[nodiscard]] friend constexpr bool operator==(const quantity& lhs, const Rep& rhs) noexcept
+            requires quantity_of<quantity, scaler>
+        {
+            return quantity_cast<quantity<Rep, std::ratio<1>, unit_type>>(lhs).count() == rhs;
+        }
+
+        [[nodiscard]] friend constexpr auto operator<=>(
+            const quantity& lhs,
+            const Rep&      rhs) noexcept requires quantity_of<quantity, scaler>
         {
             return lhs.m_duration.count() <=> rhs;
         }
 
+    private : using underlying_type = std::chrono::duration<Rep, Period>;
         underlying_type m_duration;
     };
 
     /**
-     * @name Arithmetic Operators
+     * @brief Lock a quantity into the given category.
      *
-     * @brief Arithmetic operations on base-unit quantities.
+     * This function fails to compile if the given quantity has incompatible categories.
      *
-     * @tparam Lhs    The type of the left-hand-side operand.
-     * @tparam Rep    The quantity type's numeric representation type.
-     * @tparam Period The quantity type's to-unit-quantity ratio.
-     * @tparam Units  The quantity type's units-of-measure tag type.
+     * @tparam Category The category to lock the given quantity into.
      *
-     * @param lhs The left-hand-side operand.
-     * @param rhs The right-hand-side operand.
+     * @param quant The quantity to lock into the given category.
      *
-     * @return Returns the arithmeitc operation result.
-     *
-     * @{
+     * @return Returns the given quantity, locked into the given category.
      */
-    template<quantity_of_measure Lhs>
-    [[nodiscard]] constexpr auto
-    operator+(const Lhs& lhs, const quantity_of<kind_t<Lhs>> auto& rhs) noexcept;
-    template<quantity_of_measure Lhs>
-    [[nodiscard]] constexpr auto
-    operator-(const Lhs& lhs, const quantity_of<kind_t<Lhs>> auto& rhs) noexcept;
-    [[nodiscard]] constexpr auto
-    operator*(const arithmetic auto& lhs, const quantity_of_measure auto& rhs) noexcept;
-    [[nodiscard]] constexpr auto
-    operator*(const quantity_of_measure auto& lhs, const arithmetic auto& rhs) noexcept;
-    template<quantity_of_measure Lhs>
-    [[nodiscard]] constexpr auto
-    operator/(const Lhs& lhs, const quantity_of<kind_t<Lhs>> auto& rhs) noexcept;
-    [[nodiscard]] constexpr auto
-    operator/(const quantity_of_measure auto& lhs, const arithmetic auto& rhs) noexcept;
-    template<quantity_of_measure Lhs>
-    [[nodiscard]] constexpr auto
-    operator%(const Lhs& lhs, const quantity_of<kind_t<Lhs>> auto& rhs) noexcept;
-    [[nodiscard]] constexpr auto
-    operator%(const quantity_of_measure auto& lhs, const arithmetic auto& rhs) noexcept;
-    //! @}
-
-    /**
-     * @brief Lock a quantity into the given quantity kind.
-     *
-     * This function fails to compile if the given quantity is of an incompatible kind.
-     *
-     * @tparam Kind The quantity kind type to lock the given quantity into.
-     *
-     * @param quant The quantity to lock into the given kind.
-     *
-     * @return Returns the given quantity, locked into the given kind.
-     */
-    template<kind Kind>
-    [[nodiscard]] constexpr auto of(const quantity_comparible_with<Kind> auto& quant) noexcept;
+    template<quantity_category Category>
+    [[nodiscard]] constexpr auto of(const quantity_comparable_with<Category> auto& quant) noexcept;
 
 } // namespace posu::units
 
@@ -335,17 +345,17 @@ namespace posu::units {
  * @tparam RPeriod The to-unit-quantity ratio of the right-hand-side quantity type.
  * @tparam Kind   The units-of-measure tag type.
  */
-template<typename LRep, typename LPeriod, typename RRep, typename RPeriod, typename Kind>
+template<typename LRep, typename LPeriod, typename RRep, typename RPeriod, typename Unit>
 struct std::common_type<
-    posu::units::quantity<LRep, LPeriod, Kind>,
-    posu::units::quantity<RRep, RPeriod, Kind>> {
+    posu::units::quantity<LRep, LPeriod, Unit>,
+    posu::units::quantity<RRep, RPeriod, Unit>> {
     //! The common quantity type.
     using type = posu::units::quantity<
         std::common_type_t<LRep, RRep>,
         typename std::common_type_t<
             std::chrono::duration<LRep, LPeriod>,
             std::chrono::duration<RRep, RPeriod>>::period,
-        Kind>;
+        Unit>;
 };
 
 #include "posu/units/ipp/base_unit.ipp"

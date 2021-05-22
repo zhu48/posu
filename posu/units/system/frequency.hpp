@@ -18,24 +18,24 @@ namespace posu::units {
         [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
+    template<>
+    inline constexpr bool enable_as_kind<frequency> = true;
+
+    template<>
+    struct kind_multiply_result<frequency, time> {
+        using type = scaler;
+    };
+
+    template<>
+    struct kind_multiply_result<time, frequency> {
+        using type = scaler;
+    };
+
+    template<>
+    struct kind_divide_result<scaler, time> {
+        using type = frequency;
+    };
+
 } // namespace posu::units
-
-template<>
-inline constexpr bool posu::units::enable_as_kind<posu::units::frequency> = true;
-
-template<>
-struct posu::units::kind_multiply_result<posu::units::frequency, posu::units::time> {
-    using type = scaler;
-};
-
-template<>
-struct posu::units::kind_multiply_result<posu::units::time, posu::units::frequency> {
-    using type = scaler;
-};
-
-template<>
-struct posu::units::kind_divide_result<posu::units::scaler, posu::units::time> {
-    using type = frequency;
-};
 
 #endif // #ifndef POSU_UNITS_SYSTEM_FREQUENCY_HPP

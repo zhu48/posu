@@ -8,6 +8,7 @@ namespace {
         using type       = amount_of_ingredients;
         using value_type = std::string_view;
         using dimensions = type;
+        using kind_type  = type;
 
         static constexpr auto value = std::string_view{"amount of ingredients"};
 
@@ -19,6 +20,7 @@ namespace {
         using type       = distance_traveled;
         using value_type = std::string_view;
         using dimensions = type;
+        using kind_type  = type;
 
         static constexpr auto value = std::string_view{"distance traveled"};
 
@@ -28,17 +30,27 @@ namespace {
 
 } // namespace
 
-template<>
-inline constexpr bool posu::units::enable_as_dimension<amount_of_ingredients> = true;
+namespace posu::units {
 
-template<>
-inline constexpr bool posu::units::enable_as_kind<amount_of_ingredients> = true;
+    template<>
+    inline constexpr bool enable_as_dimension<amount_of_ingredients> = true;
 
-template<>
-inline constexpr bool posu::units::enable_as_dimension<distance_traveled> = true;
+    template<>
+    inline constexpr bool enable_as_kind<amount_of_ingredients> = true;
 
-template<>
-inline constexpr bool posu::units::enable_as_kind<distance_traveled> = true;
+    template<>
+    inline constexpr bool enable_as_unit<amount_of_ingredients> = true;
+
+    template<>
+    inline constexpr bool enable_as_dimension<distance_traveled> = true;
+
+    template<>
+    inline constexpr bool enable_as_kind<distance_traveled> = true;
+
+    template<>
+    inline constexpr bool enable_as_unit<distance_traveled> = true;
+
+} // namespace posu::units
 
 namespace {
 

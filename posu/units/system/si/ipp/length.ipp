@@ -8,9 +8,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::length_literals::operator""_am(long double value)
-        -> length<double, std::atto>
+        -> basic_meter<double, std::atto>
 {
-    return length<double, std::atto>(value);
+    return basic_meter<double, std::atto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -22,9 +22,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::length_literals::operator""_fm(long double value)
-        -> length<double, std::femto>
+        -> basic_meter<double, std::femto>
 {
-    return length<double, std::femto>(value);
+    return basic_meter<double, std::femto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -36,9 +36,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::length_literals::operator""_pm(long double value)
-        -> length<double, std::pico>
+        -> basic_meter<double, std::pico>
 {
-    return length<double, std::pico>(value);
+    return basic_meter<double, std::pico>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -50,9 +50,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::length_literals::operator""_nm(long double value)
-        -> length<double, std::nano>
+        -> basic_meter<double, std::nano>
 {
-    return length<double, std::nano>(value);
+    return basic_meter<double, std::nano>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -64,9 +64,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::length_literals::operator""_um(long double value)
-        -> length<double, std::micro>
+        -> basic_meter<double, std::micro>
 {
-    return length<double, std::micro>(value);
+    return basic_meter<double, std::micro>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -78,9 +78,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::length_literals::operator""_mm(long double value)
-        -> length<double, std::milli>
+        -> basic_meter<double, std::milli>
 {
-    return length<double, std::milli>(value);
+    return basic_meter<double, std::milli>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -92,9 +92,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::length_literals::operator""_cm(long double value)
-        -> length<double, std::centi>
+        -> basic_meter<double, std::centi>
 {
-    return length<double, std::centi>(value);
+    return basic_meter<double, std::centi>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -106,9 +106,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::length_literals::operator""_dm(long double value)
-        -> length<double, std::deci>
+        -> basic_meter<double, std::deci>
 {
-    return length<double, std::deci>(value);
+    return basic_meter<double, std::deci>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -119,9 +119,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::length_literals::operator""_m(long double value)
-        -> length<double, std::ratio<1>>
+        -> basic_meter<double, std::ratio<1>>
 {
-    return length<double, std::ratio<1>>(value);
+    return basic_meter<double, std::ratio<1>>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -133,9 +133,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::length_literals::operator""_dam(long double value)
-        -> length<double, std::deca>
+        -> basic_meter<double, std::deca>
 {
-    return length<double, std::deca>(value);
+    return basic_meter<double, std::deca>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -147,9 +147,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::length_literals::operator""_hm(long double value)
-        -> length<double, std::hecto>
+        -> basic_meter<double, std::hecto>
 {
-    return length<double, std::hecto>(value);
+    return basic_meter<double, std::hecto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -161,9 +161,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::length_literals::operator""_km(long double value)
-        -> length<double, std::kilo>
+        -> basic_meter<double, std::kilo>
 {
-    return length<double, std::kilo>(value);
+    return basic_meter<double, std::kilo>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -175,9 +175,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::length_literals::operator""_Mm(long double value)
-        -> length<double, std::mega>
+        -> basic_meter<double, std::mega>
 {
-    return length<double, std::mega>(value);
+    return basic_meter<double, std::mega>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -189,9 +189,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::length_literals::operator""_Gm(long double value)
-        -> length<double, std::giga>
+        -> basic_meter<double, std::giga>
 {
-    return length<double, std::giga>(value);
+    return basic_meter<double, std::giga>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -203,9 +203,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::length_literals::operator""_Tm(long double value)
-        -> length<double, std::tera>
+        -> basic_meter<double, std::tera>
 {
-    return length<double, std::tera>(value);
+    return basic_meter<double, std::tera>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -217,9 +217,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::length_literals::operator""_Pm(long double value)
-        -> length<double, std::peta>
+        -> basic_meter<double, std::peta>
 {
-    return length<double, std::peta>(value);
+    return basic_meter<double, std::peta>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -230,7 +230,7 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::length_literals::operator""_Em(long double value)
-        -> length<double, std::exa>
+        -> basic_meter<double, std::exa>
 {
-    return length<double, std::exa>(value);
+    return basic_meter<double, std::exa>(value);
 }

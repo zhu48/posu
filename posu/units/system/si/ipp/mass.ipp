@@ -7,9 +7,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::mass_literals::operator""_ag(long double value)
-        -> mass<double, std::atto>
+        -> basic_gram<double, std::atto>
 {
-    return mass<double, std::atto>(value);
+    return basic_gram<double, std::atto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -20,9 +20,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::mass_literals::operator""_fg(long double value)
-        -> mass<double, std::femto>
+        -> basic_gram<double, std::femto>
 {
-    return mass<double, std::femto>(value);
+    return basic_gram<double, std::femto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -33,9 +33,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::mass_literals::operator""_pg(long double value)
-        -> mass<double, std::pico>
+        -> basic_gram<double, std::pico>
 {
-    return mass<double, std::pico>(value);
+    return basic_gram<double, std::pico>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -46,9 +46,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::mass_literals::operator""_ng(long double value)
-        -> mass<double, std::nano>
+        -> basic_gram<double, std::nano>
 {
-    return mass<double, std::nano>(value);
+    return basic_gram<double, std::nano>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -59,9 +59,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::mass_literals::operator""_ug(long double value)
-        -> mass<double, std::micro>
+        -> basic_gram<double, std::micro>
 {
-    return mass<double, std::micro>(value);
+    return basic_gram<double, std::micro>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -72,9 +72,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::mass_literals::operator""_mg(long double value)
-        -> mass<double, std::milli>
+        -> basic_gram<double, std::milli>
 {
-    return mass<double, std::milli>(value);
+    return basic_gram<double, std::milli>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -85,9 +85,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::mass_literals::operator""_cg(long double value)
-        -> mass<double, std::centi>
+        -> basic_gram<double, std::centi>
 {
-    return mass<double, std::centi>(value);
+    return basic_gram<double, std::centi>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -98,9 +98,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::mass_literals::operator""_dg(long double value)
-        -> mass<double, std::deci>
+        -> basic_gram<double, std::deci>
 {
-    return mass<double, std::deci>(value);
+    return basic_gram<double, std::deci>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -111,9 +111,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::mass_literals::operator""_g(long double value)
-        -> mass<double, std::ratio<1>>
+        -> basic_gram<double, std::ratio<1>>
 {
-    return mass<double, std::ratio<1>>(value);
+    return basic_gram<double, std::ratio<1>>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -124,9 +124,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::mass_literals::operator""_dag(long double value)
-        -> mass<double, std::deca>
+        -> basic_gram<double, std::deca>
 {
-    return mass<double, std::deca>(value);
+    return basic_gram<double, std::deca>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -137,9 +137,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::mass_literals::operator""_hg(long double value)
-        -> mass<double, std::hecto>
+        -> basic_gram<double, std::hecto>
 {
-    return mass<double, std::hecto>(value);
+    return basic_gram<double, std::hecto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -150,9 +150,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::mass_literals::operator""_kg(long double value)
-        -> mass<double, std::kilo>
+        -> basic_gram<double, std::kilo>
 {
-    return mass<double, std::kilo>(value);
+    return basic_gram<double, std::kilo>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -163,9 +163,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::mass_literals::operator""_Mg(long double value)
-        -> mass<double, std::mega>
+        -> basic_gram<double, std::mega>
 {
-    return mass<double, std::mega>(value);
+    return basic_gram<double, std::mega>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -176,9 +176,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::mass_literals::operator""_Gg(long double value)
-        -> mass<double, std::giga>
+        -> basic_gram<double, std::giga>
 {
-    return mass<double, std::giga>(value);
+    return basic_gram<double, std::giga>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -189,9 +189,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::mass_literals::operator""_Tg(long double value)
-        -> mass<double, std::tera>
+        -> basic_gram<double, std::tera>
 {
-    return mass<double, std::tera>(value);
+    return basic_gram<double, std::tera>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -202,9 +202,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::mass_literals::operator""_Pg(long double value)
-        -> mass<double, std::peta>
+        -> basic_gram<double, std::peta>
 {
-    return mass<double, std::peta>(value);
+    return basic_gram<double, std::peta>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -215,7 +215,7 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::mass_literals::operator""_Eg(long double value)
-        -> mass<double, std::exa>
+        -> basic_gram<double, std::exa>
 {
-    return mass<double, std::exa>(value);
+    return basic_gram<double, std::exa>(value);
 }

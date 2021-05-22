@@ -15,10 +15,39 @@ namespace posu::units {
     concept kind =
         meta_constant<T, std::string_view> && dimension<dimension_t<T>> && enable_as_kind<T>;
 
+    /**
+     * @brief A unit-of-measure derived from base units.
+     *
+     * @tparam T The type to check against this concept.
+     *
+     * @{
+     */
+    template<typename T>
+    concept derived_kind = kind<T> && derived_dimension<dimension_t<T>>;
+    template<typename T>
+    struct is_derived_kind : public std::bool_constant<derived_kind<T>> {
+    };
+    //! @}
+
+    /**
+     * @brief A base unit-of-measure.
+     *
+     * @tparam T The type to check against this concept.
+     *
+     * @{
+     */
+    template<typename T>
+    concept base_kind = kind<T> && base_dimension<dimension_t<T>>;
+    template<typename T>
+    struct is_base_kind : public std::bool_constant<base_kind<T>> {
+    };
+    //! @}
+
     struct scaler {
         using type       = scaler;
         using value_type = std::string_view;
         using dimensions = dimensionless;
+        using kind_type  = scaler;
 
         static constexpr auto value = std::string_view{"scaler"};
 
@@ -26,8 +55,16 @@ namespace posu::units {
         [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
+    template<>
+    inline constexpr bool enable_as_kind<scaler> = true;
+
+    template<typename T>
+        requires(dimension<T> || kind<T>)
+    struct unknown;
+
     template<dimension Dimension>
-    struct unknown {
+        requires(!kind<Dimension>)
+    struct unknown<Dimension> {
         using type       = unknown;
         using value_type = std::string_view;
         using dimensions = Dimension;
@@ -38,11 +75,29 @@ namespace posu::units {
         [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
+    template<typename Dimension>
+    inline constexpr bool enable_as_kind<unknown<Dimension>> = true;
+
     template<kind kind>
     struct is_unknown_kind : public std::false_type {
     };
+    template<typename Dimension>
+    struct is_unknown_kind<unknown<Dimension>> : public std::true_type {
+    };
     template<typename T>
     concept unknown_kind = is_unknown_kind<T>::value;
+
+    namespace detail
+    {
+        template<typename Lhs, typename Rhs>
+        concept kind_compatible_with =
+            std::same_as<Lhs, Rhs> || unknown_kind<Lhs> || unknown_kind<Rhs>;
+
+    }
+
+    template<typename Lhs, typename Rhs>
+    concept kind_comparable_with = kind<Lhs> && kind<Rhs> &&
+        std::same_as<dimension_t<Lhs>, dimension_t<Rhs>> && detail::kind_compatible_with<Lhs, Rhs>;
 
     template<kind Lhs, kind Rhs>
     struct kind_multiply_result {
@@ -60,12 +115,5 @@ namespace posu::units {
     using kind_divide = typename kind_divide_result<Lhs, Rhs>::type;
 
 } // namespace posu::units
-
-template<>
-inline constexpr bool posu::units::enable_as_kind<posu::units::scaler> = true;
-template<posu::units::dimension Dimension>
-inline constexpr bool posu::units::enable_as_kind<posu::units::unknown<Dimension>> = true;
-
-#include "posu/units/ipp/kind.ipp"
 
 #endif // #ifndef POSU_UNITS_KIND_HPP

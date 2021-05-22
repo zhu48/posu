@@ -8,9 +8,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::thermodynamic_temperature_literals::operator""_aK(long double value)
-        -> thermodynamic_temperature<double, std::atto>
+        -> basic_kelvin<double, std::atto>
 {
-    return thermodynamic_temperature<double, std::atto>(value);
+    return basic_kelvin<double, std::atto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -22,9 +22,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::thermodynamic_temperature_literals::operator""_fK(long double value)
-        -> thermodynamic_temperature<double, std::femto>
+        -> basic_kelvin<double, std::femto>
 {
-    return thermodynamic_temperature<double, std::femto>(value);
+    return basic_kelvin<double, std::femto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -36,9 +36,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::thermodynamic_temperature_literals::operator""_pK(long double value)
-        -> thermodynamic_temperature<double, std::pico>
+        -> basic_kelvin<double, std::pico>
 {
-    return thermodynamic_temperature<double, std::pico>(value);
+    return basic_kelvin<double, std::pico>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -50,9 +50,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::thermodynamic_temperature_literals::operator""_nK(long double value)
-        -> thermodynamic_temperature<double, std::nano>
+        -> basic_kelvin<double, std::nano>
 {
-    return thermodynamic_temperature<double, std::nano>(value);
+    return basic_kelvin<double, std::nano>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -64,9 +64,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::thermodynamic_temperature_literals::operator""_uK(long double value)
-        -> thermodynamic_temperature<double, std::micro>
+        -> basic_kelvin<double, std::micro>
 {
-    return thermodynamic_temperature<double, std::micro>(value);
+    return basic_kelvin<double, std::micro>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -78,9 +78,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::thermodynamic_temperature_literals::operator""_mK(long double value)
-        -> thermodynamic_temperature<double, std::milli>
+        -> basic_kelvin<double, std::milli>
 {
-    return thermodynamic_temperature<double, std::milli>(value);
+    return basic_kelvin<double, std::milli>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -92,9 +92,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::thermodynamic_temperature_literals::operator""_cK(long double value)
-        -> thermodynamic_temperature<double, std::centi>
+        -> basic_kelvin<double, std::centi>
 {
-    return thermodynamic_temperature<double, std::centi>(value);
+    return basic_kelvin<double, std::centi>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -106,9 +106,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::thermodynamic_temperature_literals::operator""_dK(long double value)
-        -> thermodynamic_temperature<double, std::deci>
+        -> basic_kelvin<double, std::deci>
 {
-    return thermodynamic_temperature<double, std::deci>(value);
+    return basic_kelvin<double, std::deci>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -120,9 +120,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::thermodynamic_temperature_literals::operator""_K(long double value)
-        -> thermodynamic_temperature<double, std::ratio<1>>
+        -> basic_kelvin<double, std::ratio<1>>
 {
-    return thermodynamic_temperature<double, std::ratio<1>>(value);
+    return basic_kelvin<double, std::ratio<1>>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -134,9 +134,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::thermodynamic_temperature_literals::operator""_daK(long double value)
-        -> thermodynamic_temperature<double, std::deca>
+        -> basic_kelvin<double, std::deca>
 {
-    return thermodynamic_temperature<double, std::deca>(value);
+    return basic_kelvin<double, std::deca>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -148,9 +148,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::thermodynamic_temperature_literals::operator""_hK(long double value)
-        -> thermodynamic_temperature<double, std::hecto>
+        -> basic_kelvin<double, std::hecto>
 {
-    return thermodynamic_temperature<double, std::hecto>(value);
+    return basic_kelvin<double, std::hecto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -162,9 +162,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::thermodynamic_temperature_literals::operator""_kK(long double value)
-        -> thermodynamic_temperature<double, std::kilo>
+        -> basic_kelvin<double, std::kilo>
 {
-    return thermodynamic_temperature<double, std::kilo>(value);
+    return basic_kelvin<double, std::kilo>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -176,9 +176,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::thermodynamic_temperature_literals::operator""_MK(long double value)
-        -> thermodynamic_temperature<double, std::mega>
+        -> basic_kelvin<double, std::mega>
 {
-    return thermodynamic_temperature<double, std::mega>(value);
+    return basic_kelvin<double, std::mega>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -190,9 +190,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::thermodynamic_temperature_literals::operator""_GK(long double value)
-        -> thermodynamic_temperature<double, std::giga>
+        -> basic_kelvin<double, std::giga>
 {
-    return thermodynamic_temperature<double, std::giga>(value);
+    return basic_kelvin<double, std::giga>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -204,9 +204,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::thermodynamic_temperature_literals::operator""_TK(long double value)
-        -> thermodynamic_temperature<double, std::tera>
+        -> basic_kelvin<double, std::tera>
 {
-    return thermodynamic_temperature<double, std::tera>(value);
+    return basic_kelvin<double, std::tera>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -218,9 +218,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::thermodynamic_temperature_literals::operator""_PK(long double value)
-        -> thermodynamic_temperature<double, std::peta>
+        -> basic_kelvin<double, std::peta>
 {
-    return thermodynamic_temperature<double, std::peta>(value);
+    return basic_kelvin<double, std::peta>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -232,7 +232,7 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::thermodynamic_temperature_literals::operator""_EK(long double value)
-        -> thermodynamic_temperature<double, std::exa>
+        -> basic_kelvin<double, std::exa>
 {
-    return thermodynamic_temperature<double, std::exa>(value);
+    return basic_kelvin<double, std::exa>(value);
 }

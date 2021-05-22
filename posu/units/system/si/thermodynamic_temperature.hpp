@@ -7,26 +7,42 @@
 
 namespace posu::units::si {
 
-    template<typename Rep, typename Period>
-    using thermodynamic_temperature = quantity<Rep, Period, posu::units::thermodynamic_temperature>;
+    struct thermodynamic_temperature : public posu::units::thermodynamic_temperature {
+        using type      = thermodynamic_temperature;
+        using kind_type = posu::units::thermodynamic_temperature;
+    };
 
-    using attokelvins  = thermodynamic_temperature<int, std::atto>;
-    using femtokelvins = thermodynamic_temperature<int, std::femto>;
-    using picokelvins  = thermodynamic_temperature<int, std::pico>;
-    using nanokelvins  = thermodynamic_temperature<int, std::nano>;
-    using microkelvins = thermodynamic_temperature<int, std::micro>;
-    using millikelvins = thermodynamic_temperature<int, std::milli>;
-    using centikelvins = thermodynamic_temperature<int, std::centi>;
-    using decikelvins  = thermodynamic_temperature<int, std::deci>;
-    using kelvins      = thermodynamic_temperature<int, std::ratio<1>>;
-    using decakelvins  = thermodynamic_temperature<int, std::deca>;
-    using hectokelvins = thermodynamic_temperature<int, std::hecto>;
-    using kilokelvins  = thermodynamic_temperature<int, std::kilo>;
-    using megakelvins  = thermodynamic_temperature<int, std::mega>;
-    using gigakelvins  = thermodynamic_temperature<int, std::giga>;
-    using terakelvins  = thermodynamic_temperature<int, std::tera>;
-    using petakelvins  = thermodynamic_temperature<int, std::peta>;
-    using exakelvins   = thermodynamic_temperature<int, std::exa>;
+} // namespace posu::units::si
+
+namespace posu::units {
+
+    template<>
+    inline constexpr bool enable_as_unit<si::thermodynamic_temperature> = true;
+
+}
+
+namespace posu::units::si {
+
+    template<typename Rep, typename Period>
+    using basic_kelvin = quantity<Rep, Period, thermodynamic_temperature>;
+
+    using attokelvins  = basic_kelvin<int, std::atto>;
+    using femtokelvins = basic_kelvin<int, std::femto>;
+    using picokelvins  = basic_kelvin<int, std::pico>;
+    using nanokelvins  = basic_kelvin<int, std::nano>;
+    using microkelvins = basic_kelvin<int, std::micro>;
+    using millikelvins = basic_kelvin<int, std::milli>;
+    using centikelvins = basic_kelvin<int, std::centi>;
+    using decikelvins  = basic_kelvin<int, std::deci>;
+    using kelvins      = basic_kelvin<int, std::ratio<1>>;
+    using decakelvins  = basic_kelvin<int, std::deca>;
+    using hectokelvins = basic_kelvin<int, std::hecto>;
+    using kilokelvins  = basic_kelvin<int, std::kilo>;
+    using megakelvins  = basic_kelvin<int, std::mega>;
+    using gigakelvins  = basic_kelvin<int, std::giga>;
+    using terakelvins  = basic_kelvin<int, std::tera>;
+    using petakelvins  = basic_kelvin<int, std::peta>;
+    using exakelvins   = basic_kelvin<int, std::exa>;
 
     inline namespace literals {
 
@@ -34,55 +50,55 @@ namespace posu::units::si {
 
             [[nodiscard]] constexpr auto operator""_aK(unsigned long long value) -> attokelvins;
             [[nodiscard]] constexpr auto operator""_aK(long double value)
-                -> thermodynamic_temperature<double, std::atto>;
+                -> basic_kelvin<double, std::atto>;
             [[nodiscard]] constexpr auto operator""_fK(unsigned long long value) -> femtokelvins;
             [[nodiscard]] constexpr auto operator""_fK(long double value)
-                -> thermodynamic_temperature<double, std::femto>;
+                -> basic_kelvin<double, std::femto>;
             [[nodiscard]] constexpr auto operator""_pK(unsigned long long value) -> picokelvins;
             [[nodiscard]] constexpr auto operator""_pK(long double value)
-                -> thermodynamic_temperature<double, std::pico>;
+                -> basic_kelvin<double, std::pico>;
             [[nodiscard]] constexpr auto operator""_nK(unsigned long long value) -> nanokelvins;
             [[nodiscard]] constexpr auto operator""_nK(long double value)
-                -> thermodynamic_temperature<double, std::nano>;
+                -> basic_kelvin<double, std::nano>;
             [[nodiscard]] constexpr auto operator""_uK(unsigned long long value) -> microkelvins;
             [[nodiscard]] constexpr auto operator""_uK(long double value)
-                -> thermodynamic_temperature<double, std::micro>;
+                -> basic_kelvin<double, std::micro>;
             [[nodiscard]] constexpr auto operator""_mK(unsigned long long value) -> millikelvins;
             [[nodiscard]] constexpr auto operator""_mK(long double value)
-                -> thermodynamic_temperature<double, std::milli>;
+                -> basic_kelvin<double, std::milli>;
             [[nodiscard]] constexpr auto operator""_cK(unsigned long long value) -> centikelvins;
             [[nodiscard]] constexpr auto operator""_cK(long double value)
-                -> thermodynamic_temperature<double, std::centi>;
+                -> basic_kelvin<double, std::centi>;
             [[nodiscard]] constexpr auto operator""_dK(unsigned long long value) -> decikelvins;
             [[nodiscard]] constexpr auto operator""_dK(long double value)
-                -> thermodynamic_temperature<double, std::deci>;
+                -> basic_kelvin<double, std::deci>;
             [[nodiscard]] constexpr auto operator""_K(unsigned long long value) -> kelvins;
             [[nodiscard]] constexpr auto operator""_K(long double value)
-                -> thermodynamic_temperature<double, std::ratio<1>>;
+                -> basic_kelvin<double, std::ratio<1>>;
             [[nodiscard]] constexpr auto operator""_daK(unsigned long long value) -> decakelvins;
             [[nodiscard]] constexpr auto operator""_daK(long double value)
-                -> thermodynamic_temperature<double, std::deca>;
+                -> basic_kelvin<double, std::deca>;
             [[nodiscard]] constexpr auto operator""_hK(unsigned long long value) -> hectokelvins;
             [[nodiscard]] constexpr auto operator""_hK(long double value)
-                -> thermodynamic_temperature<double, std::hecto>;
+                -> basic_kelvin<double, std::hecto>;
             [[nodiscard]] constexpr auto operator""_kK(unsigned long long value) -> kilokelvins;
             [[nodiscard]] constexpr auto operator""_kK(long double value)
-                -> thermodynamic_temperature<double, std::kilo>;
+                -> basic_kelvin<double, std::kilo>;
             [[nodiscard]] constexpr auto operator""_MK(unsigned long long value) -> megakelvins;
             [[nodiscard]] constexpr auto operator""_MK(long double value)
-                -> thermodynamic_temperature<double, std::mega>;
+                -> basic_kelvin<double, std::mega>;
             [[nodiscard]] constexpr auto operator""_GK(unsigned long long value) -> gigakelvins;
             [[nodiscard]] constexpr auto operator""_GK(long double value)
-                -> thermodynamic_temperature<double, std::giga>;
+                -> basic_kelvin<double, std::giga>;
             [[nodiscard]] constexpr auto operator""_TK(unsigned long long value) -> terakelvins;
             [[nodiscard]] constexpr auto operator""_TK(long double value)
-                -> thermodynamic_temperature<double, std::tera>;
+                -> basic_kelvin<double, std::tera>;
             [[nodiscard]] constexpr auto operator""_PK(unsigned long long value) -> petakelvins;
             [[nodiscard]] constexpr auto operator""_PK(long double value)
-                -> thermodynamic_temperature<double, std::peta>;
+                -> basic_kelvin<double, std::peta>;
             [[nodiscard]] constexpr auto operator""_EK(unsigned long long value) -> exakelvins;
             [[nodiscard]] constexpr auto operator""_EK(long double value)
-                -> thermodynamic_temperature<double, std::exa>;
+                -> basic_kelvin<double, std::exa>;
 
         } // namespace thermodynamic_temperature_literals
 

@@ -8,9 +8,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::frequency_literals::operator""_aHz(long double value)
-        -> frequency<double, std::atto>
+        -> basic_hertz<double, std::atto>
 {
-    return frequency<double, std::atto>(value);
+    return basic_hertz<double, std::atto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -22,9 +22,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::frequency_literals::operator""_fHz(long double value)
-        -> frequency<double, std::femto>
+        -> basic_hertz<double, std::femto>
 {
-    return frequency<double, std::femto>(value);
+    return basic_hertz<double, std::femto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -36,9 +36,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::frequency_literals::operator""_pHz(long double value)
-        -> frequency<double, std::pico>
+        -> basic_hertz<double, std::pico>
 {
-    return frequency<double, std::pico>(value);
+    return basic_hertz<double, std::pico>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -50,9 +50,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::frequency_literals::operator""_nHz(long double value)
-        -> frequency<double, std::nano>
+        -> basic_hertz<double, std::nano>
 {
-    return frequency<double, std::nano>(value);
+    return basic_hertz<double, std::nano>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -64,9 +64,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::frequency_literals::operator""_uHz(long double value)
-        -> frequency<double, std::micro>
+        -> basic_hertz<double, std::micro>
 {
-    return frequency<double, std::micro>(value);
+    return basic_hertz<double, std::micro>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -78,9 +78,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::frequency_literals::operator""_mHz(long double value)
-        -> frequency<double, std::milli>
+        -> basic_hertz<double, std::milli>
 {
-    return frequency<double, std::milli>(value);
+    return basic_hertz<double, std::milli>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -92,9 +92,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::frequency_literals::operator""_cHz(long double value)
-        -> frequency<double, std::centi>
+        -> basic_hertz<double, std::centi>
 {
-    return frequency<double, std::centi>(value);
+    return basic_hertz<double, std::centi>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -106,9 +106,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::frequency_literals::operator""_dHz(long double value)
-        -> frequency<double, std::deci>
+        -> basic_hertz<double, std::deci>
 {
-    return frequency<double, std::deci>(value);
+    return basic_hertz<double, std::deci>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -119,9 +119,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::frequency_literals::operator""_Hz(long double value)
-        -> frequency<double, std::ratio<1>>
+        -> basic_hertz<double, std::ratio<1>>
 {
-    return frequency<double, std::ratio<1>>(value);
+    return basic_hertz<double, std::ratio<1>>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -133,9 +133,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::frequency_literals::operator""_daHz(long double value)
-        -> frequency<double, std::deca>
+        -> basic_hertz<double, std::deca>
 {
-    return frequency<double, std::deca>(value);
+    return basic_hertz<double, std::deca>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -147,9 +147,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::frequency_literals::operator""_hHz(long double value)
-        -> frequency<double, std::hecto>
+        -> basic_hertz<double, std::hecto>
 {
-    return frequency<double, std::hecto>(value);
+    return basic_hertz<double, std::hecto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -161,9 +161,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::frequency_literals::operator""_kHz(long double value)
-        -> frequency<double, std::kilo>
+        -> basic_hertz<double, std::kilo>
 {
-    return frequency<double, std::kilo>(value);
+    return basic_hertz<double, std::kilo>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -175,9 +175,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::frequency_literals::operator""_MHz(long double value)
-        -> frequency<double, std::mega>
+        -> basic_hertz<double, std::mega>
 {
-    return frequency<double, std::mega>(value);
+    return basic_hertz<double, std::mega>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -189,9 +189,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::frequency_literals::operator""_GHz(long double value)
-        -> frequency<double, std::giga>
+        -> basic_hertz<double, std::giga>
 {
-    return frequency<double, std::giga>(value);
+    return basic_hertz<double, std::giga>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -203,9 +203,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::frequency_literals::operator""_THz(long double value)
-        -> frequency<double, std::tera>
+        -> basic_hertz<double, std::tera>
 {
-    return frequency<double, std::tera>(value);
+    return basic_hertz<double, std::tera>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -217,9 +217,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::frequency_literals::operator""_PHz(long double value)
-        -> frequency<double, std::peta>
+        -> basic_hertz<double, std::peta>
 {
-    return frequency<double, std::peta>(value);
+    return basic_hertz<double, std::peta>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -231,7 +231,7 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::frequency_literals::operator""_EHz(long double value)
-        -> frequency<double, std::exa>
+        -> basic_hertz<double, std::exa>
 {
-    return frequency<double, std::exa>(value);
+    return basic_hertz<double, std::exa>(value);
 }
