@@ -23,17 +23,20 @@ namespace posu::units {
 
     template<>
     struct unit_multiply_result<si::frequency, si::time> {
-        using type = scaler;
+        using type   = scaler;
+        using period = std::ratio<1>;
     };
 
     template<>
     struct unit_multiply_result<si::time, si::frequency> {
-        using type = scaler;
+        using type   = scaler;
+        using period = std::ratio<1>;
     };
 
     template<>
     struct unit_divide_result<scaler, si::time> {
-        using type = si::frequency;
+        using type   = si::frequency;
+        using period = std::ratio<1>;
     };
 
 } // namespace posu::units

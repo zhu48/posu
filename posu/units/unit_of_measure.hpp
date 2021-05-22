@@ -76,12 +76,14 @@ namespace posu::units {
 
     template<unit Lhs, unit Rhs>
     struct unit_multiply_result {
-        using type = unknown<kind_multiply<kind_t<Lhs>, kind_t<Rhs>>>;
+        using type   = unknown<kind_multiply<kind_t<Lhs>, kind_t<Rhs>>>;
+        using period = std::ratio<1>;
     };
 
     template<unit Num, unit Den>
     struct unit_divide_result {
-        using type = unknown<kind_divide<kind_t<Num>, kind_t<Den>>>;
+        using type   = unknown<kind_divide<kind_t<Num>, kind_t<Den>>>;
+        using period = std::ratio<1>;
     };
 
     template<unit Lhs, unit Rhs>
