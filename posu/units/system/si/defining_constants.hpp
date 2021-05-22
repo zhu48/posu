@@ -7,9 +7,8 @@
 
 namespace posu::units::si {
 
-    inline constexpr auto speed_of_light =
-        299'792'458 * (length_references::km / chrono_references::s);
     inline constexpr auto cs_133_hyperfine_freq = 9'192'631'770_Hz;
+    inline constexpr auto speed_of_light        = 299'792'458_m / s;
 
 } // namespace posu::units::si
 
