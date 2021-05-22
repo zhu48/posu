@@ -16,8 +16,8 @@ namespace {
 
 CATCH_TEST_CASE("acceleration literals", "[construct][literals][acceleration][si]")
 {
-    using namespace posu::units::si::length_references;
-    using namespace posu::units::si::chrono_references;
+    using namespace si::length_references;
+    using namespace si::chrono_references;
 
     CATCH_SECTION("integer literals")
     {
@@ -74,10 +74,10 @@ CATCH_TEST_CASE("acceleration literals", "[construct][literals][acceleration][si
 
 CATCH_TEST_CASE("acceleration from division", "[construct][expression][acceleration][si]")
 {
-    using namespace posu::units::si::length_literals;
-    using namespace posu::units::si::chrono_literals;
-    using namespace posu::units::si::length_references;
-    using namespace posu::units::si::chrono_references;
+    using namespace si::length_literals;
+    using namespace si::chrono_literals;
+    using namespace si::length_references;
+    using namespace si::chrono_references;
 
     CATCH_SECTION("integer literals")
     {
@@ -98,38 +98,32 @@ CATCH_TEST_CASE("acceleration from division", "[construct][expression][accelerat
 
 CATCH_TEST_CASE("velocity from multiplication", "[construct][expression][acceleration][si]")
 {
-    using namespace posu::units::si::length_literals;
-    using namespace posu::units::si::chrono_literals;
-    using namespace posu::units::si::length_references;
-    using namespace posu::units::si::chrono_references;
+    using namespace si::length_literals;
+    using namespace si::chrono_literals;
+    using namespace si::length_references;
+    using namespace si::chrono_references;
 
     CATCH_SECTION("integer literals")
     {
         CATCH_CHECK(5 * (m / s / s) * 1_s == 5_m / s);
-        CATCH_CHECK(posu::units::of<posu::units::velocity>(5 * (m / (s * s)) * 1_s) == 5_m / s);
+        CATCH_CHECK(units::of<units::velocity>(5 * (m / (s * s)) * 1_s) == 5_m / s);
         CATCH_CHECK(1_s * 5 * (m / s / s) == 5_m / s);
-        CATCH_CHECK(posu::units::of<posu::units::velocity>(1_s * 5 * (m / (s * s))) == 5_m / s);
+        CATCH_CHECK(units::of<units::velocity>(1_s * 5 * (m / (s * s))) == 5_m / s);
         CATCH_CHECK(32 * (m / s / s) * 8_ks == 256_km / s);
-        CATCH_CHECK(
-            posu::units::of<posu::units::velocity>(32 * (m / (s * s)) * 8_ks) == 256_km / s);
+        CATCH_CHECK(units::of<units::velocity>(32 * (m / (s * s)) * 8_ks) == 256_km / s);
         CATCH_CHECK(8_ks * 32 * (m / s / s) == 256_km / s);
-        CATCH_CHECK(
-            posu::units::of<posu::units::velocity>(8_ks * 32 * (m / (s * s))) == 256_km / s);
+        CATCH_CHECK(units::of<units::velocity>(8_ks * 32 * (m / (s * s))) == 256_km / s);
     }
 
     CATCH_SECTION("floating point literals")
     {
         CATCH_CHECK(0.5 * (km / s / s) * 5_s == 2.5_km / s);
-        CATCH_CHECK(
-            posu::units::of<posu::units::velocity>(0.5 * (km / (s * s)) * 5_s) == 2.5_km / s);
+        CATCH_CHECK(units::of<units::velocity>(0.5 * (km / (s * s)) * 5_s) == 2.5_km / s);
         CATCH_CHECK(5_s * 0.5 * (km / s / s) == 2.5_km / s);
-        CATCH_CHECK(
-            posu::units::of<posu::units::velocity>(5_s * 0.5 * (km / (s * s))) == 2.5_km / s);
+        CATCH_CHECK(units::of<units::velocity>(5_s * 0.5 * (km / (s * s))) == 2.5_km / s);
         CATCH_CHECK(0.25 * (um / s / s) * 8.0_ks == 2_mm / s);
-        CATCH_CHECK(
-            posu::units::of<posu::units::velocity>(0.25 * (um / (s * s)) * 8.0_ks) == 2_mm / s);
+        CATCH_CHECK(units::of<units::velocity>(0.25 * (um / (s * s)) * 8.0_ks) == 2_mm / s);
         CATCH_CHECK(8.0_ks * 0.25 * (um / s / s) == 2_mm / s);
-        CATCH_CHECK(
-            posu::units::of<posu::units::velocity>(8.0_ks * 0.25 * (um / (s * s))) == 2_mm / s);
+        CATCH_CHECK(units::of<units::velocity>(8.0_ks * 0.25 * (um / (s * s))) == 2_mm / s);
     }
 }
