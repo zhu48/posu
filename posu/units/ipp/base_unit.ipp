@@ -13,7 +13,7 @@ posu::units::detail::to_duration(const quantity_of_measure auto& quant) noexcept
 {
     using quant_t = std::remove_cvref_t<decltype(quant)>;
 
-    return std::chrono::duration<rep_t<quant_t>, typename quant_t::period>(quant.count());
+    return std::chrono::duration<rep_t<quant_t>, period_t<quant_t>>(quant.count());
 }
 
 template<posu::units::quantity_of_measure To, posu::units::quantity_of_measure From>
@@ -21,7 +21,7 @@ template<posu::units::quantity_of_measure To, posu::units::quantity_of_measure F
 [[nodiscard]] constexpr auto posu::units::quantity_cast(const From& quant) noexcept -> To
 {
     using to_rep        = rep_t<To>;
-    using to_period     = typename To::period;
+    using to_period     = period_t<To>;
     using to_underlying = std::chrono::duration<to_rep, to_period>;
 
     return To(std::chrono::duration_cast<to_underlying>(detail::to_duration(quant)).count());
@@ -194,7 +194,7 @@ posu::units::of(const quantity_comparable_with<Category> auto& quant) noexcept
 {
     using from_type = std::remove_cvref_t<decltype(quant)>;
     using rep       = rep_t<from_type>;
-    using period    = typename from_type::period;
+    using period    = period_t<from_type>;
 
     if constexpr(unit<Category>) {
         return quantity_cast<quantity<rep, period, Category>>(quant);

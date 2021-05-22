@@ -6,7 +6,7 @@ namespace posu::units::detail {
         using rep    = std::common_type_t<rep_t<Lhs>, rep_t<Rhs>>;
         using period = std::ratio_multiply<
             std::ratio_multiply<period_t<Lhs>, period_t<Rhs>>,
-            typename unit_multiply_result<unit_t<Lhs>, unit_t<Rhs>>::period>;
+            period_t<unit_multiply_result<unit_t<Lhs>, unit_t<Rhs>>>>;
         using unit_type = unit_multiply<unit_t<Lhs>, unit_t<Rhs>>;
 
         using type = quantity<rep, period, unit_type>;
@@ -17,7 +17,7 @@ namespace posu::units::detail {
         using rep    = std::common_type_t<rep_t<Lhs>, rep_t<Rhs>>;
         using period = std::ratio_multiply<
             std::ratio_divide<period_t<Lhs>, period_t<Rhs>>,
-            typename unit_divide_result<unit_t<Lhs>, unit_t<Rhs>>::period>;
+            period_t<unit_divide_result<unit_t<Lhs>, unit_t<Rhs>>>>;
         using unit_type = unit_divide<unit_t<Lhs>, unit_t<Rhs>>;
 
         using type = quantity<rep, period, unit_type>;
@@ -55,7 +55,7 @@ template<posu::units::quantity_of_measure Quantity>
 posu::units::operator/(const rep_t<Quantity>& lhs, const Quantity& rhs) noexcept
 {
     using rep       = rep_t<Quantity>;
-    using period    = std::ratio_divide<std::ratio<1>, typename Quantity::period>;
+    using period    = std::ratio_divide<std::ratio<1>, period_t<Quantity>>;
     using unit_type = unit_divide<scaler, unit_t<Quantity>>;
 
     return quantity<rep, period, unit_type>(lhs / rhs.count());

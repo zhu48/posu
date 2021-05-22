@@ -75,7 +75,7 @@ namespace posu::units {
      *
      * @tparam T The quantity type.
      */
-    template<quantity_of_measure T>
+    template<typename T>
     using period_t = typename T::period;
 
     template<typename T, typename Kind>
