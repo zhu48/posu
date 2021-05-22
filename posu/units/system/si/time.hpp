@@ -26,23 +26,23 @@ namespace posu::units::si {
     template<typename Rep, typename Period>
     using basic_second = quantity<Rep, Period, time>;
 
-    using attoseconds  = basic_second<int, std::atto>;
-    using femtoseconds = basic_second<int, std::femto>;
-    using picoseconds  = basic_second<int, std::pico>;
+    using attoseconds  = basic_second<std::chrono::nanoseconds::rep, std::atto>;
+    using femtoseconds = basic_second<std::chrono::nanoseconds::rep, std::femto>;
+    using picoseconds  = basic_second<std::chrono::nanoseconds::rep, std::pico>;
     using nanoseconds  = basic_second<std::chrono::nanoseconds::rep, std::nano>;
     using microseconds = basic_second<std::chrono::microseconds::rep, std::micro>;
     using milliseconds = basic_second<std::chrono::milliseconds::rep, std::milli>;
-    using centiseconds = basic_second<int, std::centi>;
-    using deciseconds  = basic_second<int, std::deci>;
+    using centiseconds = basic_second<std::chrono::milliseconds::rep, std::centi>;
+    using deciseconds  = basic_second<std::chrono::milliseconds::rep, std::deci>;
     using seconds      = basic_second<std::chrono::seconds::rep, std::ratio<1>>;
-    using decaseconds  = basic_second<int, std::deca>;
-    using hectoseconds = basic_second<int, std::hecto>;
-    using kiloseconds  = basic_second<int, std::kilo>;
-    using megaseconds  = basic_second<int, std::mega>;
-    using gigaseconds  = basic_second<int, std::giga>;
-    using teraseconds  = basic_second<int, std::tera>;
-    using petaseconds  = basic_second<int, std::peta>;
-    using exaseconds   = basic_second<int, std::exa>;
+    using decaseconds  = basic_second<std::chrono::seconds::rep, std::deca>;
+    using hectoseconds = basic_second<std::chrono::seconds::rep, std::hecto>;
+    using kiloseconds  = basic_second<std::chrono::seconds::rep, std::kilo>;
+    using megaseconds  = basic_second<std::chrono::seconds::rep, std::mega>;
+    using gigaseconds  = basic_second<std::chrono::seconds::rep, std::giga>;
+    using teraseconds  = basic_second<std::chrono::seconds::rep, std::tera>;
+    using petaseconds  = basic_second<std::chrono::seconds::rep, std::peta>;
+    using exaseconds   = basic_second<std::chrono::seconds::rep, std::exa>;
     using minutes      = basic_second<std::chrono::minutes::rep, std::chrono::minutes::period>;
     using hours        = basic_second<std::chrono::hours::rep, std::chrono::hours::period>;
     using days         = basic_second<std::chrono::days::rep, std::chrono::days::period>;

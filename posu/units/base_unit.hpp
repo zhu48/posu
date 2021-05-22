@@ -342,6 +342,22 @@ namespace posu::units {
             return lhs.m_duration.count() <=> rhs;
         }
 
+        template<typename Rep2, typename Period2>
+        [[nodiscard]] friend constexpr bool
+        operator==(const quantity& lhs, const std::chrono::duration<Rep2, Period2>& rhs) noexcept
+            requires(detail::implicit_chrono<kind_type>)
+        {
+            return lhs.m_duration == rhs;
+        }
+
+        template<typename Rep2, typename Period2>
+        [[nodiscard]] friend constexpr auto
+        operator<=>(const quantity& lhs, const std::chrono::duration<Rep2, Period2>& rhs) noexcept
+            requires(detail::implicit_chrono<kind_type>)
+        {
+            return lhs.m_duration <=> rhs;
+        }
+
     private : using underlying_type = std::chrono::duration<Rep, Period>;
         underlying_type m_duration;
     };

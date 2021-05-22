@@ -51,4 +51,28 @@ CATCH_TEST_CASE("time literals", "[construct][literals][time][si]")
         CATCH_CHECK(30.0_s == 0.5_min);
         CATCH_CHECK(30.0_min == 0.5_h);
     }
+
+    CATCH_SECTION("std::chrono::duration compatibility")
+    {
+        using namespace std::chrono_literals;
+
+        CATCH_CHECK(1ns == 1'000'000_fs);
+        CATCH_CHECK(1ns == 1'000_ps);
+        CATCH_CHECK(1ns == 1_ns);
+        CATCH_CHECK(1us == 1_us);
+        CATCH_CHECK(1ms == 1_ms);
+        CATCH_CHECK(10ms == 1_cs);
+        CATCH_CHECK(100ms == 1_ds);
+        CATCH_CHECK(1s == 1_s);
+        CATCH_CHECK(10s == 1_das);
+        CATCH_CHECK(100s == 1_hs);
+        CATCH_CHECK(1'000s == 1_ks);
+        CATCH_CHECK(1'000'000s == 1_Ms);
+        CATCH_CHECK(1'000'000'000s == 1_Gs);
+        CATCH_CHECK(1'000'000'000'000s == 1_Ts);
+        CATCH_CHECK(1'000'000'000'000'000s == 1_Ps);
+        CATCH_CHECK(1'000'000'000'000'000'000s == 1_Es);
+        CATCH_CHECK(60s == 1_min);
+        CATCH_CHECK(60min == 1_h);
+    }
 }
