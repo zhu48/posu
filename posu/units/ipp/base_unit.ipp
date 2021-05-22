@@ -49,6 +49,28 @@ constexpr posu::units::quantity<Rep, Period, Unit>::quantity(
 }
 
 template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+constexpr posu::units::quantity<Rep, Period, Unit>::quantity(
+    const std::chrono::duration<rep, period>& d) noexcept
+    requires(detail::implicit_chrono<kind_t<Unit>>)
+    : m_duration{d}
+{
+}
+
+template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+[[nodiscard]] constexpr posu::units::quantity<Rep, Period, Unit>::operator chrono_cref()
+    const noexcept requires(detail::implicit_chrono<kind_t<Unit>>)
+{
+    return m_duration;
+}
+
+template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+[[nodiscard]] constexpr posu::units::quantity<Rep, Period, Unit>::operator chrono_ref() noexcept
+    requires(detail::implicit_chrono<kind_t<Unit>>)
+{
+    return m_duration;
+}
+
+template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
 [[nodiscard]] constexpr auto posu::units::quantity<Rep, Period, Unit>::count() const noexcept
 {
     return m_duration.count();

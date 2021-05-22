@@ -104,6 +104,9 @@ namespace posu::units {
     {
         [[nodiscard]] constexpr auto to_duration(const quantity_of_measure auto& quant) noexcept;
 
+        template<kind Kind>
+        inline constexpr bool implicit_chrono = false;
+
     } // namespace detail
 
     /**
@@ -125,6 +128,12 @@ namespace posu::units {
         using kind_type  = kind_t<unit_type>;      //!< The quantity kind.
         using dimensions = dimension_t<kind_type>; //!< The quantity dimension.
 
+    private:
+        using chrono_type = std::chrono::duration<rep, period>;
+        using chrono_ref  = chrono_type&;
+        using chrono_cref = const chrono_type&;
+
+    public:
         /**
          * @brief Defaulted default constructor.
          */
@@ -159,6 +168,23 @@ namespace posu::units {
                  !std::chrono::treat_as_floating_point_v<Rep2>))
         explicit(!std::same_as<unit_type, Unit2>) constexpr quantity(
             const quantity<Rep2, Period2, Unit2>& d);
+
+        /**
+         * @brief Implicit conversion to and from `std::chrono::duration` for time quantities.
+         *
+         * @param d The `std::chrono::duration` type to convert from.
+         *
+         * @return Conversion operators return a reference to the underlying duration type.
+         *
+         * @{
+         */
+        constexpr quantity(const std::chrono::duration<rep, period>& d) noexcept
+            requires(detail::implicit_chrono<kind_type>);
+        [[nodiscard]] constexpr operator chrono_cref() const noexcept
+            requires(detail::implicit_chrono<kind_type>);
+        [[nodiscard]] constexpr operator chrono_ref() noexcept
+            requires(detail::implicit_chrono<kind_type>);
+        //! @}
 
         /**
          * @brief Obtain the number of ticks this quantity has.

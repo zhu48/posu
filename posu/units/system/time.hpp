@@ -22,6 +22,13 @@ namespace posu::units {
     template<>
     inline constexpr bool enable_as_kind<time> = true;
 
+    namespace detail {
+
+        template<>
+        inline constexpr bool implicit_chrono<time> = true;
+
+    }
+
 } // namespace posu::units
 
 #endif // #ifndef POSU_UNITS_SYSTEM_TIME_HPP
