@@ -1,8 +1,6 @@
 #ifndef POSU_UNITS_SYSTEM_ACCELERATION_HPP
 #define POSU_UNITS_SYSTEM_ACCELERATION_HPP
 
-#include "posu/units/derived_unit.hpp"
-
 #include "posu/units/system/velocity.hpp"
 
 namespace posu::units {
