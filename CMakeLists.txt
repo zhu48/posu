@@ -109,6 +109,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/derived_unit.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/dimension.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/kind.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/unit_of_measure.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/units.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/acceleration.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/amount_of_substance.hpp
