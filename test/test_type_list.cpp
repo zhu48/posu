@@ -15,14 +15,16 @@ TEST_CASE("initialization", "[construct]")
     static_assert(std::same_as<list::at<3>, int&>, "the fourth element must be int&");
     static_assert(std::same_as<list::at<4>, float&&>, "the fifth element must be float&&");
     static_assert(
-        std::same_as<list::at<5>, const double&>, "the sixth element must be const double&");
+        std::same_as<list::at<5>, const double&>,
+        "the sixth element must be const double&");
 
     REQUIRE(list::size() == 6);
     REQUIRE(!list::empty());
 
     static_assert(std::same_as<list::front, int>, "the first element must be an int");
     static_assert(
-        std::same_as<list::back, const double&>, "the last element must be const double&");
+        std::same_as<list::back, const double&>,
+        "the last element must be const double&");
 }
 
 TEST_CASE("range operations", "[algorithms]")

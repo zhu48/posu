@@ -35,6 +35,8 @@ namespace posu {
     };
     template<typename T>
     inline constexpr bool is_type_ratio_v = is_type_ratio<T>::value;
+    template<typename T>
+    concept meta_ratio = is_type_ratio_v<T>;
     //! @}
 
     /**
@@ -70,6 +72,9 @@ namespace posu {
         struct ratio_multiply_impl;
 
     } // namespace detail
+
+    template<meta_ratio Ratio>
+    using ratio_invert = type_ratio<typename Ratio::den, typename Ratio::num>;
 
     /**
      * @brief Multiply two type ratios together.

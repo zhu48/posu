@@ -8,6 +8,23 @@
 
 namespace posu {
 
+    template<typename T>
+    concept weakly_incrementable = std::default_initializable<T> && std::movable<T> && requires(T i)
+    {
+        // clang-format off
+        { ++i } -> std::same_as<T&>;
+        i++;
+        // clang-format on
+    };
+
+    template<typename T>
+    concept incrementable = std::regular<T> && weakly_incrementable<T> && requires(T i)
+    {
+        // clang-format off
+        { i++ } -> std::same_as<T>;
+        // clang-format on
+    };
+
     /**
      * @brief A type that represents values of another type.
      *
@@ -89,7 +106,7 @@ namespace posu {
     {
         template<typename T>
         concept arithmetic_operable_class =
-            std::totally_ordered<T> && std::incrementable<T> && requires(T lhs, T rhs)
+            std::totally_ordered<T> && incrementable<T> && requires(T lhs, T rhs)
         {
             // clang-format off
             // decrement operators
@@ -331,6 +348,23 @@ namespace posu {
     concept true_constant = bool_constant<T> && T::value;
     template<typename T>
     concept false_constant = bool_constant<T> && !T::value;
+    //! @}
+
+    /**
+     * @brief Equality comparison between meta-constants using their underlying values.
+     *
+     * @tparam Lhs The left-hand-side meta-constant type.
+     * @tparam Rhs The right-hand-side meta-constant type.
+     *
+     * @{
+     */
+    template<typename Lhs, typename Rhs>
+    concept meta_equal_to = Lhs::value == Rhs::value;
+    template<typename Lhs, typename Rhs>
+    struct is_meta_equal : public std::bool_constant<meta_equal_to<Lhs, Rhs>> {
+    };
+    template<typename Lhs, typename Rhs>
+    inline constexpr bool is_meta_equal_v = meta_equal_to<Lhs, Rhs>;
     //! @}
 
 } // namespace posu

@@ -330,6 +330,20 @@ namespace posu {
     //! @}
 
     /**
+     * @brief Check whether the given type list is empty or not.
+     *
+     * @tparam List The list to check the emptiness of.
+     *
+     * @{
+     */
+    template<typename List>
+        requires(is_type_list_v<List>)
+    using empty = typename List::empty;
+    template<typename List>
+    inline constexpr auto empty_v = empty<List>::value;
+    //! @}
+
+    /**
      * @brief Get the type at the given index in the type list.
      *
      * @tparam List The list to get an element of.
