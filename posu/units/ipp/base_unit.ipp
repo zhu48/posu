@@ -1,8 +1,3 @@
-#include <utility>
-
-template<std::intmax_t Num, std::intmax_t Den>
-struct posu::units::detail::is_std_ratio<std::ratio<Num, Den>> : std::true_type {
-};
 
 template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
 struct posu::units::is_quantity<posu::units::quantity<Rep, Period, Unit>> : public std::true_type {
@@ -11,20 +6,32 @@ struct posu::units::is_quantity<posu::units::quantity<Rep, Period, Unit>> : publ
 [[nodiscard]] constexpr auto
 posu::units::detail::to_duration(const quantity_of_measure auto& quant) noexcept
 {
-    using quant_t = std::remove_cvref_t<decltype(quant)>;
+    using quant_t      = std::remove_cvref_t<decltype(quant)>;
+    using basic_period = period_t<quant_t>;
+    using period       = std::ratio_multiply<basic_period, period_t<unit_t<quant_t>>>;
 
-    return std::chrono::duration<rep_t<quant_t>, period_t<quant_t>>(quant.count());
+    return std::chrono::duration<rep_t<quant_t>, period>(quant.count());
+}
+
+template<posu::units::quantity_of_measure Quantity>
+[[nodiscard]] constexpr auto
+posu::units::detail::from_duration(const std_chrono_duration auto& duration) noexcept
+{
+    using period = std::ratio_multiply<period_t<Quantity>, period_t<unit_t<Quantity>>>;
+
+    return Quantity{
+        std::chrono::duration_cast<std::chrono::duration<rep_t<Quantity>, period>>(duration)
+            .count()};
 }
 
 template<posu::units::quantity_of_measure To, posu::units::quantity_of_measure From>
     requires(posu::units::quantity_comparable_with<To, From>)
-[[nodiscard]] constexpr auto posu::units::quantity_cast(const From& quant) noexcept -> To
+[[nodiscard]] constexpr auto posu::units::quantity_cast(const From& quantity) noexcept -> To
 {
-    using to_rep        = rep_t<To>;
-    using to_period     = period_t<To>;
-    using to_underlying = std::chrono::duration<to_rep, to_period>;
+    // return detail::from_duration<To>(detail::to_duration(quantity));
+    const auto ret = detail::from_duration<To>(detail::to_duration(quantity));
 
-    return To(std::chrono::duration_cast<to_underlying>(detail::to_duration(quant)).count());
+    return ret;
 }
 
 template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
@@ -81,7 +88,7 @@ template<typename RRep, typename RPeriod, posu::units::unit_of<posu::units::kind
 [[nodiscard]] constexpr bool posu::units::quantity<Rep, Period, Unit>::operator==(
     const quantity<RRep, RPeriod, RUnit>& rhs) const noexcept
 {
-    return m_duration == detail::to_duration(rhs);
+    return detail::to_duration(*this) == detail::to_duration(rhs);
 }
 
 template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
@@ -89,7 +96,7 @@ template<typename RRep, typename RPeriod, posu::units::unit_of<posu::units::kind
 [[nodiscard]] constexpr auto posu::units::quantity<Rep, Period, Unit>::operator<=>(
     const quantity<RRep, RPeriod, RUnit>& rhs) const noexcept
 {
-    return m_duration <=> detail::to_duration(rhs);
+    return detail::to_duration(*this) <=> detail::to_duration(rhs);
 }
 
 template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
@@ -192,14 +199,22 @@ template<posu::units::quantity_category Category>
 [[nodiscard]] constexpr auto
 posu::units::of(const quantity_comparable_with<Category> auto& quant) noexcept
 {
-    using from_type = std::remove_cvref_t<decltype(quant)>;
-    using rep       = rep_t<from_type>;
-    using period    = period_t<from_type>;
+    using from_type   = std::remove_cvref_t<decltype(quant)>;
+    using rep         = rep_t<from_type>;
+    using from_period = period_t<from_type>;
 
     if constexpr(unit<Category>) {
+        using period = std::ratio_multiply<
+            from_period,
+            std::ratio_divide<period_t<unit_t<from_type>>, period_t<Category>>>;
+
         return quantity_cast<quantity<rep, period, Category>>(quant);
     }
     else {
+        using period = std::ratio_multiply<
+            from_period,
+            std::ratio_divide<period_t<unit_t<from_type>>, std::ratio<1>>>;
+
         return quantity_cast<quantity<rep, period, unknown<Category>>>(quant);
     }
 }

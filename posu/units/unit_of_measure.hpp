@@ -8,11 +8,31 @@ namespace posu::units {
     template<typename T>
     inline constexpr bool enable_as_unit = false;
 
+    /**
+     * @brief A quantity's numeric representation type.
+     *
+     * @tparam T The quantity type.
+     */
+    template<typename T>
+    using rep_t = typename T::rep;
+
+    /**
+     * @brief A quantity's to-base-amount ratio.
+     *
+     * @tparam T The quantity type.
+     */
+    template<typename T>
+    using period_t = typename T::period;
+
     template<typename T>
     using kind_t = typename T::kind_type;
 
     template<typename T>
-    concept unit = meta_constant<T, std::string_view> && kind<kind_t<T>> && enable_as_unit<T>;
+    concept multiplier = detail::std_ratio<T> || signed_arithmetic_constant<T>;
+
+    template<typename T>
+    concept unit = meta_constant<T, std::string_view> && kind<kind_t<T>> &&
+        multiplier<period_t<T>> && enable_as_unit<T>;
 
     /**
      * @brief A unit-of-measure derived from base units.
@@ -64,6 +84,7 @@ namespace posu::units {
         using value_type = std::string_view;
         using kind_type  = Kind;
         using dimensions = dimension_t<kind_type>;
+        using period     = std::ratio<1>;
 
         static constexpr auto value = std::string_view{"unknown"};
 
@@ -76,14 +97,12 @@ namespace posu::units {
 
     template<unit Lhs, unit Rhs>
     struct unit_multiply_result {
-        using type   = unknown<kind_multiply<kind_t<Lhs>, kind_t<Rhs>>>;
-        using period = std::ratio<1>;
+        using type = unknown<kind_multiply<kind_t<Lhs>, kind_t<Rhs>>>;
     };
 
     template<unit Num, unit Den>
     struct unit_divide_result {
-        using type   = unknown<kind_divide<kind_t<Num>, kind_t<Den>>>;
-        using period = std::ratio<1>;
+        using type = unknown<kind_divide<kind_t<Num>, kind_t<Den>>>;
     };
 
     template<unit Lhs, unit Rhs>

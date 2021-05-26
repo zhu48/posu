@@ -10,6 +10,7 @@ namespace posu::units::si {
     struct amount_of_substance : public posu::units::amount_of_substance {
         using type      = amount_of_substance;
         using kind_type = posu::units::amount_of_substance;
+        using period    = std::ratio<1>;
     };
 
 } // namespace posu::units::si

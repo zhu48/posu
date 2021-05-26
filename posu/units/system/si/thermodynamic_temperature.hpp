@@ -10,6 +10,7 @@ namespace posu::units::si {
     struct thermodynamic_temperature : public posu::units::thermodynamic_temperature {
         using type      = thermodynamic_temperature;
         using kind_type = posu::units::thermodynamic_temperature;
+        using period    = std::ratio<1>;
     };
 
 } // namespace posu::units::si

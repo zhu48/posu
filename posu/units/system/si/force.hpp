@@ -14,6 +14,7 @@ namespace posu::units::si {
     struct force : public posu::units::force {
         using type      = force;
         using kind_type = posu::units::force;
+        using period    = std::kilo;
     };
 
 } // namespace posu::units::si
@@ -25,20 +26,17 @@ namespace posu::units {
 
     template<unit_of<acceleration> Accel>
     struct unit_multiply_result<si::mass, Accel> {
-        using type   = si::force;
-        using period = std::milli;
+        using type = si::force;
     };
 
     template<unit_of<acceleration> Accel>
     struct unit_multiply_result<Accel, si::mass> {
-        using type   = si::force;
-        using period = std::milli;
+        using type = si::force;
     };
 
     template<unit_of<acceleration> Accel>
     struct unit_divide_result<si::force, Accel> {
-        using type   = si::mass;
-        using period = std::kilo;
+        using type = si::mass;
     };
 
 } // namespace posu::units

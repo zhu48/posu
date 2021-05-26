@@ -12,6 +12,7 @@ namespace posu::units::si {
     struct frequency : public posu::units::frequency {
         using type      = frequency;
         using kind_type = posu::units::frequency;
+        using period    = std::ratio<1>;
     };
 
 } // namespace posu::units::si
@@ -23,20 +24,17 @@ namespace posu::units {
 
     template<>
     struct unit_multiply_result<si::frequency, si::time> {
-        using type   = scaler;
-        using period = std::ratio<1>;
+        using type = scaler;
     };
 
     template<>
     struct unit_multiply_result<si::time, si::frequency> {
-        using type   = scaler;
-        using period = std::ratio<1>;
+        using type = scaler;
     };
 
     template<>
     struct unit_divide_result<scaler, si::time> {
-        using type   = si::frequency;
-        using period = std::ratio<1>;
+        using type = si::frequency;
     };
 
 } // namespace posu::units

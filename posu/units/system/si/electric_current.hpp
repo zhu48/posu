@@ -10,6 +10,7 @@ namespace posu::units::si {
     struct electric_current : public posu::units::electric_current {
         using type      = electric_current;
         using kind_type = posu::units::electric_current;
+        using period    = std::ratio<1>;
     };
 
 } // namespace posu::units::si

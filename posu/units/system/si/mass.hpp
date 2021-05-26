@@ -10,6 +10,7 @@ namespace posu::units::si {
     struct mass : public posu::units::mass {
         using type      = mass;
         using kind_type = posu::units::mass;
+        using period    = std::ratio<1>;
     };
 
 } // namespace posu::units::si

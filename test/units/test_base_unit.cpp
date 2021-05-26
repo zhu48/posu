@@ -9,6 +9,7 @@ namespace {
         using value_type = std::string_view;
         using dimensions = type;
         using kind_type  = type;
+        using period     = std::ratio<1>;
 
         static constexpr auto value = std::string_view{"amount of ingredients"};
 
@@ -21,6 +22,7 @@ namespace {
         using value_type = std::string_view;
         using dimensions = type;
         using kind_type  = type;
+        using period     = std::ratio<1>;
 
         static constexpr auto value = std::string_view{"distance traveled"};
 

@@ -10,6 +10,7 @@ namespace posu::units::si {
     struct luminous_intensity : public posu::units::luminous_intensity {
         using type      = luminous_intensity;
         using kind_type = posu::units::luminous_intensity;
+        using period    = std::ratio<1>;
     };
 
 } // namespace posu::units::si

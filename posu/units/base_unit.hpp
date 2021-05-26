@@ -3,26 +3,13 @@
 
 #include <chrono>
 #include <string_view>
+#include <utility>
 
 #include "posu/type_ratio.hpp"
 
 #include "posu/units/unit_of_measure.hpp"
 
 namespace posu::units {
-
-    namespace detail {
-
-        template<typename T>
-        struct is_std_ratio : std::false_type {
-        };
-
-        template<typename T>
-        inline constexpr bool is_std_ratio_v = is_std_ratio<T>::value;
-
-        template<typename T>
-        concept std_ratio = is_std_ratio_v<T>;
-
-    } // namespace detail
 
     /**
      * @brief A quanity with a unit-of-measure represented by a tag type.
@@ -62,22 +49,6 @@ namespace posu::units {
     template<quantity_of_measure T>
     using unit_t = typename T::unit_type;
 
-    /**
-     * @brief A quantity's numeric representation type.
-     *
-     * @tparam T The quantity type.
-     */
-    template<quantity_of_measure T>
-    using rep_t = typename T::rep;
-
-    /**
-     * @brief A quantity's to-base-amount ratio.
-     *
-     * @tparam T The quantity type.
-     */
-    template<typename T>
-    using period_t = typename T::period;
-
     template<typename T, typename Kind>
     concept quantity_of_kind = quantity_of_measure<T> && std::same_as<kind_t<T>, Kind>;
 
@@ -102,7 +73,19 @@ namespace posu::units {
 
     namespace detail
     {
-        [[nodiscard]] constexpr auto to_duration(const quantity_of_measure auto& quant) noexcept;
+        template<typename T>
+        struct is_std_chrono_duration : public std::false_type {
+        };
+        template<typename Rep, typename Period>
+        struct is_std_chrono_duration<std::chrono::duration<Rep, Period>> : public std::true_type {
+        };
+        template<typename T>
+        concept std_chrono_duration = is_std_chrono_duration<T>::value;
+
+        [[nodiscard]] constexpr auto to_duration(const quantity_of_measure auto& quantity) noexcept;
+        template<quantity_of_measure Quantity>
+        [[nodiscard]] constexpr auto from_duration(
+            const std_chrono_duration auto& duration) noexcept;
 
         template<kind Kind>
         inline constexpr bool implicit_chrono = false;

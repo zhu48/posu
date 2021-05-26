@@ -10,6 +10,7 @@ namespace posu::units::si {
     struct length : public posu::units::length {
         using type      = length;
         using kind_type = posu::units::length;
+        using period    = std::ratio<1>;
     };
 
 } // namespace posu::units::si

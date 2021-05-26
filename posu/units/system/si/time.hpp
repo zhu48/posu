@@ -12,6 +12,7 @@ namespace posu::units {
         struct time : public posu::units::time {
             using type      = time;
             using kind_type = posu::units::time;
+            using period    = std::ratio<1>;
         };
 
     } // namespace si
