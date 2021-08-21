@@ -5,6 +5,7 @@
 #include "posu/units/system/si/energy.hpp"
 #include "posu/units/system/si/frequency.hpp"
 #include "posu/units/system/si/length.hpp"
+#include "posu/units/system/si/thermodynamic_temperature.hpp"
 #include "posu/units/system/si/time.hpp"
 
 namespace posu::units::si {
@@ -13,6 +14,7 @@ namespace posu::units::si {
     inline constexpr auto speed_of_light        = 299'792'458_m / s;
     inline constexpr auto planck_constant       = 6.626'070'15e-34_J * s;
     inline constexpr auto elementary_charge     = 1.602'176'634e-19_C;
+    inline constexpr auto boltzmann_constant    = 1.380'649e-23_J / K;
 
 } // namespace posu::units::si
 
