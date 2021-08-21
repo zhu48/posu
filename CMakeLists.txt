@@ -159,6 +159,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/test/units/test_units.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_acceleration.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_amount_of_substance.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_defining_constants.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_electric_current.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_energy.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_force.cpp
