@@ -78,13 +78,13 @@ namespace posu::units {
     template<detail::std_ratio Ratio>
     inline constexpr bool enable_as_unit<scaler<Ratio>> = true;
 
-    template<kind Kind>
-    struct unknown<Kind> {
+    template<kind Kind, detail::std_ratio Period>
+    struct unknown<Kind, Period> {
         using type       = unknown;
         using value_type = std::string_view;
         using kind_type  = Kind;
         using dimensions = dimension_t<kind_type>;
-        using period     = std::ratio<1>;
+        using period     = Period;
 
         static constexpr auto value = std::string_view{"unknown"};
 
@@ -92,17 +92,21 @@ namespace posu::units {
         [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
-    template<kind Kind>
-    inline constexpr bool enable_as_unit<unknown<Kind>> = true;
+    template<kind Kind, detail::std_ratio Period>
+    inline constexpr bool enable_as_unit<unknown<Kind, Period>> = true;
 
     template<unit Lhs, unit Rhs>
     struct unit_multiply_result {
-        using type = unknown<kind_multiply<kind_t<Lhs>, kind_t<Rhs>>>;
+        using type = unknown<
+            kind_multiply<kind_t<Lhs>, kind_t<Rhs>>,
+            std::ratio_multiply<period_t<Lhs>, period_t<Rhs>>>;
     };
 
     template<unit Num, unit Den>
     struct unit_divide_result {
-        using type = unknown<kind_divide<kind_t<Num>, kind_t<Den>>>;
+        using type = unknown<
+            kind_divide<kind_t<Num>, kind_t<Den>>,
+            std::ratio_divide<period_t<Num>, period_t<Den>>>;
     };
 
     template<unit Lhs, unit Rhs>

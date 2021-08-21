@@ -125,6 +125,27 @@ CATCH_TEST_CASE("force from multiplication", "[construct][expression][force][si]
 
 CATCH_TEST_CASE("acceleration from force division", "[construct][expression][force][si]")
 {
+    using namespace si::length_literals;
+    using namespace si::chrono_references;
+    using namespace si::force_literals;
+    using namespace si::mass_references;
+
+    CATCH_CHECK(1_fm / s / s == 1_fN / kg);
+    CATCH_CHECK(1_pm / s / s == 1_pN / kg);
+    CATCH_CHECK(1_nm / s / s == 1_nN / kg);
+    CATCH_CHECK(1_um / s / s == 1_uN / kg);
+    CATCH_CHECK(1_mm / s / s == 1_mN / kg);
+    CATCH_CHECK(1_cm / s / s == 1_cN / kg);
+    CATCH_CHECK(1_dm / s / s == 1_dN / kg);
+    CATCH_CHECK(1_m / s / s == 1_N / kg);
+    CATCH_CHECK(1_dam / s / s == 1_daN / kg);
+    CATCH_CHECK(1_hm / s / s == 1_hN / kg);
+    CATCH_CHECK(1_km / s / s == 1_kN / kg);
+    CATCH_CHECK(1_Mm / s / s == 1_MN / kg);
+    CATCH_CHECK(1_Gm / s / s == 1_GN / kg);
+    CATCH_CHECK(1_Tm / s / s == 1_TN / kg);
+    CATCH_CHECK(1_Pm / s / s == 1_PN / kg);
+    CATCH_CHECK(1_Em / s / s == 1_EN / kg);
 }
 
 CATCH_TEST_CASE("mass from force division", "[construct][expression][force][si]")

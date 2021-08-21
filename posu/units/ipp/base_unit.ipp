@@ -28,10 +28,7 @@ template<posu::units::quantity_of_measure To, posu::units::quantity_of_measure F
     requires(posu::units::quantity_comparable_with<To, From>)
 [[nodiscard]] constexpr auto posu::units::quantity_cast(const From& quantity) noexcept -> To
 {
-    // return detail::from_duration<To>(detail::to_duration(quantity));
-    const auto ret = detail::from_duration<To>(detail::to_duration(quantity));
-
-    return ret;
+    return detail::from_duration<To>(detail::to_duration(quantity));
 }
 
 template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
@@ -88,7 +85,10 @@ template<typename RRep, typename RPeriod, posu::units::unit_of<posu::units::kind
 [[nodiscard]] constexpr bool posu::units::quantity<Rep, Period, Unit>::operator==(
     const quantity<RRep, RPeriod, RUnit>& rhs) const noexcept
 {
-    return detail::to_duration(*this) == detail::to_duration(rhs);
+    const auto l = detail::to_duration(*this);
+    const auto r = detail::to_duration(rhs);
+
+    return l == r;
 }
 
 template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
@@ -211,10 +211,6 @@ posu::units::of(const quantity_comparable_with<Category> auto& quant) noexcept
         return quantity_cast<quantity<rep, period, Category>>(quant);
     }
     else {
-        using period = std::ratio_multiply<
-            from_period,
-            std::ratio_divide<period_t<unit_t<from_type>>, std::ratio<1>>>;
-
-        return quantity_cast<quantity<rep, period, unknown<Category>>>(quant);
+        return quantity_cast<quantity<rep, from_period, unknown<Category>>>(quant);
     }
 }

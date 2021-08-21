@@ -35,6 +35,11 @@ namespace posu::units {
         using type = mass;
     };
 
+    template<>
+    struct kind_divide_result<force, mass> {
+        using type = acceleration;
+    };
+
 } // namespace posu::units
 
 #endif // #ifndef POSU_UNITS_SYSTEM_FORCE_HPP
