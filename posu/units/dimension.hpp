@@ -38,6 +38,19 @@ namespace posu::units {
 
     namespace detail {
 
+        template<dimension T>
+        struct unwrap_dimension_type {
+            using type = T;
+        };
+
+        template<base_dimension T>
+        struct unwrap_dimension_type<type_ratio<type_list<T>>> {
+            using type = T;
+        };
+
+        template<dimension T>
+        using unwrap_dimension = typename unwrap_dimension_type<T>::type;
+
         template<dimension Lhs, dimension Rhs>
         [[nodiscard]] constexpr auto dimension_multiply_impl() noexcept
         {
@@ -83,9 +96,11 @@ namespace posu::units {
     } // namespace detail
 
     template<dimension Lhs, dimension Rhs>
-    using dimension_multiply = decltype(detail::dimension_multiply_impl<Lhs, Rhs>());
+    using dimension_multiply =
+        detail::unwrap_dimension<decltype(detail::dimension_multiply_impl<Lhs, Rhs>())>;
     template<dimension Lhs, dimension Rhs>
-    using dimension_divide = decltype(detail::dimension_divide_impl<Lhs, Rhs>());
+    using dimension_divide =
+        detail::unwrap_dimension<decltype(detail::dimension_divide_impl<Lhs, Rhs>())>;
 
 } // namespace posu::units
 

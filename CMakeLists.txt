@@ -114,6 +114,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/acceleration.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/amount_of_substance.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/electric_current.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/energy.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/force.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/frequency.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/luminous_intensity.hpp
@@ -126,6 +127,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/amount_of_substance.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/defining_constants.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/electric_current.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/energy.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/force.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/frequency.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/luminous_intensity.hpp
@@ -141,6 +143,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/kind.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/amount_of_substance.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/electric_current.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/energy.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/force.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/frequency.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/luminous_intensity.ipp
@@ -157,6 +160,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_acceleration.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_amount_of_substance.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_electric_current.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_energy.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_force.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_frequency.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_length.cpp
