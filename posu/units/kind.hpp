@@ -60,24 +60,6 @@ namespace posu::units {
     template<detail::std_ratio Period>
     inline constexpr bool enable_as_kind<scaler<Period>> = true;
 
-    namespace detail {
-
-        template<typename T>
-        struct is_std_ratio : std::false_type {
-        };
-
-        template<std::intmax_t Num, std::intmax_t Den>
-        struct is_std_ratio<std::ratio<Num, Den>> : std::true_type {
-        };
-
-        template<typename T>
-        inline constexpr bool is_std_ratio_v = is_std_ratio<T>::value;
-
-        template<typename T>
-        concept std_ratio = is_std_ratio_v<T>;
-
-    } // namespace detail
-
     template<typename T, detail::std_ratio Period = std::ratio<1>>
         requires(dimension<T> || kind<T>)
     struct unknown;
