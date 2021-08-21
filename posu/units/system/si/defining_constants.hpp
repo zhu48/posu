@@ -1,6 +1,7 @@
 #ifndef POSU_UNITS_SYSTEM_SI_DEFINING_CONSTANTS_HPP
 #define POSU_UNITS_SYSTEM_SI_DEFINING_CONSTANTS_HPP
 
+#include "posu/units/system/si/amount_of_substance.hpp"
 #include "posu/units/system/si/electric_charge.hpp"
 #include "posu/units/system/si/energy.hpp"
 #include "posu/units/system/si/frequency.hpp"
@@ -15,6 +16,7 @@ namespace posu::units::si {
     inline constexpr auto planck_constant       = 6.626'070'15e-34_J * s;
     inline constexpr auto elementary_charge     = 1.602'176'634e-19_C;
     inline constexpr auto boltzmann_constant    = 1.380'649e-23_J / K;
+    inline constexpr auto avogadro_constant     = 6.022'146'76e23 / 1.0_mol;
 
 } // namespace posu::units::si
 
