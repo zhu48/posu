@@ -75,8 +75,8 @@ namespace posu::units {
     concept unit_comparable_with =
         unit<Lhs> && unit<Rhs> && kind_comparable_with<kind_t<Lhs>, kind_t<Rhs>>;
 
-    template<>
-    inline constexpr bool enable_as_unit<scaler> = true;
+    template<detail::std_ratio Ratio>
+    inline constexpr bool enable_as_unit<scaler<Ratio>> = true;
 
     template<kind Kind>
     struct unknown<Kind> {

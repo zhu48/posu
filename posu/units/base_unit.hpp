@@ -282,7 +282,8 @@ namespace posu::units {
         {
             using rep = decltype(lhs.m_duration / detail::to_duration(rhs));
 
-            return quantity<rep, std::ratio<1>, scaler>(lhs.m_duration / detail::to_duration(rhs));
+            return quantity<rep, std::ratio<1>, scaler<>>(
+                lhs.m_duration / detail::to_duration(rhs));
         }
 
         [[nodiscard]] friend constexpr auto
@@ -313,14 +314,14 @@ namespace posu::units {
         //! @}
 
         [[nodiscard]] friend constexpr bool operator==(const quantity& lhs, const Rep& rhs) noexcept
-            requires quantity_of<quantity, scaler>
+            requires quantity_of<quantity, scaler<>>
         {
             return quantity_cast<quantity<Rep, std::ratio<1>, unit_type>>(lhs).count() == rhs;
         }
 
         [[nodiscard]] friend constexpr auto operator<=>(
             const quantity& lhs,
-            const Rep&      rhs) noexcept requires quantity_of<quantity, scaler>
+            const Rep&      rhs) noexcept requires quantity_of<quantity, scaler<>>
         {
             return lhs.m_duration.count() <=> rhs;
         }

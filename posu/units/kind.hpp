@@ -43,12 +43,13 @@ namespace posu::units {
     };
     //! @}
 
+    template<detail::std_ratio Period = std::ratio<1>>
     struct scaler {
         using type       = scaler;
         using value_type = std::string_view;
         using dimensions = dimensionless;
         using kind_type  = scaler;
-        using period     = std::ratio<1>;
+        using period     = Period;
 
         static constexpr auto value = std::string_view{"scaler"};
 
@@ -56,8 +57,8 @@ namespace posu::units {
         [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
-    template<>
-    inline constexpr bool enable_as_kind<scaler> = true;
+    template<detail::std_ratio Period>
+    inline constexpr bool enable_as_kind<scaler<Period>> = true;
 
     namespace detail {
 
