@@ -121,6 +121,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/frequency.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/luminous_intensity.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/length.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/luminous_flux.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/mass.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/solid_angle.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si.hpp
@@ -137,6 +138,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/frequency.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/luminous_intensity.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/length.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/luminous_flux.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/mass.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/solid_angle.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/time.hpp
@@ -156,6 +158,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/frequency.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/luminous_intensity.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/length.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/luminous_flux.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/mass.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/solid_angle.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/speed.ipp
@@ -176,6 +179,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_force.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_frequency.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_length.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_luminous_flux.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_luminous_intensity.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_mass.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_solid_angle.cpp
