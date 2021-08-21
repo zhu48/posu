@@ -113,6 +113,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/units.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/acceleration.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/amount_of_substance.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/electric_charge.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/electric_current.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/energy.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/force.hpp
@@ -126,6 +127,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/thermodynamic_temperature.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/amount_of_substance.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/defining_constants.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/electric_charge.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/electric_current.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/energy.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/force.hpp
@@ -142,6 +144,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/derived_unit.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/kind.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/amount_of_substance.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/electric_charge.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/electric_current.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/energy.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/force.ipp
@@ -160,6 +163,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_acceleration.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_amount_of_substance.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_defining_constants.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_electric_charge.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_electric_current.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_energy.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_force.cpp
