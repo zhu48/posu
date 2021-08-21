@@ -36,6 +36,9 @@ namespace posu::units {
         [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
+    template<>
+    inline constexpr bool enable_as_dimension<posu::units::dimensionless> = true;
+
     namespace detail {
 
         template<dimension T>
@@ -48,13 +51,27 @@ namespace posu::units {
             using type = T;
         };
 
+        template<>
+        struct unwrap_dimension_type<type_ratio<type_list<>>> {
+            using type = dimensionless;
+        };
+
         template<dimension T>
         using unwrap_dimension = typename unwrap_dimension_type<T>::type;
 
         template<dimension Lhs, dimension Rhs>
         [[nodiscard]] constexpr auto dimension_multiply_impl() noexcept
         {
-            if constexpr(base_dimension<Lhs> && base_dimension<Rhs>) {
+            if constexpr(std::same_as<Lhs, dimensionless> && std::same_as<Rhs, dimensionless>) {
+                return dimensionless{};
+            }
+            else if constexpr(std::same_as<Lhs, dimensionless>) {
+                return Rhs{};
+            }
+            else if constexpr(std::same_as<Rhs, dimensionless>) {
+                return Lhs{};
+            }
+            else if constexpr(base_dimension<Lhs> && base_dimension<Rhs>) {
                 return type_ratio<type_list<Lhs, Rhs>>{};
             }
             else if constexpr(base_dimension<Lhs> && derived_dimension<Rhs>) {
@@ -103,8 +120,5 @@ namespace posu::units {
         detail::unwrap_dimension<decltype(detail::dimension_divide_impl<Lhs, Rhs>())>;
 
 } // namespace posu::units
-
-template<>
-inline constexpr bool posu::units::enable_as_dimension<posu::units::dimensionless> = true;
 
 #endif // #ifndef POSU_UNITS_DIMENSION_HPP
