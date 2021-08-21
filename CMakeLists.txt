@@ -122,6 +122,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/luminous_intensity.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/length.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/mass.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/solid_angle.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/velocity.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/time.hpp
@@ -137,6 +138,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/luminous_intensity.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/length.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/mass.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/solid_angle.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/time.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/thermodynamic_temperature.hpp
 )
@@ -155,6 +157,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/luminous_intensity.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/length.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/mass.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/solid_angle.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/speed.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/time.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/thermodynamic_temperature.ipp
@@ -175,6 +178,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_length.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_luminous_intensity.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_mass.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_solid_angle.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_speed.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_thermodynamic_temperature.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_time.cpp
