@@ -6,6 +6,8 @@
 #include "posu/units/system/si/energy.hpp"
 #include "posu/units/system/si/frequency.hpp"
 #include "posu/units/system/si/length.hpp"
+#include "posu/units/system/si/luminous_flux.hpp"
+#include "posu/units/system/si/power.hpp"
 #include "posu/units/system/si/thermodynamic_temperature.hpp"
 #include "posu/units/system/si/time.hpp"
 
@@ -17,6 +19,7 @@ namespace posu::units::si {
     inline constexpr auto elementary_charge     = 1.602'176'634e-19_C;
     inline constexpr auto boltzmann_constant    = 1.380'649e-23_J / K;
     inline constexpr auto avogadro_constant     = 6.022'146'76e23 / 1.0_mol;
+    inline constexpr auto lum_efficacy_540_Thz  = 683_lm / W;
 
 } // namespace posu::units::si
 
