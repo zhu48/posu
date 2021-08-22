@@ -150,7 +150,7 @@ set(
     POSU_UNITS_IPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/base_unit.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/derived_unit.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/kind.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/dimension.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/amount_of_substance.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/angle.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/electric_charge.ipp
