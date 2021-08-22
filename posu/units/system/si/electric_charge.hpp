@@ -21,21 +21,6 @@ namespace posu::units {
     template<>
     inline constexpr bool enable_as_unit<si::electric_charge> = true;
 
-    template<unit_of<si::electric_current> Current, unit_of<si::time> Time>
-    struct unit_multiply_result<Current, Time> {
-        using type = si::electric_charge;
-    };
-
-    template<unit_of<si::electric_current> Current>
-    struct unit_divide_result<si::electric_charge, Current> {
-        using type = si::time;
-    };
-
-    template<unit_of<si::time> Time>
-    struct unit_divide_result<si::electric_charge, Time> {
-        using type = si::electric_current;
-    };
-
 } // namespace posu::units
 
 namespace posu::units::si {
