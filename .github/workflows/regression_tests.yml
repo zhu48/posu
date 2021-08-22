@@ -13,7 +13,13 @@ jobs:
     strategy:
       matrix:
         build-type: [Debug, Release]
-        cxx-compiler: [g++-10]
+        cxx-toolchain: [g++-11, clang-12]
+        include:
+          - cxx-toolchain: g++-11
+            cxx-compiler: g++-11
+          - cxx-toolchain: clang-12
+            cxx-compiler: clang++-12
+            
 
     # The CMake configure and build commands are platform agnostic and should work equally
     # well on Windows or Mac.  You can convert this to a matrix build if you need
@@ -25,7 +31,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Install C++20 Toolchain
-      run: sudo apt install ${{matrix.cxx-compiler}}
+      run: sudo apt install ${{matrix.cxx-toolchain}}
 
     - name: Create Catch Source Directory
       run: cmake -E make_directory ${{runner.temp}}/catch

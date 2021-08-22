@@ -75,25 +75,34 @@ ForEachMacros:
   - BOOST_FOREACH
 IncludeBlocks:   Regroup
 IncludeCategories:
-  - Regex:           '^"(llvm|llvm-c|clang|clang-c)/'
-    Priority:        2
-    SortPriority:    0
-    CaseSensitive:   false
-  - Regex:           '^(<|"(catch2|gtest|gmock|isl|json)/)'
-    Priority:        3
-    SortPriority:    0
-    CaseSensitive:   false
-  - Regex:           '^(<|"(posu)/)'
-    Priority:        4
-    SortPriority:    0
-    CaseSensitive:   false
-  - Regex:           '^<'
+  - Regex:           '^[<"](catch2|gtest|gmock)/.*\.((h)|(hpp))'
     Priority:        1
-    SortPriority:    0
+    SortPriority:    8
+    CaseSensitive:   false
+  - Regex:           '^[<"]posu/[a-zA-Z0-9_]+/[a-zA-Z0-9_]+/[a-zA-Z0-9_]+/.*\.hpp'
+    Priority:        2
+    SortPriority:    5
+  - Regex:           '^[<"]posu/[a-zA-Z0-9_]+/[a-zA-Z0-9_]+/.*\.hpp'
+    Priority:        3
+    SortPriority:    4
+  - Regex:           '^[<"]posu/[a-zA-Z0-9_]+/.*\.hpp'
+    Priority:        4
+    SortPriority:    3
+  - Regex:           '^[<"]posu/.*\.hpp'
+    Priority:        5
+    SortPriority:    2
+    CaseSensitive:   false
+  - Regex:           '^<.*\.((h)|(hpp))'
+    Priority:        6
+    SortPriority:    6
+    CaseSensitive:   false
+  - Regex:           '^<.*'
+    Priority:        7
+    SortPriority:    1
     CaseSensitive:   false
   - Regex:           '.*'
-    Priority:        5
-    SortPriority:    0
+    Priority:        8
+    SortPriority:    7
     CaseSensitive:   false
 IncludeIsMainRegex: '(Test)?$'
 IncludeIsMainSourceRegex: ''

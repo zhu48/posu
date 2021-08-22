@@ -58,12 +58,32 @@ if(POSU_ENABLE_WERROR)
 endif()
 
 # handle detailed-concepts-diagnostics
-if(POSU_ENABLE_DETAILED_CONCEPTS_DIAGNOSTICS)
-    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    if(POSU_ENABLE_DETAILED_CONCEPTS_DIAGNOSTICS)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fconcepts-diagnostics-depth=9")
-    elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-        message(STATUS "ignoring POSU_ENABLE_DETAILED_CONCEPTS_DIAGNOSTICS on clang")
     else()
+        string(
+            REGEX_REPLACE
+                " -fconcepts-diagnostics-depth=9"
+                " "
+            CMAKE_CXX_FLAGS
+            ${CMAKE_CXX_FLAGS}
+        )
+    endif()
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    if(POSU_ENABLE_DETAILED_CONCEPTS_DIAGNOSTICS)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftemplate-backtrace-limit=0")
+    else()
+        string(
+            REGEX_REPLACE
+                " -ftemplate-backtrace-limit=0"
+                " "
+            CMAKE_CXX_FLAGS
+            ${CMAKE_CXX_FLAGS}
+        )
+    endif()
+else()
+    if(POSU_ENABLE_DETAILED_CONCEPTS_DIAGNOSTICS)
         message(SEND_ERROR  "option  : POSU_ENABLE_DETAILED_CONCEPTS_DIAGNOSTICS")
         message(SEND_ERROR  "compiler: ${CMAKE_CXX_COMPILER_ID}")
         message(FATAL_ERROR "concepts diagnostics on this compiler unsupported")
@@ -84,8 +104,98 @@ find_program(POSU_CLANG_TIDY   clang-tidy)
 ##################
 
 set(
+    POSU_UNITS_HPP_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/base_unit.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/derived_unit.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/dimension.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/kind.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/unit_of_measure.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/units.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/acceleration.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/amount_of_substance.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/angle.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/electric_charge.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/electric_current.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/energy.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/force.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/frequency.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/luminous_intensity.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/length.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/luminous_flux.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/mass.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/power.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/solid_angle.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/velocity.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/time.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/thermodynamic_temperature.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/amount_of_substance.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/angle.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/defining_constants.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/electric_charge.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/electric_current.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/energy.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/force.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/frequency.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/luminous_intensity.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/length.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/luminous_flux.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/mass.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/power.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/solid_angle.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/time.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/thermodynamic_temperature.hpp
+)
+set(
+    POSU_UNITS_IPP_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/base_unit.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/derived_unit.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/kind.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/amount_of_substance.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/angle.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/electric_charge.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/electric_current.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/energy.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/force.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/frequency.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/luminous_intensity.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/length.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/luminous_flux.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/mass.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/power.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/solid_angle.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/speed.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/time.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/thermodynamic_temperature.ipp
+)
+set(
+    POSU_UNITS_TEST_CPP_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/test_base_unit.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/test_units.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_acceleration.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_amount_of_substance.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_angle.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_defining_constants.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_electric_charge.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_electric_current.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_energy.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_force.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_frequency.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_length.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_luminous_flux.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_luminous_intensity.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_mass.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_power.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_solid_angle.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_speed.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_thermodynamic_temperature.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_time.cpp
+)
+
+set(
     POSU_HPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/concepts.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/type_algorithm.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/type_list.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/type_ratio.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/utility.hpp
@@ -94,6 +204,7 @@ set(
 )
 set(
     POSU_IPP_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/type_algorithm.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/type_list.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/type_ratio.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/utility.ipp
@@ -128,6 +239,11 @@ if(BUILD_TESTING AND POSU_ENABLE_TESTING)
     add_test(NAME test_zip_range COMMAND test_zip_range)
     set_tests_properties(test_zip_range PROPERTIES DEPENDS test_arith_tuple)
 
+    add_executable(test_units ${POSU_UNITS_TEST_CPP_FILES})
+    target_link_libraries(test_units PRIVATE Catch2::Catch2)
+    target_link_libraries(test_units PRIVATE posu)
+    add_test(NAME test_units COMMAND test_units)
+
     add_executable(test_type_list ${CMAKE_CURRENT_LIST_DIR}/test/test_type_list.cpp)
     target_link_libraries(test_type_list PRIVATE Catch2::Catch2)
     target_link_libraries(test_type_list PRIVATE posu)
@@ -154,12 +270,19 @@ if(POSU_CLANG_FORMAT)
                 ${POSU_CLANG_FORMAT} -i
                     ${POSU_HPP_FILES}
                     ${POSU_IPP_FILES}
+                    ${POSU_UNITS_HPP_FILES}
+                    ${POSU_UNITS_IPP_FILES}
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_type_list.cpp
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
+                    ${POSU_UNITS_TEST_CPP_FILES}
             DEPENDS
                 ${POSU_HPP_FILES}
                 ${POSU_IPP_FILES}
+                ${POSU_UNITS_HPP_FILES}
+                ${POSU_UNITS_IPP_FILES}
+                ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
+                ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
                 ${POSU_UNITS_TEST_CPP_FILES}
     )
 else()
@@ -181,11 +304,15 @@ if(POSU_CLANG_TIDY)
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_type_list.cpp
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
+                    ${POSU_UNITS_TEST_CPP_FILES}
             DEPENDS
                 ${POSU_HPP_FILES}
                 ${POSU_IPP_FILES}
+                ${POSU_UNITS_HPP_FILES}
+                ${POSU_UNITS_IPP_FILES}
                 ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
                 ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
+                ${POSU_UNITS_TEST_CPP_FILES}
     )
 else()
     message(STATUS "clang-tidy not found")
