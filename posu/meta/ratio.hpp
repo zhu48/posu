@@ -3,9 +3,9 @@
 
 #include <type_traits>
 
-#include "posu/type_list.hpp"
+#include "posu/meta/list.hpp"
 
-namespace posu {
+namespace posu::meta {
 
     /**
      * @brief A ratio between type products.
@@ -13,12 +13,12 @@ namespace posu {
      * @tparam Numerator   The list of types in the numerator.
      * @tparam Denominator The list of types in the denominator.
      */
-    template<typename Numerator = type_list<>, typename Denominator = type_list<>>
-    struct type_ratio {
+    template<typename Numerator = list<>, typename Denominator = list<>>
+    struct ratio {
         using num = Numerator;   //!< The numerator type list.
         using den = Denominator; //!< The denominator type list.
 
-        using type = type_ratio<num, den>; //!< Self-alias.
+        using type = ratio<num, den>; //!< Self-alias.
     };
 
     /**
@@ -27,16 +27,16 @@ namespace posu {
      */
     //! @tparam T The type to check.
     template<typename T>
-    struct is_type_ratio : std::false_type {
+    struct is_ratio : std::false_type {
     };
     //! @tparam Types The types in the type list.
     template<typename Numerator, typename Denominator>
-    struct is_type_ratio<type_ratio<Numerator, Denominator>> : std::true_type {
+    struct is_ratio<ratio<Numerator, Denominator>> : std::true_type {
     };
     template<typename T>
-    inline constexpr bool is_type_ratio_v = is_type_ratio<T>::value;
+    inline constexpr bool is_ratio_v = is_ratio<T>::value;
     template<typename T>
-    concept meta_ratio = is_type_ratio_v<T>;
+    concept ratio_type = is_ratio_v<T>;
     //! @}
 
     /**
@@ -45,7 +45,7 @@ namespace posu {
      * @tparam T The type ratio to get the numerator of.
      */
     template<typename T>
-        requires(is_type_ratio_v<T>)
+        requires(is_ratio_v<T>)
     using numerator = typename T::num;
 
     /**
@@ -54,7 +54,7 @@ namespace posu {
      * @tparam T The type ratio to get the denominator of.
      */
     template<typename T>
-        requires(is_type_ratio_v<T>)
+        requires(is_ratio_v<T>)
     using denominator = typename T::den;
 
     /**
@@ -63,8 +63,8 @@ namespace posu {
      * @tparam T The type ratio to get the inverse of.
      */
     template<typename T>
-        requires(is_type_ratio_v<T>)
-    using inverse = type_ratio<denominator<T>, numerator<T>>;
+        requires(is_ratio_v<T>)
+    using inverse = ratio<denominator<T>, numerator<T>>;
 
     namespace detail {
 
@@ -73,8 +73,8 @@ namespace posu {
 
     } // namespace detail
 
-    template<meta_ratio Ratio>
-    using ratio_invert = type_ratio<typename Ratio::den, typename Ratio::num>;
+    template<ratio_type Ratio>
+    using ratio_invert = ratio<typename Ratio::den, typename Ratio::num>;
 
     /**
      * @brief Multiply two type ratios together.
@@ -94,8 +94,8 @@ namespace posu {
     template<typename Dividend, typename Divisor>
     using ratio_divide = ratio_multiply<Dividend, inverse<Divisor>>;
 
-} // namespace posu
+} // namespace posu::meta
 
-#include "posu/ipp/type_ratio.ipp"
+#include "posu/meta/ipp/ratio.ipp"
 
 #endif // #ifndef POSU_TYPE_RATIO_HPP

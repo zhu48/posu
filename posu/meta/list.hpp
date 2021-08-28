@@ -5,7 +5,7 @@
 #include <tuple>
 #include <variant>
 
-namespace posu {
+namespace posu::meta {
 
     /**
      * @brief A compile-time meta-range of types.
@@ -13,7 +13,7 @@ namespace posu {
      * @tparam Types The types in the type list.
      */
     template<typename... Types>
-    struct type_list {
+    struct list {
     public:
         /**
          * @brief The type at the given index in the range.
@@ -88,7 +88,7 @@ namespace posu {
      * An empty type list lacks the `front`, `back`, and `at` members.
      */
     template<>
-    struct type_list<> {
+    struct list<> {
     public:
         /**
          * @brief The number of elements in the list.
@@ -139,54 +139,54 @@ namespace posu {
             -> variant;
     };
 
-} // namespace posu
+} // namespace posu::meta
 
 namespace std {
 
     /**
-     * `std::tuple_size` specialization for `posu::type_list`.
+     * `std::tuple_size` specialization for `posu::meta::list`.
      *
      * @tparam T The type list's elements.
      */
     template<typename... T>
-    struct tuple_size<posu::type_list<T...>> : std::integral_constant<std::size_t, sizeof...(T)> {
+    struct tuple_size<posu::meta::list<T...>> : std::integral_constant<std::size_t, sizeof...(T)> {
     };
 
     /**
-     * @brief `std::tuple_element` specialization for `posu::type_list`.
+     * @brief `std::tuple_element` specialization for `posu::meta::list`.
      *
      * @tparam I The index of the element to get.
      * @tparam T The types in the type list.
      */
     template<size_t I, typename... T>
-    struct tuple_element<I, posu::type_list<T...>> : std::tuple_element<I, std::tuple<T...>> {
+    struct tuple_element<I, posu::meta::list<T...>> : std::tuple_element<I, std::tuple<T...>> {
     };
 
 } // namespace std
 
-namespace posu {
+namespace posu::meta {
 
     /**
-     * @brief Traits template to detect whether a type specializes `type_list` or not.
+     * @brief Traits template to detect whether a type specializes `list` or not.
      * @{
      */
     //! @tparam T The type to check.
     template<typename T>
-    struct is_type_list : std::false_type {
+    struct is_list : std::false_type {
     };
     //! @tparam Types The types in the type list.
     template<typename... Types>
-    struct is_type_list<type_list<Types...>> : std::true_type {
+    struct is_list<list<Types...>> : std::true_type {
     };
     //! @}
 
     /**
-     * @brief Traits constant indicating whether or not a type specializes `type_list`.
+     * @brief Traits constant indicating whether or not a type specializes `list`.
      *
      * @tparam T The type to check.
      */
     template<typename T>
-    inline constexpr bool is_type_list_v = is_type_list<T>::value;
+    inline constexpr bool is_list_v = is_list<T>::value;
 
     namespace detail {
 
@@ -242,72 +242,72 @@ namespace posu {
     } // namespace detail
 
     /**
-     * @brief Concatenate multiple `type_list`s into a single `type_list`.
+     * @brief Concatenate multiple `list`s into a single `list`.
      *
      * @tparam Lists The lists to concatenate together.
      */
     template<typename... Lists>
-        requires(is_type_list_v<Lists>&&...)
+        requires(is_list_v<Lists>&&...)
     using concatenate = typename detail::concatenate_impl<Lists...>::type;
 
     /**
-     * @brief Prepend a type to a `type_list`.
+     * @brief Prepend a type to a `list`.
      *
      * @tparam List The list to prepend a type to.
      * @tparam Type The type to prepend to the list. If `Type` is an single-element list
-     *              `type_list<T>`, prepends `T` instead.
+     *              `list<T>`, prepends `T` instead.
      */
     template<typename List, typename Type>
-        requires(is_type_list_v<List>)
+        requires(is_list_v<List>)
     using push_front = typename detail::prepend_impl<List, Type>::type;
 
     /**
-     * @brief Append a type to a `type_list`.
+     * @brief Append a type to a `list`.
      *
      * @tparam List The list to append a type to.
      * @tparam Type The type to append to the list. If `Type` is an single-element list
-     *              `type_list<T>`, appends `T` instead.
+     *              `list<T>`, appends `T` instead.
      */
     template<typename List, typename Type>
-        requires(is_type_list_v<List>)
+        requires(is_list_v<List>)
     using push_back = typename detail::append_impl<List, Type>::type;
 
     /**
-     * @brief Remove the first type in a `type_list`.
+     * @brief Remove the first type in a `list`.
      *
      * @tparam List The list to pop a type from.
      */
     template<typename List>
-        requires(is_type_list_v<List>)
+        requires(is_list_v<List>)
     using pop_front = typename detail::pop_front_impl<List>::type;
 
     /**
-     * @brief Remove the last type in a `type_list`.
+     * @brief Remove the last type in a `list`.
      *
      * @tparam List The list to pop a type from.
      */
     template<typename List>
-        requires(is_type_list_v<List>)
+        requires(is_list_v<List>)
     using pop_back = typename detail::pop_back_impl<List>::type;
 
     /**
-     * @brief Get the first `I` elements of the given list as a `type_list`.
+     * @brief Get the first `I` elements of the given list as a `list`.
      *
      * @tparam List The list get the first types of.
      * @tparam I    The number of elements to get.
      */
     template<typename List, std::size_t I = 0>
-        requires(is_type_list_v<List> && (I <= typename List::size()))
+        requires(is_list_v<List> && (I <= typename List::size()))
     using first = typename detail::first_impl<List, I>::type;
 
     /**
-     * @brief Get the last `I` elements of the given list as a `type_list`.
+     * @brief Get the last `I` elements of the given list as a `list`.
      *
      * @tparam List The list get the last types of.
      * @tparam I    The number of elements to get.
      */
     template<typename List, std::size_t I = 0>
-        requires(is_type_list_v<List> && (I <= typename List::size()))
+        requires(is_list_v<List> && (I <= typename List::size()))
     using last = typename detail::last_impl<List, I>::type;
 
     /**
@@ -318,10 +318,10 @@ namespace posu {
      * @{
      */
     template<typename List>
-        requires(is_type_list_v<List>)
+        requires(is_list_v<List>)
     using size = typename List::size;
     template<typename List>
-        requires(is_type_list_v<List>)
+        requires(is_list_v<List>)
     using ssize = typename List::ssize;
     template<typename List>
     inline constexpr auto size_v = size<List>::value;
@@ -337,7 +337,7 @@ namespace posu {
      * @{
      */
     template<typename List>
-        requires(is_type_list_v<List>)
+        requires(is_list_v<List>)
     using empty = typename List::empty;
     template<typename List>
     inline constexpr auto empty_v = empty<List>::value;
@@ -350,7 +350,7 @@ namespace posu {
      * @tparam I    The index of the list element to get.
      */
     template<typename List, std::size_t I>
-        requires(is_type_list_v<List> && (I < typename List::size()))
+        requires(is_list_v<List> && (I < typename List::size()))
     using at = typename List::template at<I>;
 
     /**
@@ -362,7 +362,7 @@ namespace posu {
      * @{
      */
     template<typename List, typename T>
-        requires(is_type_list_v<List>)
+        requires(is_list_v<List>)
     using find = typename detail::find_impl<List, T>::type;
     template<typename List, typename T>
     inline constexpr auto find_v = find<List, T>::value;
@@ -376,7 +376,7 @@ namespace posu {
      * @tparam T    The type to insert.
      */
     template<typename List, std::size_t I, typename T>
-        requires(is_type_list_v<List> && (I <= typename List::size()))
+        requires(is_list_v<List> && (I <= typename List::size()))
     using insert = typename detail::insert_impl<List, I, T>::type;
 
     /**
@@ -386,7 +386,7 @@ namespace posu {
      * @tparam I    The index of the type to remove.
      */
     template<typename List, std::size_t I>
-        requires(is_type_list_v<List> && (I < typename List::size()))
+        requires(is_list_v<List> && (I < typename List::size()))
     using remove = typename detail::remove_impl<List, I>::type;
 
     /**
@@ -406,14 +406,14 @@ namespace posu {
     //! @}
 
     /**
-     * @brief Transform a `type_list` to its corresponding tuple type.
+     * @brief Transform a `list` to its corresponding tuple type.
      *
      * @tparam TypeList The list to transform.
      *
      * @{
      */
     template<typename TypeList>
-        requires is_type_list_v<TypeList>
+        requires is_list_v<TypeList>
     struct tuple_from {
         using type = typename TypeList::tuple;
     };
@@ -422,14 +422,14 @@ namespace posu {
     //! @}
 
     /**
-     * @brief Transform a `type_list` to its corresponding variant type.
+     * @brief Transform a `list` to its corresponding variant type.
      *
      * @tparam TypeList The list to transform.
      *
      * @{
      */
     template<typename TypeList>
-        requires is_type_list_v<TypeList>
+        requires is_list_v<TypeList>
     struct variant_from {
         using type = typename TypeList::variant;
     };
@@ -438,7 +438,7 @@ namespace posu {
     //! @}
 
     /**
-     * @brief Construct a tuple from its corresponding `type_list`.
+     * @brief Construct a tuple from its corresponding `list`.
      *
      * @tparam TypeList The list to construct a tuple from.
      * @tparam Args The types of arguments to forward to the tuple constructor.
@@ -447,12 +447,12 @@ namespace posu {
      * @return Returns the constructed tuple.
      */
     template<typename TypeList, typename... Args>
-        requires is_type_list_v<TypeList>
+        requires is_list_v<TypeList>
     [[nodiscard]] constexpr auto make_tuple_from(TypeList list, Args&&... args) noexcept(
         std::is_nothrow_constructible_v<tuple_from_t<TypeList>>) -> tuple_from_t<TypeList>;
 
     /**
-     * @brief Construct a variant from its corresponding `type_list`.
+     * @brief Construct a variant from its corresponding `list`.
      *
      * @tparam TypeList The list to construct a variant from.
      * @tparam Args The types of arguments to forward to the variant constructor.
@@ -461,12 +461,12 @@ namespace posu {
      * @return Returns the constructed variant.
      */
     template<typename TypeList, typename... Args>
-        requires is_type_list_v<TypeList>
+        requires is_list_v<TypeList>
     [[nodiscard]] constexpr auto make_variant_from(TypeList list, Args&&... args) noexcept(
         std::is_nothrow_constructible_v<variant_from_t<TypeList>>) -> variant_from_t<TypeList>;
 
-} // namespace posu
+} // namespace posu::meta
 
-#include "posu/ipp/type_list.ipp"
+#include "posu/meta/ipp/list.ipp"
 
 #endif // #ifndef POSU_TYPE_LIST_HPP

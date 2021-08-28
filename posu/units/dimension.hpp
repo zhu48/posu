@@ -4,8 +4,9 @@
 #include <string_view>
 
 #include "posu/concepts.hpp"
-#include "posu/type_algorithm.hpp"
-#include "posu/type_ratio.hpp"
+
+#include "posu/meta/algorithm.hpp"
+#include "posu/meta/ratio.hpp"
 
 namespace posu::units {
 
@@ -20,8 +21,8 @@ namespace posu::units {
     };
 
     template<typename T>
-    concept derived_dimension = is_type_ratio_v<T> && posu::all_of<is_base_dimension>(
-        typename T::num{}) && posu::all_of<is_base_dimension>(typename T::den{});
+    concept derived_dimension = meta::is_ratio_v<T> && meta::all_of<is_base_dimension>(
+        typename T::num{}) && meta::all_of<is_base_dimension>(typename T::den{});
 
     template<typename T>
     concept dimension = base_dimension<T> || derived_dimension<T>;
@@ -47,12 +48,12 @@ namespace posu::units {
         };
 
         template<base_dimension T>
-        struct unwrap_dimension_type<type_ratio<type_list<T>>> {
+        struct unwrap_dimension_type<meta::ratio<meta::list<T>>> {
             using type = T;
         };
 
         template<>
-        struct unwrap_dimension_type<type_ratio<type_list<>>> {
+        struct unwrap_dimension_type<meta::ratio<meta::list<>>> {
             using type = dimensionless;
         };
 
@@ -72,16 +73,16 @@ namespace posu::units {
                 return Lhs{};
             }
             else if constexpr(base_dimension<Lhs> && base_dimension<Rhs>) {
-                return type_ratio<type_list<Lhs, Rhs>>{};
+                return meta::ratio<meta::list<Lhs, Rhs>>{};
             }
             else if constexpr(base_dimension<Lhs> && derived_dimension<Rhs>) {
-                return ratio_multiply<type_ratio<type_list<Lhs>>, Rhs>{};
+                return meta::ratio_multiply<meta::ratio<meta::list<Lhs>>, Rhs>{};
             }
             else if constexpr(derived_dimension<Lhs> && base_dimension<Rhs>) {
-                return ratio_multiply<Lhs, type_ratio<type_list<Rhs>>>{};
+                return meta::ratio_multiply<Lhs, meta::ratio<meta::list<Rhs>>>{};
             }
             else {
-                return ratio_multiply<Lhs, Rhs>{};
+                return meta::ratio_multiply<Lhs, Rhs>{};
             }
         }
 
@@ -89,10 +90,12 @@ namespace posu::units {
         [[nodiscard]] constexpr auto dimension_divide_impl() noexcept
         {
             if constexpr(base_dimension<Rhs>) {
-                return dimension_multiply_impl<Lhs, ratio_invert<type_ratio<type_list<Rhs>>>>();
+                return dimension_multiply_impl<
+                    Lhs,
+                    meta::ratio_invert<meta::ratio<meta::list<Rhs>>>>();
             }
             else {
-                return dimension_multiply_impl<Lhs, ratio_invert<Rhs>>();
+                return dimension_multiply_impl<Lhs, meta::ratio_invert<Rhs>>();
             }
         }
 
