@@ -117,8 +117,8 @@ set(
 )
 set(
     POSU_META_TEST_CPP_FILES
-        ${CMAKE_CURRENT_LIST_DIR}/test/test_type_list.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/test_type_ratio.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/meta/test_list.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/meta/test_ratio.cpp
 )
 
 set(
