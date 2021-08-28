@@ -10,7 +10,7 @@ namespace posu::units {
     struct frequency {
         using type       = frequency;
         using value_type = std::string_view;
-        using dimensions = type_ratio<type_list<>, type_list<time>>;
+        using dimensions = meta::ratio<meta::list<>, meta::list<time>>;
 
         static constexpr auto value = std::string_view{"frequency"};
 

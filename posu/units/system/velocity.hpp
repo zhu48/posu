@@ -11,7 +11,7 @@ namespace posu::units {
     struct velocity {
         using type       = velocity;
         using value_type = std::string_view;
-        using dimensions = type_ratio<type_list<length>, type_list<time>>;
+        using dimensions = meta::ratio<meta::list<length>, meta::list<time>>;
 
         static constexpr auto value = std::string_view{"velocity"};
 

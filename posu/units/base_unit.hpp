@@ -5,8 +5,7 @@
 #include <string_view>
 #include <utility>
 
-#include "posu/type_ratio.hpp"
-
+#include "posu/meta/ratio.hpp"
 #include "posu/units/unit_of_measure.hpp"
 
 namespace posu::units {

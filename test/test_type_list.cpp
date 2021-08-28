@@ -1,13 +1,19 @@
 #include <concepts>
 
-#include "posu/type_list.hpp"
+#include "posu//meta/list.hpp"
 
 #define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
 
+namespace {
+
+    namespace meta = posu::meta;
+
+}
+
 TEST_CASE("initialization", "[construct]")
 {
-    using list = posu::type_list<int, float, double, int&, float&&, const double&>;
+    using list = meta::list<int, float, double, int&, float&&, const double&>;
 
     static_assert(std::same_as<list::at<0>, int>, "the first element must be int");
     static_assert(std::same_as<list::at<1>, float>, "the second element must be float");
@@ -31,137 +37,130 @@ TEST_CASE("range operations", "[algorithms]")
 {
     SECTION("concatenation")
     {
-        using lhs = posu::type_list<int, float, double>;
-        using rhs = posu::type_list<unsigned int, unsigned char>;
+        using lhs = meta::list<int, float, double>;
+        using rhs = meta::list<unsigned int, unsigned char>;
 
-        using result = posu::concatenate<lhs, rhs>;
+        using result = meta::concatenate<lhs, rhs>;
 
         static_assert(
-            std::same_as<result, posu::type_list<int, float, double, unsigned int, unsigned char>>);
+            std::same_as<result, meta::list<int, float, double, unsigned int, unsigned char>>);
         static_assert(std::same_as<
-                      posu::concatenate<lhs, rhs, lhs, rhs>,
-                      posu::concatenate<result, lhs, rhs>>);
+                      meta::concatenate<lhs, rhs, lhs, rhs>,
+                      meta::concatenate<result, lhs, rhs>>);
     }
 
     SECTION("pushing types")
     {
-        using original = posu::type_list<>;
+        using original = meta::list<>;
 
-        using add_one   = posu::push_back<original, int>;
-        using add_two   = posu::push_back<add_one, double>;
-        using add_three = posu::push_front<add_two, long double>;
+        using add_one   = meta::push_back<original, int>;
+        using add_two   = meta::push_back<add_one, double>;
+        using add_three = meta::push_front<add_two, long double>;
 
-        static_assert(std::same_as<add_one, posu::type_list<int>>);
-        static_assert(std::same_as<add_two, posu::type_list<int, double>>);
-        static_assert(std::same_as<add_three, posu::type_list<long double, int, double>>);
+        static_assert(std::same_as<add_one, meta::list<int>>);
+        static_assert(std::same_as<add_two, meta::list<int, double>>);
+        static_assert(std::same_as<add_three, meta::list<long double, int, double>>);
         static_assert(std::same_as<
-                      posu::push_front<add_three, posu::type_list<char>>,
-                      posu::push_front<add_three, char>>);
+                      meta::push_front<add_three, meta::list<char>>,
+                      meta::push_front<add_three, char>>);
         static_assert(std::same_as<
-                      posu::push_back<add_three, posu::type_list<char>>,
-                      posu::push_back<add_three, char>>);
+                      meta::push_back<add_three, meta::list<char>>,
+                      meta::push_back<add_three, char>>);
     }
 
     SECTION("popping types")
     {
-        using list = posu::type_list<char, int, long, float, double>;
+        using list = meta::list<char, int, long, float, double>;
 
-        using pop_one = posu::pop_front<list>;
-        using pop_two = posu::pop_back<pop_one>;
+        using pop_one = meta::pop_front<list>;
+        using pop_two = meta::pop_back<pop_one>;
 
-        static_assert(std::same_as<pop_one, posu::type_list<int, long, float, double>>);
-        static_assert(std::same_as<pop_two, posu::type_list<int, long, float>>);
+        static_assert(std::same_as<pop_one, meta::list<int, long, float, double>>);
+        static_assert(std::same_as<pop_two, meta::list<int, long, float>>);
     }
 
     SECTION("finding types")
     {
-        using list = posu::type_list<char, int, int, long, float, double>;
+        using list = meta::list<char, int, int, long, float, double>;
 
-        REQUIRE(posu::find<list, char>() == 0);
-        REQUIRE(posu::find<list, int>() == 1);
-        REQUIRE(posu::find<list, long>() == 3);
-        REQUIRE(posu::find<list, float>() == 4);
-        REQUIRE(posu::find<list, double>() == 5);
+        REQUIRE(meta::find<list, char>() == 0);
+        REQUIRE(meta::find<list, int>() == 1);
+        REQUIRE(meta::find<list, long>() == 3);
+        REQUIRE(meta::find<list, float>() == 4);
+        REQUIRE(meta::find<list, double>() == 5);
     }
 
     SECTION("sub-lists")
     {
         SECTION("first N elements")
         {
-            using list = posu::type_list<char, int, long, float, double>;
+            using list = meta::list<char, int, long, float, double>;
 
-            static_assert(std::same_as<posu::first<list, 0>, posu::type_list<>>);
-            static_assert(std::same_as<posu::first<list, 1>, posu::type_list<char>>);
-            static_assert(std::same_as<posu::first<list, 2>, posu::type_list<char, int>>);
-            static_assert(std::same_as<posu::first<list, 3>, posu::type_list<char, int, long>>);
+            static_assert(std::same_as<meta::first<list, 0>, meta::list<>>);
+            static_assert(std::same_as<meta::first<list, 1>, meta::list<char>>);
+            static_assert(std::same_as<meta::first<list, 2>, meta::list<char, int>>);
+            static_assert(std::same_as<meta::first<list, 3>, meta::list<char, int, long>>);
+            static_assert(std::same_as<meta::first<list, 4>, meta::list<char, int, long, float>>);
             static_assert(
-                std::same_as<posu::first<list, 4>, posu::type_list<char, int, long, float>>);
-            static_assert(
-                std::
-                    same_as<posu::first<list, 5>, posu::type_list<char, int, long, float, double>>);
+                std::same_as<meta::first<list, 5>, meta::list<char, int, long, float, double>>);
         }
 
         SECTION("last N elements")
         {
-            using list = posu::type_list<char, int, long, float, double>;
+            using list = meta::list<char, int, long, float, double>;
 
-            static_assert(std::same_as<posu::last<list, 0>, posu::type_list<>>);
-            static_assert(std::same_as<posu::last<list, 1>, posu::type_list<double>>);
-            static_assert(std::same_as<posu::last<list, 2>, posu::type_list<float, double>>);
-            static_assert(std::same_as<posu::last<list, 3>, posu::type_list<long, float, double>>);
+            static_assert(std::same_as<meta::last<list, 0>, meta::list<>>);
+            static_assert(std::same_as<meta::last<list, 1>, meta::list<double>>);
+            static_assert(std::same_as<meta::last<list, 2>, meta::list<float, double>>);
+            static_assert(std::same_as<meta::last<list, 3>, meta::list<long, float, double>>);
+            static_assert(std::same_as<meta::last<list, 4>, meta::list<int, long, float, double>>);
             static_assert(
-                std::same_as<posu::last<list, 4>, posu::type_list<int, long, float, double>>);
-            static_assert(
-                std::same_as<posu::last<list, 5>, posu::type_list<char, int, long, float, double>>);
+                std::same_as<meta::last<list, 5>, meta::list<char, int, long, float, double>>);
         }
     }
 
     SECTION("inserting types")
     {
-        using list = posu::type_list<char, int, long, float, double>;
+        using list = meta::list<char, int, long, float, double>;
 
         static_assert(std::same_as<
-                      posu::insert<list, 0, int>,
-                      posu::type_list<int, char, int, long, float, double>>);
+                      meta::insert<list, 0, int>,
+                      meta::list<int, char, int, long, float, double>>);
         static_assert(std::same_as<
-                      posu::insert<list, 1, int>,
-                      posu::type_list<char, int, int, long, float, double>>);
+                      meta::insert<list, 1, int>,
+                      meta::list<char, int, int, long, float, double>>);
         static_assert(std::same_as<
-                      posu::insert<list, 2, int>,
-                      posu::type_list<char, int, int, long, float, double>>);
+                      meta::insert<list, 2, int>,
+                      meta::list<char, int, int, long, float, double>>);
         static_assert(std::same_as<
-                      posu::insert<list, 3, int>,
-                      posu::type_list<char, int, long, int, float, double>>);
+                      meta::insert<list, 3, int>,
+                      meta::list<char, int, long, int, float, double>>);
         static_assert(std::same_as<
-                      posu::insert<list, 4, int>,
-                      posu::type_list<char, int, long, float, int, double>>);
+                      meta::insert<list, 4, int>,
+                      meta::list<char, int, long, float, int, double>>);
         static_assert(std::same_as<
-                      posu::insert<list, 5, int>,
-                      posu::type_list<char, int, long, float, double, int>>);
+                      meta::insert<list, 5, int>,
+                      meta::list<char, int, long, float, double, int>>);
     }
 
     SECTION("removing types")
     {
-        using list = posu::type_list<char, int, long, float, double>;
+        using list = meta::list<char, int, long, float, double>;
 
-        static_assert(
-            std::same_as<posu::remove<list, 0>, posu::type_list<int, long, float, double>>);
-        static_assert(
-            std::same_as<posu::remove<list, 1>, posu::type_list<char, long, float, double>>);
-        static_assert(
-            std::same_as<posu::remove<list, 2>, posu::type_list<char, int, float, double>>);
-        static_assert(
-            std::same_as<posu::remove<list, 3>, posu::type_list<char, int, long, double>>);
-        static_assert(std::same_as<posu::remove<list, 4>, posu::type_list<char, int, long, float>>);
+        static_assert(std::same_as<meta::remove<list, 0>, meta::list<int, long, float, double>>);
+        static_assert(std::same_as<meta::remove<list, 1>, meta::list<char, long, float, double>>);
+        static_assert(std::same_as<meta::remove<list, 2>, meta::list<char, int, float, double>>);
+        static_assert(std::same_as<meta::remove<list, 3>, meta::list<char, int, long, double>>);
+        static_assert(std::same_as<meta::remove<list, 4>, meta::list<char, int, long, float>>);
     }
 }
 
 TEST_CASE("algebraic types", "[algebraic][tuple][variant]")
 {
-    using list = posu::type_list<unsigned int, double>;
+    using list = meta::list<unsigned int, double>;
 
     REQUIRE(list::make_tuple(11, 5.5) == std::make_tuple(11, 5.5));
-    REQUIRE(posu::make_tuple_from(list{}, 11, 5.5) == std::make_tuple(11, 5.5));
+    REQUIRE(meta::make_tuple_from(list{}, 11, 5.5) == std::make_tuple(11, 5.5));
     REQUIRE(std::get<double>(list::make_variant(11.8)) == 11.8);
-    REQUIRE(std::get<double>(posu::make_variant_from(list{}, 11.8)) == 11.8);
+    REQUIRE(std::get<double>(meta::make_variant_from(list{}, 11.8)) == 11.8);
 }

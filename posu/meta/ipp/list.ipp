@@ -1,5 +1,5 @@
 
-namespace posu {
+namespace posu::meta {
 
     namespace detail {
 
@@ -7,8 +7,8 @@ namespace posu {
         using concatenate_impl_t = typename concatenate_impl<Lists...>::type;
 
         template<typename... LhsTypes, typename... RhsTypes>
-        struct concatenate_impl<type_list<LhsTypes...>, type_list<RhsTypes...>> {
-            using type = type_list<LhsTypes..., RhsTypes...>;
+        struct concatenate_impl<list<LhsTypes...>, list<RhsTypes...>> {
+            using type = list<LhsTypes..., RhsTypes...>;
         };
 
         template<typename First, typename Second, typename... Rest>
@@ -17,48 +17,43 @@ namespace posu {
         };
 
         template<typename... Types, typename T>
-        struct prepend_impl<type_list<Types...>, T>
-            : concatenate_impl<type_list<T>, type_list<Types...>> {
+        struct prepend_impl<list<Types...>, T> : concatenate_impl<list<T>, list<Types...>> {
         };
 
         template<typename... Types, typename T>
-        struct prepend_impl<type_list<Types...>, type_list<T>>
-            : concatenate_impl<type_list<T>, type_list<Types...>> {
+        struct prepend_impl<list<Types...>, list<T>> : concatenate_impl<list<T>, list<Types...>> {
         };
 
         template<typename... Types, typename T>
-        struct append_impl<type_list<Types...>, T>
-            : concatenate_impl<type_list<Types...>, type_list<T>> {
+        struct append_impl<list<Types...>, T> : concatenate_impl<list<Types...>, list<T>> {
         };
 
         template<typename... Types, typename T>
-        struct append_impl<type_list<Types...>, type_list<T>>
-            : concatenate_impl<type_list<Types...>, type_list<T>> {
+        struct append_impl<list<Types...>, list<T>> : concatenate_impl<list<Types...>, list<T>> {
         };
 
         template<typename First, typename... Rest>
-        struct pop_front_impl<type_list<First, Rest...>> {
-            using type = type_list<Rest...>;
+        struct pop_front_impl<list<First, Rest...>> {
+            using type = list<Rest...>;
         };
 
         template<typename Type>
-        struct pop_back_impl<type_list<Type>> {
-            using type = type_list<>;
+        struct pop_back_impl<list<Type>> {
+            using type = list<>;
         };
 
         template<typename First, typename Second>
-        struct pop_back_impl<type_list<First, Second>> {
-            using type = type_list<First>;
+        struct pop_back_impl<list<First, Second>> {
+            using type = list<First>;
         };
 
         template<typename First, typename... Rest>
-        struct pop_back_impl<type_list<First, Rest...>>
-            : prepend_impl<pop_back<type_list<Rest...>>, First> {
+        struct pop_back_impl<list<First, Rest...>> : prepend_impl<pop_back<list<Rest...>>, First> {
         };
 
         template<typename List, std::size_t... I>
         struct take_items<List, std::index_sequence<I...>> {
-            using type = type_list<typename List::template at<I>...>;
+            using type = list<typename List::template at<I>...>;
         };
 
         template<typename List, typename T, std::size_t I>
@@ -97,7 +92,7 @@ namespace posu {
 
     template<typename... Types>
     template<typename... Args>
-    [[nodiscard]] constexpr auto type_list<Types...>::make_tuple(Args&&... args) noexcept(
+    [[nodiscard]] constexpr auto list<Types...>::make_tuple(Args&&... args) noexcept(
         std::is_nothrow_constructible_v<tuple, Args...>) -> tuple
     {
         return std::make_tuple(std::forward<Args>(args)...);
@@ -105,14 +100,14 @@ namespace posu {
 
     template<typename... Types>
     template<typename... Args>
-    [[nodiscard]] constexpr auto type_list<Types...>::make_variant(Args&&... args) noexcept(
+    [[nodiscard]] constexpr auto list<Types...>::make_variant(Args&&... args) noexcept(
         std::is_nothrow_constructible_v<variant, Args...>) -> variant
     {
         return variant(std::forward<Args>(args)...);
     }
 
     template<typename TypeList, typename... Args>
-        requires is_type_list_v<TypeList>
+        requires is_list_v<TypeList>
     [[nodiscard]] constexpr auto make_tuple_from(TypeList /*unused*/, Args&&... args) noexcept(
         std::is_nothrow_constructible_v<tuple_from_t<TypeList>>) -> tuple_from_t<TypeList>
     {
@@ -120,11 +115,11 @@ namespace posu {
     }
 
     template<typename TypeList, typename... Args>
-        requires is_type_list_v<TypeList>
+        requires is_list_v<TypeList>
     [[nodiscard]] constexpr auto make_variant_from(TypeList /*unused*/, Args&&... args) noexcept(
         std::is_nothrow_constructible_v<variant_from_t<TypeList>>) -> variant_from_t<TypeList>
     {
         return TypeList::make_variant(std::forward<Args>(args)...);
     }
 
-} // namespace posu
+} // namespace posu::meta

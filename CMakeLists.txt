@@ -104,6 +104,24 @@ find_program(POSU_CLANG_TIDY   clang-tidy)
 ##################
 
 set(
+    POSU_META_HPP_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/posu/meta/algorithm.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/meta/list.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/meta/ratio.hpp
+)
+set(
+    POSU_META_IPP_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/posu/meta/ipp/algorithm.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/meta/ipp/list.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/meta/ipp/ratio.ipp
+)
+set(
+    POSU_META_TEST_CPP_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/test/test_type_list.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/test_type_ratio.cpp
+)
+
+set(
     POSU_UNITS_HPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/base_unit.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/derived_unit.hpp
@@ -196,18 +214,12 @@ set(
     POSU_HPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/concepts.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ratio.hpp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/type_algorithm.hpp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/type_list.hpp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/type_ratio.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/utility.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/vmath.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/zip_range.hpp
 )
 set(
     POSU_IPP_FILES
-        ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/type_algorithm.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/type_list.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/type_ratio.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/utility.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/vmath.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ipp/zip_range.ipp
@@ -250,17 +262,11 @@ if(BUILD_TESTING AND POSU_ENABLE_TESTING)
     target_link_libraries(test_units PRIVATE posu)
     add_test(NAME test_units COMMAND test_units)
 
-    add_executable(test_type_list ${CMAKE_CURRENT_LIST_DIR}/test/test_type_list.cpp)
-    target_link_libraries(test_type_list PRIVATE Catch2::Catch2)
-    target_link_libraries(test_type_list PRIVATE posu)
-    add_test(NAME test_type_list COMMAND test_type_list)
-    set_tests_properties(test_type_list PROPERTIES DEPENDS test_arith_tuple)
-
-    add_executable(test_type_ratio ${CMAKE_CURRENT_LIST_DIR}/test/test_type_ratio.cpp)
-    target_link_libraries(test_type_ratio PRIVATE Catch2::Catch2)
-    target_link_libraries(test_type_ratio PRIVATE posu)
-    add_test(NAME test_type_ratio COMMAND test_type_ratio)
-    set_tests_properties(test_type_ratio PROPERTIES DEPENDS test_arith_tuple)
+    add_executable(test_meta ${POSU_META_TEST_CPP_FILES})
+    target_link_libraries(test_meta PRIVATE Catch2::Catch2)
+    target_link_libraries(test_meta PRIVATE posu)
+    add_test(NAME test_meta COMMAND test_meta)
+    set_tests_properties(test_meta PROPERTIES DEPENDS test_arith_tuple)
 endif()
 
 ################
@@ -276,19 +282,24 @@ if(POSU_CLANG_FORMAT)
                 ${POSU_CLANG_FORMAT} -i
                     ${POSU_HPP_FILES}
                     ${POSU_IPP_FILES}
+                    ${POSU_META_HPP_FILES}
+                    ${POSU_META_IPP_FILES}
                     ${POSU_UNITS_HPP_FILES}
                     ${POSU_UNITS_IPP_FILES}
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
-                    ${CMAKE_CURRENT_LIST_DIR}/test/test_type_list.cpp
                     ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
+                    ${POSU_META_TEST_CPP_FILES}
                     ${POSU_UNITS_TEST_CPP_FILES}
             DEPENDS
                 ${POSU_HPP_FILES}
                 ${POSU_IPP_FILES}
+                ${POSU_META_HPP_FILES}
+                ${POSU_META_IPP_FILES}
                 ${POSU_UNITS_HPP_FILES}
                 ${POSU_UNITS_IPP_FILES}
                 ${CMAKE_CURRENT_LIST_DIR}/test/test_arith_tuple.cpp
                 ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
+                ${POSU_META_TEST_CPP_FILES}
                 ${POSU_UNITS_TEST_CPP_FILES}
     )
 else()

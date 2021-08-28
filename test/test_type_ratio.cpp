@@ -1,76 +1,72 @@
-#include "posu/type_ratio.hpp"
+#include "posu/meta/ratio.hpp"
 
-#define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
+
+namespace {
+
+    namespace meta = posu::meta;
+
+}
 
 TEMPLATE_TEST_CASE(
     "multiplication",
     "[ratio][multiply]",
-    (std::tuple<posu::type_ratio<>, posu::type_ratio<>, posu::type_ratio<>>),
+    (std::tuple<meta::ratio<>, meta::ratio<>, meta::ratio<>>),
+    (std::tuple<meta::ratio<meta::list<int>>, meta::ratio<>, meta::ratio<meta::list<int>>>),
+    (std::tuple<meta::ratio<>, meta::ratio<meta::list<int>>, meta::ratio<meta::list<int>>>),
     (std::tuple<
-        posu::type_ratio<posu::type_list<int>>,
-        posu::type_ratio<>,
-        posu::type_ratio<posu::type_list<int>>>),
+        meta::ratio<meta::list<>, meta::list<int>>,
+        meta::ratio<>,
+        meta::ratio<meta::list<>, meta::list<int>>>),
     (std::tuple<
-        posu::type_ratio<>,
-        posu::type_ratio<posu::type_list<int>>,
-        posu::type_ratio<posu::type_list<int>>>),
+        meta::ratio<>,
+        meta::ratio<meta::list<>, meta::list<int>>,
+        meta::ratio<meta::list<>, meta::list<int>>>),
     (std::tuple<
-        posu::type_ratio<posu::type_list<>, posu::type_list<int>>,
-        posu::type_ratio<>,
-        posu::type_ratio<posu::type_list<>, posu::type_list<int>>>),
+        meta::ratio<meta::list<int>, meta::list<double>>,
+        meta::ratio<meta::list<int>, meta::list<double>>,
+        meta::ratio<meta::list<int, int>, meta::list<double, double>>>),
     (std::tuple<
-        posu::type_ratio<>,
-        posu::type_ratio<posu::type_list<>, posu::type_list<int>>,
-        posu::type_ratio<posu::type_list<>, posu::type_list<int>>>),
-    (std::tuple<
-        posu::type_ratio<posu::type_list<int>, posu::type_list<double>>,
-        posu::type_ratio<posu::type_list<int>, posu::type_list<double>>,
-        posu::type_ratio<posu::type_list<int, int>, posu::type_list<double, double>>>),
-    (std::tuple<
-        posu::type_ratio<posu::type_list<int>, posu::type_list<double>>,
-        posu::type_ratio<posu::type_list<double>, posu::type_list<int>>,
-        posu::type_ratio<>>))
+        meta::ratio<meta::list<int>, meta::list<double>>,
+        meta::ratio<meta::list<double>, meta::list<int>>,
+        meta::ratio<>>))
 {
     using lhs     = std::tuple_element_t<0, TestType>;
     using rhs     = std::tuple_element_t<1, TestType>;
     using product = std::tuple_element_t<2, TestType>;
 
-    static_assert(std::same_as<product, posu::ratio_multiply<lhs, rhs>>);
+    static_assert(std::same_as<product, meta::ratio_multiply<lhs, rhs>>);
 }
 
 TEMPLATE_TEST_CASE(
     "division",
     "[ratio][divide]",
-    (std::tuple<posu::type_ratio<>, posu::type_ratio<>, posu::type_ratio<>>),
+    (std::tuple<meta::ratio<>, meta::ratio<>, meta::ratio<>>),
+    (std::tuple<meta::ratio<meta::list<int>>, meta::ratio<>, meta::ratio<meta::list<int>>>),
     (std::tuple<
-        posu::type_ratio<posu::type_list<int>>,
-        posu::type_ratio<>,
-        posu::type_ratio<posu::type_list<int>>>),
+        meta::ratio<>,
+        meta::ratio<meta::list<int>>,
+        meta::ratio<meta::list<>, meta::list<int>>>),
     (std::tuple<
-        posu::type_ratio<>,
-        posu::type_ratio<posu::type_list<int>>,
-        posu::type_ratio<posu::type_list<>, posu::type_list<int>>>),
+        meta::ratio<meta::list<>, meta::list<int>>,
+        meta::ratio<>,
+        meta::ratio<meta::list<>, meta::list<int>>>),
     (std::tuple<
-        posu::type_ratio<posu::type_list<>, posu::type_list<int>>,
-        posu::type_ratio<>,
-        posu::type_ratio<posu::type_list<>, posu::type_list<int>>>),
+        meta::ratio<>,
+        meta::ratio<meta::list<>, meta::list<int>>,
+        meta::ratio<meta::list<int>, meta::list<>>>),
     (std::tuple<
-        posu::type_ratio<>,
-        posu::type_ratio<posu::type_list<>, posu::type_list<int>>,
-        posu::type_ratio<posu::type_list<int>, posu::type_list<>>>),
+        meta::ratio<meta::list<int>, meta::list<double>>,
+        meta::ratio<meta::list<int>, meta::list<double>>,
+        meta::ratio<>>),
     (std::tuple<
-        posu::type_ratio<posu::type_list<int>, posu::type_list<double>>,
-        posu::type_ratio<posu::type_list<int>, posu::type_list<double>>,
-        posu::type_ratio<>>),
-    (std::tuple<
-        posu::type_ratio<posu::type_list<int>, posu::type_list<double>>,
-        posu::type_ratio<posu::type_list<double>, posu::type_list<int>>,
-        posu::type_ratio<posu::type_list<int, int>, posu::type_list<double, double>>>))
+        meta::ratio<meta::list<int>, meta::list<double>>,
+        meta::ratio<meta::list<double>, meta::list<int>>,
+        meta::ratio<meta::list<int, int>, meta::list<double, double>>>))
 {
     using dividend = std::tuple_element_t<0, TestType>;
     using divisor  = std::tuple_element_t<1, TestType>;
     using quotient = std::tuple_element_t<2, TestType>;
 
-    static_assert(std::same_as<quotient, posu::ratio_divide<dividend, divisor>>);
+    static_assert(std::same_as<quotient, meta::ratio_divide<dividend, divisor>>);
 }

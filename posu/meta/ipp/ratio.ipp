@@ -1,5 +1,5 @@
 
-namespace posu {
+namespace posu::meta {
 
     namespace detail {
 
@@ -8,35 +8,35 @@ namespace posu {
 
         template<typename Lhs, typename Rhs, std::size_t I>
             requires(
-                !std::same_as<Lhs, type_list<>> && !std::same_as<Rhs, type_list<>> &&
+                !std::same_as<Lhs, list<>> && !std::same_as<Rhs, list<>> &&
                 !contains_v<Rhs, at<Lhs, I>>)
         struct ratio_reduce_left_index<Lhs, Rhs, I> {
-            using type = type_ratio<Lhs, Rhs>;
+            using type = ratio<Lhs, Rhs>;
         };
 
         template<typename Lhs, typename Rhs, std::size_t I>
             requires(
-                !std::same_as<Lhs, type_list<>> && !std::same_as<Rhs, type_list<>> &&
+                !std::same_as<Lhs, list<>> && !std::same_as<Rhs, list<>> &&
                 contains_v<Rhs, at<Lhs, I>>)
         struct ratio_reduce_left_index<Lhs, Rhs, I> {
-            using type = type_ratio<remove<Lhs, I>, remove<Rhs, find_v<Rhs, at<Lhs, I>>>>;
+            using type = ratio<remove<Lhs, I>, remove<Rhs, find_v<Rhs, at<Lhs, I>>>>;
         };
 
         template<std::size_t I>
-        struct ratio_reduce_left_index<type_list<>, type_list<>, I> {
-            using type = type_ratio<>;
+        struct ratio_reduce_left_index<list<>, list<>, I> {
+            using type = ratio<>;
         };
 
         template<typename Lhs, std::size_t I>
-            requires(!std::same_as<Lhs, type_list<>>)
-        struct ratio_reduce_left_index<Lhs, type_list<>, I> {
-            using type = type_ratio<Lhs>;
+            requires(!std::same_as<Lhs, list<>>)
+        struct ratio_reduce_left_index<Lhs, list<>, I> {
+            using type = ratio<Lhs>;
         };
 
         template<typename Rhs, std::size_t I>
-            requires(!std::same_as<Rhs, type_list<>>)
-        struct ratio_reduce_left_index<type_list<>, Rhs, I> {
-            using type = type_ratio<type_list<>, Rhs>;
+            requires(!std::same_as<Rhs, list<>>)
+        struct ratio_reduce_left_index<list<>, Rhs, I> {
+            using type = ratio<list<>, Rhs>;
         };
 
         template<typename Lhs, typename Rhs, std::size_t I>
@@ -63,7 +63,7 @@ namespace posu {
         template<typename Lhs, typename Rhs, std::size_t LhsSize, std::size_t I>
             requires((I == LhsSize))
         struct ratio_reduce_impl<Lhs, Rhs, LhsSize, I> {
-            using type = type_ratio<Lhs, Rhs>;
+            using type = ratio<Lhs, Rhs>;
         };
 
         template<typename Lhs, typename Rhs>
@@ -75,13 +75,13 @@ namespace posu {
             typename... NumRhsTypes,
             typename... DenRhsTypes>
         struct ratio_multiply_impl<
-            type_ratio<type_list<NumLhsTypes...>, type_list<DenLhsTypes...>>,
-            type_ratio<type_list<NumRhsTypes...>, type_list<DenRhsTypes...>>> {
+            ratio<list<NumLhsTypes...>, list<DenLhsTypes...>>,
+            ratio<list<NumRhsTypes...>, list<DenRhsTypes...>>> {
             using type = ratio_reduce_impl_t<
-                type_list<NumLhsTypes..., NumRhsTypes...>,
-                type_list<DenLhsTypes..., DenRhsTypes...>>;
+                list<NumLhsTypes..., NumRhsTypes...>,
+                list<DenLhsTypes..., DenRhsTypes...>>;
         };
 
     } // namespace detail
 
-} // namespace posu
+} // namespace posu::meta
