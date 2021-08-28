@@ -32,10 +32,10 @@ namespace posu::units {
      *
      * A base dimension is a `std::string_view` meta-constant designated as a dimension type via
      * specializing the `enable_as_dimension` template. The syntactic requirements only give a
-     * dimension a unique name string and type in the type system. Semantically, a `dimension` is a
-     * tag type for a particular measurable base dimension, such as time, length, or mass.
+     * dimension a name string, and a unique type in the type system. Semantically, a `dimension` is
+     * a tag type for a particular measurable base dimension, such as time, length, or mass.
      *
-     * @tparam T The type to check agains this concept.
+     * @tparam T The type to check against this concept.
      */
     template<typename T>
     concept base_dimension = meta_constant<T, std::string_view> && enable_as_dimension<T>;
