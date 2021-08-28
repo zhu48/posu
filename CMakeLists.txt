@@ -195,6 +195,7 @@ set(
 set(
     POSU_HPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/concepts.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/ratio.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/type_algorithm.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/type_list.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/type_ratio.hpp
@@ -232,6 +233,11 @@ if(BUILD_TESTING AND POSU_ENABLE_TESTING)
     target_link_libraries(test_concepts PRIVATE Catch2::Catch2)
     target_link_libraries(test_concepts PRIVATE posu)
     add_test(NAME test_concepts COMMAND test_concepts)
+
+    add_executable(test_ratio ${CMAKE_CURRENT_LIST_DIR}/test/test_ratio.cpp)
+    target_link_libraries(test_ratio PRIVATE Catch2::Catch2)
+    target_link_libraries(test_ratio PRIVATE posu)
+    add_test(NAME test_ratio COMMAND test_ratio)
 
     add_executable(test_zip_range ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp)
     target_link_libraries(test_zip_range PRIVATE Catch2::Catch2)
