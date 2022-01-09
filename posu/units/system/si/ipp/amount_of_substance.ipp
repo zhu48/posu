@@ -8,9 +8,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::amount_of_substance_literals::operator""_amol(long double value)
-        -> basic_mole<double, std::atto>
+        -> basic_mole<double, atto>
 {
-    return basic_mole<double, std::atto>(value);
+    return basic_mole<double, atto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -22,9 +22,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::amount_of_substance_literals::operator""_fmol(long double value)
-        -> basic_mole<double, std::femto>
+        -> basic_mole<double, femto>
 {
-    return basic_mole<double, std::femto>(value);
+    return basic_mole<double, femto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -36,9 +36,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::amount_of_substance_literals::operator""_pmol(long double value)
-        -> basic_mole<double, std::pico>
+        -> basic_mole<double, pico>
 {
-    return basic_mole<double, std::pico>(value);
+    return basic_mole<double, pico>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -50,9 +50,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::amount_of_substance_literals::operator""_nmol(long double value)
-        -> basic_mole<double, std::nano>
+        -> basic_mole<double, nano>
 {
-    return basic_mole<double, std::nano>(value);
+    return basic_mole<double, nano>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -64,9 +64,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::amount_of_substance_literals::operator""_umol(long double value)
-        -> basic_mole<double, std::micro>
+        -> basic_mole<double, micro>
 {
-    return basic_mole<double, std::micro>(value);
+    return basic_mole<double, micro>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -78,9 +78,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::amount_of_substance_literals::operator""_mmol(long double value)
-        -> basic_mole<double, std::milli>
+        -> basic_mole<double, milli>
 {
-    return basic_mole<double, std::milli>(value);
+    return basic_mole<double, milli>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -92,9 +92,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::amount_of_substance_literals::operator""_cmol(long double value)
-        -> basic_mole<double, std::centi>
+        -> basic_mole<double, centi>
 {
-    return basic_mole<double, std::centi>(value);
+    return basic_mole<double, centi>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -106,9 +106,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::amount_of_substance_literals::operator""_dmol(long double value)
-        -> basic_mole<double, std::deci>
+        -> basic_mole<double, deci>
 {
-    return basic_mole<double, std::deci>(value);
+    return basic_mole<double, deci>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -120,9 +120,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::amount_of_substance_literals::operator""_mol(long double value)
-        -> basic_mole<double, std::ratio<1>>
+        -> basic_mole<double, ratio<1>>
 {
-    return basic_mole<double, std::ratio<1>>(value);
+    return basic_mole<double, ratio<1>>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -134,9 +134,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::amount_of_substance_literals::operator""_damol(long double value)
-        -> basic_mole<double, std::deca>
+        -> basic_mole<double, deca>
 {
-    return basic_mole<double, std::deca>(value);
+    return basic_mole<double, deca>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -148,9 +148,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::amount_of_substance_literals::operator""_hmol(long double value)
-        -> basic_mole<double, std::hecto>
+        -> basic_mole<double, hecto>
 {
-    return basic_mole<double, std::hecto>(value);
+    return basic_mole<double, hecto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -162,9 +162,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::amount_of_substance_literals::operator""_kmol(long double value)
-        -> basic_mole<double, std::kilo>
+        -> basic_mole<double, kilo>
 {
-    return basic_mole<double, std::kilo>(value);
+    return basic_mole<double, kilo>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -176,9 +176,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::amount_of_substance_literals::operator""_Mmol(long double value)
-        -> basic_mole<double, std::mega>
+        -> basic_mole<double, mega>
 {
-    return basic_mole<double, std::mega>(value);
+    return basic_mole<double, mega>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -190,9 +190,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::amount_of_substance_literals::operator""_Gmol(long double value)
-        -> basic_mole<double, std::giga>
+        -> basic_mole<double, giga>
 {
-    return basic_mole<double, std::giga>(value);
+    return basic_mole<double, giga>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -204,9 +204,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::amount_of_substance_literals::operator""_Tmol(long double value)
-        -> basic_mole<double, std::tera>
+        -> basic_mole<double, tera>
 {
-    return basic_mole<double, std::tera>(value);
+    return basic_mole<double, tera>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -218,9 +218,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::amount_of_substance_literals::operator""_Pmol(long double value)
-        -> basic_mole<double, std::peta>
+        -> basic_mole<double, peta>
 {
-    return basic_mole<double, std::peta>(value);
+    return basic_mole<double, peta>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -232,7 +232,7 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::amount_of_substance_literals::operator""_Emol(long double value)
-        -> basic_mole<double, std::exa>
+        -> basic_mole<double, exa>
 {
-    return basic_mole<double, std::exa>(value);
+    return basic_mole<double, exa>(value);
 }

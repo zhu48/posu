@@ -10,7 +10,7 @@ namespace posu::units::si {
     struct amount_of_substance : public posu::units::amount_of_substance {
         using type      = amount_of_substance;
         using kind_type = posu::units::amount_of_substance;
-        using period    = std::ratio<1>;
+        using period    = ratio<1>;
     };
 
 } // namespace posu::units::si
@@ -27,23 +27,23 @@ namespace posu::units::si {
     template<typename Rep, typename Period>
     using basic_mole = quantity<Rep, Period, amount_of_substance>;
 
-    using attomoles  = basic_mole<int, std::atto>;
-    using femtomoles = basic_mole<int, std::femto>;
-    using picomoles  = basic_mole<int, std::pico>;
-    using nanomoles  = basic_mole<int, std::nano>;
-    using micromoles = basic_mole<int, std::micro>;
-    using millimoles = basic_mole<int, std::milli>;
-    using centimoles = basic_mole<int, std::centi>;
-    using decimoles  = basic_mole<int, std::deci>;
-    using moles      = basic_mole<int, std::ratio<1>>;
-    using decamoles  = basic_mole<int, std::deca>;
-    using hectomoles = basic_mole<int, std::hecto>;
-    using kilomoles  = basic_mole<int, std::kilo>;
-    using megamoles  = basic_mole<int, std::mega>;
-    using gigamoles  = basic_mole<int, std::giga>;
-    using teramoles  = basic_mole<int, std::tera>;
-    using petamoles  = basic_mole<int, std::peta>;
-    using examoles   = basic_mole<int, std::exa>;
+    using attomoles  = basic_mole<int, atto>;
+    using femtomoles = basic_mole<int, femto>;
+    using picomoles  = basic_mole<int, pico>;
+    using nanomoles  = basic_mole<int, nano>;
+    using micromoles = basic_mole<int, micro>;
+    using millimoles = basic_mole<int, milli>;
+    using centimoles = basic_mole<int, centi>;
+    using decimoles  = basic_mole<int, deci>;
+    using moles      = basic_mole<int, ratio<1>>;
+    using decamoles  = basic_mole<int, deca>;
+    using hectomoles = basic_mole<int, hecto>;
+    using kilomoles  = basic_mole<int, kilo>;
+    using megamoles  = basic_mole<int, mega>;
+    using gigamoles  = basic_mole<int, giga>;
+    using teramoles  = basic_mole<int, tera>;
+    using petamoles  = basic_mole<int, peta>;
+    using examoles   = basic_mole<int, exa>;
 
     inline namespace literals {
 
@@ -51,55 +51,55 @@ namespace posu::units::si {
 
             [[nodiscard]] constexpr auto operator""_amol(unsigned long long value) -> attomoles;
             [[nodiscard]] constexpr auto operator""_amol(long double value)
-                -> basic_mole<double, std::atto>;
+                -> basic_mole<double, atto>;
             [[nodiscard]] constexpr auto operator""_fmol(unsigned long long value) -> femtomoles;
             [[nodiscard]] constexpr auto operator""_fmol(long double value)
-                -> basic_mole<double, std::femto>;
+                -> basic_mole<double, femto>;
             [[nodiscard]] constexpr auto operator""_pmol(unsigned long long value) -> picomoles;
             [[nodiscard]] constexpr auto operator""_pmol(long double value)
-                -> basic_mole<double, std::pico>;
+                -> basic_mole<double, pico>;
             [[nodiscard]] constexpr auto operator""_nmol(unsigned long long value) -> nanomoles;
             [[nodiscard]] constexpr auto operator""_nmol(long double value)
-                -> basic_mole<double, std::nano>;
+                -> basic_mole<double, nano>;
             [[nodiscard]] constexpr auto operator""_umol(unsigned long long value) -> micromoles;
             [[nodiscard]] constexpr auto operator""_umol(long double value)
-                -> basic_mole<double, std::micro>;
+                -> basic_mole<double, micro>;
             [[nodiscard]] constexpr auto operator""_mmol(unsigned long long value) -> millimoles;
             [[nodiscard]] constexpr auto operator""_mmol(long double value)
-                -> basic_mole<double, std::milli>;
+                -> basic_mole<double, milli>;
             [[nodiscard]] constexpr auto operator""_cmol(unsigned long long value) -> centimoles;
             [[nodiscard]] constexpr auto operator""_cmol(long double value)
-                -> basic_mole<double, std::centi>;
+                -> basic_mole<double, centi>;
             [[nodiscard]] constexpr auto operator""_dmol(unsigned long long value) -> decimoles;
             [[nodiscard]] constexpr auto operator""_dmol(long double value)
-                -> basic_mole<double, std::deci>;
+                -> basic_mole<double, deci>;
             [[nodiscard]] constexpr auto operator""_mol(unsigned long long value) -> moles;
             [[nodiscard]] constexpr auto operator""_mol(long double value)
-                -> basic_mole<double, std::ratio<1>>;
+                -> basic_mole<double, ratio<1>>;
             [[nodiscard]] constexpr auto operator""_damol(unsigned long long value) -> decamoles;
             [[nodiscard]] constexpr auto operator""_damol(long double value)
-                -> basic_mole<double, std::deca>;
+                -> basic_mole<double, deca>;
             [[nodiscard]] constexpr auto operator""_hmol(unsigned long long value) -> hectomoles;
             [[nodiscard]] constexpr auto operator""_hmol(long double value)
-                -> basic_mole<double, std::hecto>;
+                -> basic_mole<double, hecto>;
             [[nodiscard]] constexpr auto operator""_kmol(unsigned long long value) -> kilomoles;
             [[nodiscard]] constexpr auto operator""_kmol(long double value)
-                -> basic_mole<double, std::kilo>;
+                -> basic_mole<double, kilo>;
             [[nodiscard]] constexpr auto operator""_Mmol(unsigned long long value) -> megamoles;
             [[nodiscard]] constexpr auto operator""_Mmol(long double value)
-                -> basic_mole<double, std::mega>;
+                -> basic_mole<double, mega>;
             [[nodiscard]] constexpr auto operator""_Gmol(unsigned long long value) -> gigamoles;
             [[nodiscard]] constexpr auto operator""_Gmol(long double value)
-                -> basic_mole<double, std::giga>;
+                -> basic_mole<double, giga>;
             [[nodiscard]] constexpr auto operator""_Tmol(unsigned long long value) -> teramoles;
             [[nodiscard]] constexpr auto operator""_Tmol(long double value)
-                -> basic_mole<double, std::tera>;
+                -> basic_mole<double, tera>;
             [[nodiscard]] constexpr auto operator""_Pmol(unsigned long long value) -> petamoles;
             [[nodiscard]] constexpr auto operator""_Pmol(long double value)
-                -> basic_mole<double, std::peta>;
+                -> basic_mole<double, peta>;
             [[nodiscard]] constexpr auto operator""_Emol(unsigned long long value) -> examoles;
             [[nodiscard]] constexpr auto operator""_Emol(long double value)
-                -> basic_mole<double, std::exa>;
+                -> basic_mole<double, exa>;
 
         } // namespace amount_of_substance_literals
 

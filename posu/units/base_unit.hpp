@@ -17,7 +17,7 @@ namespace posu::units {
      * @tparam Period The ratio with respect to the unit quantity type.
      * @tparam Unit   The quantity's measurement unit.
      */
-    template<arithmetic Rep, detail::std_ratio Period, unit Unit>
+    template<arithmetic Rep, ratio_type Period, unit Unit>
     class quantity;
 
     /**
@@ -101,7 +101,7 @@ namespace posu::units {
         requires(quantity_comparable_with<To, From>)
     [[nodiscard]] constexpr auto quantity_cast(const From& quant) noexcept -> To;
 
-    template<arithmetic Rep, detail::std_ratio Period, unit Unit>
+    template<arithmetic Rep, ratio_type Period, unit Unit>
     class quantity {
     public:
         using rep        = Rep;                    //!< The numeric representation type.
@@ -111,7 +111,7 @@ namespace posu::units {
         using dimensions = dimension_t<kind_type>; //!< The quantity dimension.
 
     private:
-        using chrono_type = std::chrono::duration<rep, period>;
+        using chrono_type = std::chrono::duration<rep, std::ratio<period::num, period::den>>;
         using chrono_ref  = chrono_type&;
         using chrono_cref = const chrono_type&;
 
@@ -160,7 +160,8 @@ namespace posu::units {
          *
          * @{
          */
-        constexpr quantity(const std::chrono::duration<rep, period>& d) noexcept
+        constexpr quantity(
+            const std::chrono::duration<rep, std::ratio<period::num, period::den>>& d) noexcept
             requires(detail::implicit_chrono<kind_type>);
         [[nodiscard]] constexpr operator chrono_cref() const noexcept
             requires(detail::implicit_chrono<kind_type>);
@@ -341,7 +342,8 @@ namespace posu::units {
             return lhs.m_duration <=> rhs;
         }
 
-    private : using underlying_type = std::chrono::duration<Rep, Period>;
+    private : using underlying_type =
+                  std::chrono::duration<Rep, std::ratio<Period::num, Period::den>>;
         underlying_type m_duration;
     };
 

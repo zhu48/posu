@@ -1,6 +1,8 @@
 #ifndef POSU_UNITS_KIND_HPP
 #define POSU_UNITS_KIND_HPP
 
+#include "posu/ratio.hpp"
+
 #include "posu/units/dimension.hpp"
 
 namespace posu::units {
@@ -43,7 +45,7 @@ namespace posu::units {
     };
     //! @}
 
-    template<detail::std_ratio Period = std::ratio<1>>
+    template<ratio_type Period = ratio<1>>
     struct scaler {
         using type       = scaler;
         using value_type = std::string_view;
@@ -57,10 +59,10 @@ namespace posu::units {
         [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
-    template<detail::std_ratio Period>
+    template<ratio_type Period>
     inline constexpr bool enable_as_kind<scaler<Period>> = true;
 
-    template<typename T, detail::std_ratio Period = std::ratio<1>>
+    template<typename T, ratio_type Period = ratio<1>>
         requires(dimension<T> || kind<T>)
     struct unknown;
 

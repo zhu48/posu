@@ -99,20 +99,6 @@ namespace posu::units {
             }
         }
 
-        template<typename T>
-        struct is_std_ratio : std::false_type {
-        };
-
-        template<std::intmax_t Num, std::intmax_t Den>
-        struct is_std_ratio<std::ratio<Num, Den>> : std::true_type {
-        };
-
-        template<typename T>
-        inline constexpr bool is_std_ratio_v = is_std_ratio<T>::value;
-
-        template<typename T>
-        concept std_ratio = is_std_ratio_v<T>;
-
     } // namespace detail
 
     template<dimension Lhs, dimension Rhs>

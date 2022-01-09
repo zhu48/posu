@@ -28,11 +28,8 @@ namespace posu::units {
     using kind_t = typename T::kind_type;
 
     template<typename T>
-    concept multiplier = detail::std_ratio<T> || signed_arithmetic_constant<T>;
-
-    template<typename T>
     concept unit = meta_constant<T, std::string_view> && kind<kind_t<T>> &&
-        multiplier<period_t<T>> && enable_as_unit<T>;
+        ratio_type<period_t<T>> && enable_as_unit<T>;
 
     /**
      * @brief A unit-of-measure derived from base units.
@@ -75,10 +72,10 @@ namespace posu::units {
     concept unit_comparable_with =
         unit<Lhs> && unit<Rhs> && kind_comparable_with<kind_t<Lhs>, kind_t<Rhs>>;
 
-    template<detail::std_ratio Ratio>
+    template<ratio_type Ratio>
     inline constexpr bool enable_as_unit<scaler<Ratio>> = true;
 
-    template<kind Kind, detail::std_ratio Period>
+    template<kind Kind, ratio_type Period>
     struct unknown<Kind, Period> {
         using type       = unknown;
         using value_type = std::string_view;
@@ -92,7 +89,7 @@ namespace posu::units {
         [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
-    template<kind Kind, detail::std_ratio Period>
+    template<kind Kind, ratio_type Period>
     inline constexpr bool enable_as_unit<unknown<Kind, Period>> = true;
 
     template<unit Lhs, unit Rhs>

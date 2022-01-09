@@ -68,6 +68,14 @@ namespace posu {
         struct is_ratio<ratio<Num, Denom, Exp>> : public std::true_type {
         };
 
+        template<typename T>
+        struct std_ratio : public std::false_type {
+        };
+
+        template<std::intmax_t Num, std::intmax_t Denom>
+        struct std_ratio<std::ratio<Num, Denom>> : public std::true_type {
+        };
+
     } // namespace detail
 
     /**
@@ -116,6 +124,10 @@ namespace posu {
     using exa   = ratio<1, 1, 18>;  //!< SI `exa` ratio.
     using zetta = ratio<1, 1, 21>;  //!< SI `zetta` ratio.
     using yotta = ratio<1, 1, 24>;  //!< SI `yotta` ratio.
+
+    template<typename Ratio>
+        requires(detail::std_ratio<Ratio>::value)
+    using make_ratio = ratio<Ratio::num, Ratio::den>;
 
 } // namespace posu
 

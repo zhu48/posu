@@ -1,5 +1,5 @@
 
-template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 struct posu::units::is_quantity<posu::units::quantity<Rep, Period, Unit>> : public std::true_type {
 };
 
@@ -31,7 +31,7 @@ template<posu::units::quantity_of_measure To, posu::units::quantity_of_measure F
     return detail::from_duration<To>(detail::to_duration(quantity));
 }
 
-template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 template<typename Rep2>
     requires(
         std::convertible_to<Rep, const Rep2&> && (std::chrono::treat_as_floating_point_v<Rep> ||
@@ -40,7 +40,7 @@ constexpr posu::units::quantity<Rep, Period, Unit>::quantity(const Rep2& r) : m_
 {
 }
 
-template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 template<typename Rep2, typename Period2, posu::units::unit_comparable_with<Unit> Unit2>
     requires(
         std::chrono::treat_as_floating_point_v<Rep> ||
@@ -52,35 +52,35 @@ constexpr posu::units::quantity<Rep, Period, Unit>::quantity(
 {
 }
 
-template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 constexpr posu::units::quantity<Rep, Period, Unit>::quantity(
-    const std::chrono::duration<rep, period>& d) noexcept
+    const std::chrono::duration<rep, std::ratio<period::num, period::den>>& d) noexcept
     requires(detail::implicit_chrono<kind_t<Unit>>)
     : m_duration{d}
 {
 }
 
-template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 [[nodiscard]] constexpr posu::units::quantity<Rep, Period, Unit>::operator chrono_cref()
     const noexcept requires(detail::implicit_chrono<kind_t<Unit>>)
 {
     return m_duration;
 }
 
-template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 [[nodiscard]] constexpr posu::units::quantity<Rep, Period, Unit>::operator chrono_ref() noexcept
     requires(detail::implicit_chrono<kind_t<Unit>>)
 {
     return m_duration;
 }
 
-template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 [[nodiscard]] constexpr auto posu::units::quantity<Rep, Period, Unit>::count() const noexcept
 {
     return m_duration.count();
 }
 
-template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 template<typename RRep, typename RPeriod, posu::units::unit_of<posu::units::kind_t<Unit>> RUnit>
 [[nodiscard]] constexpr bool posu::units::quantity<Rep, Period, Unit>::operator==(
     const quantity<RRep, RPeriod, RUnit>& rhs) const noexcept
@@ -91,7 +91,7 @@ template<typename RRep, typename RPeriod, posu::units::unit_of<posu::units::kind
     return l == r;
 }
 
-template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 template<typename RRep, typename RPeriod, posu::units::unit_of<posu::units::kind_t<Unit>> RUnit>
 [[nodiscard]] constexpr auto posu::units::quantity<Rep, Period, Unit>::operator<=>(
     const quantity<RRep, RPeriod, RUnit>& rhs) const noexcept
@@ -99,19 +99,19 @@ template<typename RRep, typename RPeriod, posu::units::unit_of<posu::units::kind
     return detail::to_duration(*this) <=> detail::to_duration(rhs);
 }
 
-template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 [[nodiscard]] constexpr auto posu::units::quantity<Rep, Period, Unit>::operator+() const noexcept
 {
     return quantity(count());
 }
 
-template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 [[nodiscard]] constexpr auto posu::units::quantity<Rep, Period, Unit>::operator-() const noexcept
 {
     return quantity(-count());
 }
 
-template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator++() noexcept
 {
     ++m_duration;
@@ -119,7 +119,7 @@ constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator++() noexcept
     return *this;
 }
 
-template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 constexpr auto posu::units::quantity<Rep, Period, Unit>::operator++(int) noexcept
 {
     const auto old_val = count();
@@ -129,7 +129,7 @@ constexpr auto posu::units::quantity<Rep, Period, Unit>::operator++(int) noexcep
     return quantity(old_val);
 }
 
-template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator--() noexcept
 {
     --m_duration;
@@ -137,7 +137,7 @@ constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator--() noexcept
     return *this;
 }
 
-template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 constexpr auto posu::units::quantity<Rep, Period, Unit>::operator--(int) noexcept
 {
     const auto old_val = count();
@@ -147,7 +147,7 @@ constexpr auto posu::units::quantity<Rep, Period, Unit>::operator--(int) noexcep
     return quantity(old_val);
 }
 
-template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator+=(const quantity& rhs) noexcept
 {
     m_duration += rhs.m_duration;
@@ -155,7 +155,7 @@ constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator+=(const quant
     return *this;
 }
 
-template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator-=(const quantity& rhs) noexcept
 {
     m_duration -= rhs.m_duration;
@@ -163,7 +163,7 @@ constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator-=(const quant
     return *this;
 }
 
-template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator*=(const rep& rhs) noexcept
 {
     m_duration *= rhs;
@@ -171,7 +171,7 @@ constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator*=(const rep& 
     return *this;
 }
 
-template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator/=(const rep& rhs) noexcept
 {
     m_duration /= rhs;
@@ -179,7 +179,7 @@ constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator/=(const rep& 
     return *this;
 }
 
-template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator%=(const rep& rhs) noexcept
 {
     m_duration %= rhs;
@@ -187,7 +187,7 @@ constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator%=(const rep& 
     return *this;
 }
 
-template<posu::arithmetic Rep, posu::units::detail::std_ratio Period, posu::units::unit Unit>
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator%=(const quantity& rhs) noexcept
 {
     m_duration %= rhs.m_duration;
