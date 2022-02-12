@@ -152,16 +152,16 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/energy.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/force.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/frequency.hpp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/luminous_intensity.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/length.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/luminous_flux.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/luminous_intensity.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/mass.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/power.hpp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/solid_angle.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si.hpp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/velocity.hpp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/time.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/solid_angle.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/thermodynamic_temperature.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/time.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/velocity.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/amount_of_substance.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/angle.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/defining_constants.hpp
@@ -170,13 +170,13 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/energy.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/force.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/frequency.hpp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/luminous_intensity.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/length.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/luminous_flux.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/luminous_intensity.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/mass.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/power.hpp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/solid_angle.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/time.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/solid_angle.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/thermodynamic_temperature.hpp
 )
 set(
@@ -190,15 +190,15 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/energy.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/force.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/frequency.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/luminous_intensity.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/length.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/luminous_intensity.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/luminous_flux.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/mass.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/power.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/solid_angle.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/speed.ipp
-        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/time.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/thermodynamic_temperature.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/time.ipp
 )
 set(
     POSU_UNITS_TEST_CPP_FILES
