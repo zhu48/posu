@@ -227,7 +227,8 @@ namespace posu {
 
 } // namespace posu
 
-template<posu::ratio_type Lhs, posu::ratio_type Rhs>
+template<typename Lhs, typename Rhs>
+    requires(posu::ratio_type<Lhs>&& posu::ratio_type<Rhs>)
 struct std::common_type<Lhs, Rhs> {
     using type = posu::common_ratio<Lhs, Rhs>;
 };
