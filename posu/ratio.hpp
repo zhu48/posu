@@ -1,6 +1,7 @@
 #ifndef POSU_RATIO_HPP
 #define POSU_RATIO_HPP
 
+#include <numeric>
 #include <ratio>
 
 namespace posu {
@@ -13,50 +14,7 @@ namespace posu {
      * @tparam Exp   Ratio base-10 exponent.
      */
     template<std::intmax_t Num, std::intmax_t Denom = 1, std::intmax_t Exp = 0>
-    struct ratio {
-        static constexpr auto num = std::ratio<Num, Denom>::num; //!< Numerator.
-        static constexpr auto den = std::ratio<Num, Denom>::den; //!< Denominator.
-        static constexpr auto exp = Exp;                         //!< Base-10 exponent.
-
-        using type = ratio<num, den, exp>; //!< Reduced type.
-
-        /**
-         * @name Arithmetic Operators
-         *
-         * @brief Ratio multiplication and division.
-         *
-         * @param lhs The left-hand-side argument.
-         * @param rhs The right-hand-side argument.
-         *
-         * @return Returns the operation result.
-         *
-         * @{
-         */
-
-        template<std::intmax_t RNum, std::intmax_t RDenom, std::intmax_t RExp>
-        [[nodiscard]] friend constexpr auto
-        operator*(ratio lhs, ratio<RNum, RDenom, RExp> rhs) noexcept
-        {
-            using std_l = std::ratio<lhs.num, lhs.den>;
-            using std_r = std::ratio<rhs.num, rhs.den>;
-            using prod  = std::ratio_multiply<std_l, std_r>;
-
-            return ratio<prod::num, prod::den, Exp + RExp>{};
-        }
-
-        template<std::intmax_t RNum, std::intmax_t RDenom, std::intmax_t RExp>
-        [[nodiscard]] friend constexpr auto
-        operator/(ratio lhs, ratio<RNum, RDenom, RExp> rhs) noexcept
-        {
-            using std_l = std::ratio<lhs.num, lhs.den>;
-            using std_r = std::ratio<rhs.num, rhs.den>;
-            using prod  = std::ratio_divide<std_l, std_r>;
-
-            return ratio<prod::num, prod::den, Exp - RExp>{};
-        }
-
-        //! @}
-    };
+    struct ratio;
 
     namespace detail {
 
@@ -69,12 +27,21 @@ namespace posu {
         };
 
         template<typename T>
-        struct std_ratio : public std::false_type {
+        struct is_std_ratio : public std::false_type {
         };
 
-        template<std::intmax_t Num, std::intmax_t Denom>
-        struct std_ratio<std::ratio<Num, Denom>> : public std::true_type {
+        template<std::intmax_t Num, std::intmax_t Den>
+        struct is_std_ratio<std::ratio<Num, Den>> : public std::true_type {
         };
+
+        template<typename T>
+        concept ratio_type = is_ratio<T>::value;
+
+        template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp, std::intmax_t NewExp>
+        [[nodiscard]] constexpr auto denormalize() noexcept;
+        template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
+        [[nodiscard]] constexpr auto normalize() noexcept;
+        [[nodiscard]] constexpr auto common(ratio_type auto lhs, ratio_type auto rhs) noexcept;
 
     } // namespace detail
 
@@ -83,8 +50,86 @@ namespace posu {
      *
      * @tparam T The type to check as a specialization of `posu::ratio`.
      */
-    template<typename T>
-    concept ratio_type = detail::is_ratio<T>::value;
+    using detail::ratio_type;
+
+    template<std::intmax_t Num, std::intmax_t Denom, std::intmax_t Exp>
+    struct ratio {
+        static constexpr auto num = detail::normalize<Num, Denom, Exp>().num; //!< Numerator.
+        static constexpr auto den = detail::normalize<Num, Denom, Exp>().den; //!< Denominator.
+        static constexpr auto exp = detail::normalize<Num, Denom, Exp>().exp; //!< Base-10 exponent.
+
+        using type = ratio<num, den, exp>; //!< Reduced type.
+
+        /**
+         * @name Arithmetic Operators
+         *
+         * @brief Ratio arithmetic operations.
+         *
+         * @param rhs The right-hand-side argument.
+         *
+         * @return Returns the operation result.
+         *
+         * @{
+         */
+        [[nodiscard]] constexpr auto operator+(ratio_type auto rhs) const noexcept;
+        [[nodiscard]] constexpr auto operator-(ratio_type auto rhs) const noexcept;
+        [[nodiscard]] constexpr auto operator*(ratio_type auto rhs) const noexcept;
+        [[nodiscard]] constexpr auto operator/(ratio_type auto rhs) const noexcept;
+        //! @}
+
+        /**
+         * @name Comparison Operators
+         *
+         * @brief Compare the value of this ratio against another ratio.
+         *
+         * @param rhs The ratio to compare against.
+         *
+         * @return Returns the comparison result.
+         *
+         * @{
+         */
+        [[nodiscard]] constexpr bool operator==(ratio_type auto rhs) const noexcept;
+        [[nodiscard]] constexpr auto operator<=>(ratio_type auto rhs) const noexcept;
+        //! @}
+    };
+
+    /**
+     * @brief Adjust the ratio's representation to maximally reduce its mantissa fraction.
+     *
+     * @tparam Ratio The ratio to normalize.
+     */
+    template<ratio_type Ratio>
+    using normalize = typename Ratio::type;
+
+    /**
+     * @brief Denormalize a ratio so its exponent is the given value.
+     *
+     * @tparam Ratio  The ratio to denormalize.
+     * @tparam NewExp The exponent to assign to the resulting ratio.
+     */
+    template<ratio_type Ratio, std::intmax_t NewExp>
+    using denormalize = ratio<
+        detail::denormalize<Ratio::num, Ratio::den, Ratio::exp, NewExp>().num,
+        detail::denormalize<Ratio::num, Ratio::den, Ratio::exp, NewExp>().den,
+        detail::denormalize<Ratio::num, Ratio::den, Ratio::exp, NewExp>().exp>;
+
+    /**
+     * @brief Add two ratios;
+     *
+     * @tparam Lhs The left-hand-side ratio.
+     * @tparam Rhs The right-hand-side ratio.
+     */
+    template<ratio_type Lhs, ratio_type Rhs>
+    using ratio_add = decltype(Lhs{} + Rhs{});
+
+    /**
+     * @brief Subtract a ratio from another.
+     *
+     * @tparam Lhs The ratio to subtract from.
+     * @tparam Rhs The amount to subtract.
+     */
+    template<ratio_type Lhs, ratio_type Rhs>
+    using ratio_subtract = decltype(Lhs{} - Rhs{});
 
     /**
      * @brief Multiply two ratio objects.
@@ -94,6 +139,41 @@ namespace posu {
      */
     template<ratio_type Lhs, ratio_type Rhs>
     using ratio_multiply = decltype(Lhs{} * Rhs{});
+
+    /**
+     * @brief Ratio comparison.
+     *
+     * @tparam Lhs The left-hand-side operand.
+     * @tparam Rhs The right-hand-side operand.
+     *
+     * @{
+     */
+
+    template<ratio_type Lhs, ratio_type Rhs>
+    struct ratio_equal : public std::bool_constant<Lhs{} == Rhs{}> {
+    };
+
+    template<ratio_type Lhs, ratio_type Rhs>
+    struct ratio_not_equal : public std::bool_constant<Lhs{} != Rhs{}> {
+    };
+
+    template<ratio_type Lhs, ratio_type Rhs>
+    struct ratio_less : public std::bool_constant<(Lhs{} < Rhs{})> {
+    };
+
+    template<ratio_type Lhs, ratio_type Rhs>
+    struct ratio_less_equal : public std::bool_constant<Lhs{} <= Rhs{}> {
+    };
+
+    template<ratio_type Lhs, ratio_type Rhs>
+    struct ratio_greater : public std::bool_constant<(Lhs{} > Rhs{})> {
+    };
+
+    template<ratio_type Lhs, ratio_type Rhs>
+    struct ratio_greater_equal : public std::bool_constant<Lhs{} >= Rhs{}> {
+    };
+
+    //! @}
 
     /**
      * @brief Divide two ratio objects.
@@ -125,10 +205,39 @@ namespace posu {
     using zetta = ratio<1, 1, 21>;  //!< SI `zetta` ratio.
     using yotta = ratio<1, 1, 24>;  //!< SI `yotta` ratio.
 
+    /**
+     * @brief Convert from `std::ratio` to `posu::ratio`.
+     *
+     * @tparam Ratio The `std::ratio` type to convert from.
+     */
     template<typename Ratio>
-        requires(detail::std_ratio<Ratio>::value)
+        requires(detail::is_std_ratio<Ratio>::value)
     using make_ratio = ratio<Ratio::num, Ratio::den>;
 
+    /**
+     * @brief Compute a common ratio type between the two given ratio types.
+     *
+     * Both operand ratios are integer multiples of the resulting ratio.
+     *
+     * @tparam Lhs The left-hand-side operand.
+     * @tparam Rhs The right-hand-side operand.
+     */
+    template<ratio_type Lhs, ratio_type Rhs>
+    using common_ratio = decltype(detail::common(Lhs{}, Rhs{}));
+
 } // namespace posu
+
+template<
+    std::intmax_t LNum,
+    std::intmax_t LDen,
+    std::intmax_t LExp,
+    std::intmax_t RNum,
+    std::intmax_t RDen,
+    std::intmax_t RExp>
+struct std::common_type<posu::ratio<LNum, LDen, LExp>, posu::ratio<RNum, RDen, RExp>> {
+    using type = posu::common_ratio<posu::ratio<LNum, LDen, LExp>, posu::ratio<RNum, RDen, RExp>>;
+};
+
+#include "posu/ipp/ratio.ipp"
 
 #endif // #ifndef POSU_RATIO_HPP
