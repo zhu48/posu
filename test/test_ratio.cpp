@@ -11,6 +11,13 @@ CATCH_TEST_CASE("ratio operations")
         CATCH_CHECK(std::same_as<posu::ratio<100, 1, -1>, posu::denormalize<posu::deca, -1>>);
     }
 
+    CATCH_SECTION("common type")
+    {
+        CATCH_CHECK(std::same_as<
+                    posu::ratio<1, 42>,
+                    posu::common_ratio<posu::ratio<2, 3, 1>, posu::ratio<5, 7, -1>>>);
+    }
+
     CATCH_SECTION("addition")
     {
         CATCH_CHECK(

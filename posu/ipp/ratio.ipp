@@ -70,17 +70,27 @@ template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp, std::intmax_t 
 template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
 [[nodiscard]] constexpr auto posu::detail::normalize() noexcept
 {
-    using std_ratio = typename std::ratio<Num, Den>::type;
-    if constexpr(std_ratio::num == 0) {
+    constexpr auto s = std::ratio<Num, Den>{};
+    if constexpr(s.num == 0) {
         return ratio_info{0};
     }
-    else if constexpr(!(std_ratio::num % 10)) {
-        return normalize<std_ratio::num / 10, std_ratio::den, Exp + 1>();
+    else if constexpr(!(s.num % 10)) {
+        return normalize<s.num / 10, s.den, Exp + 1>();
     }
-    else if constexpr(!(std_ratio::den % 10)) {
-        return normalize<std_ratio::num, std_ratio::den / 10, Exp - 1>();
+    else if constexpr(!(s.den % 10)) {
+        return normalize<s.num, s.den / 10, Exp - 1>();
     }
     else {
-        return ratio_info{Num, Den, Exp};
+        return ratio_info{s.num, s.den, Exp};
     }
+}
+
+[[nodiscard]] constexpr auto posu::detail::common(ratio_type auto lhs, ratio_type auto rhs) noexcept
+{
+    constexpr auto c_exp = (lhs.exp + rhs.exp) / 2;
+
+    constexpr auto l = detail::denormalize<lhs.num, lhs.den, lhs.exp, c_exp>();
+    constexpr auto r = detail::denormalize<rhs.num, rhs.den, rhs.exp, c_exp>();
+
+    return posu::normalize<ratio<std::gcd(l.num, r.num), std::lcm(l.den, r.den), c_exp>>();
 }

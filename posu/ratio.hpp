@@ -41,6 +41,7 @@ namespace posu {
         [[nodiscard]] constexpr auto denormalize() noexcept;
         template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
         [[nodiscard]] constexpr auto normalize() noexcept;
+        [[nodiscard]] constexpr auto common(ratio_type auto lhs, ratio_type auto rhs) noexcept;
 
     } // namespace detail
 
@@ -170,22 +171,9 @@ namespace posu {
      *
      * @tparam Lhs The left-hand-side operand.
      * @tparam Rhs The right-hand-side operand.
-     *
-     * @{
      */
-
     template<ratio_type Lhs, ratio_type Rhs>
-    struct common_ratio_result {
-        using lhs = normalize<Lhs>;
-        using rhs = normalize<Rhs>;
-
-        using type = ratio<std::gcd(lhs::num, rhs::num), std::lcm(lhs::den, rhs::den)>;
-    };
-
-    template<ratio_type Lhs, ratio_type Rhs>
-    using common_ratio = typename common_ratio_result<Lhs, Rhs>::type;
-
-    //! @}
+    using common_ratio = decltype(detail::common(Lhs{}, Rhs{}));
 
 } // namespace posu
 
