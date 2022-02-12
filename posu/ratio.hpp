@@ -126,6 +126,36 @@ namespace posu {
         requires(detail::std_ratio<Ratio>::value)
     using make_ratio = ratio<Ratio::num, Ratio::den>;
 
+    /**
+     * @brief Minimize the exponent portion of the given ratio.
+     *
+     * @tparam Ratio The ratio to normalize.
+     *
+     * @{
+     */
+
+    template<ratio_type Ratio>
+    struct normalize_result {
+        using type = Ratio; //!< The normalized ratio type.
+    };
+
+    template<ratio_type Ratio>
+    using normalize = typename normalize_result<ratio_multiply<Ratio, ratio<1>>>::type;
+
+    template<ratio_type Ratio>
+        requires((Ratio::exp > 0) && (Ratio::den >= 10) && ((Ratio::den % 10) == 0))
+    struct normalize_result<Ratio> {
+        using type = normalize<ratio<Ratio::num, (Ratio::den / 10), (Ratio::exp - 1)>>;
+    };
+
+    template<ratio_type Ratio>
+        requires((Ratio::exp < 0) && (Ratio::num >= 10) && ((Ratio::num % 10) == 0))
+    struct normalize_result<Ratio> {
+        using type = normalize<ratio<(Ratio::num / 10), Ratio::den, (Ratio::exp + 1)>>;
+    };
+
+    //! @}
+
 } // namespace posu
 
 #endif // #ifndef POSU_RATIO_HPP
