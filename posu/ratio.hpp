@@ -71,10 +71,10 @@ namespace posu {
          *
          * @{
          */
-        [[nodiscard]] constexpr auto operator+(ratio_type auto rhs) noexcept;
-        [[nodiscard]] constexpr auto operator-(ratio_type auto rhs) noexcept;
-        [[nodiscard]] constexpr auto operator*(ratio_type auto rhs) noexcept;
-        [[nodiscard]] constexpr auto operator/(ratio_type auto rhs) noexcept;
+        [[nodiscard]] constexpr auto operator+(ratio_type auto rhs) const noexcept;
+        [[nodiscard]] constexpr auto operator-(ratio_type auto rhs) const noexcept;
+        [[nodiscard]] constexpr auto operator*(ratio_type auto rhs) const noexcept;
+        [[nodiscard]] constexpr auto operator/(ratio_type auto rhs) const noexcept;
         //! @}
 
         /**
