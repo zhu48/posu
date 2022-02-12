@@ -227,10 +227,15 @@ namespace posu {
 
 } // namespace posu
 
-template<typename Lhs, typename Rhs>
-    requires(posu::ratio_type<Lhs>&& posu::ratio_type<Rhs>)
-struct std::common_type<Lhs, Rhs> {
-    using type = posu::common_ratio<Lhs, Rhs>;
+template<
+    std::intmax_t LNum,
+    std::intmax_t LDen,
+    std::intmax_t LExp,
+    std::intmax_t RNum,
+    std::intmax_t RDen,
+    std::intmax_t RExp>
+struct std::common_type<posu::ratio<LNum, LDen, LExp>, posu::ratio<RNum, RDen, RExp>> {
+    using type = posu::common_ratio<posu::ratio<LNum, LDen, LExp>, posu::ratio<RNum, RDen, RExp>>;
 };
 
 #include "posu/ipp/ratio.ipp"
