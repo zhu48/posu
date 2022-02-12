@@ -36,6 +36,8 @@ namespace posu {
 
         template<std::intmax_t RNum, std::intmax_t RDenom, std::intmax_t RExp>
         [[nodiscard]] constexpr auto operator+(ratio<RNum, RDenom, RExp> rhs) noexcept;
+        template<std::intmax_t RNum, std::intmax_t RDenom, std::intmax_t RExp>
+        [[nodiscard]] constexpr auto operator-(ratio<RNum, RDenom, RExp> rhs) noexcept;
 
         template<std::intmax_t RNum, std::intmax_t RDenom, std::intmax_t RExp>
         [[nodiscard]] friend constexpr auto
@@ -122,6 +124,15 @@ namespace posu {
      */
     template<ratio_type Lhs, ratio_type Rhs>
     using ratio_add = decltype(Lhs{} + Rhs{});
+
+    /**
+     * @brief Subtract a ratio from another.
+     *
+     * @tparam Lhs The ratio to subtract from.
+     * @tparam Rhs The amount to subtract.
+     */
+    template<ratio_type Lhs, ratio_type Rhs>
+    using ratio_subtract = decltype(Lhs{} - Rhs{});
 
     /**
      * @brief Multiply two ratio objects.

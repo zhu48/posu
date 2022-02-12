@@ -13,6 +13,20 @@ posu::ratio<Num, Den, Exp>::operator+(ratio<RNum, RDenom, RExp> rhs) noexcept
     return normalize<ratio<s_std::num, s_std::den, s_exp>>{};
 }
 
+template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
+template<std::intmax_t RNum, std::intmax_t RDenom, std::intmax_t RExp>
+[[nodiscard]] constexpr auto
+posu::ratio<Num, Den, Exp>::operator-(ratio<RNum, RDenom, RExp> rhs) noexcept
+{
+    constexpr auto s_exp = (exp + rhs.exp) / 2;
+    using l_norm         = denormalize<ratio, s_exp>;
+    using r_norm         = denormalize<ratio<RNum, RDenom, RExp>, s_exp>;
+    using s_std          = std::
+        ratio_subtract<std::ratio<l_norm::num, l_norm::den>, std::ratio<r_norm::num, r_norm::den>>;
+
+    return normalize<ratio<s_std::num, s_std::den, s_exp>>{};
+}
+
 template<posu::ratio_type Ratio, std::intmax_t NewExp>
 [[nodiscard]] constexpr auto posu::detail::denormalize() noexcept
 {

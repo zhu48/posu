@@ -20,6 +20,12 @@ CATCH_TEST_CASE("ratio operations")
                     posu::ratio_add<posu::ratio<1, 1, 1>, posu::ratio<1, 1, -1>>>);
     }
 
+    CATCH_SECTION("subtraction")
+    {
+        CATCH_CHECK(
+            std::same_as<posu::ratio<99, 1, -1>, posu::ratio_subtract<posu::deca, posu::deci>>);
+    }
+
     CATCH_SECTION("multiplication")
     {
         CATCH_CHECK(std::same_as<posu::ratio<1>, posu::ratio_multiply<posu::yocto, posu::yotta>>);
