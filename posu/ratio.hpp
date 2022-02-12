@@ -1,6 +1,7 @@
 #ifndef POSU_RATIO_HPP
 #define POSU_RATIO_HPP
 
+#include <numeric>
 #include <ratio>
 
 namespace posu {
@@ -153,6 +154,30 @@ namespace posu {
     struct normalize_result<Ratio> {
         using type = normalize<ratio<(Ratio::num / 10), Ratio::den, (Ratio::exp + 1)>>;
     };
+
+    //! @}
+
+    /**
+     * @brief Compute a common ratio type between the two given ratio types.
+     *
+     * Both operand ratios are integer multiples of the resulting ratio.
+     *
+     * @tparam Lhs The left-hand-side operand.
+     * @tparam Rhs The right-hand-side operand.
+     *
+     * @{
+     */
+
+    template<ratio_type Lhs, ratio_type Rhs>
+    struct common_ratio_result {
+        using lhs = normalize<Lhs>;
+        using rhs = normalize<Rhs>;
+
+        using type = ratio<std::gcd(lhs::num, rhs::num), std::lcm(lhs::den, rhs::den)>;
+    };
+
+    template<ratio_type Lhs, ratio_type Rhs>
+    using common_ratio = typename common_ratio_result<Lhs, Rhs>::type;
 
     //! @}
 
