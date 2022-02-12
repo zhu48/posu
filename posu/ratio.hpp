@@ -69,6 +69,14 @@ namespace posu {
         struct is_ratio<ratio<Num, Denom, Exp>> : public std::true_type {
         };
 
+        template<typename T>
+        struct is_std_ratio : public std::false_type {
+        };
+
+        template<std::intmax_t Num, std::intmax_t Den>
+        struct is_std_ratio<std::ratio<Num, Den>> : public std::true_type {
+        };
+
     } // namespace detail
 
     /**
@@ -124,7 +132,7 @@ namespace posu {
      * @tparam Ratio The `std::ratio` type to convert from.
      */
     template<typename Ratio>
-        requires(detail::std_ratio<Ratio>::value)
+        requires(detail::is_std_ratio<Ratio>::value)
     using make_ratio = ratio<Ratio::num, Ratio::den>;
 
     /**
@@ -182,5 +190,10 @@ namespace posu {
     //! @}
 
 } // namespace posu
+
+template<posu::ratio_type Lhs, posu::ratio_type Rhs>
+struct std::common_type<Lhs, Rhs> {
+    using type = posu::common_ratio<Lhs, Rhs>;
+};
 
 #endif // #ifndef POSU_RATIO_HPP
