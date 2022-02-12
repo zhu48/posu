@@ -96,7 +96,11 @@ template<typename RRep, typename RPeriod, posu::units::unit_of<posu::units::kind
 [[nodiscard]] constexpr auto posu::units::quantity<Rep, Period, Unit>::operator<=>(
     const quantity<RRep, RPeriod, RUnit>& rhs) const noexcept
 {
-    return detail::to_duration(*this) <=> detail::to_duration(rhs);
+    using common_type = std::
+        common_type_t<decltype(detail::to_duration(*this)), decltype(detail::to_duration(rhs))>;
+
+    return common_type{detail::to_duration(*this)}.count() <=>
+           common_type{detail::to_duration(rhs)}.count();
 }
 
 template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
