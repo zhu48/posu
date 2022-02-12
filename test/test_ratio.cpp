@@ -2,7 +2,6 @@
 
 #define CATCH_CONFIG_PREFIX_ALL
 
-#define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
 
 CATCH_TEST_CASE("ratio operations")
