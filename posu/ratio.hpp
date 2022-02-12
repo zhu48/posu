@@ -76,6 +76,21 @@ namespace posu {
         [[nodiscard]] constexpr auto operator*(ratio_type auto rhs) noexcept;
         [[nodiscard]] constexpr auto operator/(ratio_type auto rhs) noexcept;
         //! @}
+
+        /**
+         * @name Comparison Operators
+         *
+         * @brief Compare the value of this ratio against another ratio.
+         *
+         * @param rhs The ratio to compare against.
+         *
+         * @return Returns the comparison result.
+         *
+         * @{
+         */
+        [[nodiscard]] constexpr bool operator==(ratio_type auto rhs) const noexcept;
+        [[nodiscard]] constexpr auto operator<=>(ratio_type auto rhs) const noexcept;
+        //! @}
     };
 
     /**
@@ -124,6 +139,41 @@ namespace posu {
      */
     template<ratio_type Lhs, ratio_type Rhs>
     using ratio_multiply = decltype(Lhs{} * Rhs{});
+
+    /**
+     * @brief Ratio comparison.
+     *
+     * @tparam Lhs The left-hand-side operand.
+     * @tparam Rhs The right-hand-side operand.
+     *
+     * @{
+     */
+
+    template<ratio_type Lhs, ratio_type Rhs>
+    struct ratio_equal : public std::bool_constant<Lhs{} == Rhs{}> {
+    };
+
+    template<ratio_type Lhs, ratio_type Rhs>
+    struct ratio_not_equal : public std::bool_constant<Lhs{} != Rhs{}> {
+    };
+
+    template<ratio_type Lhs, ratio_type Rhs>
+    struct ratio_less : public std::bool_constant<(Lhs{} < Rhs{})> {
+    };
+
+    template<ratio_type Lhs, ratio_type Rhs>
+    struct ratio_less_equal : public std::bool_constant<Lhs{} <= Rhs{}> {
+    };
+
+    template<ratio_type Lhs, ratio_type Rhs>
+    struct ratio_greater : public std::bool_constant<(Lhs{} > Rhs{})> {
+    };
+
+    template<ratio_type Lhs, ratio_type Rhs>
+    struct ratio_greater_equal : public std::bool_constant<Lhs{} >= Rhs{}> {
+    };
+
+    //! @}
 
     /**
      * @brief Divide two ratio objects.

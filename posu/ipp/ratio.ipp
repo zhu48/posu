@@ -53,6 +53,25 @@ template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
     return normalize<ratio<prod::num, prod::den, exp - rhs.exp>>{};
 }
 
+template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
+[[nodiscard]] constexpr bool
+posu::ratio<Num, Den, Exp>::operator==(ratio_type auto rhs) const noexcept
+{
+    return (num == rhs.num) && (den == rhs.den) && (exp == rhs.exp);
+}
+
+template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
+[[nodiscard]] constexpr auto
+posu::ratio<Num, Den, Exp>::operator<=>(ratio_type auto rhs) const noexcept
+{
+    constexpr auto s_exp = (exp + rhs.exp) / 2;
+
+    constexpr auto l = detail::denormalize<num, den, exp, s_exp>();
+    constexpr auto r = detail::denormalize<rhs.num, rhs.den, rhs.exp, s_exp>();
+
+    return (l.num * r.den) <=> (r.num * l.den);
+}
+
 template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp, std::intmax_t NewExp>
 [[nodiscard]] constexpr auto posu::detail::denormalize() noexcept
 {

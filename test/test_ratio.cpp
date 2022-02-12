@@ -53,4 +53,16 @@ CATCH_TEST_CASE("ratio operations")
         CATCH_CHECK(
             std::same_as<posu::ratio<1>, posu::ratio_multiply<posu::ratio<1>, posu::ratio<1>>>);
     }
+
+    CATCH_SECTION("comparison")
+    {
+        CATCH_CHECK(posu::ratio_equal<posu::deca, posu::ratio<100, 10>>{});
+        CATCH_CHECK(posu::ratio_not_equal<posu::deca, posu::deci>{});
+        CATCH_CHECK(posu::ratio_less<posu::deci, posu::deca>{});
+        CATCH_CHECK(posu::ratio_less_equal<posu::deci, posu::deca>{});
+        CATCH_CHECK(posu::ratio_less_equal<posu::deci, posu::deci>{});
+        CATCH_CHECK(posu::ratio_greater<posu::deca, posu::deci>{});
+        CATCH_CHECK(posu::ratio_greater_equal<posu::deca, posu::deci>{});
+        CATCH_CHECK(posu::ratio_greater_equal<posu::deca, posu::deca>{});
+    }
 }
