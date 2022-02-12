@@ -75,11 +75,12 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftemplate-backtrace-limit=0")
     else()
         string(
-            REGEX_REPLACE
-                " -ftemplate-backtrace-limit=0"
-                " "
-            CMAKE_CXX_FLAGS
-            ${CMAKE_CXX_FLAGS}
+            REGEX
+                REPLACE
+                    " -ftemplate-backtrace-limit=0"
+                    " "
+                CMAKE_CXX_FLAGS
+                "${CMAKE_CXX_FLAGS}"
         )
     endif()
 else()
