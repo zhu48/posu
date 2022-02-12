@@ -1,6 +1,5 @@
 #include "posu/concepts.hpp"
 
-#define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
 
 TEMPLATE_TEST_CASE(
