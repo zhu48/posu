@@ -1,12 +1,11 @@
 
 template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
-template<std::intmax_t RNum, std::intmax_t RDenom, std::intmax_t RExp>
 [[nodiscard]] constexpr auto
-posu::ratio<Num, Den, Exp>::operator+(ratio<RNum, RDenom, RExp> rhs) noexcept
+posu::ratio<Num, Den, Exp>::operator+(posu::ratio_type auto rhs) noexcept
 {
     constexpr auto s_exp = (exp + rhs.exp) / 2;
     using l_norm         = denormalize<ratio, s_exp>;
-    using r_norm         = denormalize<ratio<RNum, RDenom, RExp>, s_exp>;
+    using r_norm         = denormalize<decltype(rhs), s_exp>;
     using s_std =
         std::ratio_add<std::ratio<l_norm::num, l_norm::den>, std::ratio<r_norm::num, r_norm::den>>;
 
@@ -14,17 +13,38 @@ posu::ratio<Num, Den, Exp>::operator+(ratio<RNum, RDenom, RExp> rhs) noexcept
 }
 
 template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
-template<std::intmax_t RNum, std::intmax_t RDenom, std::intmax_t RExp>
 [[nodiscard]] constexpr auto
-posu::ratio<Num, Den, Exp>::operator-(ratio<RNum, RDenom, RExp> rhs) noexcept
+posu::ratio<Num, Den, Exp>::operator-(posu::ratio_type auto rhs) noexcept
 {
     constexpr auto s_exp = (exp + rhs.exp) / 2;
     using l_norm         = denormalize<ratio, s_exp>;
-    using r_norm         = denormalize<ratio<RNum, RDenom, RExp>, s_exp>;
+    using r_norm         = denormalize<decltype(rhs), s_exp>;
     using s_std          = std::
         ratio_subtract<std::ratio<l_norm::num, l_norm::den>, std::ratio<r_norm::num, r_norm::den>>;
 
     return normalize<ratio<s_std::num, s_std::den, s_exp>>{};
+}
+
+template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
+[[nodiscard]] constexpr auto
+posu::ratio<Num, Den, Exp>::operator*(posu::ratio_type auto rhs) noexcept
+{
+    using std_l = std::ratio<num, den>;
+    using std_r = std::ratio<rhs.num, rhs.den>;
+    using prod  = std::ratio_multiply<std_l, std_r>;
+
+    return normalize<ratio<prod::num, prod::den, exp + rhs.exp>>{};
+}
+
+template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
+[[nodiscard]] constexpr auto
+posu::ratio<Num, Den, Exp>::operator/(posu::ratio_type auto rhs) noexcept
+{
+    using std_l = std::ratio<num, den>;
+    using std_r = std::ratio<rhs.num, rhs.den>;
+    using prod  = std::ratio_divide<std_l, std_r>;
+
+    return normalize<ratio<prod::num, prod::den, exp - rhs.exp>>{};
 }
 
 template<posu::ratio_type Ratio, std::intmax_t NewExp>
@@ -44,7 +64,10 @@ template<posu::ratio_type Ratio, std::intmax_t NewExp>
 template<posu::ratio_type Ratio>
 [[nodiscard]] constexpr auto posu::detail::normalize() noexcept
 {
-    using reduced = ratio_multiply<Ratio, ratio<1>>;
+    using std_ratio   = std::ratio<Ratio::num, Ratio::den>;
+    using std_reduced = std::ratio_multiply<std_ratio, std::ratio<1>>;
+
+    using reduced = ratio<std_reduced::num, std_reduced::den, Ratio::exp>;
     if constexpr(!(reduced::num % 10)) {
         return normalize<ratio<reduced::num / 10, reduced::den, reduced::exp + 1>>();
     }

@@ -14,55 +14,7 @@ namespace posu {
      * @tparam Exp   Ratio base-10 exponent.
      */
     template<std::intmax_t Num, std::intmax_t Denom = 1, std::intmax_t Exp = 0>
-    struct ratio {
-        static constexpr auto num = std::ratio<Num, Denom>::num; //!< Numerator.
-        static constexpr auto den = std::ratio<Num, Denom>::den; //!< Denominator.
-        static constexpr auto exp = Exp;                         //!< Base-10 exponent.
-
-        using type = ratio<num, den, exp>; //!< Reduced type.
-
-        /**
-         * @name Arithmetic Operators
-         *
-         * @brief Ratio arithmetic operations.
-         *
-         * @param lhs The left-hand-side argument.
-         * @param rhs The right-hand-side argument.
-         *
-         * @return Returns the operation result.
-         *
-         * @{
-         */
-
-        template<std::intmax_t RNum, std::intmax_t RDenom, std::intmax_t RExp>
-        [[nodiscard]] constexpr auto operator+(ratio<RNum, RDenom, RExp> rhs) noexcept;
-        template<std::intmax_t RNum, std::intmax_t RDenom, std::intmax_t RExp>
-        [[nodiscard]] constexpr auto operator-(ratio<RNum, RDenom, RExp> rhs) noexcept;
-
-        template<std::intmax_t RNum, std::intmax_t RDenom, std::intmax_t RExp>
-        [[nodiscard]] friend constexpr auto
-        operator*(ratio lhs, ratio<RNum, RDenom, RExp> rhs) noexcept
-        {
-            using std_l = std::ratio<lhs.num, lhs.den>;
-            using std_r = std::ratio<rhs.num, rhs.den>;
-            using prod  = std::ratio_multiply<std_l, std_r>;
-
-            return ratio<prod::num, prod::den, Exp + RExp>{};
-        }
-
-        template<std::intmax_t RNum, std::intmax_t RDenom, std::intmax_t RExp>
-        [[nodiscard]] friend constexpr auto
-        operator/(ratio lhs, ratio<RNum, RDenom, RExp> rhs) noexcept
-        {
-            using std_l = std::ratio<lhs.num, lhs.den>;
-            using std_r = std::ratio<rhs.num, rhs.den>;
-            using prod  = std::ratio_divide<std_l, std_r>;
-
-            return ratio<prod::num, prod::den, Exp - RExp>{};
-        }
-
-        //! @}
-    };
+    struct ratio;
 
     namespace detail {
 
@@ -98,6 +50,32 @@ namespace posu {
      * @tparam T The type to check as a specialization of `posu::ratio`.
      */
     using detail::ratio_type;
+
+    template<std::intmax_t Num, std::intmax_t Denom, std::intmax_t Exp>
+    struct ratio {
+        static constexpr auto num = std::ratio<Num, Denom>::num; //!< Numerator.
+        static constexpr auto den = std::ratio<Num, Denom>::den; //!< Denominator.
+        static constexpr auto exp = Exp;                         //!< Base-10 exponent.
+
+        using type = ratio<num, den, exp>; //!< Reduced type.
+
+        /**
+         * @name Arithmetic Operators
+         *
+         * @brief Ratio arithmetic operations.
+         *
+         * @param rhs The right-hand-side argument.
+         *
+         * @return Returns the operation result.
+         *
+         * @{
+         */
+        [[nodiscard]] constexpr auto operator+(ratio_type auto rhs) noexcept;
+        [[nodiscard]] constexpr auto operator-(ratio_type auto rhs) noexcept;
+        [[nodiscard]] constexpr auto operator*(ratio_type auto rhs) noexcept;
+        [[nodiscard]] constexpr auto operator/(ratio_type auto rhs) noexcept;
+        //! @}
+    };
 
     /**
      * @brief Adjust the ratio's representation to maximally reduce its mantissa fraction.
