@@ -10,8 +10,7 @@ namespace posu::detail {
 } // namespace posu::detail
 
 template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
-[[nodiscard]] constexpr auto
-posu::ratio<Num, Den, Exp>::operator+(posu::ratio_type auto rhs) noexcept
+[[nodiscard]] constexpr auto posu::ratio<Num, Den, Exp>::operator+(ratio_type auto rhs) noexcept
 {
     constexpr auto s_exp = (exp + rhs.exp) / 2;
 
@@ -23,8 +22,7 @@ posu::ratio<Num, Den, Exp>::operator+(posu::ratio_type auto rhs) noexcept
 }
 
 template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
-[[nodiscard]] constexpr auto
-posu::ratio<Num, Den, Exp>::operator-(posu::ratio_type auto rhs) noexcept
+[[nodiscard]] constexpr auto posu::ratio<Num, Den, Exp>::operator-(ratio_type auto rhs) noexcept
 {
     constexpr auto s_exp = (exp + rhs.exp) / 2;
 
@@ -36,8 +34,7 @@ posu::ratio<Num, Den, Exp>::operator-(posu::ratio_type auto rhs) noexcept
 }
 
 template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
-[[nodiscard]] constexpr auto
-posu::ratio<Num, Den, Exp>::operator*(posu::ratio_type auto rhs) noexcept
+[[nodiscard]] constexpr auto posu::ratio<Num, Den, Exp>::operator*(ratio_type auto rhs) noexcept
 {
     using std_l = std::ratio<num, den>;
     using std_r = std::ratio<rhs.num, rhs.den>;
@@ -47,8 +44,7 @@ posu::ratio<Num, Den, Exp>::operator*(posu::ratio_type auto rhs) noexcept
 }
 
 template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
-[[nodiscard]] constexpr auto
-posu::ratio<Num, Den, Exp>::operator/(posu::ratio_type auto rhs) noexcept
+[[nodiscard]] constexpr auto posu::ratio<Num, Den, Exp>::operator/(ratio_type auto rhs) noexcept
 {
     using std_l = std::ratio<num, den>;
     using std_r = std::ratio<rhs.num, rhs.den>;
