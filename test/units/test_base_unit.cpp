@@ -9,7 +9,7 @@ namespace {
         using value_type = std::string_view;
         using dimensions = type;
         using kind_type  = type;
-        using period     = std::ratio<1>;
+        using period     = posu::ratio<1>;
 
         static constexpr auto value = std::string_view{"amount of ingredients"};
 
@@ -22,7 +22,7 @@ namespace {
         using value_type = std::string_view;
         using dimensions = type;
         using kind_type  = type;
-        using period     = std::ratio<1>;
+        using period     = posu::ratio<1>;
 
         static constexpr auto value = std::string_view{"distance traveled"};
 
@@ -58,17 +58,17 @@ namespace {
 
     template<typename Rep, typename Period>
     using ingredients = posu::units::quantity<Rep, Period, amount_of_ingredients>;
-    using drop        = ingredients<int, std::milli>;
-    using dash        = ingredients<int, std::deci>;
-    using pinch       = ingredients<int, std::ratio<1>>;
-    using dollop      = ingredients<int, std::kilo>;
+    using drop        = ingredients<int, posu::milli>;
+    using dash        = ingredients<int, posu::deci>;
+    using pinch       = ingredients<int, posu::ratio<1>>;
+    using dollop      = ingredients<int, posu::kilo>;
 
     template<typename Rep, typename Period>
     using distance = posu::units::quantity<Rep, Period, distance_traveled>;
-    using skip     = distance<int, std::milli>;
-    using hop      = distance<int, std::deci>;
-    using stretch  = distance<int, std::ratio<1>>;
-    using trek     = distance<int, std::kilo>;
+    using skip     = distance<int, posu::milli>;
+    using hop      = distance<int, posu::deci>;
+    using stretch  = distance<int, posu::ratio<1>>;
+    using trek     = distance<int, posu::kilo>;
 
 } // namespace
 
@@ -78,16 +78,16 @@ TEMPLATE_TEST_CASE(
     (std::tuple<
         dollop,
         pinch,
-        ingredients<int, std::ratio<1, 3>>,
-        ingredients<int, std::ratio<1, 5>>,
-        ingredients<double, std::ratio<1>>,
+        ingredients<int, posu::ratio<1, 3>>,
+        ingredients<int, posu::ratio<1, 5>>,
+        ingredients<double, posu::ratio<1>>,
         stretch>),
     (std::tuple<
         trek,
         stretch,
-        distance<int, std::ratio<1, 3>>,
-        distance<int, std::ratio<1, 5>>,
-        distance<double, std::ratio<1>>,
+        distance<int, posu::ratio<1, 3>>,
+        distance<int, posu::ratio<1, 5>>,
+        distance<double, posu::ratio<1>>,
         pinch>))
 {
     using kilo_type      = std::tuple_element_t<0, TestType>;

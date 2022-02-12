@@ -44,7 +44,8 @@ template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 template<typename Rep2, typename Period2, posu::units::unit_comparable_with<Unit> Unit2>
     requires(
         std::chrono::treat_as_floating_point_v<Rep> ||
-        ((std::ratio_divide<Period2, Period>::den == 1) &&
+        ((posu::ratio_divide<Period2, Period>::den == 1) &&
+         (posu::ratio_divide<Period2, Period>::exp >= 0) &&
          !std::chrono::treat_as_floating_point_v<Rep2>))
 constexpr posu::units::quantity<Rep, Period, Unit>::quantity(
     const quantity<Rep2, Period2, Unit2>& d)
@@ -208,9 +209,9 @@ posu::units::of(const quantity_comparable_with<Category> auto& quant) noexcept
     using from_period = period_t<from_type>;
 
     if constexpr(unit<Category>) {
-        using period = std::ratio_multiply<
+        using period = ratio_multiply<
             from_period,
-            std::ratio_divide<period_t<unit_t<from_type>>, period_t<Category>>>;
+            ratio_divide<period_t<unit_t<from_type>>, period_t<Category>>>;
 
         return quantity_cast<quantity<rep, period, Category>>(quant);
     }

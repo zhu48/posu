@@ -7,9 +7,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::power_literals::operator""_aW(long double value)
-        -> basic_watt<double, std::atto>
+        -> basic_watt<double, atto>
 {
-    return basic_watt<double, std::atto>(value);
+    return basic_watt<double, atto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -20,9 +20,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::power_literals::operator""_fW(long double value)
-        -> basic_watt<double, std::femto>
+        -> basic_watt<double, femto>
 {
-    return basic_watt<double, std::femto>(value);
+    return basic_watt<double, femto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -33,9 +33,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::power_literals::operator""_pW(long double value)
-        -> basic_watt<double, std::pico>
+        -> basic_watt<double, pico>
 {
-    return basic_watt<double, std::pico>(value);
+    return basic_watt<double, pico>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -46,9 +46,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::power_literals::operator""_nW(long double value)
-        -> basic_watt<double, std::nano>
+        -> basic_watt<double, nano>
 {
-    return basic_watt<double, std::nano>(value);
+    return basic_watt<double, nano>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -59,9 +59,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::power_literals::operator""_uW(long double value)
-        -> basic_watt<double, std::micro>
+        -> basic_watt<double, micro>
 {
-    return basic_watt<double, std::micro>(value);
+    return basic_watt<double, micro>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -72,9 +72,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::power_literals::operator""_mW(long double value)
-        -> basic_watt<double, std::milli>
+        -> basic_watt<double, milli>
 {
-    return basic_watt<double, std::milli>(value);
+    return basic_watt<double, milli>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -85,9 +85,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::power_literals::operator""_cW(long double value)
-        -> basic_watt<double, std::centi>
+        -> basic_watt<double, centi>
 {
-    return basic_watt<double, std::centi>(value);
+    return basic_watt<double, centi>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -98,9 +98,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::power_literals::operator""_dW(long double value)
-        -> basic_watt<double, std::deci>
+        -> basic_watt<double, deci>
 {
-    return basic_watt<double, std::deci>(value);
+    return basic_watt<double, deci>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -111,9 +111,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::power_literals::operator""_W(long double value)
-        -> basic_watt<double, std::ratio<1>>
+        -> basic_watt<double, ratio<1>>
 {
-    return basic_watt<double, std::ratio<1>>(value);
+    return basic_watt<double, ratio<1>>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -124,9 +124,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::power_literals::operator""_daW(long double value)
-        -> basic_watt<double, std::deca>
+        -> basic_watt<double, deca>
 {
-    return basic_watt<double, std::deca>(value);
+    return basic_watt<double, deca>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -137,9 +137,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::power_literals::operator""_hW(long double value)
-        -> basic_watt<double, std::hecto>
+        -> basic_watt<double, hecto>
 {
-    return basic_watt<double, std::hecto>(value);
+    return basic_watt<double, hecto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -150,9 +150,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::power_literals::operator""_kW(long double value)
-        -> basic_watt<double, std::kilo>
+        -> basic_watt<double, kilo>
 {
-    return basic_watt<double, std::kilo>(value);
+    return basic_watt<double, kilo>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -163,9 +163,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::power_literals::operator""_MW(long double value)
-        -> basic_watt<double, std::mega>
+        -> basic_watt<double, mega>
 {
-    return basic_watt<double, std::mega>(value);
+    return basic_watt<double, mega>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -176,9 +176,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::power_literals::operator""_GW(long double value)
-        -> basic_watt<double, std::giga>
+        -> basic_watt<double, giga>
 {
-    return basic_watt<double, std::giga>(value);
+    return basic_watt<double, giga>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -189,9 +189,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::power_literals::operator""_TW(long double value)
-        -> basic_watt<double, std::tera>
+        -> basic_watt<double, tera>
 {
-    return basic_watt<double, std::tera>(value);
+    return basic_watt<double, tera>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -202,9 +202,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::power_literals::operator""_PW(long double value)
-        -> basic_watt<double, std::peta>
+        -> basic_watt<double, peta>
 {
-    return basic_watt<double, std::peta>(value);
+    return basic_watt<double, peta>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -215,7 +215,7 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::power_literals::operator""_EW(long double value)
-        -> basic_watt<double, std::exa>
+        -> basic_watt<double, exa>
 {
-    return basic_watt<double, std::exa>(value);
+    return basic_watt<double, exa>(value);
 }

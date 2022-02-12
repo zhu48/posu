@@ -146,7 +146,8 @@ namespace posu::units {
         template<typename Rep2, typename Period2, unit_comparable_with<unit_type> Unit2>
             requires(
                 std::chrono::treat_as_floating_point_v<Rep> ||
-                ((std::ratio_divide<Period2, Period>::den == 1) &&
+                ((ratio_divide<Period2, Period>::den == 1) &&
+                 (ratio_divide<Period2, Period>::exp >= 0) &&
                  !std::chrono::treat_as_floating_point_v<Rep2>))
         explicit(!std::same_as<unit_type, Unit2>) constexpr quantity(
             const quantity<Rep2, Period2, Unit2>& d);
@@ -282,8 +283,7 @@ namespace posu::units {
         {
             using rep = decltype(lhs.m_duration / detail::to_duration(rhs));
 
-            return quantity<rep, std::ratio<1>, scaler<>>(
-                lhs.m_duration / detail::to_duration(rhs));
+            return quantity<rep, ratio<1>, scaler<>>(lhs.m_duration / detail::to_duration(rhs));
         }
 
         [[nodiscard]] friend constexpr auto
@@ -316,7 +316,7 @@ namespace posu::units {
         [[nodiscard]] friend constexpr bool operator==(const quantity& lhs, const Rep& rhs) noexcept
             requires quantity_of<quantity, scaler<>>
         {
-            return quantity_cast<quantity<Rep, std::ratio<1>, unit_type>>(lhs).count() == rhs;
+            return quantity_cast<quantity<Rep, ratio<1>, unit_type>>(lhs).count() == rhs;
         }
 
         [[nodiscard]] friend constexpr auto operator<=>(
@@ -376,12 +376,19 @@ template<typename LRep, typename LPeriod, typename RRep, typename RPeriod, typen
 struct std::common_type<
     posu::units::quantity<LRep, LPeriod, Unit>,
     posu::units::quantity<RRep, RPeriod, Unit>> {
+    using l_std_period      = std::ratio<LPeriod::num, LPeriod::den>;
+    using r_std_period      = std::ratio<RPeriod::num, RPeriod::den>;
+    using common_std_period = posu::units::period_t<std::common_type_t<
+        std::chrono::duration<LRep, l_std_period>,
+        std::chrono::duration<RRep, r_std_period>>>;
+
     //! The common quantity type.
     using type = posu::units::quantity<
         std::common_type_t<LRep, RRep>,
-        typename std::common_type_t<
-            std::chrono::duration<LRep, LPeriod>,
-            std::chrono::duration<RRep, RPeriod>>::period,
+        posu::ratio<
+            common_std_period::num,
+            common_std_period::den,
+            std::min(LPeriod::exp, RPeriod::exp)>,
         Unit>;
 };
 

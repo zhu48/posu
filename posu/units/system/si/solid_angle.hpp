@@ -12,7 +12,7 @@ namespace posu::units::si {
     struct solid_angle : public posu::units::solid_angle {
         using type      = solid_angle;
         using kind_type = posu::units::solid_angle;
-        using period    = std::ratio<1>;
+        using period    = ratio<1>;
     };
 
 } // namespace posu::units::si
@@ -39,23 +39,23 @@ namespace posu::units::si {
     template<typename Rep, typename Period>
     using basic_steradian = quantity<Rep, Period, solid_angle>;
 
-    using attosteradians  = basic_steradian<int, std::atto>;
-    using femtosteradians = basic_steradian<int, std::femto>;
-    using picosteradians  = basic_steradian<int, std::pico>;
-    using nanosteradians  = basic_steradian<int, std::nano>;
-    using microsteradians = basic_steradian<int, std::micro>;
-    using millisteradians = basic_steradian<int, std::milli>;
-    using centisteradians = basic_steradian<int, std::centi>;
-    using decisteradians  = basic_steradian<int, std::deci>;
-    using steradians      = basic_steradian<int, std::ratio<1>>;
-    using decasteradians  = basic_steradian<int, std::deca>;
-    using hectosteradians = basic_steradian<int, std::hecto>;
-    using kilosteradians  = basic_steradian<int, std::kilo>;
-    using megasteradians  = basic_steradian<int, std::mega>;
-    using gigasteradians  = basic_steradian<int, std::giga>;
-    using terasteradians  = basic_steradian<int, std::tera>;
-    using petasteradians  = basic_steradian<int, std::peta>;
-    using exasteradians   = basic_steradian<int, std::exa>;
+    using attosteradians  = basic_steradian<int, atto>;
+    using femtosteradians = basic_steradian<int, femto>;
+    using picosteradians  = basic_steradian<int, pico>;
+    using nanosteradians  = basic_steradian<int, nano>;
+    using microsteradians = basic_steradian<int, micro>;
+    using millisteradians = basic_steradian<int, milli>;
+    using centisteradians = basic_steradian<int, centi>;
+    using decisteradians  = basic_steradian<int, deci>;
+    using steradians      = basic_steradian<int, ratio<1>>;
+    using decasteradians  = basic_steradian<int, deca>;
+    using hectosteradians = basic_steradian<int, hecto>;
+    using kilosteradians  = basic_steradian<int, kilo>;
+    using megasteradians  = basic_steradian<int, mega>;
+    using gigasteradians  = basic_steradian<int, giga>;
+    using terasteradians  = basic_steradian<int, tera>;
+    using petasteradians  = basic_steradian<int, peta>;
+    using exasteradians   = basic_steradian<int, exa>;
 
     inline namespace literals {
 
@@ -63,61 +63,61 @@ namespace posu::units::si {
 
             [[nodiscard]] constexpr auto operator""_asr(unsigned long long value) -> attosteradians;
             [[nodiscard]] constexpr auto operator""_asr(long double value)
-                -> basic_steradian<double, std::atto>;
+                -> basic_steradian<double, atto>;
             [[nodiscard]] constexpr auto operator""_fsr(unsigned long long value)
                 -> femtosteradians;
             [[nodiscard]] constexpr auto operator""_fsr(long double value)
-                -> basic_steradian<double, std::femto>;
+                -> basic_steradian<double, femto>;
             [[nodiscard]] constexpr auto operator""_psr(unsigned long long value) -> picosteradians;
             [[nodiscard]] constexpr auto operator""_psr(long double value)
-                -> basic_steradian<double, std::pico>;
+                -> basic_steradian<double, pico>;
             [[nodiscard]] constexpr auto operator""_nsr(unsigned long long value) -> nanosteradians;
             [[nodiscard]] constexpr auto operator""_nsr(long double value)
-                -> basic_steradian<double, std::nano>;
+                -> basic_steradian<double, nano>;
             [[nodiscard]] constexpr auto operator""_usr(unsigned long long value)
                 -> microsteradians;
             [[nodiscard]] constexpr auto operator""_usr(long double value)
-                -> basic_steradian<double, std::micro>;
+                -> basic_steradian<double, micro>;
             [[nodiscard]] constexpr auto operator""_msr(unsigned long long value)
                 -> millisteradians;
             [[nodiscard]] constexpr auto operator""_msr(long double value)
-                -> basic_steradian<double, std::milli>;
+                -> basic_steradian<double, milli>;
             [[nodiscard]] constexpr auto operator""_csr(unsigned long long value)
                 -> centisteradians;
             [[nodiscard]] constexpr auto operator""_csr(long double value)
-                -> basic_steradian<double, std::centi>;
+                -> basic_steradian<double, centi>;
             [[nodiscard]] constexpr auto operator""_dsr(unsigned long long value) -> decisteradians;
             [[nodiscard]] constexpr auto operator""_dsr(long double value)
-                -> basic_steradian<double, std::deci>;
+                -> basic_steradian<double, deci>;
             [[nodiscard]] constexpr auto operator""_sr(unsigned long long value) -> steradians;
             [[nodiscard]] constexpr auto operator""_sr(long double value)
-                -> basic_steradian<double, std::ratio<1>>;
+                -> basic_steradian<double, ratio<1>>;
             [[nodiscard]] constexpr auto operator""_dasr(unsigned long long value)
                 -> decasteradians;
             [[nodiscard]] constexpr auto operator""_dasr(long double value)
-                -> basic_steradian<double, std::deca>;
+                -> basic_steradian<double, deca>;
             [[nodiscard]] constexpr auto operator""_hsr(unsigned long long value)
                 -> hectosteradians;
             [[nodiscard]] constexpr auto operator""_hsr(long double value)
-                -> basic_steradian<double, std::hecto>;
+                -> basic_steradian<double, hecto>;
             [[nodiscard]] constexpr auto operator""_ksr(unsigned long long value) -> kilosteradians;
             [[nodiscard]] constexpr auto operator""_ksr(long double value)
-                -> basic_steradian<double, std::kilo>;
+                -> basic_steradian<double, kilo>;
             [[nodiscard]] constexpr auto operator""_Msr(unsigned long long value) -> megasteradians;
             [[nodiscard]] constexpr auto operator""_Msr(long double value)
-                -> basic_steradian<double, std::mega>;
+                -> basic_steradian<double, mega>;
             [[nodiscard]] constexpr auto operator""_Gsr(unsigned long long value) -> gigasteradians;
             [[nodiscard]] constexpr auto operator""_Gsr(long double value)
-                -> basic_steradian<double, std::giga>;
+                -> basic_steradian<double, giga>;
             [[nodiscard]] constexpr auto operator""_Tsr(unsigned long long value) -> terasteradians;
             [[nodiscard]] constexpr auto operator""_Tsr(long double value)
-                -> basic_steradian<double, std::tera>;
+                -> basic_steradian<double, tera>;
             [[nodiscard]] constexpr auto operator""_Psr(unsigned long long value) -> petasteradians;
             [[nodiscard]] constexpr auto operator""_Psr(long double value)
-                -> basic_steradian<double, std::peta>;
+                -> basic_steradian<double, peta>;
             [[nodiscard]] constexpr auto operator""_Esr(unsigned long long value) -> exasteradians;
             [[nodiscard]] constexpr auto operator""_Esr(long double value)
-                -> basic_steradian<double, std::exa>;
+                -> basic_steradian<double, exa>;
 
         } // namespace solid_angle_literals
 

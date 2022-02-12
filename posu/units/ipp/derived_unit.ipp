@@ -11,17 +11,16 @@ namespace posu::units::detail {
 
     template<unit Unit, unit Lhs, unit Rhs>
     using multiply_scaler =
-        std::ratio_divide<period_t<unknown_quantity_multiply<Lhs, Rhs>>, period_t<Unit>>;
+        ratio_divide<period_t<unknown_quantity_multiply<Lhs, Rhs>>, period_t<Unit>>;
     template<unit Unit, unit Lhs, unit Rhs>
-    using divide_scaler =
-        std::ratio_divide<period_t<unknown_quantity_divide<Lhs, Rhs>>, period_t<Unit>>;
+    using divide_scaler = ratio_divide<period_t<unknown_quantity_divide<Lhs, Rhs>>, period_t<Unit>>;
 
     template<quantity_of_measure Lhs, quantity_of_measure Rhs>
     struct quantity_multiply_result {
         using rep       = std::common_type_t<rep_t<Lhs>, rep_t<Rhs>>;
         using unit_type = unit_multiply<unit_t<Lhs>, unit_t<Rhs>>;
-        using period    = std::ratio_multiply<
-            std::ratio_multiply<period_t<Lhs>, period_t<Rhs>>,
+        using period    = ratio_multiply<
+            ratio_multiply<period_t<Lhs>, period_t<Rhs>>,
             multiply_scaler<unit_type, unit_t<Lhs>, unit_t<Rhs>>>;
 
         using type = quantity<rep, period, unit_type>;
@@ -31,8 +30,8 @@ namespace posu::units::detail {
     struct quantity_divide_result {
         using rep       = std::common_type_t<rep_t<Lhs>, rep_t<Rhs>>;
         using unit_type = unit_divide<unit_t<Lhs>, unit_t<Rhs>>;
-        using period    = std::ratio_multiply<
-            std::ratio_divide<period_t<Lhs>, period_t<Rhs>>,
+        using period    = ratio_multiply<
+            ratio_divide<period_t<Lhs>, period_t<Rhs>>,
             divide_scaler<unit_type, unit_t<Lhs>, unit_t<Rhs>>>;
 
         using type = quantity<rep, period, unit_type>;
@@ -69,5 +68,5 @@ template<posu::units::quantity_of_measure Quantity>
 [[nodiscard]] constexpr auto
 posu::units::operator/(const rep_t<Quantity>& lhs, const Quantity& rhs) noexcept
 {
-    return quantity<rep_t<Quantity>, std::ratio<1>, scaler<>>(lhs) / rhs;
+    return quantity<rep_t<Quantity>, ratio<1>, scaler<>>(lhs) / rhs;
 }

@@ -8,9 +8,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::solid_angle_literals::operator""_asr(long double value)
-        -> basic_steradian<double, std::atto>
+        -> basic_steradian<double, atto>
 {
-    return basic_steradian<double, std::atto>(value);
+    return basic_steradian<double, atto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -22,9 +22,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::solid_angle_literals::operator""_fsr(long double value)
-        -> basic_steradian<double, std::femto>
+        -> basic_steradian<double, femto>
 {
-    return basic_steradian<double, std::femto>(value);
+    return basic_steradian<double, femto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -36,9 +36,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::solid_angle_literals::operator""_psr(long double value)
-        -> basic_steradian<double, std::pico>
+        -> basic_steradian<double, pico>
 {
-    return basic_steradian<double, std::pico>(value);
+    return basic_steradian<double, pico>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -50,9 +50,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::solid_angle_literals::operator""_nsr(long double value)
-        -> basic_steradian<double, std::nano>
+        -> basic_steradian<double, nano>
 {
-    return basic_steradian<double, std::nano>(value);
+    return basic_steradian<double, nano>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -64,9 +64,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::solid_angle_literals::operator""_usr(long double value)
-        -> basic_steradian<double, std::micro>
+        -> basic_steradian<double, micro>
 {
-    return basic_steradian<double, std::micro>(value);
+    return basic_steradian<double, micro>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -78,9 +78,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::solid_angle_literals::operator""_msr(long double value)
-        -> basic_steradian<double, std::milli>
+        -> basic_steradian<double, milli>
 {
-    return basic_steradian<double, std::milli>(value);
+    return basic_steradian<double, milli>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -92,9 +92,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::solid_angle_literals::operator""_csr(long double value)
-        -> basic_steradian<double, std::centi>
+        -> basic_steradian<double, centi>
 {
-    return basic_steradian<double, std::centi>(value);
+    return basic_steradian<double, centi>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -106,9 +106,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::solid_angle_literals::operator""_dsr(long double value)
-        -> basic_steradian<double, std::deci>
+        -> basic_steradian<double, deci>
 {
-    return basic_steradian<double, std::deci>(value);
+    return basic_steradian<double, deci>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -120,9 +120,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::solid_angle_literals::operator""_sr(long double value)
-        -> basic_steradian<double, std::ratio<1>>
+        -> basic_steradian<double, ratio<1>>
 {
-    return basic_steradian<double, std::ratio<1>>(value);
+    return basic_steradian<double, ratio<1>>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -134,9 +134,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::solid_angle_literals::operator""_dasr(long double value)
-        -> basic_steradian<double, std::deca>
+        -> basic_steradian<double, deca>
 {
-    return basic_steradian<double, std::deca>(value);
+    return basic_steradian<double, deca>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -148,9 +148,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::solid_angle_literals::operator""_hsr(long double value)
-        -> basic_steradian<double, std::hecto>
+        -> basic_steradian<double, hecto>
 {
-    return basic_steradian<double, std::hecto>(value);
+    return basic_steradian<double, hecto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -162,9 +162,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::solid_angle_literals::operator""_ksr(long double value)
-        -> basic_steradian<double, std::kilo>
+        -> basic_steradian<double, kilo>
 {
-    return basic_steradian<double, std::kilo>(value);
+    return basic_steradian<double, kilo>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -176,9 +176,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::solid_angle_literals::operator""_Msr(long double value)
-        -> basic_steradian<double, std::mega>
+        -> basic_steradian<double, mega>
 {
-    return basic_steradian<double, std::mega>(value);
+    return basic_steradian<double, mega>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -190,9 +190,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::solid_angle_literals::operator""_Gsr(long double value)
-        -> basic_steradian<double, std::giga>
+        -> basic_steradian<double, giga>
 {
-    return basic_steradian<double, std::giga>(value);
+    return basic_steradian<double, giga>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -204,9 +204,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::solid_angle_literals::operator""_Tsr(long double value)
-        -> basic_steradian<double, std::tera>
+        -> basic_steradian<double, tera>
 {
-    return basic_steradian<double, std::tera>(value);
+    return basic_steradian<double, tera>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -218,9 +218,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::solid_angle_literals::operator""_Psr(long double value)
-        -> basic_steradian<double, std::peta>
+        -> basic_steradian<double, peta>
 {
-    return basic_steradian<double, std::peta>(value);
+    return basic_steradian<double, peta>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -232,7 +232,7 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::solid_angle_literals::operator""_Esr(long double value)
-        -> basic_steradian<double, std::exa>
+        -> basic_steradian<double, exa>
 {
-    return basic_steradian<double, std::exa>(value);
+    return basic_steradian<double, exa>(value);
 }

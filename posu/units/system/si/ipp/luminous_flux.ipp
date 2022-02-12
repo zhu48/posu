@@ -8,9 +8,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_flux_literals::operator""_alm(long double value)
-        -> basic_lumen<double, std::atto>
+        -> basic_lumen<double, atto>
 {
-    return basic_lumen<double, std::atto>(value);
+    return basic_lumen<double, atto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -22,9 +22,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_flux_literals::operator""_flm(long double value)
-        -> basic_lumen<double, std::femto>
+        -> basic_lumen<double, femto>
 {
-    return basic_lumen<double, std::femto>(value);
+    return basic_lumen<double, femto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -36,9 +36,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_flux_literals::operator""_plm(long double value)
-        -> basic_lumen<double, std::pico>
+        -> basic_lumen<double, pico>
 {
-    return basic_lumen<double, std::pico>(value);
+    return basic_lumen<double, pico>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -50,9 +50,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_flux_literals::operator""_nlm(long double value)
-        -> basic_lumen<double, std::nano>
+        -> basic_lumen<double, nano>
 {
-    return basic_lumen<double, std::nano>(value);
+    return basic_lumen<double, nano>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -64,9 +64,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_flux_literals::operator""_ulm(long double value)
-        -> basic_lumen<double, std::micro>
+        -> basic_lumen<double, micro>
 {
-    return basic_lumen<double, std::micro>(value);
+    return basic_lumen<double, micro>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -78,9 +78,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_flux_literals::operator""_mlm(long double value)
-        -> basic_lumen<double, std::milli>
+        -> basic_lumen<double, milli>
 {
-    return basic_lumen<double, std::milli>(value);
+    return basic_lumen<double, milli>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -92,9 +92,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_flux_literals::operator""_clm(long double value)
-        -> basic_lumen<double, std::centi>
+        -> basic_lumen<double, centi>
 {
-    return basic_lumen<double, std::centi>(value);
+    return basic_lumen<double, centi>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -106,9 +106,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_flux_literals::operator""_dlm(long double value)
-        -> basic_lumen<double, std::deci>
+        -> basic_lumen<double, deci>
 {
-    return basic_lumen<double, std::deci>(value);
+    return basic_lumen<double, deci>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -120,9 +120,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_flux_literals::operator""_lm(long double value)
-        -> basic_lumen<double, std::ratio<1>>
+        -> basic_lumen<double, ratio<1>>
 {
-    return basic_lumen<double, std::ratio<1>>(value);
+    return basic_lumen<double, ratio<1>>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -134,9 +134,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_flux_literals::operator""_dalm(long double value)
-        -> basic_lumen<double, std::deca>
+        -> basic_lumen<double, deca>
 {
-    return basic_lumen<double, std::deca>(value);
+    return basic_lumen<double, deca>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -148,9 +148,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_flux_literals::operator""_hlm(long double value)
-        -> basic_lumen<double, std::hecto>
+        -> basic_lumen<double, hecto>
 {
-    return basic_lumen<double, std::hecto>(value);
+    return basic_lumen<double, hecto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -162,9 +162,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_flux_literals::operator""_klm(long double value)
-        -> basic_lumen<double, std::kilo>
+        -> basic_lumen<double, kilo>
 {
-    return basic_lumen<double, std::kilo>(value);
+    return basic_lumen<double, kilo>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -176,9 +176,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_flux_literals::operator""_Mlm(long double value)
-        -> basic_lumen<double, std::mega>
+        -> basic_lumen<double, mega>
 {
-    return basic_lumen<double, std::mega>(value);
+    return basic_lumen<double, mega>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -190,9 +190,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_flux_literals::operator""_Glm(long double value)
-        -> basic_lumen<double, std::giga>
+        -> basic_lumen<double, giga>
 {
-    return basic_lumen<double, std::giga>(value);
+    return basic_lumen<double, giga>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -204,9 +204,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_flux_literals::operator""_Tlm(long double value)
-        -> basic_lumen<double, std::tera>
+        -> basic_lumen<double, tera>
 {
-    return basic_lumen<double, std::tera>(value);
+    return basic_lumen<double, tera>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -218,9 +218,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_flux_literals::operator""_Plm(long double value)
-        -> basic_lumen<double, std::peta>
+        -> basic_lumen<double, peta>
 {
-    return basic_lumen<double, std::peta>(value);
+    return basic_lumen<double, peta>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -232,7 +232,7 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_flux_literals::operator""_Elm(long double value)
-        -> basic_lumen<double, std::exa>
+        -> basic_lumen<double, exa>
 {
-    return basic_lumen<double, std::exa>(value);
+    return basic_lumen<double, exa>(value);
 }

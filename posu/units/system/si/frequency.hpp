@@ -12,7 +12,7 @@ namespace posu::units::si {
     struct frequency : public posu::units::frequency {
         using type      = frequency;
         using kind_type = posu::units::frequency;
-        using period    = std::ratio<1>;
+        using period    = ratio<1>;
     };
 
 } // namespace posu::units::si
@@ -44,23 +44,23 @@ namespace posu::units::si {
     template<typename Rep, typename Period>
     using basic_hertz = quantity<Rep, Period, frequency>;
 
-    using attohertz  = basic_hertz<int, std::atto>;
-    using femtohertz = basic_hertz<int, std::femto>;
-    using picohertz  = basic_hertz<int, std::pico>;
-    using nanohertz  = basic_hertz<int, std::nano>;
-    using microhertz = basic_hertz<int, std::micro>;
-    using millihertz = basic_hertz<int, std::milli>;
-    using centihertz = basic_hertz<int, std::centi>;
-    using decihertz  = basic_hertz<int, std::deci>;
-    using hertz      = basic_hertz<int, std::ratio<1>>;
-    using decahertz  = basic_hertz<int, std::deca>;
-    using hectohertz = basic_hertz<int, std::hecto>;
-    using kilohertz  = basic_hertz<int, std::kilo>;
-    using megahertz  = basic_hertz<int, std::mega>;
-    using gigahertz  = basic_hertz<int, std::giga>;
-    using terahertz  = basic_hertz<int, std::tera>;
-    using petahertz  = basic_hertz<int, std::peta>;
-    using exahertz   = basic_hertz<int, std::exa>;
+    using attohertz  = basic_hertz<int, atto>;
+    using femtohertz = basic_hertz<int, femto>;
+    using picohertz  = basic_hertz<int, pico>;
+    using nanohertz  = basic_hertz<int, nano>;
+    using microhertz = basic_hertz<int, micro>;
+    using millihertz = basic_hertz<int, milli>;
+    using centihertz = basic_hertz<int, centi>;
+    using decihertz  = basic_hertz<int, deci>;
+    using hertz      = basic_hertz<int, ratio<1>>;
+    using decahertz  = basic_hertz<int, deca>;
+    using hectohertz = basic_hertz<int, hecto>;
+    using kilohertz  = basic_hertz<int, kilo>;
+    using megahertz  = basic_hertz<int, mega>;
+    using gigahertz  = basic_hertz<int, giga>;
+    using terahertz  = basic_hertz<int, tera>;
+    using petahertz  = basic_hertz<int, peta>;
+    using exahertz   = basic_hertz<int, exa>;
 
     inline namespace literals {
 
@@ -68,55 +68,55 @@ namespace posu::units::si {
 
             [[nodiscard]] constexpr auto operator""_aHz(unsigned long long value) -> attohertz;
             [[nodiscard]] constexpr auto operator""_aHz(long double value)
-                -> basic_hertz<double, std::atto>;
+                -> basic_hertz<double, atto>;
             [[nodiscard]] constexpr auto operator""_fHz(unsigned long long value) -> femtohertz;
             [[nodiscard]] constexpr auto operator""_fHz(long double value)
-                -> basic_hertz<double, std::femto>;
+                -> basic_hertz<double, femto>;
             [[nodiscard]] constexpr auto operator""_pHz(unsigned long long value) -> picohertz;
             [[nodiscard]] constexpr auto operator""_pHz(long double value)
-                -> basic_hertz<double, std::pico>;
+                -> basic_hertz<double, pico>;
             [[nodiscard]] constexpr auto operator""_nHz(unsigned long long value) -> nanohertz;
             [[nodiscard]] constexpr auto operator""_nHz(long double value)
-                -> basic_hertz<double, std::nano>;
+                -> basic_hertz<double, nano>;
             [[nodiscard]] constexpr auto operator""_uHz(unsigned long long value) -> microhertz;
             [[nodiscard]] constexpr auto operator""_uHz(long double value)
-                -> basic_hertz<double, std::micro>;
+                -> basic_hertz<double, micro>;
             [[nodiscard]] constexpr auto operator""_mHz(unsigned long long value) -> millihertz;
             [[nodiscard]] constexpr auto operator""_mHz(long double value)
-                -> basic_hertz<double, std::milli>;
+                -> basic_hertz<double, milli>;
             [[nodiscard]] constexpr auto operator""_cHz(unsigned long long value) -> centihertz;
             [[nodiscard]] constexpr auto operator""_cHz(long double value)
-                -> basic_hertz<double, std::centi>;
+                -> basic_hertz<double, centi>;
             [[nodiscard]] constexpr auto operator""_dHz(unsigned long long value) -> decihertz;
             [[nodiscard]] constexpr auto operator""_dHz(long double value)
-                -> basic_hertz<double, std::deci>;
+                -> basic_hertz<double, deci>;
             [[nodiscard]] constexpr auto operator""_Hz(unsigned long long value) -> hertz;
             [[nodiscard]] constexpr auto operator""_Hz(long double value)
-                -> basic_hertz<double, std::ratio<1>>;
+                -> basic_hertz<double, ratio<1>>;
             [[nodiscard]] constexpr auto operator""_daHz(unsigned long long value) -> decahertz;
             [[nodiscard]] constexpr auto operator""_daHz(long double value)
-                -> basic_hertz<double, std::deca>;
+                -> basic_hertz<double, deca>;
             [[nodiscard]] constexpr auto operator""_hHz(unsigned long long value) -> hectohertz;
             [[nodiscard]] constexpr auto operator""_hHz(long double value)
-                -> basic_hertz<double, std::hecto>;
+                -> basic_hertz<double, hecto>;
             [[nodiscard]] constexpr auto operator""_kHz(unsigned long long value) -> kilohertz;
             [[nodiscard]] constexpr auto operator""_kHz(long double value)
-                -> basic_hertz<double, std::kilo>;
+                -> basic_hertz<double, kilo>;
             [[nodiscard]] constexpr auto operator""_MHz(unsigned long long value) -> megahertz;
             [[nodiscard]] constexpr auto operator""_MHz(long double value)
-                -> basic_hertz<double, std::mega>;
+                -> basic_hertz<double, mega>;
             [[nodiscard]] constexpr auto operator""_GHz(unsigned long long value) -> gigahertz;
             [[nodiscard]] constexpr auto operator""_GHz(long double value)
-                -> basic_hertz<double, std::giga>;
+                -> basic_hertz<double, giga>;
             [[nodiscard]] constexpr auto operator""_THz(unsigned long long value) -> terahertz;
             [[nodiscard]] constexpr auto operator""_THz(long double value)
-                -> basic_hertz<double, std::tera>;
+                -> basic_hertz<double, tera>;
             [[nodiscard]] constexpr auto operator""_PHz(unsigned long long value) -> petahertz;
             [[nodiscard]] constexpr auto operator""_PHz(long double value)
-                -> basic_hertz<double, std::peta>;
+                -> basic_hertz<double, peta>;
             [[nodiscard]] constexpr auto operator""_EHz(unsigned long long value) -> exahertz;
             [[nodiscard]] constexpr auto operator""_EHz(long double value)
-                -> basic_hertz<double, std::exa>;
+                -> basic_hertz<double, exa>;
 
         } // namespace frequency_literals
 

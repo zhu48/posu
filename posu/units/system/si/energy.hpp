@@ -10,7 +10,7 @@ namespace posu::units::si {
     struct energy : public posu::units::energy {
         using type      = energy;
         using kind_type = posu::units::energy;
-        using period    = std::kilo;
+        using period    = kilo;
     };
 
 } // namespace posu::units::si
@@ -27,23 +27,23 @@ namespace posu::units::si {
     template<typename Rep, typename Period>
     using basic_joule = quantity<Rep, Period, energy>;
 
-    using attojoules  = basic_joule<int, std::atto>;
-    using femtojoules = basic_joule<int, std::femto>;
-    using picojoules  = basic_joule<int, std::pico>;
-    using nanojoules  = basic_joule<int, std::nano>;
-    using microjoules = basic_joule<int, std::micro>;
-    using millijoules = basic_joule<int, std::milli>;
-    using centijoules = basic_joule<int, std::centi>;
-    using decijoules  = basic_joule<int, std::deci>;
-    using joules      = basic_joule<int, std::ratio<1>>;
-    using decajoules  = basic_joule<int, std::deca>;
-    using hectojoules = basic_joule<int, std::hecto>;
-    using kilojoules  = basic_joule<int, std::kilo>;
-    using megajoules  = basic_joule<int, std::mega>;
-    using gigajoules  = basic_joule<int, std::giga>;
-    using terajoules  = basic_joule<int, std::tera>;
-    using petajoules  = basic_joule<int, std::peta>;
-    using exajoules   = basic_joule<int, std::exa>;
+    using attojoules  = basic_joule<int, atto>;
+    using femtojoules = basic_joule<int, femto>;
+    using picojoules  = basic_joule<int, pico>;
+    using nanojoules  = basic_joule<int, nano>;
+    using microjoules = basic_joule<int, micro>;
+    using millijoules = basic_joule<int, milli>;
+    using centijoules = basic_joule<int, centi>;
+    using decijoules  = basic_joule<int, deci>;
+    using joules      = basic_joule<int, ratio<1>>;
+    using decajoules  = basic_joule<int, deca>;
+    using hectojoules = basic_joule<int, hecto>;
+    using kilojoules  = basic_joule<int, kilo>;
+    using megajoules  = basic_joule<int, mega>;
+    using gigajoules  = basic_joule<int, giga>;
+    using terajoules  = basic_joule<int, tera>;
+    using petajoules  = basic_joule<int, peta>;
+    using exajoules   = basic_joule<int, exa>;
 
     inline namespace literals {
 
@@ -51,55 +51,55 @@ namespace posu::units::si {
 
             [[nodiscard]] constexpr auto operator""_aJ(unsigned long long value) -> attojoules;
             [[nodiscard]] constexpr auto operator""_aJ(long double value)
-                -> basic_joule<double, std::atto>;
+                -> basic_joule<double, atto>;
             [[nodiscard]] constexpr auto operator""_fJ(unsigned long long value) -> femtojoules;
             [[nodiscard]] constexpr auto operator""_fJ(long double value)
-                -> basic_joule<double, std::femto>;
+                -> basic_joule<double, femto>;
             [[nodiscard]] constexpr auto operator""_pJ(unsigned long long value) -> picojoules;
             [[nodiscard]] constexpr auto operator""_pJ(long double value)
-                -> basic_joule<double, std::pico>;
+                -> basic_joule<double, pico>;
             [[nodiscard]] constexpr auto operator""_nJ(unsigned long long value) -> nanojoules;
             [[nodiscard]] constexpr auto operator""_nJ(long double value)
-                -> basic_joule<double, std::nano>;
+                -> basic_joule<double, nano>;
             [[nodiscard]] constexpr auto operator""_uJ(unsigned long long value) -> microjoules;
             [[nodiscard]] constexpr auto operator""_uJ(long double value)
-                -> basic_joule<double, std::micro>;
+                -> basic_joule<double, micro>;
             [[nodiscard]] constexpr auto operator""_mJ(unsigned long long value) -> millijoules;
             [[nodiscard]] constexpr auto operator""_mJ(long double value)
-                -> basic_joule<double, std::milli>;
+                -> basic_joule<double, milli>;
             [[nodiscard]] constexpr auto operator""_cJ(unsigned long long value) -> centijoules;
             [[nodiscard]] constexpr auto operator""_cJ(long double value)
-                -> basic_joule<double, std::centi>;
+                -> basic_joule<double, centi>;
             [[nodiscard]] constexpr auto operator""_dJ(unsigned long long value) -> decijoules;
             [[nodiscard]] constexpr auto operator""_dJ(long double value)
-                -> basic_joule<double, std::deci>;
+                -> basic_joule<double, deci>;
             [[nodiscard]] constexpr auto operator""_J(unsigned long long value) -> joules;
             [[nodiscard]] constexpr auto operator""_J(long double value)
-                -> basic_joule<double, std::ratio<1>>;
+                -> basic_joule<double, ratio<1>>;
             [[nodiscard]] constexpr auto operator""_daJ(unsigned long long value) -> decajoules;
             [[nodiscard]] constexpr auto operator""_daJ(long double value)
-                -> basic_joule<double, std::deca>;
+                -> basic_joule<double, deca>;
             [[nodiscard]] constexpr auto operator""_hJ(unsigned long long value) -> hectojoules;
             [[nodiscard]] constexpr auto operator""_hJ(long double value)
-                -> basic_joule<double, std::hecto>;
+                -> basic_joule<double, hecto>;
             [[nodiscard]] constexpr auto operator""_kJ(unsigned long long value) -> kilojoules;
             [[nodiscard]] constexpr auto operator""_kJ(long double value)
-                -> basic_joule<double, std::kilo>;
+                -> basic_joule<double, kilo>;
             [[nodiscard]] constexpr auto operator""_MJ(unsigned long long value) -> megajoules;
             [[nodiscard]] constexpr auto operator""_MJ(long double value)
-                -> basic_joule<double, std::mega>;
+                -> basic_joule<double, mega>;
             [[nodiscard]] constexpr auto operator""_GJ(unsigned long long value) -> gigajoules;
             [[nodiscard]] constexpr auto operator""_GJ(long double value)
-                -> basic_joule<double, std::giga>;
+                -> basic_joule<double, giga>;
             [[nodiscard]] constexpr auto operator""_TJ(unsigned long long value) -> terajoules;
             [[nodiscard]] constexpr auto operator""_TJ(long double value)
-                -> basic_joule<double, std::tera>;
+                -> basic_joule<double, tera>;
             [[nodiscard]] constexpr auto operator""_PJ(unsigned long long value) -> petajoules;
             [[nodiscard]] constexpr auto operator""_PJ(long double value)
-                -> basic_joule<double, std::peta>;
+                -> basic_joule<double, peta>;
             [[nodiscard]] constexpr auto operator""_EJ(unsigned long long value) -> exajoules;
             [[nodiscard]] constexpr auto operator""_EJ(long double value)
-                -> basic_joule<double, std::exa>;
+                -> basic_joule<double, exa>;
 
         } // namespace energy_literals
 
