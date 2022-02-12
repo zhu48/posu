@@ -6,6 +6,11 @@
 
 CATCH_TEST_CASE("ratio operations")
 {
+    CATCH_SECTION("denormalization")
+    {
+        CATCH_CHECK(std::same_as<posu::ratio<100, 1, -1>, posu::denormalize<posu::deca, -1>>);
+    }
+
     CATCH_SECTION("addition")
     {
         CATCH_CHECK(

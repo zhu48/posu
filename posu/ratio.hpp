@@ -37,9 +37,9 @@ namespace posu {
         template<typename T>
         concept ratio_type = is_ratio<T>::value;
 
-        template<ratio_type Ratio, std::intmax_t NewExp>
+        template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp, std::intmax_t NewExp>
         [[nodiscard]] constexpr auto denormalize() noexcept;
-        template<ratio_type Ratio>
+        template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
         [[nodiscard]] constexpr auto normalize() noexcept;
 
     } // namespace detail
@@ -53,9 +53,9 @@ namespace posu {
 
     template<std::intmax_t Num, std::intmax_t Denom, std::intmax_t Exp>
     struct ratio {
-        static constexpr auto num = std::ratio<Num, Denom>::num; //!< Numerator.
-        static constexpr auto den = std::ratio<Num, Denom>::den; //!< Denominator.
-        static constexpr auto exp = Exp;                         //!< Base-10 exponent.
+        static constexpr auto num = detail::normalize<Num, Denom, Exp>().num; //!< Numerator.
+        static constexpr auto den = detail::normalize<Num, Denom, Exp>().den; //!< Denominator.
+        static constexpr auto exp = detail::normalize<Num, Denom, Exp>().exp; //!< Base-10 exponent.
 
         using type = ratio<num, den, exp>; //!< Reduced type.
 
@@ -83,7 +83,7 @@ namespace posu {
      * @tparam Ratio The ratio to normalize.
      */
     template<ratio_type Ratio>
-    using normalize = decltype(detail::normalize<Ratio>());
+    using normalize = typename Ratio::type;
 
     /**
      * @brief Denormalize a ratio so its exponent is the given value.
@@ -92,7 +92,10 @@ namespace posu {
      * @tparam NewExp The exponent to assign to the resulting ratio.
      */
     template<ratio_type Ratio, std::intmax_t NewExp>
-    using denormalize = decltype(detail::denormalize<Ratio, NewExp>());
+    using denormalize = ratio<
+        detail::denormalize<Ratio::num, Ratio::den, Ratio::exp, NewExp>().num,
+        detail::denormalize<Ratio::num, Ratio::den, Ratio::exp, NewExp>().den,
+        detail::denormalize<Ratio::num, Ratio::den, Ratio::exp, NewExp>().exp>;
 
     /**
      * @brief Add two ratios;

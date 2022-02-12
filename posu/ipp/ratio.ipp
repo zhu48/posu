@@ -1,15 +1,25 @@
 
+namespace posu::detail {
+
+    struct ratio_info {
+        std::intmax_t num;
+        std::intmax_t den{1};
+        std::intmax_t exp{0};
+    };
+
+} // namespace posu::detail
+
 template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
 [[nodiscard]] constexpr auto
 posu::ratio<Num, Den, Exp>::operator+(posu::ratio_type auto rhs) noexcept
 {
     constexpr auto s_exp = (exp + rhs.exp) / 2;
-    using l_norm         = denormalize<ratio, s_exp>;
-    using r_norm         = denormalize<decltype(rhs), s_exp>;
-    using s_std =
-        std::ratio_add<std::ratio<l_norm::num, l_norm::den>, std::ratio<r_norm::num, r_norm::den>>;
 
-    return normalize<ratio<s_std::num, s_std::den, s_exp>>{};
+    constexpr auto l = detail::denormalize<num, den, exp, s_exp>();
+    constexpr auto r = detail::denormalize<rhs.num, rhs.den, rhs.exp, s_exp>();
+    constexpr auto s = std::ratio_add<std::ratio<l.num, l.den>, std::ratio<r.num, r.den>>{};
+
+    return normalize<ratio<s.num, s.den, s_exp>>{};
 }
 
 template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
@@ -17,12 +27,12 @@ template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
 posu::ratio<Num, Den, Exp>::operator-(posu::ratio_type auto rhs) noexcept
 {
     constexpr auto s_exp = (exp + rhs.exp) / 2;
-    using l_norm         = denormalize<ratio, s_exp>;
-    using r_norm         = denormalize<decltype(rhs), s_exp>;
-    using s_std          = std::
-        ratio_subtract<std::ratio<l_norm::num, l_norm::den>, std::ratio<r_norm::num, r_norm::den>>;
 
-    return normalize<ratio<s_std::num, s_std::den, s_exp>>{};
+    constexpr auto l = detail::denormalize<num, den, exp, s_exp>();
+    constexpr auto r = detail::denormalize<rhs.num, rhs.den, rhs.exp, s_exp>();
+    constexpr auto s = std::ratio_subtract<std::ratio<l.num, l.den>, std::ratio<r.num, r.den>>{};
+
+    return normalize<ratio<s.num, s.den, s_exp>>{};
 }
 
 template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
@@ -47,34 +57,34 @@ posu::ratio<Num, Den, Exp>::operator/(posu::ratio_type auto rhs) noexcept
     return normalize<ratio<prod::num, prod::den, exp - rhs.exp>>{};
 }
 
-template<posu::ratio_type Ratio, std::intmax_t NewExp>
+template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp, std::intmax_t NewExp>
 [[nodiscard]] constexpr auto posu::detail::denormalize() noexcept
 {
-    if constexpr(Ratio::exp > NewExp) {
-        return denormalize<ratio<Ratio::num * 10, Ratio::den, Ratio::exp - 1>, NewExp>();
+    if constexpr(Exp > NewExp) {
+        return denormalize<Num * 10, Den, Exp - 1, NewExp>();
     }
-    else if constexpr(Ratio::exp < NewExp) {
-        return denormalize<ratio<Ratio::num, Ratio::den * 10, Ratio::exp + 1>, NewExp>();
+    else if constexpr(Exp < NewExp) {
+        return denormalize<Num, Den * 10, Exp + 1, NewExp>();
     }
     else {
-        return Ratio{};
+        return ratio_info{Num, Den, Exp};
     }
 }
 
-template<posu::ratio_type Ratio>
+template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
 [[nodiscard]] constexpr auto posu::detail::normalize() noexcept
 {
-    using std_ratio   = std::ratio<Ratio::num, Ratio::den>;
-    using std_reduced = std::ratio_multiply<std_ratio, std::ratio<1>>;
-
-    using reduced = ratio<std_reduced::num, std_reduced::den, Ratio::exp>;
-    if constexpr(!(reduced::num % 10)) {
-        return normalize<ratio<reduced::num / 10, reduced::den, reduced::exp + 1>>();
+    using std_ratio = typename std::ratio<Num, Den>::type;
+    if constexpr(std_ratio::num == 0) {
+        return ratio_info{0};
     }
-    else if constexpr(!(reduced::den % 10)) {
-        return normalize<ratio<reduced::num, reduced::den / 10, reduced::exp - 1>>();
+    else if constexpr(!(std_ratio::num % 10)) {
+        return normalize<std_ratio::num / 10, std_ratio::den, Exp + 1>();
+    }
+    else if constexpr(!(std_ratio::den % 10)) {
+        return normalize<std_ratio::num, std_ratio::den / 10, Exp - 1>();
     }
     else {
-        return reduced{};
+        return ratio_info{Num, Den, Exp};
     }
 }
