@@ -4,7 +4,7 @@ template<std::intmax_t RNum, std::intmax_t RDenom, std::intmax_t RExp>
 [[nodiscard]] constexpr auto
 posu::ratio<Num, Den, Exp>::operator+(ratio<RNum, RDenom, RExp> rhs) noexcept
 {
-    constexpr auto s_exp = std::max(exp, rhs.exp);
+    constexpr auto s_exp = (exp + rhs.exp) / 2;
     using l_norm         = denormalize<ratio, s_exp>;
     using r_norm         = denormalize<ratio<RNum, RDenom, RExp>, s_exp>;
     using s_std =

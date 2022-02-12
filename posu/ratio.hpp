@@ -1,7 +1,6 @@
 #ifndef POSU_RATIO_HPP
 #define POSU_RATIO_HPP
 
-#include <algorithm>
 #include <numeric>
 #include <ratio>
 
