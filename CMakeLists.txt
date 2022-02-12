@@ -10,6 +10,7 @@ option(POSU_ENABLE_WALL                          OFF)
 option(POSU_ENABLE_WERROR                        OFF)
 option(POSU_ENABLE_DETAILED_CONCEPTS_DIAGNOSTICS OFF)
 option(POSU_ENABLE_TESTING                       OFF)
+option(POSU_ENABLE_STATIC_STDLIB                 OFF)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -18,6 +19,14 @@ if(DEFINED POSU_STDLIB AND NOT POSU_STDLIB STREQUAL "default")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=${POSU_STDLIB}")
     else()
         message(FATAL_ERROR "POSU_STDLIB must be \"default\" unless using Clang")
+    endif()
+endif()
+
+if(POSU_ENABLE_STATIC_STDLIB)
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static")
+    else()
+        message(FATAL_ERROR "POSU_ENABLE_STATIC_STDLIB must be \"OFF\" unless using Clang")
     endif()
 endif()
 
