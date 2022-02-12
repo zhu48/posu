@@ -1,6 +1,7 @@
 #ifndef POSU_RATIO_HPP
 #define POSU_RATIO_HPP
 
+#include <algorithm>
 #include <numeric>
 #include <ratio>
 
@@ -24,7 +25,7 @@ namespace posu {
         /**
          * @name Arithmetic Operators
          *
-         * @brief Ratio multiplication and division.
+         * @brief Ratio arithmetic operations.
          *
          * @param lhs The left-hand-side argument.
          * @param rhs The right-hand-side argument.
@@ -33,6 +34,9 @@ namespace posu {
          *
          * @{
          */
+
+        template<std::intmax_t RNum, std::intmax_t RDenom, std::intmax_t RExp>
+        [[nodiscard]] constexpr auto operator+(ratio<RNum, RDenom, RExp> rhs) noexcept;
 
         template<std::intmax_t RNum, std::intmax_t RDenom, std::intmax_t RExp>
         [[nodiscard]] friend constexpr auto
@@ -77,6 +81,14 @@ namespace posu {
         struct is_std_ratio<std::ratio<Num, Den>> : public std::true_type {
         };
 
+        template<typename T>
+        concept ratio_type = is_ratio<T>::value;
+
+        template<ratio_type Ratio, std::intmax_t NewExp>
+        [[nodiscard]] constexpr auto denormalize() noexcept;
+        template<ratio_type Ratio>
+        [[nodiscard]] constexpr auto normalize() noexcept;
+
     } // namespace detail
 
     /**
@@ -84,8 +96,33 @@ namespace posu {
      *
      * @tparam T The type to check as a specialization of `posu::ratio`.
      */
-    template<typename T>
-    concept ratio_type = detail::is_ratio<T>::value;
+    using detail::ratio_type;
+
+    /**
+     * @brief Adjust the ratio's representation to maximally reduce its mantissa fraction.
+     *
+     * @tparam Ratio The ratio to normalize.
+     */
+    template<ratio_type Ratio>
+    using normalize = decltype(detail::normalize<Ratio>());
+
+    /**
+     * @brief Denormalize a ratio so its exponent is the given value.
+     *
+     * @tparam Ratio  The ratio to denormalize.
+     * @tparam NewExp The exponent to assign to the resulting ratio.
+     */
+    template<ratio_type Ratio, std::intmax_t NewExp>
+    using denormalize = decltype(detail::denormalize<Ratio, NewExp>());
+
+    /**
+     * @brief Add two ratios;
+     *
+     * @tparam Lhs The left-hand-side ratio.
+     * @tparam Rhs The right-hand-side ratio.
+     */
+    template<ratio_type Lhs, ratio_type Rhs>
+    using ratio_add = decltype(Lhs{} + Rhs{});
 
     /**
      * @brief Multiply two ratio objects.
@@ -136,36 +173,6 @@ namespace posu {
     using make_ratio = ratio<Ratio::num, Ratio::den>;
 
     /**
-     * @brief Minimize the exponent portion of the given ratio.
-     *
-     * @tparam Ratio The ratio to normalize.
-     *
-     * @{
-     */
-
-    template<ratio_type Ratio>
-    struct normalize_result {
-        using type = Ratio; //!< The normalized ratio type.
-    };
-
-    template<ratio_type Ratio>
-    using normalize = typename normalize_result<ratio_multiply<Ratio, ratio<1>>>::type;
-
-    template<ratio_type Ratio>
-        requires((Ratio::exp > 0) && (Ratio::den >= 10) && ((Ratio::den % 10) == 0))
-    struct normalize_result<Ratio> {
-        using type = normalize<ratio<Ratio::num, (Ratio::den / 10), (Ratio::exp - 1)>>;
-    };
-
-    template<ratio_type Ratio>
-        requires((Ratio::exp < 0) && (Ratio::num >= 10) && ((Ratio::num % 10) == 0))
-    struct normalize_result<Ratio> {
-        using type = normalize<ratio<(Ratio::num / 10), Ratio::den, (Ratio::exp + 1)>>;
-    };
-
-    //! @}
-
-    /**
      * @brief Compute a common ratio type between the two given ratio types.
      *
      * Both operand ratios are integer multiples of the resulting ratio.
@@ -195,5 +202,7 @@ template<posu::ratio_type Lhs, posu::ratio_type Rhs>
 struct std::common_type<Lhs, Rhs> {
     using type = posu::common_ratio<Lhs, Rhs>;
 };
+
+#include "posu/ipp/ratio.ipp"
 
 #endif // #ifndef POSU_RATIO_HPP
