@@ -117,6 +117,15 @@ namespace posu {
     using zetta = ratio<1, 1, 21>;  //!< SI `zetta` ratio.
     using yotta = ratio<1, 1, 24>;  //!< SI `yotta` ratio.
 
+    /**
+     * @brief Convert from `std::ratio` to `posu::ratio`.
+     *
+     * @tparam Ratio The `std::ratio` type to convert from.
+     */
+    template<typename Ratio>
+        requires(detail::std_ratio<Ratio>::value)
+    using make_ratio = ratio<Ratio::num, Ratio::den>;
+
 } // namespace posu
 
 #endif // #ifndef POSU_RATIO_HPP
