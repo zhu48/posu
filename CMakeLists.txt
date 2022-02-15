@@ -35,6 +35,19 @@ if(DEFINED POSU_STDLIB_PATH AND EXISTS ${POSU_STDLIB_PATH})
     endif()
 endif()
 
+if(DEFINED POSU_STDLIB_INCLUDE AND EXISTS ${POSU_STDLIB_INCLUDE})
+    if(
+        CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR
+        CMAKE_CXX_COMPILER_ID STREQUAL "GNU"
+    )
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -isystem ${POSU_STDLIB_INCLUDE}")
+    else()
+        message(SEND_ERROR  "option  : POSU_STDLIB_PATH")
+        message(SEND_ERROR  "compiler: ${CMAKE_CXX_COMPILER_ID}")
+        message(FATAL_ERROR "setting the Standard Library link path on this compiler unsupported")
+    endif()
+endif()
+
 if(POSU_ENABLE_STATIC_STDLIB)
     if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static")
