@@ -4,6 +4,40 @@
 
 #include <catch2/catch.hpp>
 
+template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
+struct Catch::StringMaker<posu::ratio<Num, Den, Exp>> {
+    static std::string convert(const posu::ratio<Num, Den, Exp>& /*unused*/)
+    {
+        return '(' + std::to_string(Num) + '/' + std::to_string(Den) + ")e" + std::to_string(Exp);
+    }
+};
+
+template<posu::units::quantity_of_measure Quantity>
+struct Catch::StringMaker<Quantity> {
+    static std::string convert(const Quantity& value)
+    {
+        return std::to_string(value.count()) + ' ' +
+               StringMaker<posu::units::period_t<Quantity>>::convert(
+                   posu::units::period_t<Quantity>{}) +
+               ' ' +
+               StringMaker<posu::units::period_t<posu::units::unit_t<Quantity>>>::convert(
+                   posu::units::period_t<posu::units::unit_t<Quantity>>{}) +
+               ' ' + std::string(Quantity::unit_type::value);
+    }
+};
+
+template<typename Rep, typename Period>
+struct Catch::StringMaker<std::chrono::duration<Rep, Period>> {
+    using duration    = std::chrono::duration<Rep, Period>;
+    using posu_period = posu::make_ratio<Period>;
+
+    static std::string convert(const std::chrono::duration<Rep, Period>& value)
+    {
+        return std::to_string(value.count()) + ' ' +
+               StringMaker<posu_period>::convert(posu_period{}) + " time";
+    }
+};
+
 CATCH_TEST_CASE("time literals", "[construct][literals][time][si]")
 {
     using namespace posu::units::si::chrono_literals;
