@@ -4,6 +4,8 @@
 #include <numeric>
 #include <ratio>
 
+#include "posu/concepts.hpp"
+
 namespace posu {
 
     /**
@@ -42,6 +44,7 @@ namespace posu {
         template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
         [[nodiscard]] constexpr auto normalize() noexcept;
         [[nodiscard]] constexpr auto common(ratio_type auto lhs, ratio_type auto rhs) noexcept;
+        [[nodiscard]] constexpr auto multiply(ratio_type auto lhs, arithmetic auto rhs) noexcept;
 
     } // namespace detail
 
@@ -71,10 +74,22 @@ namespace posu {
          *
          * @{
          */
-        [[nodiscard]] constexpr auto operator+(ratio_type auto rhs) const noexcept;
-        [[nodiscard]] constexpr auto operator-(ratio_type auto rhs) const noexcept;
-        [[nodiscard]] constexpr auto operator*(ratio_type auto rhs) const noexcept;
-        [[nodiscard]] constexpr auto operator/(ratio_type auto rhs) const noexcept;
+        [[nodiscard]] constexpr auto        operator+(ratio_type auto rhs) const noexcept;
+        [[nodiscard]] constexpr auto        operator-(ratio_type auto rhs) const noexcept;
+        [[nodiscard]] constexpr auto        operator*(ratio_type auto rhs) const noexcept;
+        [[nodiscard]] constexpr auto        operator/(ratio_type auto rhs) const noexcept;
+        [[nodiscard]] friend constexpr auto operator*(ratio lhs, numeric auto rhs) noexcept
+        {
+            return detail::multiply(lhs, rhs);
+        }
+        [[nodiscard]] friend constexpr auto operator*(numeric auto lhs, ratio rhs) noexcept
+        {
+            return detail::multiply(rhs, lhs);
+        }
+        [[nodiscard]] friend constexpr auto operator/(numeric auto lhs, ratio rhs) noexcept
+        {
+            return detail::multiply(lhs, ratio<rhs.den, rhs.num, -rhs.exp>{});
+        }
         //! @}
 
         /**
