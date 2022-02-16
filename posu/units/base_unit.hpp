@@ -368,28 +368,27 @@ namespace posu::units {
  *
  * @tparam LRep    The numeric representation type of the left-hand-side quantity type.
  * @tparam LPeriod The to-unit-quantity ratio of the left-hand-side quantity type.
+ * @tparam LUnit   The units-of-measure tag type of the left-hand-side quantity type.
  * @tparam RRep    The numeric representation type of the right-hand-side quantity type.
  * @tparam RPeriod The to-unit-quantity ratio of the right-hand-side quantity type.
- * @tparam Kind   The units-of-measure tag type.
+ * @tparam RUnit   The units-of-measure tag type of the right-hand-side quantity type.
  */
-template<typename LRep, typename LPeriod, typename RRep, typename RPeriod, typename Unit>
+template<
+    typename LRep,
+    typename LPeriod,
+    typename RRep,
+    typename RPeriod,
+    typename LUnit,
+    typename RUnit>
+    requires(posu::units::unit_comparable_with<LUnit, RUnit>)
 struct std::common_type<
-    posu::units::quantity<LRep, LPeriod, Unit>,
-    posu::units::quantity<RRep, RPeriod, Unit>> {
-    using l_std_period      = std::ratio<LPeriod::num, LPeriod::den>;
-    using r_std_period      = std::ratio<RPeriod::num, RPeriod::den>;
-    using common_std_period = posu::units::period_t<std::common_type_t<
-        std::chrono::duration<LRep, l_std_period>,
-        std::chrono::duration<RRep, r_std_period>>>;
-
+    posu::units::quantity<LRep, LPeriod, LUnit>,
+    posu::units::quantity<RRep, RPeriod, RUnit>> {
     //! The common quantity type.
     using type = posu::units::quantity<
         std::common_type_t<LRep, RRep>,
-        posu::ratio<
-            common_std_period::num,
-            common_std_period::den,
-            std::min(LPeriod::exp, RPeriod::exp)>,
-        Unit>;
+        std::common_type_t<LPeriod, RPeriod>,
+        posu::units::common_unit<LUnit, RUnit>>;
 };
 
 #include "posu/units/ipp/base_unit.ipp"
