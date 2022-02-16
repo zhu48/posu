@@ -62,6 +62,21 @@ namespace posu::units {
     template<ratio_type Period>
     inline constexpr bool enable_as_kind<scaler<Period>> = true;
 
+    namespace detail {
+
+        template<typename T>
+        struct is_scaler : public std::false_type {
+        };
+
+        template<typename Period>
+        struct is_scaler<scaler<Period>> : public std::true_type {
+        };
+
+    } // namespace detail
+
+    template<typename T>
+    concept scaler_kind = detail::is_scaler<T>::value;
+
     template<typename T, ratio_type Period = ratio<1>>
         requires(dimension<T> || kind<T>)
     struct unknown;
