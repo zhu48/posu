@@ -3,27 +3,6 @@ template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 struct posu::units::is_quantity<posu::units::quantity<Rep, Period, Unit>> : public std::true_type {
 };
 
-[[nodiscard]] constexpr auto
-posu::units::detail::to_duration(const quantity_of_measure auto& quant) noexcept
-{
-    using quant_t      = std::remove_cvref_t<decltype(quant)>;
-    using basic_period = period_t<quant_t>;
-    using period       = std::ratio_multiply<basic_period, period_t<unit_t<quant_t>>>;
-
-    return std::chrono::duration<rep_t<quant_t>, period>(quant.count());
-}
-
-template<posu::units::quantity_of_measure Quantity>
-[[nodiscard]] constexpr auto
-posu::units::detail::from_duration(const std_chrono_duration auto& duration) noexcept
-{
-    using period = std::ratio_multiply<period_t<Quantity>, period_t<unit_t<Quantity>>>;
-
-    return Quantity{
-        std::chrono::duration_cast<std::chrono::duration<rep_t<Quantity>, period>>(duration)
-            .count()};
-}
-
 template<posu::units::quantity_of_measure To, posu::units::quantity_of_measure From>
     requires(posu::units::quantity_comparable_with<To, From>)
 [[nodiscard]] constexpr auto posu::units::quantity_cast(const From& quantity) noexcept -> To
@@ -53,7 +32,7 @@ template<typename Rep2, typename Period2, posu::units::unit_comparable_with<Unit
          !std::chrono::treat_as_floating_point_v<Rep2>))
 constexpr posu::units::quantity<Rep, Period, Unit>::quantity(
     const quantity<Rep2, Period2, Unit2>& d)
-    : m_duration{detail::to_duration(d)}
+    : m_duration{quantity_cast<quantity>(d).count()}
 {
 }
 

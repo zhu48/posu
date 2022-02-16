@@ -81,11 +81,6 @@ namespace posu::units {
         template<typename T>
         concept std_chrono_duration = is_std_chrono_duration<T>::value;
 
-        [[nodiscard]] constexpr auto to_duration(const quantity_of_measure auto& quantity) noexcept;
-        template<quantity_of_measure Quantity>
-        [[nodiscard]] constexpr auto from_duration(
-            const std_chrono_duration auto& duration) noexcept;
-
         template<kind Kind>
         inline constexpr bool implicit_chrono = false;
 
