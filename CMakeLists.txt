@@ -96,27 +96,10 @@ endif()
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     if(POSU_ENABLE_DETAILED_CONCEPTS_DIAGNOSTICS)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fconcepts-diagnostics-depth=9")
-    else()
-        string(
-            REGEX_REPLACE
-                " -fconcepts-diagnostics-depth=9"
-                " "
-            CMAKE_CXX_FLAGS
-            ${CMAKE_CXX_FLAGS}
-        )
     endif()
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     if(POSU_ENABLE_DETAILED_CONCEPTS_DIAGNOSTICS)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftemplate-backtrace-limit=0")
-    else()
-        string(
-            REGEX
-                REPLACE
-                    " -ftemplate-backtrace-limit=0"
-                    " "
-                CMAKE_CXX_FLAGS
-                "${CMAKE_CXX_FLAGS}"
-        )
     endif()
 else()
     if(POSU_ENABLE_DETAILED_CONCEPTS_DIAGNOSTICS)
