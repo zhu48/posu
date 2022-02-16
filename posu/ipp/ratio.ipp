@@ -7,6 +7,26 @@ namespace posu::detail {
         std::intmax_t exp{0};
     };
 
+    [[nodiscard]] constexpr auto apply_scientific(
+        arithmetic auto numerator,
+        arithmetic auto denominator,
+        std::intmax_t   exponent) noexcept
+    {
+        if(exponent > 0) {
+            do {
+                numerator *= 10;
+            } while(--exponent > 0);
+        }
+
+        if(exponent < 0) {
+            do {
+                denominator *= 10;
+            } while(++exponent < 0);
+        }
+
+        return numerator / denominator;
+    }
+
 } // namespace posu::detail
 
 template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
@@ -116,4 +136,10 @@ template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
     constexpr auto r = detail::denormalize<rhs.num, rhs.den, rhs.exp, c_exp>();
 
     return posu::normalize<ratio<std::gcd(l.num, r.num), std::lcm(l.den, r.den), c_exp>>();
+}
+
+[[nodiscard]] constexpr auto
+posu::detail::multiply(ratio_type auto lhs, arithmetic auto rhs) noexcept
+{
+    return apply_scientific((lhs.num * rhs), lhs.den, lhs.exp);
 }
