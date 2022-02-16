@@ -118,6 +118,19 @@ namespace posu::units {
     template<kind Lhs, kind Rhs>
     using kind_divide = typename kind_divide_result<Lhs, Rhs>::type;
 
+    template<kind Lhs, kind_comparable_with<Lhs> Rhs>
+    struct common_kind_result {
+        using type = unknown<dimension_t<Rhs>>;
+    };
+
+    template<kind Kind>
+    struct common_kind_result<Kind, Kind> {
+        using type = Kind;
+    };
+
+    template<kind Lhs, kind Rhs>
+    using common_kind = typename common_kind_result<Lhs, Rhs>::type;
+
 } // namespace posu::units
 
 #endif // #ifndef POSU_UNITS_KIND_HPP
