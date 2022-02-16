@@ -111,6 +111,16 @@ namespace posu::units {
     template<unit Lhs, unit Rhs>
     using unit_divide = typename unit_divide_result<Lhs, Rhs>::type;
 
+    template<unit Lhs, unit Rhs>
+    struct common_unit_result {
+        using type = unknown<
+            common_kind<kind_t<Lhs>, kind_t<Rhs>>,
+            common_ratio<period_t<Lhs>, period_t<Rhs>>>;
+    };
+
+    template<unit Lhs, unit Rhs>
+    using common_unit = typename common_unit_result<Lhs, Rhs>::type;
+
 } // namespace posu::units
 
 #endif // #ifndef POSU_UNITS_UNIT_OF_MEASURE_HPP
