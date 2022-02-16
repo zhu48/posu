@@ -78,6 +78,22 @@ namespace posu {
         [[nodiscard]] constexpr auto        operator-(ratio_type auto rhs) const noexcept;
         [[nodiscard]] constexpr auto        operator*(ratio_type auto rhs) const noexcept;
         [[nodiscard]] constexpr auto        operator/(ratio_type auto rhs) const noexcept;
+        [[nodiscard]] friend constexpr auto operator+(ratio lhs, numeric auto rhs) noexcept
+        {
+            return (decltype(rhs){1} * lhs) + rhs;
+        }
+        [[nodiscard]] friend constexpr auto operator+(numeric auto lhs, ratio rhs) noexcept
+        {
+            return rhs + lhs;
+        }
+        [[nodiscard]] friend constexpr auto operator-(ratio lhs, numeric auto rhs) noexcept
+        {
+            return (decltype(rhs){1} * lhs) - rhs;
+        }
+        [[nodiscard]] friend constexpr auto operator-(numeric auto lhs, ratio rhs) noexcept
+        {
+            return lhs - (decltype(lhs){1} * rhs);
+        }
         [[nodiscard]] friend constexpr auto operator*(ratio lhs, numeric auto rhs) noexcept
         {
             return detail::multiply(lhs, rhs);
