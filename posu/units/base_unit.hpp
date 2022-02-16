@@ -252,24 +252,31 @@ namespace posu::units {
         [[nodiscard]] friend constexpr auto
         operator+(const quantity& lhs, const quantity_of<unit_type> auto& rhs) noexcept
         {
-            return std::common_type_t<quantity, std::remove_cvref_t<decltype(rhs)>>(
-                (lhs.m_duration + detail::to_duration(rhs)).count());
+            using common_type = std::common_type_t<quantity, std::remove_cvref_t<decltype(rhs)>>;
+
+            const auto l = quantity_cast<common_type>(lhs);
+            const auto r = quantity_cast<common_type>(rhs);
+
+            return common_type{l.count() + r.count()};
         }
 
         [[nodiscard]] friend constexpr auto
         operator-(const quantity& lhs, const quantity_of<unit_type> auto& rhs) noexcept
         {
-            return std::common_type_t<quantity, std::remove_cvref_t<decltype(rhs)>>(
-                (lhs.m_duration - detail::to_duration(rhs)).count());
+            using common_type = std::common_type_t<quantity, std::remove_cvref_t<decltype(rhs)>>;
+
+            const auto l = quantity_cast<common_type>(lhs);
+            const auto r = quantity_cast<common_type>(rhs);
+
+            return common_type{l.count() - r.count()};
         }
 
         [[nodiscard]] friend constexpr auto
         operator*(const arithmetic auto& lhs, const quantity& rhs) noexcept
         {
-            using lhs_type = std::remove_cvref_t<decltype(lhs)>;
+            using common_rep = decltype(lhs * rhs.count());
 
-            return quantity<std::common_type_t<lhs_type, rep>, period, unit_type>(
-                (lhs * detail::to_duration(rhs)).count());
+            return quantity<common_rep, period, unit_type>(lhs * rhs.count());
         }
 
         [[nodiscard]] friend constexpr auto
@@ -278,50 +285,67 @@ namespace posu::units {
             return rhs * lhs;
         }
 
+        template<quantity_of<unit_type> Quantity>
         [[nodiscard]] friend constexpr auto
-        operator/(const quantity& lhs, const quantity_of<unit_type> auto& rhs) noexcept
+        operator/(const quantity& lhs, const Quantity& rhs) noexcept
         {
-            using rep = decltype(lhs.m_duration / detail::to_duration(rhs));
+            using div_period = ratio_divide<period, period_t<Quantity>>;
+            using div_unit = scaler<ratio_divide<period_t<unit_type>, period_t<unit_t<Quantity>>>>;
+            constexpr auto div_scaler = div_period{} * period_t<div_unit>{};
+            if constexpr(div_scaler >= ratio<1>{}) {
+                using common_type = std::common_type_t<quantity, Quantity>;
 
-            return quantity<rep, ratio<1>, scaler<>>(lhs.m_duration / detail::to_duration(rhs));
+                const auto l = quantity_cast<common_type>(lhs);
+                const auto r = quantity_cast<common_type>(rhs);
+
+                return quantity<rep_t<common_type>, ratio<1>, scaler<>>(l.count() / r.count());
+            }
+            else {
+                using div_rep  = std::common_type_t<rep, rep_t<Quantity>>;
+                using div_type = quantity<div_rep, div_period, div_unit>;
+
+                return div_type{lhs.count() / rhs.count()};
+            }
         }
 
         [[nodiscard]] friend constexpr auto
         operator/(const quantity& lhs, const arithmetic auto& rhs) noexcept
         {
-            using rhs_type = std::remove_cvref_t<decltype(rhs)>;
+            using common_rep = decltype(lhs.count() / rhs);
 
-            return quantity<std::common_type_t<rep, rhs_type>, period, unit_type>(
-                lhs.count() / rhs);
+            return quantity<common_rep, period, unit_type>(lhs.count() / rhs);
         }
 
+        template<quantity_of<unit_type> Quantity>
         [[nodiscard]] friend constexpr auto
-        operator%(const quantity& lhs, const quantity_of<unit_type> auto& rhs) noexcept
+        operator%(const quantity& lhs, const Quantity& rhs) noexcept
         {
-            return std::common_type_t<quantity, std::remove_cvref_t<decltype(rhs)>>(
-                (lhs.m_duration % detail::to_duration(rhs)).count());
+            using common_type = std::common_type_t<quantity, Quantity>;
+
+            const auto l = quantity_cast<common_type>(lhs);
+            const auto r = quantity_cast<common_type>(rhs);
+
+            return common_type{l.count() % r.count()};
         }
 
         [[nodiscard]] friend constexpr auto
         operator%(const quantity& lhs, const arithmetic auto& rhs) noexcept
         {
-            using rhs_type = std::remove_cvref_t<decltype(rhs)>;
+            using common_rep = decltype(lhs.count() % rhs);
 
-            return quantity<std::common_type_t<rep, rhs_type>, period, unit_type>(
-                lhs.count() % rhs);
+            return quantity<common_rep, period, unit_type>{lhs.count() % rhs};
         }
 
         //! @}
 
-        [[nodiscard]] friend constexpr bool operator==(const quantity& lhs, const Rep& rhs) noexcept
-            requires quantity_of<quantity, scaler<>>
+        [[nodiscard]] friend constexpr bool
+        operator==(const quantity& lhs, const Rep& rhs) noexcept requires scaler_kind<kind_type>
         {
-            return quantity_cast<quantity<Rep, ratio<1>, unit_type>>(lhs).count() == rhs;
+            return lhs == quantity<Rep, ratio<1>, scaler<>>{rhs};
         }
 
-        [[nodiscard]] friend constexpr auto operator<=>(
-            const quantity& lhs,
-            const Rep&      rhs) noexcept requires quantity_of<quantity, scaler<>>
+        [[nodiscard]] friend constexpr auto
+        operator<=>(const quantity& lhs, const Rep& rhs) noexcept requires scaler_kind<kind_type>
         {
             return lhs.m_duration.count() <=> rhs;
         }
@@ -331,7 +355,10 @@ namespace posu::units {
         operator==(const quantity& lhs, const std::chrono::duration<Rep2, Period2>& rhs) noexcept
             requires(detail::implicit_chrono<kind_type>)
         {
-            return lhs.m_duration == rhs;
+            using rhs_period = ratio<Period2::num, Period2::den>;
+            using rhs_unit   = unknown<kind_t<unit_type>>;
+
+            return lhs == quantity<Rep2, rhs_period, rhs_unit>{rhs.count()};
         }
 
         template<typename Rep2, typename Period2>
@@ -339,7 +366,10 @@ namespace posu::units {
         operator<=>(const quantity& lhs, const std::chrono::duration<Rep2, Period2>& rhs) noexcept
             requires(detail::implicit_chrono<kind_type>)
         {
-            return lhs.m_duration <=> rhs;
+            using rhs_period = ratio<Period2::num, Period2::den>;
+            using rhs_unit   = unknown<kind_t<unit_type>>;
+
+            return lhs <=> quantity<Rep2, rhs_period, rhs_unit>{rhs.count()};
         }
 
     private : using underlying_type =

@@ -28,7 +28,11 @@ template<posu::units::quantity_of_measure To, posu::units::quantity_of_measure F
     requires(posu::units::quantity_comparable_with<To, From>)
 [[nodiscard]] constexpr auto posu::units::quantity_cast(const From& quantity) noexcept -> To
 {
-    return detail::from_duration<To>(detail::to_duration(quantity));
+    constexpr auto from_ratio = period_t<From>{} * period_t<unit_t<From>>{};
+    constexpr auto to_ratio   = period_t<To>{} * period_t<unit_t<To>>{};
+    constexpr auto conv_ratio = from_ratio / to_ratio;
+
+    return To{static_cast<rep_t<To>>(quantity.count() * conv_ratio)};
 }
 
 template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
@@ -86,10 +90,9 @@ template<typename RRep, typename RPeriod, posu::units::unit_of<posu::units::kind
 [[nodiscard]] constexpr bool posu::units::quantity<Rep, Period, Unit>::operator==(
     const quantity<RRep, RPeriod, RUnit>& rhs) const noexcept
 {
-    const auto l = detail::to_duration(*this);
-    const auto r = detail::to_duration(rhs);
+    using common_type = std::common_type_t<quantity, quantity<RRep, RPeriod, RUnit>>;
 
-    return l == r;
+    return quantity_cast<common_type>(*this).count() == quantity_cast<common_type>(rhs).count();
 }
 
 template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
@@ -97,11 +100,9 @@ template<typename RRep, typename RPeriod, posu::units::unit_of<posu::units::kind
 [[nodiscard]] constexpr auto posu::units::quantity<Rep, Period, Unit>::operator<=>(
     const quantity<RRep, RPeriod, RUnit>& rhs) const noexcept
 {
-    using common_type = std::
-        common_type_t<decltype(detail::to_duration(*this)), decltype(detail::to_duration(rhs))>;
+    using common_type = std::common_type_t<quantity, quantity<RRep, RPeriod, RUnit>>;
 
-    return common_type{detail::to_duration(*this)}.count() <=>
-           common_type{detail::to_duration(rhs)}.count();
+    return quantity_cast<common_type>(*this).count() <=> quantity_cast<common_type>(rhs).count();
 }
 
 template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
