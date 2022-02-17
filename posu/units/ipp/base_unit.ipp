@@ -19,7 +19,8 @@ template<typename Rep2>
     requires(
         std::convertible_to<Rep, const Rep2&> && (std::chrono::treat_as_floating_point_v<Rep> ||
                                                   !std::chrono::treat_as_floating_point_v<Rep2>))
-constexpr posu::units::quantity<Rep, Period, Unit>::quantity(const Rep2& r) : m_duration(r)
+constexpr posu::units::quantity<Rep, Period, Unit>::quantity(const Rep2& r)
+    : m_count{static_cast<rep>(r)}
 {
 }
 
@@ -32,36 +33,30 @@ template<typename Rep2, typename Period2, posu::units::unit_comparable_with<Unit
          !std::chrono::treat_as_floating_point_v<Rep2>))
 constexpr posu::units::quantity<Rep, Period, Unit>::quantity(
     const quantity<Rep2, Period2, Unit2>& d)
-    : m_duration{quantity_cast<quantity>(d).count()}
+    : m_count{quantity_cast<quantity>(d).count()}
 {
 }
 
 template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
-constexpr posu::units::quantity<Rep, Period, Unit>::quantity(
-    const std::chrono::duration<rep, std::ratio<period::num, period::den>>& d) noexcept
-    requires(detail::implicit_chrono<kind_t<Unit>>)
-    : m_duration{d}
+template<typename T>
+constexpr posu::units::quantity<Rep, Period, Unit>::quantity(const T& d) noexcept
+    requires(detail::chrono_convertible_to<T, quantity>)
+    : quantity{quantity_cast<quantity>(detail::equivalent_quantity<T, kind_type>(d))}
 {
 }
 
 template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
-[[nodiscard]] constexpr posu::units::quantity<Rep, Period, Unit>::operator chrono_cref()
-    const noexcept requires(detail::implicit_chrono<kind_t<Unit>>)
+template<typename T>
+[[nodiscard]] constexpr posu::units::quantity<Rep, Period, Unit>::operator T() const noexcept
+    requires(detail::chrono_convertible_from<T, quantity>)
 {
-    return m_duration;
-}
-
-template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
-[[nodiscard]] constexpr posu::units::quantity<Rep, Period, Unit>::operator chrono_ref() noexcept
-    requires(detail::implicit_chrono<kind_t<Unit>>)
-{
-    return m_duration;
+    return T{quantity_cast<detail::equivalent_chrono<quantity>>(*this).count()};
 }
 
 template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 [[nodiscard]] constexpr auto posu::units::quantity<Rep, Period, Unit>::count() const noexcept
 {
-    return m_duration.count();
+    return m_count;
 }
 
 template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
@@ -99,7 +94,7 @@ template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator++() noexcept
 {
-    ++m_duration;
+    ++m_count;
 
     return *this;
 }
@@ -109,7 +104,7 @@ constexpr auto posu::units::quantity<Rep, Period, Unit>::operator++(int) noexcep
 {
     const auto old_val = count();
 
-    ++m_duration;
+    ++m_count;
 
     return quantity(old_val);
 }
@@ -117,7 +112,7 @@ constexpr auto posu::units::quantity<Rep, Period, Unit>::operator++(int) noexcep
 template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator--() noexcept
 {
-    --m_duration;
+    --m_count;
 
     return *this;
 }
@@ -127,7 +122,7 @@ constexpr auto posu::units::quantity<Rep, Period, Unit>::operator--(int) noexcep
 {
     const auto old_val = count();
 
-    --m_duration;
+    --m_count;
 
     return quantity(old_val);
 }
@@ -135,7 +130,7 @@ constexpr auto posu::units::quantity<Rep, Period, Unit>::operator--(int) noexcep
 template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator+=(const quantity& rhs) noexcept
 {
-    m_duration += rhs.m_duration;
+    m_count += rhs.m_count;
 
     return *this;
 }
@@ -143,7 +138,7 @@ constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator+=(const quant
 template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator-=(const quantity& rhs) noexcept
 {
-    m_duration -= rhs.m_duration;
+    m_count -= rhs.m_count;
 
     return *this;
 }
@@ -151,7 +146,7 @@ constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator-=(const quant
 template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator*=(const rep& rhs) noexcept
 {
-    m_duration *= rhs;
+    m_count *= rhs;
 
     return *this;
 }
@@ -159,7 +154,7 @@ constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator*=(const rep& 
 template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator/=(const rep& rhs) noexcept
 {
-    m_duration /= rhs;
+    m_count /= rhs;
 
     return *this;
 }
@@ -167,7 +162,7 @@ constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator/=(const rep& 
 template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator%=(const rep& rhs) noexcept
 {
-    m_duration %= rhs;
+    m_count %= rhs;
 
     return *this;
 }
@@ -175,7 +170,7 @@ constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator%=(const rep& 
 template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator%=(const quantity& rhs) noexcept
 {
-    m_duration %= rhs.m_duration;
+    m_count %= rhs.m_count;
 
     return *this;
 }

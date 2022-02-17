@@ -84,6 +84,26 @@ namespace posu::units {
         template<kind Kind>
         inline constexpr bool implicit_chrono = false;
 
+        template<quantity_of_measure T>
+            requires(implicit_chrono<kind_t<T>>)
+        using count_multiplier = ratio_multiply<period_t<T>, period_t<unit_t<T>>>;
+
+        template<quantity_of_measure T>
+            requires(implicit_chrono<kind_t<T>>)
+        using equivalent_chrono = std::chrono::duration<rep_t<T>, count_multiplier<T>>;
+
+        template<std_chrono_duration T, kind Kind>
+        using equivalent_quantity =
+            quantity<rep_t<T>, ratio<period_t<T>::num, period_t<T>::den>, unknown<Kind>>;
+
+        template<typename To, typename From>
+        concept chrono_convertible_from = quantity_of_measure<To> && std_chrono_duration<From> &&
+            implicit_chrono<kind_t<To>> && std::convertible_to<From, equivalent_chrono<To>>;
+
+        template<typename From, typename To>
+        concept chrono_convertible_to = quantity_of_measure<From> && std_chrono_duration<To> &&
+            implicit_chrono<kind_t<From>> && std::convertible_to<equivalent_chrono<From>, To>;
+
     } // namespace detail
 
     /**
@@ -105,12 +125,6 @@ namespace posu::units {
         using kind_type  = kind_t<unit_type>;      //!< The quantity kind.
         using dimensions = dimension_t<kind_type>; //!< The quantity dimension.
 
-    private:
-        using chrono_type = std::chrono::duration<rep, std::ratio<period::num, period::den>>;
-        using chrono_ref  = chrono_type&;
-        using chrono_cref = const chrono_type&;
-
-    public:
         /**
          * @brief Defaulted default constructor.
          */
@@ -156,13 +170,12 @@ namespace posu::units {
          *
          * @{
          */
-        constexpr quantity(
-            const std::chrono::duration<rep, std::ratio<period::num, period::den>>& d) noexcept
-            requires(detail::implicit_chrono<kind_type>);
-        [[nodiscard]] constexpr operator chrono_cref() const noexcept
-            requires(detail::implicit_chrono<kind_type>);
-        [[nodiscard]] constexpr operator chrono_ref() noexcept
-            requires(detail::implicit_chrono<kind_type>);
+        template<typename T>
+        constexpr quantity(const T& d) noexcept
+            requires(detail::chrono_convertible_to<T, quantity>);
+        template<typename T>
+        [[nodiscard]] constexpr operator T() const noexcept
+            requires(detail::chrono_convertible_from<T, quantity>);
         //! @}
 
         /**
@@ -367,9 +380,7 @@ namespace posu::units {
             return lhs <=> quantity<Rep2, rhs_period, rhs_unit>{rhs.count()};
         }
 
-    private : using underlying_type =
-                  std::chrono::duration<Rep, std::ratio<Period::num, Period::den>>;
-        underlying_type m_duration;
+    private : rep m_count;
     };
 
     /**
