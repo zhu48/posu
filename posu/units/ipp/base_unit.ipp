@@ -38,17 +38,17 @@ constexpr posu::units::quantity<Rep, Period, Unit>::quantity(
 }
 
 template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
-template<typename T>
+template<posu::units::detail::std_chrono_duration T>
 constexpr posu::units::quantity<Rep, Period, Unit>::quantity(const T& d) noexcept
-    requires(detail::chrono_convertible_to<T, quantity>)
+    requires(detail::implicit_chrono<kind_type>)
     : quantity{quantity_cast<quantity>(detail::equivalent_quantity<T, kind_type>(d))}
 {
 }
 
 template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
-template<typename T>
+template<posu::units::detail::std_chrono_duration T>
 [[nodiscard]] constexpr posu::units::quantity<Rep, Period, Unit>::operator T() const noexcept
-    requires(detail::chrono_convertible_from<T, quantity>)
+    requires(detail::implicit_chrono<kind_type>)
 {
     return T{quantity_cast<detail::equivalent_chrono<quantity>>(*this).count()};
 }

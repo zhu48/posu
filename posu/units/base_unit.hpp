@@ -170,12 +170,12 @@ namespace posu::units {
          *
          * @{
          */
-        template<typename T>
-        constexpr quantity(const T& d) noexcept
-            requires(detail::chrono_convertible_to<T, quantity>);
-        template<typename T>
-        [[nodiscard]] constexpr operator T() const noexcept
-            requires(detail::chrono_convertible_from<T, quantity>);
+        template<detail::std_chrono_duration T>
+        explicit(!detail::chrono_convertible_to<T, quantity>) constexpr quantity(
+            const T& d) noexcept requires(detail::implicit_chrono<kind_type>);
+        template<detail::std_chrono_duration T>
+        [[nodiscard]] explicit(!detail::chrono_convertible_from<T, quantity>) constexpr
+        operator T() const noexcept requires(detail::implicit_chrono<kind_type>);
         //! @}
 
         /**
