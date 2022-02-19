@@ -186,7 +186,9 @@ namespace posu::units {
         [[nodiscard]] constexpr auto count() const noexcept;
 
         /**
-         * @brief Comparison operators.
+         * @name Relational Operators
+         *
+         * @brief Compare two quantities of the same kind.
          *
          * @param lhs The left-hand-side quantity operand to compare.
          * @param rhs The right-hand-side quantity operand to compare.
@@ -204,6 +206,60 @@ namespace posu::units {
         operator<=>(const quantity& lhs, quantity_of<kind_type> auto const& rhs) noexcept
         {
             return lhs.compare_three_way(rhs);
+        }
+        //! @}
+
+        /**
+         * @name Duration Relational Operators
+         *
+         * @brief Compare a duration quantity to an `std::chrono` duration.
+         *
+         * @tparam Duration The duration type to compare against.
+         *
+         * @param lhs The `posu::units` duration to compare.
+         * @param rhs The `std::chrono` duration to compare.
+         *
+         * @return Returns the comparison result.
+         *
+         * @{
+         */
+        template<detail::std_chrono_duration Duration>
+        [[nodiscard]] friend constexpr bool
+        operator==(const quantity& lhs, const Duration& rhs) noexcept
+            requires(detail::implicit_chrono<kind_type>)
+        {
+            return lhs == detail::equivalent_quantity<Duration, kind_type>{rhs.count()};
+        }
+        template<detail::std_chrono_duration Duration>
+        [[nodiscard]] friend constexpr auto
+        operator<=>(const quantity& lhs, const Duration& rhs) noexcept
+            requires(detail::implicit_chrono<kind_type>)
+        {
+            return lhs <=> detail::equivalent_quantity<Duration, kind_type>{rhs.count()};
+        }
+        //! @}
+
+        /**
+         * @name Scaler Relational Operators
+         *
+         * @brief Compare a scaler quantity to a number of its representation type.
+         *
+         * @param lhs The scaler quantity to compare.
+         * @param rhs The number to compare.
+         *
+         * @return Returns the comparison result.
+         *
+         * @{
+         */
+        [[nodiscard]] friend constexpr bool
+        operator==(const quantity& lhs, const Rep& rhs) noexcept requires scaler_kind<kind_type>
+        {
+            return lhs == quantity<Rep, ratio<1>, scaler<>>{rhs};
+        }
+        [[nodiscard]] friend constexpr auto
+        operator<=>(const quantity& lhs, const Rep& rhs) noexcept requires scaler_kind<kind_type>
+        {
+            return lhs <=> quantity<Rep, ratio<1>, scaler<>>{rhs};
         }
         //! @}
 
@@ -347,36 +403,9 @@ namespace posu::units {
 
         //! @}
 
-        [[nodiscard]] friend constexpr bool
-        operator==(const quantity& lhs, const Rep& rhs) noexcept requires scaler_kind<kind_type>
-        {
-            return lhs == quantity<Rep, ratio<1>, scaler<>>{rhs};
-        }
-
-        [[nodiscard]] friend constexpr auto
-        operator<=>(const quantity& lhs, const Rep& rhs) noexcept requires scaler_kind<kind_type>
-        {
-            return lhs <=> quantity<Rep, ratio<1>, scaler<>>{rhs};
-        }
-
-        template<detail::std_chrono_duration Duration>
-        [[nodiscard]] friend constexpr bool
-        operator==(const quantity& lhs, const Duration& rhs) noexcept
-            requires(detail::implicit_chrono<kind_type>)
-        {
-            return lhs == detail::equivalent_quantity<Duration, kind_type>{rhs.count()};
-        }
-
-        template<detail::std_chrono_duration Duration>
-        [[nodiscard]] friend constexpr auto
-        operator<=>(const quantity& lhs, const Duration& rhs) noexcept
-            requires(detail::implicit_chrono<kind_type>)
-        {
-            return lhs <=> detail::equivalent_quantity<Duration, kind_type>{rhs.count()};
-        }
-
-    private : [[nodiscard]] constexpr bool
-              compare_equal(quantity_of<kind_type> auto const& rhs) const noexcept;
+    private:
+        [[nodiscard]] constexpr bool
+        compare_equal(quantity_of<kind_type> auto const& rhs) const noexcept;
         [[nodiscard]] constexpr auto
         compare_three_way(quantity_of<kind_type> auto const& rhs) const noexcept;
 
