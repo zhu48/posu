@@ -355,7 +355,7 @@ namespace posu::units {
         [[nodiscard]] friend constexpr auto
         operator<=>(const quantity& lhs, const Rep& rhs) noexcept requires scaler_kind<kind_type>
         {
-            return lhs.m_duration.count() <=> rhs;
+            return lhs <=> quantity<Rep, ratio<1>, scaler<>>{rhs};
         }
 
         template<typename Rep2, typename Period2>

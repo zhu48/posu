@@ -251,7 +251,12 @@ CATCH_TEMPLATE_TEST_CASE(
         CATCH_CHECK((lhs - rhs) == TestType(8));
         CATCH_CHECK((lhs * 4) == TestType(40));
         CATCH_CHECK((3 * rhs) == TestType(6));
+        CATCH_CHECK((lhs / rhs) < 6);
+        CATCH_CHECK((lhs / rhs) <= 6);
+        CATCH_CHECK((lhs / rhs) <= 5);
         CATCH_CHECK((lhs / rhs) == 5);
+        CATCH_CHECK((lhs / rhs) >= 4);
+        CATCH_CHECK((lhs / rhs) > 4);
         CATCH_CHECK((lhs / 5) == TestType(2));
         CATCH_CHECK((lhs % rhs) == TestType(0));
         CATCH_CHECK((lhs % 7) == TestType(3));
