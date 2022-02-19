@@ -1,8 +1,4 @@
 
-template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
-struct posu::units::is_quantity<posu::units::quantity<Rep, Period, Unit>> : public std::true_type {
-};
-
 template<posu::units::quantity_of_measure To, posu::units::quantity_of_measure From>
     requires(posu::units::quantity_comparable_with<To, From>)
 [[nodiscard]] constexpr auto posu::units::quantity_cast(const From& quantity) noexcept -> To

@@ -27,17 +27,16 @@ namespace posu::units {
      *
      * @{
      */
-
     template<typename T>
     struct is_quantity : public std::false_type {
     };
-
+    template<arithmetic Rep, ratio_type Period, unit Unit>
+    struct is_quantity<quantity<Rep, Period, Unit>> : public std::true_type {
+    };
     template<typename T>
     inline constexpr bool is_quantity_v = is_quantity<T>::value;
-
     template<typename T>
     concept quantity_of_measure = is_quantity_v<T>;
-
     //! @}
 
     /**
