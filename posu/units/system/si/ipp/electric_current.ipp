@@ -8,9 +8,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::electric_current_literals::operator""_aA(long double value)
-        -> basic_ampere<double, std::atto>
+        -> basic_ampere<double, atto>
 {
-    return basic_ampere<double, std::atto>(value);
+    return basic_ampere<double, atto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -22,9 +22,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::electric_current_literals::operator""_fA(long double value)
-        -> basic_ampere<double, std::femto>
+        -> basic_ampere<double, femto>
 {
-    return basic_ampere<double, std::femto>(value);
+    return basic_ampere<double, femto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -36,9 +36,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::electric_current_literals::operator""_pA(long double value)
-        -> basic_ampere<double, std::pico>
+        -> basic_ampere<double, pico>
 {
-    return basic_ampere<double, std::pico>(value);
+    return basic_ampere<double, pico>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -50,9 +50,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::electric_current_literals::operator""_nA(long double value)
-        -> basic_ampere<double, std::nano>
+        -> basic_ampere<double, nano>
 {
-    return basic_ampere<double, std::nano>(value);
+    return basic_ampere<double, nano>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -64,9 +64,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::electric_current_literals::operator""_uA(long double value)
-        -> basic_ampere<double, std::micro>
+        -> basic_ampere<double, micro>
 {
-    return basic_ampere<double, std::micro>(value);
+    return basic_ampere<double, micro>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -78,9 +78,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::electric_current_literals::operator""_mA(long double value)
-        -> basic_ampere<double, std::milli>
+        -> basic_ampere<double, milli>
 {
-    return basic_ampere<double, std::milli>(value);
+    return basic_ampere<double, milli>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -92,9 +92,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::electric_current_literals::operator""_cA(long double value)
-        -> basic_ampere<double, std::centi>
+        -> basic_ampere<double, centi>
 {
-    return basic_ampere<double, std::centi>(value);
+    return basic_ampere<double, centi>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -106,9 +106,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::electric_current_literals::operator""_dA(long double value)
-        -> basic_ampere<double, std::deci>
+        -> basic_ampere<double, deci>
 {
-    return basic_ampere<double, std::deci>(value);
+    return basic_ampere<double, deci>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -120,9 +120,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::electric_current_literals::operator""_A(long double value)
-        -> basic_ampere<double, std::ratio<1>>
+        -> basic_ampere<double, ratio<1>>
 {
-    return basic_ampere<double, std::ratio<1>>(value);
+    return basic_ampere<double, ratio<1>>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -134,9 +134,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::electric_current_literals::operator""_daA(long double value)
-        -> basic_ampere<double, std::deca>
+        -> basic_ampere<double, deca>
 {
-    return basic_ampere<double, std::deca>(value);
+    return basic_ampere<double, deca>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -148,9 +148,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::electric_current_literals::operator""_hA(long double value)
-        -> basic_ampere<double, std::hecto>
+        -> basic_ampere<double, hecto>
 {
-    return basic_ampere<double, std::hecto>(value);
+    return basic_ampere<double, hecto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -162,9 +162,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::electric_current_literals::operator""_kA(long double value)
-        -> basic_ampere<double, std::kilo>
+        -> basic_ampere<double, kilo>
 {
-    return basic_ampere<double, std::kilo>(value);
+    return basic_ampere<double, kilo>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -176,9 +176,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::electric_current_literals::operator""_MA(long double value)
-        -> basic_ampere<double, std::mega>
+        -> basic_ampere<double, mega>
 {
-    return basic_ampere<double, std::mega>(value);
+    return basic_ampere<double, mega>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -190,9 +190,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::electric_current_literals::operator""_GA(long double value)
-        -> basic_ampere<double, std::giga>
+        -> basic_ampere<double, giga>
 {
-    return basic_ampere<double, std::giga>(value);
+    return basic_ampere<double, giga>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -204,9 +204,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::electric_current_literals::operator""_TA(long double value)
-        -> basic_ampere<double, std::tera>
+        -> basic_ampere<double, tera>
 {
-    return basic_ampere<double, std::tera>(value);
+    return basic_ampere<double, tera>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -218,9 +218,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::electric_current_literals::operator""_PA(long double value)
-        -> basic_ampere<double, std::peta>
+        -> basic_ampere<double, peta>
 {
-    return basic_ampere<double, std::peta>(value);
+    return basic_ampere<double, peta>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -232,7 +232,7 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::electric_current_literals::operator""_EA(long double value)
-        -> basic_ampere<double, std::exa>
+        -> basic_ampere<double, exa>
 {
-    return basic_ampere<double, std::exa>(value);
+    return basic_ampere<double, exa>(value);
 }

@@ -14,7 +14,7 @@ namespace posu::units::si {
     struct force : public posu::units::force {
         using type      = force;
         using kind_type = posu::units::force;
-        using period    = std::kilo;
+        using period    = kilo;
     };
 
 } // namespace posu::units::si
@@ -46,23 +46,23 @@ namespace posu::units::si {
     template<typename Rep, typename Period>
     using basic_newton = quantity<Rep, Period, force>;
 
-    using attonewtons  = basic_newton<int, std::atto>;
-    using femtonewtons = basic_newton<int, std::femto>;
-    using piconewtons  = basic_newton<int, std::pico>;
-    using nanonewtons  = basic_newton<int, std::nano>;
-    using micronewtons = basic_newton<int, std::micro>;
-    using millinewtons = basic_newton<int, std::milli>;
-    using centinewtons = basic_newton<int, std::centi>;
-    using decinewtons  = basic_newton<int, std::deci>;
-    using newtons      = basic_newton<int, std::ratio<1>>;
-    using decanewtons  = basic_newton<int, std::deca>;
-    using hectonewtons = basic_newton<int, std::hecto>;
-    using kilonewtons  = basic_newton<int, std::kilo>;
-    using meganewtons  = basic_newton<int, std::mega>;
-    using giganewtons  = basic_newton<int, std::giga>;
-    using teranewtons  = basic_newton<int, std::tera>;
-    using petanewtons  = basic_newton<int, std::peta>;
-    using exanewtons   = basic_newton<int, std::exa>;
+    using attonewtons  = basic_newton<int, atto>;
+    using femtonewtons = basic_newton<int, femto>;
+    using piconewtons  = basic_newton<int, pico>;
+    using nanonewtons  = basic_newton<int, nano>;
+    using micronewtons = basic_newton<int, micro>;
+    using millinewtons = basic_newton<int, milli>;
+    using centinewtons = basic_newton<int, centi>;
+    using decinewtons  = basic_newton<int, deci>;
+    using newtons      = basic_newton<int, ratio<1>>;
+    using decanewtons  = basic_newton<int, deca>;
+    using hectonewtons = basic_newton<int, hecto>;
+    using kilonewtons  = basic_newton<int, kilo>;
+    using meganewtons  = basic_newton<int, mega>;
+    using giganewtons  = basic_newton<int, giga>;
+    using teranewtons  = basic_newton<int, tera>;
+    using petanewtons  = basic_newton<int, peta>;
+    using exanewtons   = basic_newton<int, exa>;
 
     inline namespace literals {
 
@@ -70,55 +70,55 @@ namespace posu::units::si {
 
             [[nodiscard]] constexpr auto operator""_aN(unsigned long long value) -> attonewtons;
             [[nodiscard]] constexpr auto operator""_aN(long double value)
-                -> basic_newton<double, std::atto>;
+                -> basic_newton<double, atto>;
             [[nodiscard]] constexpr auto operator""_fN(unsigned long long value) -> femtonewtons;
             [[nodiscard]] constexpr auto operator""_fN(long double value)
-                -> basic_newton<double, std::femto>;
+                -> basic_newton<double, femto>;
             [[nodiscard]] constexpr auto operator""_pN(unsigned long long value) -> piconewtons;
             [[nodiscard]] constexpr auto operator""_pN(long double value)
-                -> basic_newton<double, std::pico>;
+                -> basic_newton<double, pico>;
             [[nodiscard]] constexpr auto operator""_nN(unsigned long long value) -> nanonewtons;
             [[nodiscard]] constexpr auto operator""_nN(long double value)
-                -> basic_newton<double, std::nano>;
+                -> basic_newton<double, nano>;
             [[nodiscard]] constexpr auto operator""_uN(unsigned long long value) -> micronewtons;
             [[nodiscard]] constexpr auto operator""_uN(long double value)
-                -> basic_newton<double, std::micro>;
+                -> basic_newton<double, micro>;
             [[nodiscard]] constexpr auto operator""_mN(unsigned long long value) -> millinewtons;
             [[nodiscard]] constexpr auto operator""_mN(long double value)
-                -> basic_newton<double, std::milli>;
+                -> basic_newton<double, milli>;
             [[nodiscard]] constexpr auto operator""_cN(unsigned long long value) -> centinewtons;
             [[nodiscard]] constexpr auto operator""_cN(long double value)
-                -> basic_newton<double, std::centi>;
+                -> basic_newton<double, centi>;
             [[nodiscard]] constexpr auto operator""_dN(unsigned long long value) -> decinewtons;
             [[nodiscard]] constexpr auto operator""_dN(long double value)
-                -> basic_newton<double, std::deci>;
+                -> basic_newton<double, deci>;
             [[nodiscard]] constexpr auto operator""_N(unsigned long long value) -> newtons;
             [[nodiscard]] constexpr auto operator""_N(long double value)
-                -> basic_newton<double, std::ratio<1>>;
+                -> basic_newton<double, ratio<1>>;
             [[nodiscard]] constexpr auto operator""_daN(unsigned long long value) -> decanewtons;
             [[nodiscard]] constexpr auto operator""_daN(long double value)
-                -> basic_newton<double, std::deca>;
+                -> basic_newton<double, deca>;
             [[nodiscard]] constexpr auto operator""_hN(unsigned long long value) -> hectonewtons;
             [[nodiscard]] constexpr auto operator""_hN(long double value)
-                -> basic_newton<double, std::hecto>;
+                -> basic_newton<double, hecto>;
             [[nodiscard]] constexpr auto operator""_kN(unsigned long long value) -> kilonewtons;
             [[nodiscard]] constexpr auto operator""_kN(long double value)
-                -> basic_newton<double, std::kilo>;
+                -> basic_newton<double, kilo>;
             [[nodiscard]] constexpr auto operator""_MN(unsigned long long value) -> meganewtons;
             [[nodiscard]] constexpr auto operator""_MN(long double value)
-                -> basic_newton<double, std::mega>;
+                -> basic_newton<double, mega>;
             [[nodiscard]] constexpr auto operator""_GN(unsigned long long value) -> giganewtons;
             [[nodiscard]] constexpr auto operator""_GN(long double value)
-                -> basic_newton<double, std::giga>;
+                -> basic_newton<double, giga>;
             [[nodiscard]] constexpr auto operator""_TN(unsigned long long value) -> teranewtons;
             [[nodiscard]] constexpr auto operator""_TN(long double value)
-                -> basic_newton<double, std::tera>;
+                -> basic_newton<double, tera>;
             [[nodiscard]] constexpr auto operator""_PN(unsigned long long value) -> petanewtons;
             [[nodiscard]] constexpr auto operator""_PN(long double value)
-                -> basic_newton<double, std::peta>;
+                -> basic_newton<double, peta>;
             [[nodiscard]] constexpr auto operator""_EN(unsigned long long value) -> exanewtons;
             [[nodiscard]] constexpr auto operator""_EN(long double value)
-                -> basic_newton<double, std::exa>;
+                -> basic_newton<double, exa>;
 
         } // namespace force_literals
 

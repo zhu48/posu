@@ -13,11 +13,11 @@ namespace {
 
 namespace Catch {
 
-    template<std::intmax_t Num, std::intmax_t Den>
-    struct StringMaker<std::ratio<Num, Den>> {
-        static std::string convert(const std::ratio<Num, Den>& /*unused*/)
+    template<std::intmax_t Num, std::intmax_t Den, std::intmax_t Exp>
+    struct StringMaker<posu::ratio<Num, Den, Exp>> {
+        static std::string convert(const posu::ratio<Num, Den>& /*unused*/)
         {
-            return std::to_string(Num) + '/' + std::to_string(Den);
+            return std::to_string(Num) + '/' + std::to_string(Den) + 'e' + std::to_string(Exp);
         }
     };
 
@@ -26,11 +26,9 @@ namespace Catch {
         static std::string convert(const Quantity& value)
         {
             return std::to_string(value.count()) + ' ' +
-                   StringMaker<units::period_t<Quantity>>::convert(units::period_t<Quantity>{}) +
-                   ' ' +
-                   StringMaker<units::period_t<units::unit_t<Quantity>>>::convert(
-                       units::period_t<units::unit_t<Quantity>>{}) +
-                   ' ' + std::string(Quantity::unit_type::value);
+                   StringMaker<units::period_t<Quantity>>::convert({}) + ' ' +
+                   StringMaker<units::period_t<units::unit_t<Quantity>>>::convert({}) + ' ' +
+                   std::string(Quantity::unit_type::value);
         }
     };
 

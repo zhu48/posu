@@ -10,7 +10,7 @@ namespace posu::units::si {
     struct mass : public posu::units::mass {
         using type      = mass;
         using kind_type = posu::units::mass;
-        using period    = std::ratio<1>;
+        using period    = ratio<1>;
     };
 
 } // namespace posu::units::si
@@ -27,23 +27,23 @@ namespace posu::units::si {
     template<typename Rep, typename Period>
     using basic_gram = quantity<Rep, Period, mass>;
 
-    using attograms  = basic_gram<int, std::atto>;
-    using femtograms = basic_gram<int, std::femto>;
-    using picograms  = basic_gram<int, std::pico>;
-    using nanograms  = basic_gram<int, std::nano>;
-    using micrograms = basic_gram<int, std::micro>;
-    using milligrams = basic_gram<int, std::milli>;
-    using centigrams = basic_gram<int, std::centi>;
-    using decigrams  = basic_gram<int, std::deci>;
-    using grams      = basic_gram<int, std::ratio<1>>;
-    using decagrams  = basic_gram<int, std::deca>;
-    using hectograms = basic_gram<int, std::hecto>;
-    using kilograms  = basic_gram<int, std::kilo>;
-    using megagrams  = basic_gram<int, std::mega>;
-    using gigagrams  = basic_gram<int, std::giga>;
-    using teragrams  = basic_gram<int, std::tera>;
-    using petagrams  = basic_gram<int, std::peta>;
-    using exagrams   = basic_gram<int, std::exa>;
+    using attograms  = basic_gram<int, atto>;
+    using femtograms = basic_gram<int, femto>;
+    using picograms  = basic_gram<int, pico>;
+    using nanograms  = basic_gram<int, nano>;
+    using micrograms = basic_gram<int, micro>;
+    using milligrams = basic_gram<int, milli>;
+    using centigrams = basic_gram<int, centi>;
+    using decigrams  = basic_gram<int, deci>;
+    using grams      = basic_gram<int, ratio<1>>;
+    using decagrams  = basic_gram<int, deca>;
+    using hectograms = basic_gram<int, hecto>;
+    using kilograms  = basic_gram<int, kilo>;
+    using megagrams  = basic_gram<int, mega>;
+    using gigagrams  = basic_gram<int, giga>;
+    using teragrams  = basic_gram<int, tera>;
+    using petagrams  = basic_gram<int, peta>;
+    using exagrams   = basic_gram<int, exa>;
 
     inline namespace literals {
 
@@ -51,55 +51,55 @@ namespace posu::units::si {
 
             [[nodiscard]] constexpr auto operator""_ag(unsigned long long value) -> attograms;
             [[nodiscard]] constexpr auto operator""_ag(long double value)
-                -> basic_gram<double, std::atto>;
+                -> basic_gram<double, atto>;
             [[nodiscard]] constexpr auto operator""_fg(unsigned long long value) -> femtograms;
             [[nodiscard]] constexpr auto operator""_fg(long double value)
-                -> basic_gram<double, std::femto>;
+                -> basic_gram<double, femto>;
             [[nodiscard]] constexpr auto operator""_pg(unsigned long long value) -> picograms;
             [[nodiscard]] constexpr auto operator""_pg(long double value)
-                -> basic_gram<double, std::pico>;
+                -> basic_gram<double, pico>;
             [[nodiscard]] constexpr auto operator""_ng(unsigned long long value) -> nanograms;
             [[nodiscard]] constexpr auto operator""_ng(long double value)
-                -> basic_gram<double, std::nano>;
+                -> basic_gram<double, nano>;
             [[nodiscard]] constexpr auto operator""_ug(unsigned long long value) -> micrograms;
             [[nodiscard]] constexpr auto operator""_ug(long double value)
-                -> basic_gram<double, std::micro>;
+                -> basic_gram<double, micro>;
             [[nodiscard]] constexpr auto operator""_mg(unsigned long long value) -> milligrams;
             [[nodiscard]] constexpr auto operator""_mg(long double value)
-                -> basic_gram<double, std::milli>;
+                -> basic_gram<double, milli>;
             [[nodiscard]] constexpr auto operator""_cg(unsigned long long value) -> centigrams;
             [[nodiscard]] constexpr auto operator""_cg(long double value)
-                -> basic_gram<double, std::centi>;
+                -> basic_gram<double, centi>;
             [[nodiscard]] constexpr auto operator""_dg(unsigned long long value) -> decigrams;
             [[nodiscard]] constexpr auto operator""_dg(long double value)
-                -> basic_gram<double, std::deci>;
+                -> basic_gram<double, deci>;
             [[nodiscard]] constexpr auto operator""_g(unsigned long long value) -> grams;
             [[nodiscard]] constexpr auto operator""_g(long double value)
-                -> basic_gram<double, std::ratio<1>>;
+                -> basic_gram<double, ratio<1>>;
             [[nodiscard]] constexpr auto operator""_dag(unsigned long long value) -> decagrams;
             [[nodiscard]] constexpr auto operator""_dag(long double value)
-                -> basic_gram<double, std::deca>;
+                -> basic_gram<double, deca>;
             [[nodiscard]] constexpr auto operator""_hg(unsigned long long value) -> hectograms;
             [[nodiscard]] constexpr auto operator""_hg(long double value)
-                -> basic_gram<double, std::hecto>;
+                -> basic_gram<double, hecto>;
             [[nodiscard]] constexpr auto operator""_kg(unsigned long long value) -> kilograms;
             [[nodiscard]] constexpr auto operator""_kg(long double value)
-                -> basic_gram<double, std::kilo>;
+                -> basic_gram<double, kilo>;
             [[nodiscard]] constexpr auto operator""_Mg(unsigned long long value) -> megagrams;
             [[nodiscard]] constexpr auto operator""_Mg(long double value)
-                -> basic_gram<double, std::mega>;
+                -> basic_gram<double, mega>;
             [[nodiscard]] constexpr auto operator""_Gg(unsigned long long value) -> gigagrams;
             [[nodiscard]] constexpr auto operator""_Gg(long double value)
-                -> basic_gram<double, std::giga>;
+                -> basic_gram<double, giga>;
             [[nodiscard]] constexpr auto operator""_Tg(unsigned long long value) -> teragrams;
             [[nodiscard]] constexpr auto operator""_Tg(long double value)
-                -> basic_gram<double, std::tera>;
+                -> basic_gram<double, tera>;
             [[nodiscard]] constexpr auto operator""_Pg(unsigned long long value) -> petagrams;
             [[nodiscard]] constexpr auto operator""_Pg(long double value)
-                -> basic_gram<double, std::peta>;
+                -> basic_gram<double, peta>;
             [[nodiscard]] constexpr auto operator""_Eg(unsigned long long value) -> exagrams;
             [[nodiscard]] constexpr auto operator""_Eg(long double value)
-                -> basic_gram<double, std::exa>;
+                -> basic_gram<double, exa>;
 
         } // namespace mass_literals
 

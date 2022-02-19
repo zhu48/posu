@@ -8,9 +8,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_intensity_literals::operator""_acd(long double value)
-        -> basic_candela<double, std::atto>
+        -> basic_candela<double, atto>
 {
-    return basic_candela<double, std::atto>(value);
+    return basic_candela<double, atto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -22,9 +22,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_intensity_literals::operator""_fcd(long double value)
-        -> basic_candela<double, std::femto>
+        -> basic_candela<double, femto>
 {
-    return basic_candela<double, std::femto>(value);
+    return basic_candela<double, femto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -36,9 +36,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_intensity_literals::operator""_pcd(long double value)
-        -> basic_candela<double, std::pico>
+        -> basic_candela<double, pico>
 {
-    return basic_candela<double, std::pico>(value);
+    return basic_candela<double, pico>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -50,9 +50,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_intensity_literals::operator""_ncd(long double value)
-        -> basic_candela<double, std::nano>
+        -> basic_candela<double, nano>
 {
-    return basic_candela<double, std::nano>(value);
+    return basic_candela<double, nano>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -64,9 +64,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_intensity_literals::operator""_ucd(long double value)
-        -> basic_candela<double, std::micro>
+        -> basic_candela<double, micro>
 {
-    return basic_candela<double, std::micro>(value);
+    return basic_candela<double, micro>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -78,9 +78,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_intensity_literals::operator""_mcd(long double value)
-        -> basic_candela<double, std::milli>
+        -> basic_candela<double, milli>
 {
-    return basic_candela<double, std::milli>(value);
+    return basic_candela<double, milli>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -92,9 +92,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_intensity_literals::operator""_ccd(long double value)
-        -> basic_candela<double, std::centi>
+        -> basic_candela<double, centi>
 {
-    return basic_candela<double, std::centi>(value);
+    return basic_candela<double, centi>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -106,9 +106,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_intensity_literals::operator""_dcd(long double value)
-        -> basic_candela<double, std::deci>
+        -> basic_candela<double, deci>
 {
-    return basic_candela<double, std::deci>(value);
+    return basic_candela<double, deci>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -120,9 +120,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_intensity_literals::operator""_cd(long double value)
-        -> basic_candela<double, std::ratio<1>>
+        -> basic_candela<double, ratio<1>>
 {
-    return basic_candela<double, std::ratio<1>>(value);
+    return basic_candela<double, ratio<1>>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -134,9 +134,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_intensity_literals::operator""_dacd(long double value)
-        -> basic_candela<double, std::deca>
+        -> basic_candela<double, deca>
 {
-    return basic_candela<double, std::deca>(value);
+    return basic_candela<double, deca>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -148,9 +148,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_intensity_literals::operator""_hcd(long double value)
-        -> basic_candela<double, std::hecto>
+        -> basic_candela<double, hecto>
 {
-    return basic_candela<double, std::hecto>(value);
+    return basic_candela<double, hecto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -162,9 +162,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_intensity_literals::operator""_kcd(long double value)
-        -> basic_candela<double, std::kilo>
+        -> basic_candela<double, kilo>
 {
-    return basic_candela<double, std::kilo>(value);
+    return basic_candela<double, kilo>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -176,9 +176,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_intensity_literals::operator""_Mcd(long double value)
-        -> basic_candela<double, std::mega>
+        -> basic_candela<double, mega>
 {
-    return basic_candela<double, std::mega>(value);
+    return basic_candela<double, mega>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -190,9 +190,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_intensity_literals::operator""_Gcd(long double value)
-        -> basic_candela<double, std::giga>
+        -> basic_candela<double, giga>
 {
-    return basic_candela<double, std::giga>(value);
+    return basic_candela<double, giga>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -204,9 +204,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_intensity_literals::operator""_Tcd(long double value)
-        -> basic_candela<double, std::tera>
+        -> basic_candela<double, tera>
 {
-    return basic_candela<double, std::tera>(value);
+    return basic_candela<double, tera>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -218,9 +218,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_intensity_literals::operator""_Pcd(long double value)
-        -> basic_candela<double, std::peta>
+        -> basic_candela<double, peta>
 {
-    return basic_candela<double, std::peta>(value);
+    return basic_candela<double, peta>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -232,7 +232,7 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::luminous_intensity_literals::operator""_Ecd(long double value)
-        -> basic_candela<double, std::exa>
+        -> basic_candela<double, exa>
 {
-    return basic_candela<double, std::exa>(value);
+    return basic_candela<double, exa>(value);
 }

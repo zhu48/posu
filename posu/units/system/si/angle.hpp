@@ -10,7 +10,7 @@ namespace posu::units::si {
     struct angle : public posu::units::angle {
         using type      = angle;
         using kind_type = posu::units::angle;
-        using period    = std::ratio<1>;
+        using period    = ratio<1>;
     };
 
 } // namespace posu::units::si
@@ -27,23 +27,23 @@ namespace posu::units::si {
     template<typename Rep, typename Period>
     using basic_radian = quantity<Rep, Period, angle>;
 
-    using attoradians  = basic_radian<int, std::atto>;
-    using femtoradians = basic_radian<int, std::femto>;
-    using picoradians  = basic_radian<int, std::pico>;
-    using nanoradians  = basic_radian<int, std::nano>;
-    using microradians = basic_radian<int, std::micro>;
-    using milliradians = basic_radian<int, std::milli>;
-    using centiradians = basic_radian<int, std::centi>;
-    using deciradians  = basic_radian<int, std::deci>;
-    using radians      = basic_radian<int, std::ratio<1>>;
-    using decaradians  = basic_radian<int, std::deca>;
-    using hectoradians = basic_radian<int, std::hecto>;
-    using kiloradians  = basic_radian<int, std::kilo>;
-    using megaradians  = basic_radian<int, std::mega>;
-    using gigaradians  = basic_radian<int, std::giga>;
-    using teraradians  = basic_radian<int, std::tera>;
-    using petaradians  = basic_radian<int, std::peta>;
-    using exaradians   = basic_radian<int, std::exa>;
+    using attoradians  = basic_radian<int, atto>;
+    using femtoradians = basic_radian<int, femto>;
+    using picoradians  = basic_radian<int, pico>;
+    using nanoradians  = basic_radian<int, nano>;
+    using microradians = basic_radian<int, micro>;
+    using milliradians = basic_radian<int, milli>;
+    using centiradians = basic_radian<int, centi>;
+    using deciradians  = basic_radian<int, deci>;
+    using radians      = basic_radian<int, ratio<1>>;
+    using decaradians  = basic_radian<int, deca>;
+    using hectoradians = basic_radian<int, hecto>;
+    using kiloradians  = basic_radian<int, kilo>;
+    using megaradians  = basic_radian<int, mega>;
+    using gigaradians  = basic_radian<int, giga>;
+    using teraradians  = basic_radian<int, tera>;
+    using petaradians  = basic_radian<int, peta>;
+    using exaradians   = basic_radian<int, exa>;
 
     inline namespace literals {
 
@@ -51,55 +51,55 @@ namespace posu::units::si {
 
             [[nodiscard]] constexpr auto operator""_arad(unsigned long long value) -> attoradians;
             [[nodiscard]] constexpr auto operator""_arad(long double value)
-                -> basic_radian<double, std::atto>;
+                -> basic_radian<double, atto>;
             [[nodiscard]] constexpr auto operator""_frad(unsigned long long value) -> femtoradians;
             [[nodiscard]] constexpr auto operator""_frad(long double value)
-                -> basic_radian<double, std::femto>;
+                -> basic_radian<double, femto>;
             [[nodiscard]] constexpr auto operator""_prad(unsigned long long value) -> picoradians;
             [[nodiscard]] constexpr auto operator""_prad(long double value)
-                -> basic_radian<double, std::pico>;
+                -> basic_radian<double, pico>;
             [[nodiscard]] constexpr auto operator""_nrad(unsigned long long value) -> nanoradians;
             [[nodiscard]] constexpr auto operator""_nrad(long double value)
-                -> basic_radian<double, std::nano>;
+                -> basic_radian<double, nano>;
             [[nodiscard]] constexpr auto operator""_urad(unsigned long long value) -> microradians;
             [[nodiscard]] constexpr auto operator""_urad(long double value)
-                -> basic_radian<double, std::micro>;
+                -> basic_radian<double, micro>;
             [[nodiscard]] constexpr auto operator""_mrad(unsigned long long value) -> milliradians;
             [[nodiscard]] constexpr auto operator""_mrad(long double value)
-                -> basic_radian<double, std::milli>;
+                -> basic_radian<double, milli>;
             [[nodiscard]] constexpr auto operator""_crad(unsigned long long value) -> centiradians;
             [[nodiscard]] constexpr auto operator""_crad(long double value)
-                -> basic_radian<double, std::centi>;
+                -> basic_radian<double, centi>;
             [[nodiscard]] constexpr auto operator""_drad(unsigned long long value) -> deciradians;
             [[nodiscard]] constexpr auto operator""_drad(long double value)
-                -> basic_radian<double, std::deci>;
+                -> basic_radian<double, deci>;
             [[nodiscard]] constexpr auto operator""_rad(unsigned long long value) -> radians;
             [[nodiscard]] constexpr auto operator""_rad(long double value)
-                -> basic_radian<double, std::ratio<1>>;
+                -> basic_radian<double, ratio<1>>;
             [[nodiscard]] constexpr auto operator""_darad(unsigned long long value) -> decaradians;
             [[nodiscard]] constexpr auto operator""_darad(long double value)
-                -> basic_radian<double, std::deca>;
+                -> basic_radian<double, deca>;
             [[nodiscard]] constexpr auto operator""_hrad(unsigned long long value) -> hectoradians;
             [[nodiscard]] constexpr auto operator""_hrad(long double value)
-                -> basic_radian<double, std::hecto>;
+                -> basic_radian<double, hecto>;
             [[nodiscard]] constexpr auto operator""_krad(unsigned long long value) -> kiloradians;
             [[nodiscard]] constexpr auto operator""_krad(long double value)
-                -> basic_radian<double, std::kilo>;
+                -> basic_radian<double, kilo>;
             [[nodiscard]] constexpr auto operator""_Mrad(unsigned long long value) -> megaradians;
             [[nodiscard]] constexpr auto operator""_Mrad(long double value)
-                -> basic_radian<double, std::mega>;
+                -> basic_radian<double, mega>;
             [[nodiscard]] constexpr auto operator""_Grad(unsigned long long value) -> gigaradians;
             [[nodiscard]] constexpr auto operator""_Grad(long double value)
-                -> basic_radian<double, std::giga>;
+                -> basic_radian<double, giga>;
             [[nodiscard]] constexpr auto operator""_Trad(unsigned long long value) -> teraradians;
             [[nodiscard]] constexpr auto operator""_Trad(long double value)
-                -> basic_radian<double, std::tera>;
+                -> basic_radian<double, tera>;
             [[nodiscard]] constexpr auto operator""_Prad(unsigned long long value) -> petaradians;
             [[nodiscard]] constexpr auto operator""_Prad(long double value)
-                -> basic_radian<double, std::peta>;
+                -> basic_radian<double, peta>;
             [[nodiscard]] constexpr auto operator""_Erad(unsigned long long value) -> exaradians;
             [[nodiscard]] constexpr auto operator""_Erad(long double value)
-                -> basic_radian<double, std::exa>;
+                -> basic_radian<double, exa>;
 
         } // namespace angle_literals
 

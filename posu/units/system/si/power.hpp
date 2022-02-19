@@ -13,7 +13,7 @@ namespace posu::units::si {
     struct power : public posu::units::power {
         using type      = power;
         using kind_type = posu::units::power;
-        using period    = std::kilo;
+        using period    = kilo;
     };
 
 } // namespace posu::units::si
@@ -30,23 +30,23 @@ namespace posu::units::si {
     template<typename Rep, typename Period>
     using basic_watt = quantity<Rep, Period, power>;
 
-    using attowatts  = basic_watt<int, std::atto>;
-    using femtowatts = basic_watt<int, std::femto>;
-    using picowatts  = basic_watt<int, std::pico>;
-    using nanowatts  = basic_watt<int, std::nano>;
-    using microwatts = basic_watt<int, std::micro>;
-    using milliwatts = basic_watt<int, std::milli>;
-    using centiwatts = basic_watt<int, std::centi>;
-    using deciwatts  = basic_watt<int, std::deci>;
-    using watts      = basic_watt<int, std::ratio<1>>;
-    using decawatts  = basic_watt<int, std::deca>;
-    using hectowatts = basic_watt<int, std::hecto>;
-    using kilowatts  = basic_watt<int, std::kilo>;
-    using megawatts  = basic_watt<int, std::mega>;
-    using gigawatts  = basic_watt<int, std::giga>;
-    using terawatts  = basic_watt<int, std::tera>;
-    using petawatts  = basic_watt<int, std::peta>;
-    using exawatts   = basic_watt<int, std::exa>;
+    using attowatts  = basic_watt<int, atto>;
+    using femtowatts = basic_watt<int, femto>;
+    using picowatts  = basic_watt<int, pico>;
+    using nanowatts  = basic_watt<int, nano>;
+    using microwatts = basic_watt<int, micro>;
+    using milliwatts = basic_watt<int, milli>;
+    using centiwatts = basic_watt<int, centi>;
+    using deciwatts  = basic_watt<int, deci>;
+    using watts      = basic_watt<int, ratio<1>>;
+    using decawatts  = basic_watt<int, deca>;
+    using hectowatts = basic_watt<int, hecto>;
+    using kilowatts  = basic_watt<int, kilo>;
+    using megawatts  = basic_watt<int, mega>;
+    using gigawatts  = basic_watt<int, giga>;
+    using terawatts  = basic_watt<int, tera>;
+    using petawatts  = basic_watt<int, peta>;
+    using exawatts   = basic_watt<int, exa>;
 
     inline namespace literals {
 
@@ -54,55 +54,55 @@ namespace posu::units::si {
 
             [[nodiscard]] constexpr auto operator""_aW(unsigned long long value) -> attowatts;
             [[nodiscard]] constexpr auto operator""_aW(long double value)
-                -> basic_watt<double, std::atto>;
+                -> basic_watt<double, atto>;
             [[nodiscard]] constexpr auto operator""_fW(unsigned long long value) -> femtowatts;
             [[nodiscard]] constexpr auto operator""_fW(long double value)
-                -> basic_watt<double, std::femto>;
+                -> basic_watt<double, femto>;
             [[nodiscard]] constexpr auto operator""_pW(unsigned long long value) -> picowatts;
             [[nodiscard]] constexpr auto operator""_pW(long double value)
-                -> basic_watt<double, std::pico>;
+                -> basic_watt<double, pico>;
             [[nodiscard]] constexpr auto operator""_nW(unsigned long long value) -> nanowatts;
             [[nodiscard]] constexpr auto operator""_nW(long double value)
-                -> basic_watt<double, std::nano>;
+                -> basic_watt<double, nano>;
             [[nodiscard]] constexpr auto operator""_uW(unsigned long long value) -> microwatts;
             [[nodiscard]] constexpr auto operator""_uW(long double value)
-                -> basic_watt<double, std::micro>;
+                -> basic_watt<double, micro>;
             [[nodiscard]] constexpr auto operator""_mW(unsigned long long value) -> milliwatts;
             [[nodiscard]] constexpr auto operator""_mW(long double value)
-                -> basic_watt<double, std::milli>;
+                -> basic_watt<double, milli>;
             [[nodiscard]] constexpr auto operator""_cW(unsigned long long value) -> centiwatts;
             [[nodiscard]] constexpr auto operator""_cW(long double value)
-                -> basic_watt<double, std::centi>;
+                -> basic_watt<double, centi>;
             [[nodiscard]] constexpr auto operator""_dW(unsigned long long value) -> deciwatts;
             [[nodiscard]] constexpr auto operator""_dW(long double value)
-                -> basic_watt<double, std::deci>;
+                -> basic_watt<double, deci>;
             [[nodiscard]] constexpr auto operator""_W(unsigned long long value) -> watts;
             [[nodiscard]] constexpr auto operator""_W(long double value)
-                -> basic_watt<double, std::ratio<1>>;
+                -> basic_watt<double, ratio<1>>;
             [[nodiscard]] constexpr auto operator""_daW(unsigned long long value) -> decawatts;
             [[nodiscard]] constexpr auto operator""_daW(long double value)
-                -> basic_watt<double, std::deca>;
+                -> basic_watt<double, deca>;
             [[nodiscard]] constexpr auto operator""_hW(unsigned long long value) -> hectowatts;
             [[nodiscard]] constexpr auto operator""_hW(long double value)
-                -> basic_watt<double, std::hecto>;
+                -> basic_watt<double, hecto>;
             [[nodiscard]] constexpr auto operator""_kW(unsigned long long value) -> kilowatts;
             [[nodiscard]] constexpr auto operator""_kW(long double value)
-                -> basic_watt<double, std::kilo>;
+                -> basic_watt<double, kilo>;
             [[nodiscard]] constexpr auto operator""_MW(unsigned long long value) -> megawatts;
             [[nodiscard]] constexpr auto operator""_MW(long double value)
-                -> basic_watt<double, std::mega>;
+                -> basic_watt<double, mega>;
             [[nodiscard]] constexpr auto operator""_GW(unsigned long long value) -> gigawatts;
             [[nodiscard]] constexpr auto operator""_GW(long double value)
-                -> basic_watt<double, std::giga>;
+                -> basic_watt<double, giga>;
             [[nodiscard]] constexpr auto operator""_TW(unsigned long long value) -> terawatts;
             [[nodiscard]] constexpr auto operator""_TW(long double value)
-                -> basic_watt<double, std::tera>;
+                -> basic_watt<double, tera>;
             [[nodiscard]] constexpr auto operator""_PW(unsigned long long value) -> petawatts;
             [[nodiscard]] constexpr auto operator""_PW(long double value)
-                -> basic_watt<double, std::peta>;
+                -> basic_watt<double, peta>;
             [[nodiscard]] constexpr auto operator""_EW(unsigned long long value) -> exawatts;
             [[nodiscard]] constexpr auto operator""_EW(long double value)
-                -> basic_watt<double, std::exa>;
+                -> basic_watt<double, exa>;
 
         } // namespace power_literals
 

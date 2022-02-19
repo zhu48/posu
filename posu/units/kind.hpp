@@ -1,6 +1,8 @@
 #ifndef POSU_UNITS_KIND_HPP
 #define POSU_UNITS_KIND_HPP
 
+#include "posu/ratio.hpp"
+
 #include "posu/units/dimension.hpp"
 
 namespace posu::units {
@@ -43,7 +45,7 @@ namespace posu::units {
     };
     //! @}
 
-    template<detail::std_ratio Period = std::ratio<1>>
+    template<ratio_type Period = ratio<1>>
     struct scaler {
         using type       = scaler;
         using value_type = std::string_view;
@@ -57,10 +59,25 @@ namespace posu::units {
         [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
-    template<detail::std_ratio Period>
+    template<ratio_type Period>
     inline constexpr bool enable_as_kind<scaler<Period>> = true;
 
-    template<typename T, detail::std_ratio Period = std::ratio<1>>
+    namespace detail {
+
+        template<typename T>
+        struct is_scaler : public std::false_type {
+        };
+
+        template<typename Period>
+        struct is_scaler<scaler<Period>> : public std::true_type {
+        };
+
+    } // namespace detail
+
+    template<typename T>
+    concept scaler_kind = detail::is_scaler<T>::value;
+
+    template<typename T, ratio_type Period = ratio<1>>
         requires(dimension<T> || kind<T>)
     struct unknown;
 
@@ -115,6 +132,19 @@ namespace posu::units {
     using kind_multiply = typename kind_multiply_result<Lhs, Rhs>::type;
     template<kind Lhs, kind Rhs>
     using kind_divide = typename kind_divide_result<Lhs, Rhs>::type;
+
+    template<kind Lhs, kind_comparable_with<Lhs> Rhs>
+    struct common_kind_result {
+        using type = unknown<dimension_t<Rhs>>;
+    };
+
+    template<kind Kind>
+    struct common_kind_result<Kind, Kind> {
+        using type = Kind;
+    };
+
+    template<kind Lhs, kind Rhs>
+    using common_kind = typename common_kind_result<Lhs, Rhs>::type;
 
 } // namespace posu::units
 

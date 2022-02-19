@@ -17,7 +17,7 @@ namespace posu::units {
      * @tparam Period The ratio with respect to the unit quantity type.
      * @tparam Unit   The quantity's measurement unit.
      */
-    template<arithmetic Rep, detail::std_ratio Period, unit Unit>
+    template<arithmetic Rep, ratio_type Period, unit Unit>
     class quantity;
 
     /**
@@ -27,17 +27,16 @@ namespace posu::units {
      *
      * @{
      */
-
     template<typename T>
     struct is_quantity : public std::false_type {
     };
-
+    template<arithmetic Rep, ratio_type Period, unit Unit>
+    struct is_quantity<quantity<Rep, Period, Unit>> : public std::true_type {
+    };
     template<typename T>
     inline constexpr bool is_quantity_v = is_quantity<T>::value;
-
     template<typename T>
     concept quantity_of_measure = is_quantity_v<T>;
-
     //! @}
 
     /**
@@ -48,27 +47,52 @@ namespace posu::units {
     template<quantity_of_measure T>
     using unit_t = typename T::unit_type;
 
-    template<typename T, typename Kind>
-    concept quantity_of_kind = quantity_of_measure<T> && std::same_as<kind_t<T>, Kind>;
-
-    template<typename T, typename Unit>
-    concept quantity_of_units = quantity_of_measure<T> && std::same_as<unit_t<T>, Unit>;
-
     /**
      * @brief A quantity of the given category.
      *
      * @tparam T        The quantity type.
+     * @tparam Kind     The quanitty measurement kind to check against.
+     * @tparam Unit     The quantity unit-of-measure to check against.
      * @tparam Category The quantity unit or kind to check against.
      */
+    template<typename T, typename Kind>
+    concept quantity_of_kind = quantity_of_measure<T> && std::same_as<kind_t<T>, Kind>;
+    template<typename T, typename Unit>
+    concept quantity_of_units = quantity_of_measure<T> && std::same_as<unit_t<T>, Unit>;
     template<typename T, typename Category>
     concept quantity_of = quantity_of_kind<T, Category> || quantity_of_units<T, Category>;
+    //! @}
 
+    /**
+     * @brief A quantity category type.
+     *
+     * A quantity categorizes into kinds of measurement, and also units-of-measure.
+     *
+     * @tparam T The type to check against this concept.
+     */
     template<typename T>
     concept quantity_category = kind<T> || unit<T>;
 
+    namespace detail
+    {
+
+        template<typename T>
+        concept quantity_comparable_specification = quantity_of_measure<T> || quantity_category<T>;
+
+    }
+
+    /**
+     * @brief A quantity comparable against the given quantity or quantity category.
+     *
+     * A quantity may be compared against quantities of categories with the same dimensions.
+     *
+     * @tparam T The quantity type to check comparability against.
+     * @tparam U The quantity or quantity categor to check comparability against.
+     */
     template<typename T, typename U>
     concept quantity_comparable_with =
-        quantity_of_measure<T> && std::same_as<dimension_t<T>, dimension_t<U>>;
+        quantity_of_measure<T> && detail::quantity_comparable_specification<U> &&
+        std::same_as<dimension_t<T>, dimension_t<U>>;
 
     namespace detail
     {
@@ -81,13 +105,28 @@ namespace posu::units {
         template<typename T>
         concept std_chrono_duration = is_std_chrono_duration<T>::value;
 
-        [[nodiscard]] constexpr auto to_duration(const quantity_of_measure auto& quantity) noexcept;
-        template<quantity_of_measure Quantity>
-        [[nodiscard]] constexpr auto from_duration(
-            const std_chrono_duration auto& duration) noexcept;
-
         template<kind Kind>
         inline constexpr bool implicit_chrono = false;
+
+        template<quantity_of_measure T>
+            requires(implicit_chrono<kind_t<T>>)
+        using count_multiplier = ratio_multiply<period_t<T>, period_t<unit_t<T>>>;
+
+        template<quantity_of_measure T>
+            requires(implicit_chrono<kind_t<T>>)
+        using equivalent_chrono = std::chrono::duration<rep_t<T>, count_multiplier<T>>;
+
+        template<std_chrono_duration T, kind Kind>
+        using equivalent_quantity =
+            quantity<rep_t<T>, ratio<period_t<T>::num, period_t<T>::den>, unknown<Kind>>;
+
+        template<typename To, typename From>
+        concept chrono_convertible_from = quantity_of_measure<To> && std_chrono_duration<From> &&
+            implicit_chrono<kind_t<To>> && std::convertible_to<From, equivalent_chrono<To>>;
+
+        template<typename From, typename To>
+        concept chrono_convertible_to = quantity_of_measure<From> && std_chrono_duration<To> &&
+            implicit_chrono<kind_t<From>> && std::convertible_to<equivalent_chrono<From>, To>;
 
     } // namespace detail
 
@@ -101,7 +140,7 @@ namespace posu::units {
         requires(quantity_comparable_with<To, From>)
     [[nodiscard]] constexpr auto quantity_cast(const From& quant) noexcept -> To;
 
-    template<arithmetic Rep, detail::std_ratio Period, unit Unit>
+    template<arithmetic Rep, ratio_type Period, unit Unit>
     class quantity {
     public:
         using rep        = Rep;                    //!< The numeric representation type.
@@ -110,12 +149,6 @@ namespace posu::units {
         using kind_type  = kind_t<unit_type>;      //!< The quantity kind.
         using dimensions = dimension_t<kind_type>; //!< The quantity dimension.
 
-    private:
-        using chrono_type = std::chrono::duration<rep, period>;
-        using chrono_ref  = chrono_type&;
-        using chrono_cref = const chrono_type&;
-
-    public:
         /**
          * @brief Defaulted default constructor.
          */
@@ -146,7 +179,8 @@ namespace posu::units {
         template<typename Rep2, typename Period2, unit_comparable_with<unit_type> Unit2>
             requires(
                 std::chrono::treat_as_floating_point_v<Rep> ||
-                ((std::ratio_divide<Period2, Period>::den == 1) &&
+                ((ratio_divide<Period2, Period>::den == 1) &&
+                 (ratio_divide<Period2, Period>::exp >= 0) &&
                  !std::chrono::treat_as_floating_point_v<Rep2>))
         explicit(!std::same_as<unit_type, Unit2>) constexpr quantity(
             const quantity<Rep2, Period2, Unit2>& d);
@@ -160,12 +194,12 @@ namespace posu::units {
          *
          * @{
          */
-        constexpr quantity(const std::chrono::duration<rep, period>& d) noexcept
-            requires(detail::implicit_chrono<kind_type>);
-        [[nodiscard]] constexpr operator chrono_cref() const noexcept
-            requires(detail::implicit_chrono<kind_type>);
-        [[nodiscard]] constexpr operator chrono_ref() noexcept
-            requires(detail::implicit_chrono<kind_type>);
+        template<detail::std_chrono_duration T>
+        explicit(!detail::chrono_convertible_to<T, quantity>) constexpr quantity(
+            const T& d) noexcept requires(detail::implicit_chrono<kind_type>);
+        template<detail::std_chrono_duration T>
+        [[nodiscard]] explicit(!detail::chrono_convertible_from<T, quantity>) constexpr
+        operator T() const noexcept requires(detail::implicit_chrono<kind_type>);
         //! @}
 
         /**
@@ -176,24 +210,81 @@ namespace posu::units {
         [[nodiscard]] constexpr auto count() const noexcept;
 
         /**
-         * @brief Comparison operators.
+         * @name Relational Operators
          *
-         * @tparam RRep    The numeric representation type of the quantity to compare against.
-         * @tparam RPeriod The to-unit-quantity ratio of the quantity to compare against.
-         * @tparam RUnit   The units of the quantity to compare against.
+         * @brief Compare two quantities of the same kind.
          *
-         * @param rhs The quantity to compare against.
+         * @param lhs The left-hand-side quantity operand to compare.
+         * @param rhs The right-hand-side quantity operand to compare.
          *
          * @return Returns the comparison result.
          *
          * @{
          */
-        template<typename RRep, typename RPeriod, unit_of<kind_type> RUnit>
-        [[nodiscard]] constexpr bool
-        operator==(const quantity<RRep, RPeriod, RUnit>& rhs) const noexcept;
-        template<typename RRep, typename RPeriod, unit_of<kind_type> RUnit>
-        [[nodiscard]] constexpr auto
-        operator<=>(const quantity<RRep, RPeriod, RUnit>& rhs) const noexcept;
+        [[nodiscard]] friend constexpr bool
+        operator==(const quantity& lhs, quantity_of<kind_type> auto const& rhs) noexcept
+        {
+            return lhs.compare_equal(rhs);
+        }
+        [[nodiscard]] friend constexpr auto
+        operator<=>(const quantity& lhs, quantity_of<kind_type> auto const& rhs) noexcept
+        {
+            return lhs.compare_three_way(rhs);
+        }
+        //! @}
+
+        /**
+         * @name Duration Relational Operators
+         *
+         * @brief Compare a duration quantity to an `std::chrono` duration.
+         *
+         * @tparam Duration The duration type to compare against.
+         *
+         * @param lhs The `posu::units` duration to compare.
+         * @param rhs The `std::chrono` duration to compare.
+         *
+         * @return Returns the comparison result.
+         *
+         * @{
+         */
+        template<detail::std_chrono_duration Duration>
+        [[nodiscard]] friend constexpr bool
+        operator==(const quantity& lhs, const Duration& rhs) noexcept
+            requires(detail::implicit_chrono<kind_type>)
+        {
+            return lhs == detail::equivalent_quantity<Duration, kind_type>{rhs.count()};
+        }
+        template<detail::std_chrono_duration Duration>
+        [[nodiscard]] friend constexpr auto
+        operator<=>(const quantity& lhs, const Duration& rhs) noexcept
+            requires(detail::implicit_chrono<kind_type>)
+        {
+            return lhs <=> detail::equivalent_quantity<Duration, kind_type>{rhs.count()};
+        }
+        //! @}
+
+        /**
+         * @name Scaler Relational Operators
+         *
+         * @brief Compare a scaler quantity to a number of its representation type.
+         *
+         * @param lhs The scaler quantity to compare.
+         * @param rhs The number to compare.
+         *
+         * @return Returns the comparison result.
+         *
+         * @{
+         */
+        [[nodiscard]] friend constexpr bool
+        operator==(const quantity& lhs, const Rep& rhs) noexcept requires scaler_kind<kind_type>
+        {
+            return lhs == quantity<Rep, ratio<1>, scaler<>>{rhs};
+        }
+        [[nodiscard]] friend constexpr auto
+        operator<=>(const quantity& lhs, const Rep& rhs) noexcept requires scaler_kind<kind_type>
+        {
+            return lhs <=> quantity<Rep, ratio<1>, scaler<>>{rhs};
+        }
         //! @}
 
         /**
@@ -246,103 +337,67 @@ namespace posu::units {
          *
          * @{
          */
-
         [[nodiscard]] friend constexpr auto
-        operator+(const quantity& lhs, const quantity_of<unit_type> auto& rhs) noexcept
+        operator+(const quantity& lhs, const quantity_of<kind_type> auto& rhs) noexcept
         {
-            return std::common_type_t<quantity, std::remove_cvref_t<decltype(rhs)>>(
-                (lhs.m_duration + detail::to_duration(rhs)).count());
+            return lhs.add(rhs);
         }
-
         [[nodiscard]] friend constexpr auto
-        operator-(const quantity& lhs, const quantity_of<unit_type> auto& rhs) noexcept
+        operator-(const quantity& lhs, const quantity_of<kind_type> auto& rhs) noexcept
         {
-            return std::common_type_t<quantity, std::remove_cvref_t<decltype(rhs)>>(
-                (lhs.m_duration - detail::to_duration(rhs)).count());
+            return lhs.subtract(rhs);
         }
-
         [[nodiscard]] friend constexpr auto
         operator*(const arithmetic auto& lhs, const quantity& rhs) noexcept
         {
-            using lhs_type = std::remove_cvref_t<decltype(lhs)>;
-
-            return quantity<std::common_type_t<lhs_type, rep>, period, unit_type>(
-                (lhs * detail::to_duration(rhs)).count());
+            return rhs.multiply(lhs);
         }
-
         [[nodiscard]] friend constexpr auto
         operator*(const quantity& lhs, const arithmetic auto& rhs) noexcept
         {
             return rhs * lhs;
         }
-
         [[nodiscard]] friend constexpr auto
-        operator/(const quantity& lhs, const quantity_of<unit_type> auto& rhs) noexcept
+        operator/(const quantity& lhs, const quantity_of<kind_type> auto& rhs) noexcept
         {
-            using rep = decltype(lhs.m_duration / detail::to_duration(rhs));
-
-            return quantity<rep, std::ratio<1>, scaler<>>(
-                lhs.m_duration / detail::to_duration(rhs));
+            return lhs.divide(rhs);
         }
-
         [[nodiscard]] friend constexpr auto
         operator/(const quantity& lhs, const arithmetic auto& rhs) noexcept
         {
-            using rhs_type = std::remove_cvref_t<decltype(rhs)>;
-
-            return quantity<std::common_type_t<rep, rhs_type>, period, unit_type>(
-                lhs.count() / rhs);
+            return lhs.divide(rhs);
         }
-
         [[nodiscard]] friend constexpr auto
         operator%(const quantity& lhs, const quantity_of<unit_type> auto& rhs) noexcept
         {
-            return std::common_type_t<quantity, std::remove_cvref_t<decltype(rhs)>>(
-                (lhs.m_duration % detail::to_duration(rhs)).count());
+            return lhs.modulo(rhs);
         }
-
         [[nodiscard]] friend constexpr auto
         operator%(const quantity& lhs, const arithmetic auto& rhs) noexcept
         {
-            using rhs_type = std::remove_cvref_t<decltype(rhs)>;
-
-            return quantity<std::common_type_t<rep, rhs_type>, period, unit_type>(
-                lhs.count() % rhs);
+            return lhs.modulo(rhs);
         }
-
         //! @}
 
-        [[nodiscard]] friend constexpr bool operator==(const quantity& lhs, const Rep& rhs) noexcept
-            requires quantity_of<quantity, scaler<>>
-        {
-            return quantity_cast<quantity<Rep, std::ratio<1>, unit_type>>(lhs).count() == rhs;
-        }
+    private:
+        [[nodiscard]] constexpr bool
+        compare_equal(quantity_of<kind_type> auto const& rhs) const noexcept;
+        [[nodiscard]] constexpr auto
+        compare_three_way(quantity_of<kind_type> auto const& rhs) const noexcept;
+        [[nodiscard]] constexpr auto add(const quantity_of<kind_type> auto& rhs) const noexcept;
+        [[nodiscard]] constexpr auto
+        subtract(const quantity_of<kind_type> auto& rhs) const noexcept;
+        [[nodiscard]] constexpr auto multiply(const arithmetic auto& rhs) const noexcept;
+        template<typename Quantity>
+        [[nodiscard]] constexpr auto divide(const Quantity& rhs) const noexcept
+            requires(quantity_of<Quantity, kind_type>);
+        [[nodiscard]] constexpr auto divide(const arithmetic auto& rhs) const noexcept;
+        template<typename Quantity>
+        [[nodiscard]] constexpr auto modulo(const Quantity& rhs) const noexcept
+            requires(quantity_of<Quantity, kind_type>);
+        [[nodiscard]] constexpr auto modulo(const arithmetic auto& rhs) const noexcept;
 
-        [[nodiscard]] friend constexpr auto operator<=>(
-            const quantity& lhs,
-            const Rep&      rhs) noexcept requires quantity_of<quantity, scaler<>>
-        {
-            return lhs.m_duration.count() <=> rhs;
-        }
-
-        template<typename Rep2, typename Period2>
-        [[nodiscard]] friend constexpr bool
-        operator==(const quantity& lhs, const std::chrono::duration<Rep2, Period2>& rhs) noexcept
-            requires(detail::implicit_chrono<kind_type>)
-        {
-            return lhs.m_duration == rhs;
-        }
-
-        template<typename Rep2, typename Period2>
-        [[nodiscard]] friend constexpr auto
-        operator<=>(const quantity& lhs, const std::chrono::duration<Rep2, Period2>& rhs) noexcept
-            requires(detail::implicit_chrono<kind_type>)
-        {
-            return lhs.m_duration <=> rhs;
-        }
-
-    private : using underlying_type = std::chrono::duration<Rep, Period>;
-        underlying_type m_duration;
+        rep m_count;
     };
 
     /**
@@ -366,21 +421,27 @@ namespace posu::units {
  *
  * @tparam LRep    The numeric representation type of the left-hand-side quantity type.
  * @tparam LPeriod The to-unit-quantity ratio of the left-hand-side quantity type.
+ * @tparam LUnit   The units-of-measure tag type of the left-hand-side quantity type.
  * @tparam RRep    The numeric representation type of the right-hand-side quantity type.
  * @tparam RPeriod The to-unit-quantity ratio of the right-hand-side quantity type.
- * @tparam Kind   The units-of-measure tag type.
+ * @tparam RUnit   The units-of-measure tag type of the right-hand-side quantity type.
  */
-template<typename LRep, typename LPeriod, typename RRep, typename RPeriod, typename Unit>
+template<
+    typename LRep,
+    typename LPeriod,
+    typename RRep,
+    typename RPeriod,
+    typename LUnit,
+    typename RUnit>
+    requires(posu::units::unit_comparable_with<LUnit, RUnit>)
 struct std::common_type<
-    posu::units::quantity<LRep, LPeriod, Unit>,
-    posu::units::quantity<RRep, RPeriod, Unit>> {
+    posu::units::quantity<LRep, LPeriod, LUnit>,
+    posu::units::quantity<RRep, RPeriod, RUnit>> {
     //! The common quantity type.
     using type = posu::units::quantity<
         std::common_type_t<LRep, RRep>,
-        typename std::common_type_t<
-            std::chrono::duration<LRep, LPeriod>,
-            std::chrono::duration<RRep, RPeriod>>::period,
-        Unit>;
+        std::common_type_t<LPeriod, RPeriod>,
+        posu::units::common_unit<LUnit, RUnit>>;
 };
 
 #include "posu/units/ipp/base_unit.ipp"

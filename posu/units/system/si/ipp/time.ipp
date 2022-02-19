@@ -8,9 +8,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::chrono_literals::operator""_as(long double value)
-        -> basic_second<double, std::atto>
+        -> basic_second<double, atto>
 {
-    return basic_second<double, std::atto>(value);
+    return basic_second<double, atto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -22,9 +22,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::chrono_literals::operator""_fs(long double value)
-        -> basic_second<double, std::femto>
+        -> basic_second<double, femto>
 {
-    return basic_second<double, std::femto>(value);
+    return basic_second<double, femto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -36,9 +36,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::chrono_literals::operator""_ps(long double value)
-        -> basic_second<double, std::pico>
+        -> basic_second<double, pico>
 {
-    return basic_second<double, std::pico>(value);
+    return basic_second<double, pico>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -50,9 +50,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::chrono_literals::operator""_ns(long double value)
-        -> basic_second<double, std::nano>
+        -> basic_second<double, nano>
 {
-    return basic_second<double, std::nano>(value);
+    return basic_second<double, nano>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -64,9 +64,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::chrono_literals::operator""_us(long double value)
-        -> basic_second<double, std::micro>
+        -> basic_second<double, micro>
 {
-    return basic_second<double, std::micro>(value);
+    return basic_second<double, micro>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -78,9 +78,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::chrono_literals::operator""_ms(long double value)
-        -> basic_second<double, std::milli>
+        -> basic_second<double, milli>
 {
-    return basic_second<double, std::milli>(value);
+    return basic_second<double, milli>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -92,9 +92,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::chrono_literals::operator""_cs(long double value)
-        -> basic_second<double, std::centi>
+        -> basic_second<double, centi>
 {
-    return basic_second<double, std::centi>(value);
+    return basic_second<double, centi>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -106,9 +106,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::chrono_literals::operator""_ds(long double value)
-        -> basic_second<double, std::deci>
+        -> basic_second<double, deci>
 {
-    return basic_second<double, std::deci>(value);
+    return basic_second<double, deci>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -119,9 +119,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::chrono_literals::operator""_s(long double value)
-        -> basic_second<double, std::ratio<1>>
+        -> basic_second<double, ratio<1>>
 {
-    return basic_second<double, std::ratio<1>>(value);
+    return basic_second<double, ratio<1>>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -133,9 +133,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::chrono_literals::operator""_das(long double value)
-        -> basic_second<double, std::deca>
+        -> basic_second<double, deca>
 {
-    return basic_second<double, std::deca>(value);
+    return basic_second<double, deca>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -147,9 +147,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::chrono_literals::operator""_hs(long double value)
-        -> basic_second<double, std::hecto>
+        -> basic_second<double, hecto>
 {
-    return basic_second<double, std::hecto>(value);
+    return basic_second<double, hecto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -161,9 +161,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::chrono_literals::operator""_ks(long double value)
-        -> basic_second<double, std::kilo>
+        -> basic_second<double, kilo>
 {
-    return basic_second<double, std::kilo>(value);
+    return basic_second<double, kilo>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -175,9 +175,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::chrono_literals::operator""_Ms(long double value)
-        -> basic_second<double, std::mega>
+        -> basic_second<double, mega>
 {
-    return basic_second<double, std::mega>(value);
+    return basic_second<double, mega>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -189,9 +189,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::chrono_literals::operator""_Gs(long double value)
-        -> basic_second<double, std::giga>
+        -> basic_second<double, giga>
 {
-    return basic_second<double, std::giga>(value);
+    return basic_second<double, giga>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -203,9 +203,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::chrono_literals::operator""_Ts(long double value)
-        -> basic_second<double, std::tera>
+        -> basic_second<double, tera>
 {
-    return basic_second<double, std::tera>(value);
+    return basic_second<double, tera>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -217,9 +217,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::chrono_literals::operator""_Ps(long double value)
-        -> basic_second<double, std::peta>
+        -> basic_second<double, peta>
 {
-    return basic_second<double, std::peta>(value);
+    return basic_second<double, peta>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -231,9 +231,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::chrono_literals::operator""_Es(long double value)
-        -> basic_second<double, std::exa>
+        -> basic_second<double, exa>
 {
-    return basic_second<double, std::exa>(value);
+    return basic_second<double, exa>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -244,9 +244,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::chrono_literals::operator""_min(long double value)
-        -> basic_second<double, std::chrono::minutes::period>
+        -> basic_second<double, minutes::period>
 {
-    return basic_second<double, std::chrono::minutes::period>(value);
+    return basic_second<double, minutes::period>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -257,7 +257,7 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::chrono_literals::operator""_h(long double value)
-        -> basic_second<double, std::chrono::hours::period>
+        -> basic_second<double, hours::period>
 {
-    return basic_second<double, std::chrono::hours::period>(value);
+    return basic_second<double, hours::period>(value);
 }

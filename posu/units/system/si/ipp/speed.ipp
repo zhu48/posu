@@ -9,9 +9,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::speed_literals::operator""_am_per_sec(long double value)
-        -> speed<double, std::atto>
+        -> speed<double, atto>
 {
-    return speed<double, std::atto>(value);
+    return speed<double, atto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -23,9 +23,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::speed_literals::operator""_fm_per_sec(long double value)
-        -> speed<double, std::femto>
+        -> speed<double, femto>
 {
-    return speed<double, std::femto>(value);
+    return speed<double, femto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -37,9 +37,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::speed_literals::operator""_pm_per_sec(long double value)
-        -> speed<double, std::pico>
+        -> speed<double, pico>
 {
-    return speed<double, std::pico>(value);
+    return speed<double, pico>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -51,9 +51,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::speed_literals::operator""_nm_per_sec(long double value)
-        -> speed<double, std::nano>
+        -> speed<double, nano>
 {
-    return speed<double, std::nano>(value);
+    return speed<double, nano>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -65,9 +65,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::speed_literals::operator""_um_per_sec(long double value)
-        -> speed<double, std::micro>
+        -> speed<double, micro>
 {
-    return speed<double, std::micro>(value);
+    return speed<double, micro>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -79,9 +79,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::speed_literals::operator""_mm_per_sec(long double value)
-        -> speed<double, std::milli>
+        -> speed<double, milli>
 {
-    return speed<double, std::milli>(value);
+    return speed<double, milli>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -93,9 +93,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::speed_literals::operator""_cm_per_sec(long double value)
-        -> speed<double, std::centi>
+        -> speed<double, centi>
 {
-    return speed<double, std::centi>(value);
+    return speed<double, centi>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -107,9 +107,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::speed_literals::operator""_dm_per_sec(long double value)
-        -> speed<double, std::deci>
+        -> speed<double, deci>
 {
-    return speed<double, std::deci>(value);
+    return speed<double, deci>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -121,9 +121,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::speed_literals::operator""_m_per_sec(long double value)
-        -> speed<double, std::ratio<1>>
+        -> speed<double, ratio<1>>
 {
-    return speed<double, std::ratio<1>>(value);
+    return speed<double, ratio<1>>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -135,9 +135,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::speed_literals::operator""_dam_per_sec(long double value)
-        -> speed<double, std::deca>
+        -> speed<double, deca>
 {
-    return speed<double, std::deca>(value);
+    return speed<double, deca>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -149,9 +149,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::speed_literals::operator""_hm_per_sec(long double value)
-        -> speed<double, std::hecto>
+        -> speed<double, hecto>
 {
-    return speed<double, std::hecto>(value);
+    return speed<double, hecto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -163,9 +163,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::speed_literals::operator""_km_per_sec(long double value)
-        -> speed<double, std::kilo>
+        -> speed<double, kilo>
 {
-    return speed<double, std::kilo>(value);
+    return speed<double, kilo>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -177,9 +177,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::speed_literals::operator""_Mm_per_sec(long double value)
-        -> speed<double, std::mega>
+        -> speed<double, mega>
 {
-    return speed<double, std::mega>(value);
+    return speed<double, mega>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -191,9 +191,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::speed_literals::operator""_Gm_per_sec(long double value)
-        -> speed<double, std::giga>
+        -> speed<double, giga>
 {
-    return speed<double, std::giga>(value);
+    return speed<double, giga>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -205,9 +205,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::speed_literals::operator""_Tm_per_sec(long double value)
-        -> speed<double, std::tera>
+        -> speed<double, tera>
 {
-    return speed<double, std::tera>(value);
+    return speed<double, tera>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -219,9 +219,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::speed_literals::operator""_Pm_per_sec(long double value)
-        -> speed<double, std::peta>
+        -> speed<double, peta>
 {
-    return speed<double, std::peta>(value);
+    return speed<double, peta>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -233,7 +233,7 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::speed_literals::operator""_Em_per_sec(long double value)
-        -> speed<double, std::exa>
+        -> speed<double, exa>
 {
-    return speed<double, std::exa>(value);
+    return speed<double, exa>(value);
 }

@@ -8,9 +8,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::angle_literals::operator""_arad(long double value)
-        -> basic_radian<double, std::atto>
+        -> basic_radian<double, atto>
 {
-    return basic_radian<double, std::atto>(value);
+    return basic_radian<double, atto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -22,9 +22,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::angle_literals::operator""_frad(long double value)
-        -> basic_radian<double, std::femto>
+        -> basic_radian<double, femto>
 {
-    return basic_radian<double, std::femto>(value);
+    return basic_radian<double, femto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -36,9 +36,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::angle_literals::operator""_prad(long double value)
-        -> basic_radian<double, std::pico>
+        -> basic_radian<double, pico>
 {
-    return basic_radian<double, std::pico>(value);
+    return basic_radian<double, pico>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -50,9 +50,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::angle_literals::operator""_nrad(long double value)
-        -> basic_radian<double, std::nano>
+        -> basic_radian<double, nano>
 {
-    return basic_radian<double, std::nano>(value);
+    return basic_radian<double, nano>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -64,9 +64,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::angle_literals::operator""_urad(long double value)
-        -> basic_radian<double, std::micro>
+        -> basic_radian<double, micro>
 {
-    return basic_radian<double, std::micro>(value);
+    return basic_radian<double, micro>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -78,9 +78,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::angle_literals::operator""_mrad(long double value)
-        -> basic_radian<double, std::milli>
+        -> basic_radian<double, milli>
 {
-    return basic_radian<double, std::milli>(value);
+    return basic_radian<double, milli>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -92,9 +92,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::angle_literals::operator""_crad(long double value)
-        -> basic_radian<double, std::centi>
+        -> basic_radian<double, centi>
 {
-    return basic_radian<double, std::centi>(value);
+    return basic_radian<double, centi>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -106,9 +106,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::angle_literals::operator""_drad(long double value)
-        -> basic_radian<double, std::deci>
+        -> basic_radian<double, deci>
 {
-    return basic_radian<double, std::deci>(value);
+    return basic_radian<double, deci>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -119,9 +119,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::angle_literals::operator""_rad(long double value)
-        -> basic_radian<double, std::ratio<1>>
+        -> basic_radian<double, ratio<1>>
 {
-    return basic_radian<double, std::ratio<1>>(value);
+    return basic_radian<double, ratio<1>>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -133,9 +133,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::angle_literals::operator""_darad(long double value)
-        -> basic_radian<double, std::deca>
+        -> basic_radian<double, deca>
 {
-    return basic_radian<double, std::deca>(value);
+    return basic_radian<double, deca>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -147,9 +147,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::angle_literals::operator""_hrad(long double value)
-        -> basic_radian<double, std::hecto>
+        -> basic_radian<double, hecto>
 {
-    return basic_radian<double, std::hecto>(value);
+    return basic_radian<double, hecto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -161,9 +161,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::angle_literals::operator""_krad(long double value)
-        -> basic_radian<double, std::kilo>
+        -> basic_radian<double, kilo>
 {
-    return basic_radian<double, std::kilo>(value);
+    return basic_radian<double, kilo>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -175,9 +175,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::angle_literals::operator""_Mrad(long double value)
-        -> basic_radian<double, std::mega>
+        -> basic_radian<double, mega>
 {
-    return basic_radian<double, std::mega>(value);
+    return basic_radian<double, mega>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -189,9 +189,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::angle_literals::operator""_Grad(long double value)
-        -> basic_radian<double, std::giga>
+        -> basic_radian<double, giga>
 {
-    return basic_radian<double, std::giga>(value);
+    return basic_radian<double, giga>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -203,9 +203,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::angle_literals::operator""_Trad(long double value)
-        -> basic_radian<double, std::tera>
+        -> basic_radian<double, tera>
 {
-    return basic_radian<double, std::tera>(value);
+    return basic_radian<double, tera>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -217,9 +217,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::angle_literals::operator""_Prad(long double value)
-        -> basic_radian<double, std::peta>
+        -> basic_radian<double, peta>
 {
-    return basic_radian<double, std::peta>(value);
+    return basic_radian<double, peta>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -231,7 +231,7 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::angle_literals::operator""_Erad(long double value)
-        -> basic_radian<double, std::exa>
+        -> basic_radian<double, exa>
 {
-    return basic_radian<double, std::exa>(value);
+    return basic_radian<double, exa>(value);
 }

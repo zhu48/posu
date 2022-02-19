@@ -8,9 +8,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::energy_literals::operator""_aJ(long double value)
-        -> basic_joule<double, std::atto>
+        -> basic_joule<double, atto>
 {
-    return basic_joule<double, std::atto>(value);
+    return basic_joule<double, atto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -22,9 +22,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::energy_literals::operator""_fJ(long double value)
-        -> basic_joule<double, std::femto>
+        -> basic_joule<double, femto>
 {
-    return basic_joule<double, std::femto>(value);
+    return basic_joule<double, femto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -36,9 +36,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::energy_literals::operator""_pJ(long double value)
-        -> basic_joule<double, std::pico>
+        -> basic_joule<double, pico>
 {
-    return basic_joule<double, std::pico>(value);
+    return basic_joule<double, pico>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -50,9 +50,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::energy_literals::operator""_nJ(long double value)
-        -> basic_joule<double, std::nano>
+        -> basic_joule<double, nano>
 {
-    return basic_joule<double, std::nano>(value);
+    return basic_joule<double, nano>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -64,9 +64,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::energy_literals::operator""_uJ(long double value)
-        -> basic_joule<double, std::micro>
+        -> basic_joule<double, micro>
 {
-    return basic_joule<double, std::micro>(value);
+    return basic_joule<double, micro>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -78,9 +78,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::energy_literals::operator""_mJ(long double value)
-        -> basic_joule<double, std::milli>
+        -> basic_joule<double, milli>
 {
-    return basic_joule<double, std::milli>(value);
+    return basic_joule<double, milli>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -92,9 +92,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::energy_literals::operator""_cJ(long double value)
-        -> basic_joule<double, std::centi>
+        -> basic_joule<double, centi>
 {
-    return basic_joule<double, std::centi>(value);
+    return basic_joule<double, centi>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -106,9 +106,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::energy_literals::operator""_dJ(long double value)
-        -> basic_joule<double, std::deci>
+        -> basic_joule<double, deci>
 {
-    return basic_joule<double, std::deci>(value);
+    return basic_joule<double, deci>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -119,9 +119,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::energy_literals::operator""_J(long double value)
-        -> basic_joule<double, std::ratio<1>>
+        -> basic_joule<double, ratio<1>>
 {
-    return basic_joule<double, std::ratio<1>>(value);
+    return basic_joule<double, ratio<1>>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -133,9 +133,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::energy_literals::operator""_daJ(long double value)
-        -> basic_joule<double, std::deca>
+        -> basic_joule<double, deca>
 {
-    return basic_joule<double, std::deca>(value);
+    return basic_joule<double, deca>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -147,9 +147,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::energy_literals::operator""_hJ(long double value)
-        -> basic_joule<double, std::hecto>
+        -> basic_joule<double, hecto>
 {
-    return basic_joule<double, std::hecto>(value);
+    return basic_joule<double, hecto>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -161,9 +161,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::energy_literals::operator""_kJ(long double value)
-        -> basic_joule<double, std::kilo>
+        -> basic_joule<double, kilo>
 {
-    return basic_joule<double, std::kilo>(value);
+    return basic_joule<double, kilo>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -175,9 +175,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::energy_literals::operator""_MJ(long double value)
-        -> basic_joule<double, std::mega>
+        -> basic_joule<double, mega>
 {
-    return basic_joule<double, std::mega>(value);
+    return basic_joule<double, mega>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -189,9 +189,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::energy_literals::operator""_GJ(long double value)
-        -> basic_joule<double, std::giga>
+        -> basic_joule<double, giga>
 {
-    return basic_joule<double, std::giga>(value);
+    return basic_joule<double, giga>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -203,9 +203,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::energy_literals::operator""_TJ(long double value)
-        -> basic_joule<double, std::tera>
+        -> basic_joule<double, tera>
 {
-    return basic_joule<double, std::tera>(value);
+    return basic_joule<double, tera>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -217,9 +217,9 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::energy_literals::operator""_PJ(long double value)
-        -> basic_joule<double, std::peta>
+        -> basic_joule<double, peta>
 {
-    return basic_joule<double, std::peta>(value);
+    return basic_joule<double, peta>(value);
 }
 
 [[nodiscard]] constexpr auto
@@ -230,7 +230,7 @@
 
 [[nodiscard]] constexpr auto
     posu::units::si::literals::energy_literals::operator""_EJ(long double value)
-        -> basic_joule<double, std::exa>
+        -> basic_joule<double, exa>
 {
-    return basic_joule<double, std::exa>(value);
+    return basic_joule<double, exa>(value);
 }
