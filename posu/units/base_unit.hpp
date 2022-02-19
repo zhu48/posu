@@ -73,16 +73,25 @@ namespace posu::units {
     template<typename T>
     concept quantity_category = kind<T> || unit<T>;
 
+    namespace detail
+    {
+
+        template<typename T>
+        concept quantity_comparable_specification = quantity_of_measure<T> || quantity_category<T>;
+
+    }
+
     /**
-     * @brief Quantities comparable against each other.
+     * @brief A quantity comparable against the given quantity or quantity category.
      *
-     * Quantities may be compared against each other if their dimensions match.
+     * A quantity may be compared against quantities of categories with the same dimensions.
      *
-     * @tparam T The left-hand-side comparison operand type.
-     * @tparam U The right-hand-side comparison operand type.
+     * @tparam T The quantity type to check comparability against.
+     * @tparam U The quantity or quantity categor to check comparability against.
      */
     template<typename T, typename U>
-    concept quantity_comparable_with = quantity_of_measure<T> && quantity_of_measure<U> &&
+    concept quantity_comparable_with =
+        quantity_of_measure<T> && detail::quantity_comparable_specification<U> &&
         std::same_as<dimension_t<T>, dimension_t<U>>;
 
     namespace detail
