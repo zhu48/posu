@@ -67,8 +67,8 @@ namespace posu::units {
     concept quantity_category = kind<T> || unit<T>;
 
     template<typename T, typename U>
-    concept quantity_comparable_with =
-        quantity_of_measure<T> && std::same_as<dimension_t<T>, dimension_t<U>>;
+    concept quantity_comparable_with = quantity_of_measure<T> && quantity_of_measure<U> &&
+        std::same_as<dimension_t<T>, dimension_t<U>>;
 
     namespace detail
     {
