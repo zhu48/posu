@@ -359,26 +359,20 @@ namespace posu::units {
             return lhs <=> quantity<Rep, ratio<1>, scaler<>>{rhs};
         }
 
-        template<typename Rep2, typename Period2>
+        template<detail::std_chrono_duration Duration>
         [[nodiscard]] friend constexpr bool
-        operator==(const quantity& lhs, const std::chrono::duration<Rep2, Period2>& rhs) noexcept
+        operator==(const quantity& lhs, const Duration& rhs) noexcept
             requires(detail::implicit_chrono<kind_type>)
         {
-            using rhs_period = ratio<Period2::num, Period2::den>;
-            using rhs_unit   = unknown<kind_t<unit_type>>;
-
-            return lhs == quantity<Rep2, rhs_period, rhs_unit>{rhs.count()};
+            return lhs == detail::equivalent_quantity<Duration, kind_type>{rhs.count()};
         }
 
-        template<typename Rep2, typename Period2>
+        template<detail::std_chrono_duration Duration>
         [[nodiscard]] friend constexpr auto
-        operator<=>(const quantity& lhs, const std::chrono::duration<Rep2, Period2>& rhs) noexcept
+        operator<=>(const quantity& lhs, const Duration& rhs) noexcept
             requires(detail::implicit_chrono<kind_type>)
         {
-            using rhs_period = ratio<Period2::num, Period2::den>;
-            using rhs_unit   = unknown<kind_t<unit_type>>;
-
-            return lhs <=> quantity<Rep2, rhs_period, rhs_unit>{rhs.count()};
+            return lhs <=> detail::equivalent_quantity<Duration, kind_type>{rhs.count()};
         }
 
     private : [[nodiscard]] constexpr bool
