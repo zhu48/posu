@@ -313,94 +313,46 @@ namespace posu::units {
          *
          * @{
          */
-
         [[nodiscard]] friend constexpr auto
-        operator+(const quantity& lhs, const quantity_of<unit_type> auto& rhs) noexcept
+        operator+(const quantity& lhs, const quantity_of<kind_type> auto& rhs) noexcept
         {
-            using common_type = std::common_type_t<quantity, std::remove_cvref_t<decltype(rhs)>>;
-
-            const auto l = quantity_cast<common_type>(lhs);
-            const auto r = quantity_cast<common_type>(rhs);
-
-            return common_type{l.count() + r.count()};
+            return lhs.add(rhs);
         }
-
         [[nodiscard]] friend constexpr auto
-        operator-(const quantity& lhs, const quantity_of<unit_type> auto& rhs) noexcept
+        operator-(const quantity& lhs, const quantity_of<kind_type> auto& rhs) noexcept
         {
-            using common_type = std::common_type_t<quantity, std::remove_cvref_t<decltype(rhs)>>;
-
-            const auto l = quantity_cast<common_type>(lhs);
-            const auto r = quantity_cast<common_type>(rhs);
-
-            return common_type{l.count() - r.count()};
+            return lhs.subtract(rhs);
         }
-
         [[nodiscard]] friend constexpr auto
         operator*(const arithmetic auto& lhs, const quantity& rhs) noexcept
         {
-            using common_rep = decltype(lhs * rhs.count());
-
-            return quantity<common_rep, period, unit_type>(lhs * rhs.count());
+            return rhs.multiply(lhs);
         }
-
         [[nodiscard]] friend constexpr auto
         operator*(const quantity& lhs, const arithmetic auto& rhs) noexcept
         {
             return rhs * lhs;
         }
-
-        template<quantity_of<unit_type> Quantity>
         [[nodiscard]] friend constexpr auto
-        operator/(const quantity& lhs, const Quantity& rhs) noexcept
+        operator/(const quantity& lhs, const quantity_of<kind_type> auto& rhs) noexcept
         {
-            using div_period = ratio_divide<period, period_t<Quantity>>;
-            using div_unit = scaler<ratio_divide<period_t<unit_type>, period_t<unit_t<Quantity>>>>;
-            constexpr auto div_scaler = div_period{} * period_t<div_unit>{};
-            if constexpr(div_scaler >= ratio<1>{}) {
-                using common_type = std::common_type_t<quantity, Quantity>;
-
-                const auto l = quantity_cast<common_type>(lhs);
-                const auto r = quantity_cast<common_type>(rhs);
-
-                return quantity<rep_t<common_type>, ratio<1>, scaler<>>(l.count() / r.count());
-            }
-            else {
-                using div_rep  = std::common_type_t<rep, rep_t<Quantity>>;
-                using div_type = quantity<div_rep, div_period, div_unit>;
-
-                return div_type{lhs.count() / rhs.count()};
-            }
+            return lhs.divide(rhs);
         }
-
         [[nodiscard]] friend constexpr auto
         operator/(const quantity& lhs, const arithmetic auto& rhs) noexcept
         {
-            using common_rep = decltype(lhs.count() / rhs);
-
-            return quantity<common_rep, period, unit_type>(lhs.count() / rhs);
+            return lhs.divide(rhs);
         }
-
-        template<quantity_of<unit_type> Quantity>
         [[nodiscard]] friend constexpr auto
-        operator%(const quantity& lhs, const Quantity& rhs) noexcept
+        operator%(const quantity& lhs, const quantity_of<unit_type> auto& rhs) noexcept
         {
-            using common_type = std::common_type_t<quantity, Quantity>;
-
-            const auto l = quantity_cast<common_type>(lhs);
-            const auto r = quantity_cast<common_type>(rhs);
-
-            return common_type{l.count() % r.count()};
+            return lhs.modulo(rhs);
         }
-
         [[nodiscard]] friend constexpr auto
         operator%(const quantity& lhs, const arithmetic auto& rhs) noexcept
         {
-            using common_rep = decltype(lhs.count() % rhs);
-
-            return quantity<common_rep, period, unit_type>{lhs.count() % rhs};
+            return lhs.modulo(rhs);
         }
-
         //! @}
 
     private:
@@ -408,6 +360,18 @@ namespace posu::units {
         compare_equal(quantity_of<kind_type> auto const& rhs) const noexcept;
         [[nodiscard]] constexpr auto
         compare_three_way(quantity_of<kind_type> auto const& rhs) const noexcept;
+        [[nodiscard]] constexpr auto add(const quantity_of<kind_type> auto& rhs) const noexcept;
+        [[nodiscard]] constexpr auto
+        subtract(const quantity_of<kind_type> auto& rhs) const noexcept;
+        [[nodiscard]] constexpr auto multiply(const arithmetic auto& rhs) const noexcept;
+        template<typename Quantity>
+        [[nodiscard]] constexpr auto divide(const Quantity& rhs) const noexcept
+            requires(quantity_of<Quantity, kind_type>);
+        [[nodiscard]] constexpr auto divide(const arithmetic auto& rhs) const noexcept;
+        template<typename Quantity>
+        [[nodiscard]] constexpr auto modulo(const Quantity& rhs) const noexcept
+            requires(quantity_of<Quantity, kind_type>);
+        [[nodiscard]] constexpr auto modulo(const arithmetic auto& rhs) const noexcept;
 
         rep m_count;
     };

@@ -173,6 +173,94 @@ constexpr auto& posu::units::quantity<Rep, Period, Unit>::operator%=(const quant
     return *this;
 }
 
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
+constexpr auto
+posu::units::quantity<Rep, Period, Unit>::add(const quantity_of<kind_type> auto& rhs) const noexcept
+{
+    using common_type = std::common_type_t<quantity, std::remove_cvref_t<decltype(rhs)>>;
+
+    const auto l = quantity_cast<common_type>(*this);
+    const auto r = quantity_cast<common_type>(rhs);
+
+    return common_type{l.count() + r.count()};
+}
+
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
+constexpr auto posu::units::quantity<Rep, Period, Unit>::subtract(
+    const quantity_of<kind_type> auto& rhs) const noexcept
+{
+    using common_type = std::common_type_t<quantity, std::remove_cvref_t<decltype(rhs)>>;
+
+    const auto l = quantity_cast<common_type>(*this);
+    const auto r = quantity_cast<common_type>(rhs);
+
+    return common_type{l.count() - r.count()};
+}
+
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
+constexpr auto
+posu::units::quantity<Rep, Period, Unit>::multiply(const arithmetic auto& rhs) const noexcept
+{
+    using common_rep = decltype(count() * rhs);
+
+    return quantity<common_rep, period, unit_type>(count() * rhs);
+}
+
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
+template<typename Quantity>
+constexpr auto posu::units::quantity<Rep, Period, Unit>::divide(const Quantity& rhs) const noexcept
+    requires(quantity_of<Quantity, kind_type>)
+{
+    using div_period = ratio_divide<period, period_t<Quantity>>;
+    using div_unit   = scaler<ratio_divide<period_t<unit_type>, period_t<unit_t<Quantity>>>>;
+    constexpr auto div_scaler = div_period{} * period_t<div_unit>{};
+    if constexpr(div_scaler >= ratio<1>{}) {
+        using common_type = std::common_type_t<quantity, Quantity>;
+
+        const auto l = quantity_cast<common_type>(*this);
+        const auto r = quantity_cast<common_type>(rhs);
+
+        return quantity<rep_t<common_type>, ratio<1>, scaler<>>(l.count() / r.count());
+    }
+    else {
+        using div_rep  = std::common_type_t<rep, rep_t<Quantity>>;
+        using div_type = quantity<div_rep, div_period, div_unit>;
+
+        return div_type{count() / rhs.count()};
+    }
+}
+
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
+constexpr auto
+posu::units::quantity<Rep, Period, Unit>::divide(const arithmetic auto& rhs) const noexcept
+{
+    using common_rep = std::remove_cvref_t<decltype(count() / rhs)>;
+
+    return quantity<common_rep, period, unit_type>(count() / rhs);
+}
+
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
+template<typename Quantity>
+constexpr auto posu::units::quantity<Rep, Period, Unit>::modulo(const Quantity& rhs) const noexcept
+    requires(quantity_of<Quantity, kind_type>)
+{
+    using common_type = std::common_type_t<quantity, Quantity>;
+
+    const auto l = quantity_cast<common_type>(*this);
+    const auto r = quantity_cast<common_type>(rhs);
+
+    return common_type{l.count() % r.count()};
+}
+
+template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
+constexpr auto
+posu::units::quantity<Rep, Period, Unit>::modulo(const arithmetic auto& rhs) const noexcept
+{
+    using common_rep = decltype(count() % rhs);
+
+    return quantity<common_rep, period, unit_type>{count() % rhs};
+}
+
 template<posu::units::quantity_category Category>
 [[nodiscard]] constexpr auto
 posu::units::of(const quantity_comparable_with<Category> auto& quant) noexcept
