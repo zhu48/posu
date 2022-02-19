@@ -48,24 +48,40 @@ namespace posu::units {
     template<quantity_of_measure T>
     using unit_t = typename T::unit_type;
 
-    template<typename T, typename Kind>
-    concept quantity_of_kind = quantity_of_measure<T> && std::same_as<kind_t<T>, Kind>;
-
-    template<typename T, typename Unit>
-    concept quantity_of_units = quantity_of_measure<T> && std::same_as<unit_t<T>, Unit>;
-
     /**
      * @brief A quantity of the given category.
      *
      * @tparam T        The quantity type.
+     * @tparam Kind     The quanitty measurement kind to check against.
+     * @tparam Unit     The quantity unit-of-measure to check against.
      * @tparam Category The quantity unit or kind to check against.
      */
+    template<typename T, typename Kind>
+    concept quantity_of_kind = quantity_of_measure<T> && std::same_as<kind_t<T>, Kind>;
+    template<typename T, typename Unit>
+    concept quantity_of_units = quantity_of_measure<T> && std::same_as<unit_t<T>, Unit>;
     template<typename T, typename Category>
     concept quantity_of = quantity_of_kind<T, Category> || quantity_of_units<T, Category>;
+    //! @}
 
+    /**
+     * @brief A quantity category type.
+     *
+     * A quantity categorizes into kinds of measurement, and also units-of-measure.
+     *
+     * @tparam T The type to check against this concept.
+     */
     template<typename T>
     concept quantity_category = kind<T> || unit<T>;
 
+    /**
+     * @brief Quantities comparable against each other.
+     *
+     * Quantities may be compared against each other if their dimensions match.
+     *
+     * @tparam T The left-hand-side comparison operand type.
+     * @tparam U The right-hand-side comparison operand type.
+     */
     template<typename T, typename U>
     concept quantity_comparable_with = quantity_of_measure<T> && quantity_of_measure<U> &&
         std::same_as<dimension_t<T>, dimension_t<U>>;
