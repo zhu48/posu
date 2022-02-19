@@ -188,22 +188,23 @@ namespace posu::units {
         /**
          * @brief Comparison operators.
          *
-         * @tparam RRep    The numeric representation type of the quantity to compare against.
-         * @tparam RPeriod The to-unit-quantity ratio of the quantity to compare against.
-         * @tparam RUnit   The units of the quantity to compare against.
-         *
-         * @param rhs The quantity to compare against.
+         * @param lhs The left-hand-side quantity operand to compare.
+         * @param rhs The right-hand-side quantity operand to compare.
          *
          * @return Returns the comparison result.
          *
          * @{
          */
-        template<typename RRep, typename RPeriod, unit_of<kind_type> RUnit>
-        [[nodiscard]] constexpr bool
-        operator==(const quantity<RRep, RPeriod, RUnit>& rhs) const noexcept;
-        template<typename RRep, typename RPeriod, unit_of<kind_type> RUnit>
-        [[nodiscard]] constexpr auto
-        operator<=>(const quantity<RRep, RPeriod, RUnit>& rhs) const noexcept;
+        [[nodiscard]] friend constexpr bool
+        operator==(const quantity& lhs, quantity_of<kind_type> auto const& rhs) noexcept
+        {
+            return lhs.compare_equal(rhs);
+        }
+        [[nodiscard]] friend constexpr auto
+        operator<=>(const quantity& lhs, quantity_of<kind_type> auto const& rhs) noexcept
+        {
+            return lhs.compare_three_way(rhs);
+        }
         //! @}
 
         /**
@@ -380,7 +381,12 @@ namespace posu::units {
             return lhs <=> quantity<Rep2, rhs_period, rhs_unit>{rhs.count()};
         }
 
-    private : rep m_count;
+    private : [[nodiscard]] constexpr bool
+              compare_equal(quantity_of<kind_type> auto const& rhs) const noexcept;
+        [[nodiscard]] constexpr auto
+        compare_three_way(quantity_of<kind_type> auto const& rhs) const noexcept;
+
+        rep m_count;
     };
 
     /**

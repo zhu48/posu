@@ -60,21 +60,19 @@ template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
 }
 
 template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
-template<typename RRep, typename RPeriod, posu::units::unit_of<posu::units::kind_t<Unit>> RUnit>
-[[nodiscard]] constexpr bool posu::units::quantity<Rep, Period, Unit>::operator==(
-    const quantity<RRep, RPeriod, RUnit>& rhs) const noexcept
+[[nodiscard]] constexpr bool posu::units::quantity<Rep, Period, Unit>::compare_equal(
+    quantity_of<kind_type> auto const& rhs) const noexcept
 {
-    using common_type = std::common_type_t<quantity, quantity<RRep, RPeriod, RUnit>>;
+    using common_type = std::common_type_t<quantity, std::remove_cvref_t<decltype(rhs)>>;
 
     return quantity_cast<common_type>(*this).count() == quantity_cast<common_type>(rhs).count();
 }
 
 template<posu::arithmetic Rep, posu::ratio_type Period, posu::units::unit Unit>
-template<typename RRep, typename RPeriod, posu::units::unit_of<posu::units::kind_t<Unit>> RUnit>
-[[nodiscard]] constexpr auto posu::units::quantity<Rep, Period, Unit>::operator<=>(
-    const quantity<RRep, RPeriod, RUnit>& rhs) const noexcept
+[[nodiscard]] constexpr auto posu::units::quantity<Rep, Period, Unit>::compare_three_way(
+    quantity_of<kind_type> auto const& rhs) const noexcept
 {
-    using common_type = std::common_type_t<quantity, quantity<RRep, RPeriod, RUnit>>;
+    using common_type = std::common_type_t<quantity, std::remove_cvref_t<decltype(rhs)>>;
 
     return quantity_cast<common_type>(*this).count() <=> quantity_cast<common_type>(rhs).count();
 }
