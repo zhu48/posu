@@ -152,6 +152,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/acceleration.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/amount_of_substance.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/angle.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/area.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/electric_charge.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/electric_current.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/energy.hpp
