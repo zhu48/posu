@@ -182,6 +182,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/luminous_intensity.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/mass.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/power.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/pressure.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/time.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/solid_angle.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/thermodynamic_temperature.hpp
@@ -202,6 +203,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/luminous_flux.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/mass.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/power.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/pressure.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/solid_angle.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/speed.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/thermodynamic_temperature.ipp
@@ -225,6 +227,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_luminous_intensity.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_mass.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_power.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_pressure.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_solid_angle.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_speed.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_thermodynamic_temperature.cpp
