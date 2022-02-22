@@ -163,6 +163,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/luminous_intensity.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/mass.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/power.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/pressure.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/solid_angle.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/thermodynamic_temperature.hpp
