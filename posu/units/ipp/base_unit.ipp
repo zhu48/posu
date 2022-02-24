@@ -208,7 +208,7 @@ constexpr auto posu::units::quantity<Rep, Period, Unit>::divide(const Quantity& 
     requires(quantity_of<Quantity, kind_type>)
 {
     using div_period = ratio_divide<period, period_t<Quantity>>;
-    using div_unit   = scaler<ratio_divide<period_t<unit_type>, period_t<unit_t<Quantity>>>>;
+    using div_unit   = unitless<ratio_divide<period_t<unit_type>, period_t<unit_t<Quantity>>>>;
     constexpr auto div_scaler = div_period{} * period_t<div_unit>{};
     if constexpr(div_scaler >= ratio<1>{}) {
         using common_type = std::common_type_t<quantity, Quantity>;
@@ -216,7 +216,7 @@ constexpr auto posu::units::quantity<Rep, Period, Unit>::divide(const Quantity& 
         const auto l = quantity_cast<common_type>(*this);
         const auto r = quantity_cast<common_type>(rhs);
 
-        return quantity<rep_t<common_type>, ratio<1>, scaler<>>(l.count() / r.count());
+        return quantity<rep_t<common_type>, ratio<1>, unitless<>>(l.count() / r.count());
     }
     else {
         using div_rep  = std::common_type_t<rep, rep_t<Quantity>>;

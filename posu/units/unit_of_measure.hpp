@@ -89,8 +89,22 @@ namespace posu::units {
         using period    = Ratio; //!< The to0base-units ratio of the new unit of measure.
     };
 
+    /**
+     * @brief Tag type for unitless quantities.
+     *
+     * @tparam Ratio The to-base-units scaler ratio.
+     */
+    template<ratio_type Ratio = ratio<1>>
+    struct unitless : public make_unit<unitless<Ratio>, "unitless", scaler, Ratio> {
+    };
+
+    /**
+     * @brief Designate `unitless` as a unit of measure tag type.
+     *
+     * @tparam Ratio The to-base-units scaler ratio.
+     */
     template<ratio_type Ratio>
-    inline constexpr bool enable_as_unit<scaler<Ratio>> = true;
+    inline constexpr bool enable_as_unit<unitless<Ratio>> = true;
 
     template<kind Kind, ratio_type Period>
     struct unknown<Kind, Period> {

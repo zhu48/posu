@@ -275,15 +275,16 @@ namespace posu::units {
          *
          * @{
          */
-        [[nodiscard]] friend constexpr bool
-        operator==(const quantity& lhs, const Rep& rhs) noexcept requires scaler_kind<kind_type>
+        [[nodiscard]] friend constexpr bool operator==(const quantity& lhs, const Rep& rhs) noexcept
+            requires std::same_as<kind_type, scaler>
         {
-            return lhs == quantity<Rep, ratio<1>, scaler<>>{rhs};
+            return lhs == quantity<Rep, ratio<1>, unitless<>>{rhs};
         }
-        [[nodiscard]] friend constexpr auto
-        operator<=>(const quantity& lhs, const Rep& rhs) noexcept requires scaler_kind<kind_type>
+        [[nodiscard]] friend constexpr auto operator<=>(
+            const quantity& lhs,
+            const Rep&      rhs) noexcept requires std::same_as<kind_type, scaler>
         {
-            return lhs <=> quantity<Rep, ratio<1>, scaler<>>{rhs};
+            return lhs <=> quantity<Rep, ratio<1>, unitless<>>{rhs};
         }
         //! @}
 

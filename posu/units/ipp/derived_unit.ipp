@@ -68,5 +68,5 @@ template<posu::units::quantity_of_measure Quantity>
 [[nodiscard]] constexpr auto
 posu::units::operator/(const rep_t<Quantity>& lhs, const Quantity& rhs) noexcept
 {
-    return quantity<rep_t<Quantity>, ratio<1>, scaler<>>(lhs) / rhs;
+    return quantity<rep_t<Quantity>, ratio<1>, unitless<>>(lhs) / rhs;
 }

@@ -60,37 +60,17 @@ namespace posu::units {
         using dimensions = Dimension; //!< The dimensions of the new measurement kind.
     };
 
-    template<ratio_type Period = ratio<1>>
-    struct scaler {
-        using type       = scaler;
-        using value_type = std::string_view;
-        using dimensions = dimensionless;
-        using kind_type  = scaler;
-        using period     = Period;
-
-        static constexpr auto value = std::string_view{"scaler"};
-
-        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
-        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
+    /**
+     * @brief Tag type representing scaler measurement kinds.
+     */
+    struct scaler : public make_kind<scaler, "scaler", dimensionless> {
     };
 
-    template<ratio_type Period>
-    inline constexpr bool enable_as_kind<scaler<Period>> = true;
-
-    namespace detail {
-
-        template<typename T>
-        struct is_scaler : public std::false_type {
-        };
-
-        template<typename Period>
-        struct is_scaler<scaler<Period>> : public std::true_type {
-        };
-
-    } // namespace detail
-
-    template<typename T>
-    concept scaler_kind = detail::is_scaler<T>::value;
+    /**
+     * @brief Designate `scaler` as a measurement kind tag type.
+     */
+    template<>
+    inline constexpr bool enable_as_kind<scaler> = true;
 
     template<typename T, ratio_type Period = ratio<1>>
         requires(dimension<T> || kind<T>)

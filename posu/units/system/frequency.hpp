@@ -23,16 +23,16 @@ namespace posu::units {
 
     template<>
     struct kind_multiply_result<frequency, time> {
-        using type = scaler<>;
+        using type = scaler;
     };
 
     template<>
     struct kind_multiply_result<time, frequency> {
-        using type = scaler<>;
+        using type = scaler;
     };
 
     template<>
-    struct kind_divide_result<scaler<>, time> {
+    struct kind_divide_result<scaler, time> {
         using type = frequency;
     };
 

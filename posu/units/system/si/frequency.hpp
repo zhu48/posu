@@ -24,16 +24,16 @@ namespace posu::units {
 
     template<>
     struct unit_multiply_result<si::frequency, si::time> {
-        using type = scaler<>;
+        using type = unitless<>;
     };
 
     template<>
     struct unit_multiply_result<si::time, si::frequency> {
-        using type = scaler<>;
+        using type = unitless<>;
     };
 
     template<>
-    struct unit_divide_result<scaler<>, si::time> {
+    struct unit_divide_result<unitless<>, si::time> {
         using type = si::frequency;
     };
 
