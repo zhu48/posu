@@ -91,19 +91,15 @@ namespace posu::units {
 
     namespace detail {
 
-        template<typename Kind, typename Dimension>
-        concept unknown_of_dimensions = kind<Kind> && std::same_as<dimension_t<Kind>, Dimension>;
-
         template<typename Lhs, typename Rhs>
         concept kind_compatible_with =
-            std::same_as<Lhs, Rhs> || unknown_of_dimensions<Lhs, dimension_t<Rhs>> ||
-            unknown_of_dimensions<Rhs, dimension_t<Lhs>>;
+            std::same_as<Lhs, Rhs> || std::same_as<Lhs, unknown_kind<dimension_t<Rhs>>> ||
+            std::same_as<Rhs, unknown_kind<dimension_t<Lhs>>>;
 
     } // namespace detail
 
     template<typename Lhs, typename Rhs>
-    concept kind_comparable_with = kind<Lhs> && kind<Rhs> &&
-        std::same_as<dimension_t<Lhs>, dimension_t<Rhs>> && detail::kind_compatible_with<Lhs, Rhs>;
+    concept kind_comparable_with = kind<Lhs> && kind<Rhs> && detail::kind_compatible_with<Lhs, Rhs>;
 
     template<kind Lhs, kind Rhs>
     struct kind_multiply_result {
