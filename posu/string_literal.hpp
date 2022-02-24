@@ -41,6 +41,17 @@ namespace posu {
     template<typename CharT, std::size_t N>
     basic_string_literal(const CharT (&)[N]) -> basic_string_literal<std::remove_cv_t<CharT>, N>;
 
+    template<std::size_t N>
+    using string_literal = basic_string_literal<char, N>;
+    template<std::size_t N>
+    using wstring_literal = basic_string_literal<wchar_t, N>;
+    template<std::size_t N>
+    using u8string_literal = basic_string_literal<char8_t, N>;
+    template<std::size_t N>
+    using u16string_literal = basic_string_literal<char16_t, N>;
+    template<std::size_t N>
+    using u32string_literal = basic_string_literal<char32_t, N>;
+
 } // namespace posu
 
 #endif // #ifndef POSU_STRING_LITERAL_HPP
