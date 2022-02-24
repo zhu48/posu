@@ -2,6 +2,7 @@
 #define POSU_STRING_LITERAL_HPP
 
 #include <type_traits>
+#include <utility>
 
 namespace posu {
     template<typename CharT, std::size_t N>
@@ -22,6 +23,7 @@ namespace posu {
         static constexpr auto npos = static_cast<size_type>(-1);
 
         constexpr basic_string_literal() noexcept requires(N == 0) = default;
+        constexpr basic_string_literal(const CharT (&arr)[N]) noexcept;
 
         [[nodiscard]] constexpr operator const storage_type&() const noexcept { return value; }
 
@@ -36,6 +38,14 @@ namespace posu {
         [[nodiscard]] constexpr auto cend() const noexcept -> const_iterator { return data() + N; }
 
         const storage_type value;
+
+    private:
+        template<std::size_t... I>
+        constexpr basic_string_literal(
+            const CharT (&arr)[N],
+            std::index_sequence<I...> /*unused*/) noexcept;
+        template<typename... C>
+        constexpr basic_string_literal(C... c) noexcept;
     };
 
     template<typename CharT, std::size_t N>
@@ -53,5 +63,7 @@ namespace posu {
     using u32string_literal = basic_string_literal<char32_t, N>;
 
 } // namespace posu
+
+#include "posu/ipp/string_literal.ipp"
 
 #endif // #ifndef POSU_STRING_LITERAL_HPP
