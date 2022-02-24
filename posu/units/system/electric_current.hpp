@@ -5,15 +5,9 @@
 
 namespace posu::units {
 
-    struct electric_current {
+    struct electric_current : public make_dimension<"electric current"> {
         using type       = electric_current;
-        using value_type = std::string_view;
         using dimensions = type;
-
-        static constexpr auto value = std::string_view{"electric current"};
-
-        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
-        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
     template<>

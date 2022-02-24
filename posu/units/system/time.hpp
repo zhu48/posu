@@ -5,15 +5,9 @@
 
 namespace posu::units {
 
-    struct time {
+    struct time : public make_dimension<"time"> {
         using type       = time;
-        using value_type = std::string_view;
         using dimensions = type;
-
-        static constexpr auto value = std::string_view{"time"};
-
-        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
-        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
     template<>

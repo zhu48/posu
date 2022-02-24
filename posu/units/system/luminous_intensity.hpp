@@ -5,15 +5,9 @@
 
 namespace posu::units {
 
-    struct luminous_intensity {
+    struct luminous_intensity : public make_dimension<"luminous intensity"> {
         using type       = luminous_intensity;
-        using value_type = std::string_view;
         using dimensions = type;
-
-        static constexpr auto value = std::string_view{"luminous intensity"};
-
-        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
-        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
     template<>

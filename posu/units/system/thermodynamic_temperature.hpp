@@ -5,15 +5,9 @@
 
 namespace posu::units {
 
-    struct thermodynamic_temperature {
+    struct thermodynamic_temperature : public make_dimension<"thermodynamic temperature"> {
         using type       = thermodynamic_temperature;
-        using value_type = std::string_view;
         using dimensions = type;
-
-        static constexpr auto value = std::string_view{"thermodynamic temperature"};
-
-        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
-        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
     template<>

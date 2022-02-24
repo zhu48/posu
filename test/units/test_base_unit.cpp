@@ -6,30 +6,18 @@
 
 namespace {
 
-    struct amount_of_ingredients {
+    struct amount_of_ingredients : public posu::units::make_dimension<"amount of ingredients"> {
         using type       = amount_of_ingredients;
-        using value_type = std::string_view;
         using dimensions = type;
         using kind_type  = type;
         using period     = posu::ratio<1>;
-
-        static constexpr auto value = std::string_view{"amount of ingredients"};
-
-        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
-        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
-    struct distance_traveled {
+    struct distance_traveled : public posu::units::make_dimension<"distance traveled"> {
         using type       = distance_traveled;
-        using value_type = std::string_view;
         using dimensions = type;
         using kind_type  = type;
         using period     = posu::ratio<1>;
-
-        static constexpr auto value = std::string_view{"distance traveled"};
-
-        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
-        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
 } // namespace

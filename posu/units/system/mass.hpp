@@ -5,15 +5,9 @@
 
 namespace posu::units {
 
-    struct mass {
+    struct mass : public make_dimension<"mass"> {
         using type       = mass;
-        using value_type = std::string_view;
         using dimensions = type;
-
-        static constexpr auto value = std::string_view{"mass"};
-
-        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
-        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
     template<>

@@ -5,15 +5,9 @@
 
 namespace posu::units {
 
-    struct length {
+    struct length : public make_dimension<"name"> {
         using type       = length;
-        using value_type = std::string_view;
         using dimensions = type;
-
-        static constexpr auto value = std::string_view{"length"};
-
-        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
-        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
     };
 
     template<>
