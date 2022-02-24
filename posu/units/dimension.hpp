@@ -14,15 +14,22 @@ namespace posu::units {
     template<typename T>
     inline constexpr bool enable_as_dimension = false;
 
+    namespace detail {
+
+        template<basic_string_literal Name>
+        struct make_string_constant {
+            using value_type = std::string_view;
+
+            static constexpr auto value = value_type{Name};
+
+            [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
+            [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
+        };
+
+    } // namespace detail
+
     template<basic_string_literal Name>
-    struct make_dimension {
-        using value_type = std::string_view;
-
-        static constexpr auto value = value_type{Name};
-
-        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
-        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
-    };
+    using make_dimension = detail::make_string_constant<Name>;
 
     template<typename T>
     concept base_dimension = meta_constant<T, std::string_view> && enable_as_dimension<T>;
