@@ -233,6 +233,7 @@ set(
     POSU_HPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/concepts.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/ratio.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/string_literal.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/utility.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/vmath.hpp
         ${CMAKE_CURRENT_LIST_DIR}/posu/zip_range.hpp
@@ -250,6 +251,7 @@ set(
         ${CMAKE_CURRENT_LIST_DIR}/test/test_concepts.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/test_posu.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/test_ratio.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/test_string_literal.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/test_zip_range.cpp
 )
 
