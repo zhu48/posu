@@ -72,37 +72,34 @@ namespace posu::units {
     template<>
     inline constexpr bool enable_as_kind<scaler> = true;
 
+    /**
+     * @brief Tag type representing measurements of unknown kind with the given dimensions.
+     *
+     * @tparam Dimension The dimensions of the measurement.
+     */
     template<dimension Dimension>
-    struct unknown {
-        using type       = unknown;
-        using value_type = std::string_view;
-        using dimensions = Dimension;
-
-        static constexpr auto value = std::string_view{"unknown"};
-
-        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
-        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
+    struct unknown_kind : public make_kind<unknown_kind<Dimension>, "unknown", Dimension> {
     };
 
+    /**
+     * @brief Designate `unknown_kind` as a measurement kind tag type.
+     *
+     * @tparam Dimension The dimensions of the measurement.
+     */
     template<typename Dimension>
-    inline constexpr bool enable_as_kind<unknown<Dimension>> = true;
+    inline constexpr bool enable_as_kind<unknown_kind<Dimension>> = true;
 
-    template<kind kind>
-    struct is_unknown_kind : public std::false_type {
-    };
-    template<typename Dimension>
-    struct is_unknown_kind<unknown<Dimension>> : public std::true_type {
-    };
-    template<typename T>
-    concept unknown_kind = is_unknown_kind<T>::value;
+    namespace detail {
 
-    namespace detail
-    {
+        template<typename Kind, typename Dimension>
+        concept unknown_of_dimensions = kind<Kind> && std::same_as<dimension_t<Kind>, Dimension>;
+
         template<typename Lhs, typename Rhs>
         concept kind_compatible_with =
-            std::same_as<Lhs, Rhs> || unknown_kind<Lhs> || unknown_kind<Rhs>;
+            std::same_as<Lhs, Rhs> || unknown_of_dimensions<Lhs, dimension_t<Rhs>> ||
+            unknown_of_dimensions<Rhs, dimension_t<Lhs>>;
 
-    }
+    } // namespace detail
 
     template<typename Lhs, typename Rhs>
     concept kind_comparable_with = kind<Lhs> && kind<Rhs> &&
@@ -110,12 +107,12 @@ namespace posu::units {
 
     template<kind Lhs, kind Rhs>
     struct kind_multiply_result {
-        using type = unknown<dimension_multiply<dimension_t<Lhs>, dimension_t<Rhs>>>;
+        using type = unknown_kind<dimension_multiply<dimension_t<Lhs>, dimension_t<Rhs>>>;
     };
 
     template<kind Num, kind Den>
     struct kind_divide_result {
-        using type = unknown<dimension_divide<dimension_t<Num>, dimension_t<Den>>>;
+        using type = unknown_kind<dimension_divide<dimension_t<Num>, dimension_t<Den>>>;
     };
 
     template<kind Lhs, kind Rhs>
@@ -125,7 +122,7 @@ namespace posu::units {
 
     template<kind Lhs, kind_comparable_with<Lhs> Rhs>
     struct common_kind_result {
-        using type = unknown<dimension_t<Rhs>>;
+        using type = unknown_kind<dimension_t<Rhs>>;
     };
 
     template<kind Kind>
