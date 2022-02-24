@@ -45,6 +45,21 @@ namespace posu::units {
     };
     //! @}
 
+    /**
+     * @brief Create a base tag type defining a measurement kind with the given name and dimensions.
+     *
+     * This CRTP base class template provides a convenience mechanism for creating measurement kind
+     * tag types with all of the required members.
+     *
+     * @tparam T         The created measurement kind tag type.
+     * @tparam Name      The name of the new measurement kind.
+     * @tparam Dimension The dimensions of the new measurement kind.
+     */
+    template<typename T, basic_string_literal Name, dimension Dimension>
+    struct make_kind : public detail::make_string_constant<T, Name> {
+        using dimensions = Dimension; //!< The dimensions of the new measurement kind.
+    };
+
     template<ratio_type Period = ratio<1>>
     struct scaler {
         using type       = scaler;
