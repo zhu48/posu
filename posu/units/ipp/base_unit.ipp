@@ -273,6 +273,6 @@ posu::units::of(const quantity_comparable_with<Category> auto& quant) noexcept
         return quantity_cast<quantity<rep, period, Category>>(quant);
     }
     else {
-        return quantity_cast<quantity<rep, from_period, unknown<Category>>>(quant);
+        return quantity_cast<quantity<rep, from_period, unknown_unit<Category>>>(quant);
     }
 }

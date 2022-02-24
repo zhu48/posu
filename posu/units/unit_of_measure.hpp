@@ -106,33 +106,35 @@ namespace posu::units {
     template<ratio_type Ratio>
     inline constexpr bool enable_as_unit<unitless<Ratio>> = true;
 
-    template<kind Kind, ratio_type Period>
-    struct unknown<Kind, Period> {
-        using type       = unknown;
-        using value_type = std::string_view;
-        using kind_type  = Kind;
-        using dimensions = dimension_t<kind_type>;
-        using period     = Period;
-
-        static constexpr auto value = std::string_view{"unknown"};
-
-        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
-        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
+    /**
+     * @brief Tag type for quantities with unknown units of measure.
+     *
+     * @tparam Kind   The measurement kind associated with the quantity.
+     * @tparam Period The to-base-units ratio associated with the quantity.
+     */
+    template<kind Kind, ratio_type Period = ratio<1>>
+    struct unknown_unit : public make_unit<unknown_unit<Kind, Period>, "unknown", Kind, Period> {
     };
 
+    /**
+     * @brief Designate `unknown_unit` as a unit of measure tag type.
+     *
+     * @tparam Kind   The measurement kind associated with the quantity.
+     * @tparam Period The to-base-units ratio associated with the quantity.
+     */
     template<kind Kind, ratio_type Period>
-    inline constexpr bool enable_as_unit<unknown<Kind, Period>> = true;
+    inline constexpr bool enable_as_unit<unknown_unit<Kind, Period>> = true;
 
     template<unit Lhs, unit Rhs>
     struct unit_multiply_result {
-        using type = unknown<
+        using type = unknown_unit<
             kind_multiply<kind_t<Lhs>, kind_t<Rhs>>,
             ratio_multiply<period_t<Lhs>, period_t<Rhs>>>;
     };
 
     template<unit Num, unit Den>
     struct unit_divide_result {
-        using type = unknown<
+        using type = unknown_unit<
             kind_divide<kind_t<Num>, kind_t<Den>>,
             ratio_divide<period_t<Num>, period_t<Den>>>;
     };
@@ -144,7 +146,7 @@ namespace posu::units {
 
     template<unit Lhs, unit Rhs>
     struct common_unit_result {
-        using type = unknown<
+        using type = unknown_unit<
             common_kind<kind_t<Lhs>, kind_t<Rhs>>,
             common_ratio<period_t<Lhs>, period_t<Rhs>>>;
     };

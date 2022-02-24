@@ -2,7 +2,7 @@
 namespace posu::units::detail {
 
     template<unit Unit>
-    using as_unknown = unknown<kind_t<Unit>, period_t<Unit>>;
+    using as_unknown = unknown_unit<kind_t<Unit>, period_t<Unit>>;
 
     template<unit Lhs, unit Rhs>
     using unknown_quantity_multiply = unit_multiply<as_unknown<Lhs>, as_unknown<Rhs>>;

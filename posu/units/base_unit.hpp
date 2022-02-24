@@ -118,7 +118,7 @@ namespace posu::units {
 
         template<std_chrono_duration T, kind Kind>
         using equivalent_quantity =
-            quantity<rep_t<T>, ratio<period_t<T>::num, period_t<T>::den>, unknown<Kind>>;
+            quantity<rep_t<T>, ratio<period_t<T>::num, period_t<T>::den>, unknown_unit<Kind>>;
 
         template<typename To, typename From>
         concept chrono_convertible_from = quantity_of_measure<To> && std_chrono_duration<From> &&

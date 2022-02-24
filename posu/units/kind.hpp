@@ -72,13 +72,8 @@ namespace posu::units {
     template<>
     inline constexpr bool enable_as_kind<scaler> = true;
 
-    template<typename T, ratio_type Period = ratio<1>>
-        requires(dimension<T> || kind<T>)
-    struct unknown;
-
     template<dimension Dimension>
-        requires(!kind<Dimension>)
-    struct unknown<Dimension> {
+    struct unknown {
         using type       = unknown;
         using value_type = std::string_view;
         using dimensions = Dimension;
