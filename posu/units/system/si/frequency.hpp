@@ -17,27 +17,8 @@ namespace posu::units::si {
 
 } // namespace posu::units::si
 
-namespace posu::units {
-
-    template<>
-    inline constexpr bool enable_as_unit<si::frequency> = true;
-
-    template<>
-    struct unit_multiply_result<si::frequency, si::time> {
-        using type = unitless<>;
-    };
-
-    template<>
-    struct unit_multiply_result<si::time, si::frequency> {
-        using type = unitless<>;
-    };
-
-    template<>
-    struct unit_divide_result<unitless<>, si::time> {
-        using type = si::frequency;
-    };
-
-} // namespace posu::units
+template<>
+inline constexpr bool posu::units::enable_as_unit<posu::units::si::frequency> = true;
 
 namespace posu::units::si {
 

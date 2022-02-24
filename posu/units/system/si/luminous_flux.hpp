@@ -18,27 +18,8 @@ namespace posu::units::si {
 
 } // namespace posu::units::si
 
-namespace posu::units {
-
-    template<>
-    inline constexpr bool enable_as_unit<si::luminous_flux> = true;
-
-    template<>
-    struct unit_multiply_result<si::luminous_intensity, si::solid_angle> {
-        using type = si::luminous_flux;
-    };
-
-    template<>
-    struct unit_divide_result<si::luminous_flux, si::luminous_intensity> {
-        using type = si::solid_angle;
-    };
-
-    template<>
-    struct unit_divide_result<si::luminous_flux, si::solid_angle> {
-        using type = si::luminous_intensity;
-    };
-
-} // namespace posu::units
+template<>
+inline constexpr bool posu::units::enable_as_unit<posu::units::si::luminous_flux> = true;
 
 namespace posu::units::si {
 

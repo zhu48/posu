@@ -19,27 +19,8 @@ namespace posu::units::si {
 
 } // namespace posu::units::si
 
-namespace posu::units {
-
-    template<>
-    inline constexpr bool enable_as_unit<si::force> = true;
-
-    template<unit_of<acceleration> Accel>
-    struct unit_multiply_result<si::mass, Accel> {
-        using type = si::force;
-    };
-
-    template<unit_of<acceleration> Accel>
-    struct unit_multiply_result<Accel, si::mass> {
-        using type = si::force;
-    };
-
-    template<unit_of<acceleration> Accel>
-    struct unit_divide_result<si::force, Accel> {
-        using type = si::mass;
-    };
-
-} // namespace posu::units
+template<>
+inline constexpr bool posu::units::enable_as_unit<posu::units::si::force> = true;
 
 namespace posu::units::si {
 

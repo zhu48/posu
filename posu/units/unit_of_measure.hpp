@@ -125,24 +125,27 @@ namespace posu::units {
     template<kind Kind, ratio_type Period>
     inline constexpr bool enable_as_unit<unknown_unit<Kind, Period>> = true;
 
+    /**
+     * @brief Multiply two units of measure together.
+     *
+     * @tparam Lhs The left-hand-side unit tag type.
+     * @tparam Rhs The right-hand-side unit tag type.
+     */
     template<unit Lhs, unit Rhs>
-    struct unit_multiply_result {
-        using type = unknown_unit<
-            kind_multiply<kind_t<Lhs>, kind_t<Rhs>>,
-            ratio_multiply<period_t<Lhs>, period_t<Rhs>>>;
-    };
+    using unit_multiply = unknown_unit<
+        kind_multiply<kind_t<Lhs>, kind_t<Rhs>>,
+        ratio_multiply<period_t<Lhs>, period_t<Rhs>>>;
 
+    /**
+     * @brief Divide one unit of measure into another.
+     *
+     * @tparam Lhs The left-hand-side unit tag type.
+     * @tparam Rhs The right-hand-side unit tag type.
+     */
     template<unit Num, unit Den>
-    struct unit_divide_result {
-        using type = unknown_unit<
-            kind_divide<kind_t<Num>, kind_t<Den>>,
-            ratio_divide<period_t<Num>, period_t<Den>>>;
-    };
-
-    template<unit Lhs, unit Rhs>
-    using unit_multiply = typename unit_multiply_result<Lhs, Rhs>::type;
-    template<unit Lhs, unit Rhs>
-    using unit_divide = typename unit_divide_result<Lhs, Rhs>::type;
+    using unit_divide = unknown_unit<
+        kind_divide<kind_t<Num>, kind_t<Den>>,
+        ratio_divide<period_t<Num>, period_t<Den>>>;
 
     template<unit Lhs, unit Rhs>
     struct common_unit_result {
