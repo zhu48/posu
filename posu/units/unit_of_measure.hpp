@@ -72,6 +72,23 @@ namespace posu::units {
     concept unit_comparable_with =
         unit<Lhs> && unit<Rhs> && kind_comparable_with<kind_t<Lhs>, kind_t<Rhs>>;
 
+    /**
+     * @brief Create a base tag type defining a unit of measure wit the given name, kind, and ratio.
+     *
+     * This CRTP base class template provides a convenience mechanism for creating unit of measure
+     * tag types with all of the required members.
+     *
+     * @tparam T     The created  unit of measure tag type.
+     * @tparam Name  The name of the new unit of measure.
+     * @tparam Kind  The measurement kind of the new unit of measure.
+     * @tparam Ratio The to-base-units ratio of the new unit of measure.
+     */
+    template<typename T, basic_string_literal Name, kind Kind, ratio_type Ratio = ratio<1>>
+    struct make_unit : public detail::make_string_constant<T, Name> {
+        using kind_type = Kind;  //!< The measurement kind of the new unit of measure.
+        using period    = Ratio; //!< The to0base-units ratio of the new unit of measure.
+    };
+
     template<ratio_type Ratio>
     inline constexpr bool enable_as_unit<scaler<Ratio>> = true;
 
