@@ -5,8 +5,8 @@
 
 namespace posu::units {
 
-    struct thermodynamic_temperature : public make_dimension<"thermodynamic temperature"> {
-        using type       = thermodynamic_temperature;
+    struct thermodynamic_temperature
+        : public make_dimension<thermodynamic_temperature, "thermodynamic temperature"> {
         using dimensions = type;
     };
 

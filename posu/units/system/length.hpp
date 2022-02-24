@@ -5,8 +5,7 @@
 
 namespace posu::units {
 
-    struct length : public make_dimension<"name"> {
-        using type       = length;
+    struct length : public make_dimension<length, "name"> {
         using dimensions = type;
     };
 

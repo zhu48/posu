@@ -5,8 +5,7 @@
 
 namespace posu::units {
 
-    struct mass : public make_dimension<"mass"> {
-        using type       = mass;
+    struct mass : public make_dimension<mass, "mass"> {
         using dimensions = type;
     };
 

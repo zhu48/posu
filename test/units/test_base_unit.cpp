@@ -6,15 +6,15 @@
 
 namespace {
 
-    struct amount_of_ingredients : public posu::units::make_dimension<"amount of ingredients"> {
-        using type       = amount_of_ingredients;
+    struct amount_of_ingredients
+        : public posu::units::make_dimension<amount_of_ingredients, "amount of ingredients"> {
         using dimensions = type;
         using kind_type  = type;
         using period     = posu::ratio<1>;
     };
 
-    struct distance_traveled : public posu::units::make_dimension<"distance traveled"> {
-        using type       = distance_traveled;
+    struct distance_traveled
+        : public posu::units::make_dimension<distance_traveled, "distance traveled"> {
         using dimensions = type;
         using kind_type  = type;
         using period     = posu::ratio<1>;

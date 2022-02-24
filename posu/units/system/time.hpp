@@ -5,8 +5,7 @@
 
 namespace posu::units {
 
-    struct time : public make_dimension<"time"> {
-        using type       = time;
+    struct time : public make_dimension<time, "time"> {
         using dimensions = type;
     };
 

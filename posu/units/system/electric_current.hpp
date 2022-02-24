@@ -5,8 +5,7 @@
 
 namespace posu::units {
 
-    struct electric_current : public make_dimension<"electric current"> {
-        using type       = electric_current;
+    struct electric_current : public make_dimension<electric_current, "electric current"> {
         using dimensions = type;
     };
 

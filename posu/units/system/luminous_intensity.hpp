@@ -5,8 +5,7 @@
 
 namespace posu::units {
 
-    struct luminous_intensity : public make_dimension<"luminous intensity"> {
-        using type       = luminous_intensity;
+    struct luminous_intensity : public make_dimension<luminous_intensity, "luminous intensity"> {
         using dimensions = type;
     };
 
