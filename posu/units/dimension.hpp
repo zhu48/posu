@@ -4,6 +4,7 @@
 #include <string_view>
 
 #include "posu/concepts.hpp"
+#include "posu/string_literal.hpp"
 
 #include "posu/meta/algorithm.hpp"
 #include "posu/meta/ratio.hpp"
@@ -12,6 +13,16 @@ namespace posu::units {
 
     template<typename T>
     inline constexpr bool enable_as_dimension = false;
+
+    template<basic_string_literal Name>
+    struct make_dimension {
+        using value_type = std::string_view;
+
+        static constexpr auto value = value_type{Name};
+
+        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
+        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
+    };
 
     template<typename T>
     concept base_dimension = meta_constant<T, std::string_view> && enable_as_dimension<T>;
@@ -27,14 +38,8 @@ namespace posu::units {
     template<typename T>
     concept dimension = base_dimension<T> || derived_dimension<T>;
 
-    struct dimensionless {
-        using type       = dimensionless;
-        using value_type = std::string_view;
-
-        static constexpr auto value = std::string_view{"dimensionless"};
-
-        [[nodiscard]] constexpr auto operator()() const noexcept { return value; }
-        [[nodiscard]] constexpr      operator value_type() const noexcept { return value; }
+    struct dimensionless : public make_dimension<"dimensionless"> {
+        using type = dimensionless;
     };
 
     template<>
