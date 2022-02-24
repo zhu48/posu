@@ -20,8 +20,6 @@ namespace posu {
         using iterator        = pointer;
         using const_iterator  = const_pointer;
 
-        static constexpr auto npos = static_cast<size_type>(-1);
-
         constexpr basic_string_literal() noexcept requires(N == 0) = default;
         constexpr basic_string_literal(const CharT (&arr)[N]) noexcept;
 
