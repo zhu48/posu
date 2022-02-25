@@ -147,15 +147,19 @@ namespace posu::units {
         kind_divide<kind_t<Num>, kind_t<Den>>,
         ratio_divide<period_t<Num>, period_t<Den>>>;
 
+    /**
+     * @brief Create an anonymous unit capable of losslessly representing values of two other units.
+     *
+     * Integer quantities in the new units can precisely represent integer quantities of both
+     * operand units.
+     *
+     * @tparam Lhs The left-hand-side unit tag type.
+     * @tparam Rhs The right-hand-side unit tag type.
+     */
     template<unit Lhs, unit Rhs>
-    struct common_unit_result {
-        using type = unknown_unit<
-            common_kind<kind_t<Lhs>, kind_t<Rhs>>,
-            common_ratio<period_t<Lhs>, period_t<Rhs>>>;
-    };
-
-    template<unit Lhs, unit Rhs>
-    using common_unit = typename common_unit_result<Lhs, Rhs>::type;
+    using common_unit = unknown_unit<
+        common_kind<kind_t<Lhs>, kind_t<Rhs>>,
+        common_ratio<period_t<Lhs>, period_t<Rhs>>>;
 
 } // namespace posu::units
 
