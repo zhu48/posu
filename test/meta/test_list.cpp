@@ -26,9 +26,9 @@ TEST_CASE("initialization", "[construct]")
     REQUIRE(list::size() == 6);
     REQUIRE(!list::empty());
 
-    static_assert(std::same_as<list::front, int>, "the first element must be an int");
+    static_assert(std::same_as<meta::front<list>, int>, "the first element must be an int");
     static_assert(
-        std::same_as<list::back, const double&>,
+        std::same_as<meta::back<list>, const double&>,
         "the last element must be const double&");
 }
 

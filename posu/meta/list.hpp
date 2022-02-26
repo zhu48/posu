@@ -16,14 +16,6 @@ namespace posu::meta {
     struct list {
     public:
         /**
-         * @brief The type at the given index in the range.
-         *
-         * @tparam I The index of the type to access.
-         */
-        template<std::size_t I>
-        using at = std::tuple_element_t<I, std::tuple<Types...>>;
-
-        /**
          * @brief The number of elements in the list.
          *
          * @{
@@ -38,16 +30,6 @@ namespace posu::meta {
         using empty = std::bool_constant<size::value == 0>;
 
         /**
-         * @brief The first type in the list.
-         */
-        using front = at<0>;
-
-        /**
-         * @brief The last type in the list.
-         */
-        using back = at<size::value - 1>;
-
-        /**
          * @brief The tuple type that has the listed types as its elements.
          */
         using tuple = std::tuple<Types...>;
@@ -58,61 +40,13 @@ namespace posu::meta {
         using variant = std::variant<Types...>;
 
         /**
-         * @brief Construct an object of the corresponding tuple type.
+         * @brief The type at the given index in the range.
          *
-         * @tparam Args The types of arguments to forward to the tuple constructor.
-         * @param args The arguments to forward to the tuple constructor.
-         * @return Returns the constructed tuple.
+         * @tparam I The index of the type to access.
          */
-        template<typename... Args>
-        [[nodiscard]] static constexpr auto
-        make_tuple(Args&&... args) noexcept(std::is_nothrow_constructible_v<tuple, Args...>)
-            -> tuple;
-
-        /**
-         * @brief Construct an object of the corresponding variant type.
-         *
-         * @tparam Args The types of arguments to forward to the variant constructor.
-         * @param args The arguments to forward to the variant constructor.
-         * @return Returns the constructed variant.
-         */
-        template<typename... Args>
-        [[nodiscard]] static constexpr auto
-        make_variant(Args&&... args) noexcept(std::is_nothrow_constructible_v<variant, Args...>)
-            -> variant;
-    };
-
-    /**
-     * @brief Empty type list.
-     *
-     * An empty type list lacks the `front`, `back`, and `at` members.
-     */
-    template<>
-    struct list<> {
-    public:
-        /**
-         * @brief The number of elements in the list.
-         *
-         * @{
-         */
-        using size  = std::integral_constant<std::size_t, 0>;
-        using ssize = std::integral_constant<std::make_signed_t<std::size_t>, 0>;
-        //! @}
-
-        /**
-         * @brief Whether the list is empty or not.
-         */
-        using empty = std::true_type;
-
-        /**
-         * @brief The tuple type that has the listed types as its elements.
-         */
-        using tuple = std::tuple<>;
-
-        /**
-         * @brief The variant type that has the listed types as its alternatives.
-         */
-        using variant = std::variant<>;
+        template<std::size_t I>
+            requires(I < size())
+        using at = std::tuple_element_t<I, tuple>;
 
         /**
          * @brief Construct an object of the corresponding tuple type.
@@ -343,6 +277,14 @@ namespace posu::meta {
     template<list_type List, std::size_t I>
         requires(I < typename List::size())
     using at = typename List::template at<I>;
+
+    template<list_type List>
+        requires(!typename List::empty())
+    using front = at<List, 0>;
+
+    template<list_type List>
+        requires(!typename List::empty())
+    using back = at<List, typename List::size() - 1>;
 
     /**
      * @brief Find the index of the first ocurrence of the given type.
