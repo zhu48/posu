@@ -166,27 +166,17 @@ namespace std {
 
 namespace posu::meta {
 
-    /**
-     * @brief Traits template to detect whether a type specializes `list` or not.
-     * @{
-     */
-    //! @tparam T The type to check.
-    template<typename T>
-    struct is_list : std::false_type {
-    };
-    //! @tparam Types The types in the type list.
-    template<typename... Types>
-    struct is_list<list<Types...>> : std::true_type {
-    };
-    //! @}
+    namespace detail {
 
-    /**
-     * @brief Traits constant indicating whether or not a type specializes `list`.
-     *
-     * @tparam T The type to check.
-     */
-    template<typename T>
-    inline constexpr bool is_list_v = is_list<T>::value;
+        template<typename T>
+        struct is_list : std::false_type {
+        };
+
+        template<typename... Types>
+        struct is_list<list<Types...>> : std::true_type {
+        };
+
+    } // namespace detail
 
     /**
      * @brief T type that instantiates `list`.
@@ -194,7 +184,7 @@ namespace posu::meta {
      * @tparam T The type to check against this concept.
      */
     template<typename T>
-    concept list_type = is_list_v<T>;
+    concept list_type = detail::is_list<T>::value;
 
     namespace detail
     {
@@ -255,8 +245,7 @@ namespace posu::meta {
      *
      * @tparam Lists The lists to concatenate together.
      */
-    template<typename... Lists>
-        requires(is_list_v<Lists>&&...)
+    template<list_type... Lists>
     using concatenate = typename detail::concatenate_impl<Lists...>::type;
 
     /**
@@ -266,8 +255,7 @@ namespace posu::meta {
      * @tparam Type The type to prepend to the list. If `Type` is an single-element list
      *              `list<T>`, prepends `T` instead.
      */
-    template<typename List, typename Type>
-        requires(is_list_v<List>)
+    template<list_type List, typename Type>
     using push_front = typename detail::prepend_impl<List, Type>::type;
 
     /**
@@ -277,8 +265,7 @@ namespace posu::meta {
      * @tparam Type The type to append to the list. If `Type` is an single-element list
      *              `list<T>`, appends `T` instead.
      */
-    template<typename List, typename Type>
-        requires(is_list_v<List>)
+    template<list_type List, typename Type>
     using push_back = typename detail::append_impl<List, Type>::type;
 
     /**
@@ -286,8 +273,7 @@ namespace posu::meta {
      *
      * @tparam List The list to pop a type from.
      */
-    template<typename List>
-        requires(is_list_v<List>)
+    template<list_type List>
     using pop_front = typename detail::pop_front_impl<List>::type;
 
     /**
@@ -295,8 +281,7 @@ namespace posu::meta {
      *
      * @tparam List The list to pop a type from.
      */
-    template<typename List>
-        requires(is_list_v<List>)
+    template<list_type List>
     using pop_back = typename detail::pop_back_impl<List>::type;
 
     /**
@@ -305,8 +290,8 @@ namespace posu::meta {
      * @tparam List The list get the first types of.
      * @tparam I    The number of elements to get.
      */
-    template<typename List, std::size_t I = 0>
-        requires(is_list_v<List> && (I <= typename List::size()))
+    template<list_type List, std::size_t I = 0>
+        requires(I <= typename List::size())
     using first = typename detail::first_impl<List, I>::type;
 
     /**
@@ -315,8 +300,8 @@ namespace posu::meta {
      * @tparam List The list get the last types of.
      * @tparam I    The number of elements to get.
      */
-    template<typename List, std::size_t I = 0>
-        requires(is_list_v<List> && (I <= typename List::size()))
+    template<list_type List, std::size_t I = 0>
+        requires(I <= typename List::size())
     using last = typename detail::last_impl<List, I>::type;
 
     /**
@@ -326,11 +311,9 @@ namespace posu::meta {
      *
      * @{
      */
-    template<typename List>
-        requires(is_list_v<List>)
+    template<list_type List>
     using size = typename List::size;
-    template<typename List>
-        requires(is_list_v<List>)
+    template<list_type List>
     using ssize = typename List::ssize;
     template<typename List>
     inline constexpr auto size_v = size<List>::value;
@@ -345,8 +328,7 @@ namespace posu::meta {
      *
      * @{
      */
-    template<typename List>
-        requires(is_list_v<List>)
+    template<list_type List>
     using empty = typename List::empty;
     template<typename List>
     inline constexpr auto empty_v = empty<List>::value;
@@ -358,8 +340,8 @@ namespace posu::meta {
      * @tparam List The list to get an element of.
      * @tparam I    The index of the list element to get.
      */
-    template<typename List, std::size_t I>
-        requires(is_list_v<List> && (I < typename List::size()))
+    template<list_type List, std::size_t I>
+        requires(I < typename List::size())
     using at = typename List::template at<I>;
 
     /**
@@ -370,8 +352,7 @@ namespace posu::meta {
      *
      * @{
      */
-    template<typename List, typename T>
-        requires(is_list_v<List>)
+    template<list_type List, typename T>
     using find = typename detail::find_impl<List, T>::type;
     template<typename List, typename T>
     inline constexpr auto find_v = find<List, T>::value;
@@ -384,8 +365,8 @@ namespace posu::meta {
      * @tparam I    The index to insert a new type at.
      * @tparam T    The type to insert.
      */
-    template<typename List, std::size_t I, typename T>
-        requires(is_list_v<List> && (I <= typename List::size()))
+    template<list_type List, std::size_t I, typename T>
+        requires(I <= typename List::size())
     using insert = typename detail::insert_impl<List, I, T>::type;
 
     /**
@@ -394,8 +375,8 @@ namespace posu::meta {
      * @tparam List The list to remove a type from.
      * @tparam I    The index of the type to remove.
      */
-    template<typename List, std::size_t I>
-        requires(is_list_v<List> && (I < typename List::size()))
+    template<list_type List, std::size_t I>
+        requires(I < typename List::size())
     using remove = typename detail::remove_impl<List, I>::type;
 
     /**
@@ -421,8 +402,7 @@ namespace posu::meta {
      *
      * @{
      */
-    template<typename TypeList>
-        requires is_list_v<TypeList>
+    template<list_type TypeList>
     struct tuple_from {
         using type = typename TypeList::tuple;
     };
@@ -437,8 +417,7 @@ namespace posu::meta {
      *
      * @{
      */
-    template<typename TypeList>
-        requires is_list_v<TypeList>
+    template<list_type TypeList>
     struct variant_from {
         using type = typename TypeList::variant;
     };
@@ -455,8 +434,7 @@ namespace posu::meta {
      * @param args The arguments to forward to the tuple constructor.
      * @return Returns the constructed tuple.
      */
-    template<typename TypeList, typename... Args>
-        requires is_list_v<TypeList>
+    template<list_type TypeList, typename... Args>
     [[nodiscard]] constexpr auto make_tuple_from(TypeList list, Args&&... args) noexcept(
         std::is_nothrow_constructible_v<tuple_from_t<TypeList>>) -> tuple_from_t<TypeList>;
 
@@ -469,8 +447,7 @@ namespace posu::meta {
      * @param args The arguments to forward to the variant constructor.
      * @return Returns the constructed variant.
      */
-    template<typename TypeList, typename... Args>
-        requires is_list_v<TypeList>
+    template<list_type TypeList, typename... Args>
     [[nodiscard]] constexpr auto make_variant_from(TypeList list, Args&&... args) noexcept(
         std::is_nothrow_constructible_v<variant_from_t<TypeList>>) -> variant_from_t<TypeList>;
 

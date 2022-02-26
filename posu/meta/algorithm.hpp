@@ -15,13 +15,13 @@ namespace posu::meta {
     [[nodiscard]] constexpr bool none_of(list<Types...> /*unused*/ = {}) noexcept;
 
     template<typename List, template<typename> typename Predicate>
-    concept list_with_all = is_list_v<List> && all_of<Predicate>(List{});
+    concept list_with_all = list_type<List> && all_of<Predicate>(List{});
 
     template<typename List, template<typename> typename Predicate>
-    concept list_with_any = is_list_v<List> && any_of<Predicate>(List{});
+    concept list_with_any = list_type<List> && any_of<Predicate>(List{});
 
     template<typename List, template<typename> typename Predicate>
-    concept list_with_no = is_list_v<List> && none_of<Predicate>(List{});
+    concept list_with_no = list_type<List> && none_of<Predicate>(List{});
 
     template<template<typename> typename Predicate, typename... Types>
     concept matches_all = (Predicate<Types>::value && ...);

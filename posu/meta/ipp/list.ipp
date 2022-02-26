@@ -106,16 +106,14 @@ namespace posu::meta {
         return variant(std::forward<Args>(args)...);
     }
 
-    template<typename TypeList, typename... Args>
-        requires is_list_v<TypeList>
+    template<list_type TypeList, typename... Args>
     [[nodiscard]] constexpr auto make_tuple_from(TypeList /*unused*/, Args&&... args) noexcept(
         std::is_nothrow_constructible_v<tuple_from_t<TypeList>>) -> tuple_from_t<TypeList>
     {
         return TypeList::make_tuple(std::forward<Args>(args)...);
     }
 
-    template<typename TypeList, typename... Args>
-        requires is_list_v<TypeList>
+    template<list_type TypeList, typename... Args>
     [[nodiscard]] constexpr auto make_variant_from(TypeList /*unused*/, Args&&... args) noexcept(
         std::is_nothrow_constructible_v<variant_from_t<TypeList>>) -> variant_from_t<TypeList>
     {
