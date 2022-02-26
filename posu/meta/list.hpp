@@ -278,10 +278,20 @@ namespace posu::meta {
         requires(I < typename List::size())
     using at = typename List::template at<I>;
 
+    /**
+     * @brief Get the first type in the type list.
+     *
+     * @tparam List The list to get the first element of.
+     */
     template<list_type List>
         requires(!typename List::empty())
     using front = at<List, 0>;
 
+    /**
+     * @brief Get the last type in the type list.
+     *
+     * @tparam List The list to get the last element of.
+     */
     template<list_type List>
         requires(!typename List::empty())
     using back = at<List, typename List::size() - 1>;
