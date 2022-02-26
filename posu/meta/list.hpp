@@ -188,7 +188,16 @@ namespace posu::meta {
     template<typename T>
     inline constexpr bool is_list_v = is_list<T>::value;
 
-    namespace detail {
+    /**
+     * @brief T type that instantiates `list`.
+     *
+     * @tparam T The type to check against this concept.
+     */
+    template<typename T>
+    concept list_type = is_list_v<T>;
+
+    namespace detail
+    {
 
         template<typename... Lists>
         struct concatenate_impl;
@@ -228,7 +237,7 @@ namespace posu::meta {
             add_offset_t<std::tuple_size_v<List> - I, std::make_index_sequence<I>>>;
 
         template<typename List, typename T, std::size_t I = 0>
-        [[nodiscard]] constexpr auto find_impl_fn() noexcept -> std::size_t;
+        [[nodiscard]] constexpr auto find_impl_fn() noexcept->std::size_t;
 
         template<typename List, typename T>
         using find_impl = std::integral_constant<std::size_t, find_impl_fn<List, T>()>;
