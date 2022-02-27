@@ -138,17 +138,6 @@ namespace posu::meta {
     namespace detail
     {
 
-        template<std::size_t Offset, typename IndexSequence>
-        struct add_offset;
-
-        template<std::size_t Offset, std::size_t... Values>
-        struct add_offset<Offset, std::index_sequence<Values...>> {
-            using type = std::index_sequence<(Values + Offset)...>;
-        };
-
-        template<std::size_t Offset, typename IndexSequence>
-        using add_offset_t = typename add_offset<Offset, IndexSequence>::type;
-
         template<typename List, typename T, std::size_t I = 0>
         [[nodiscard]] constexpr auto find_impl_fn() noexcept->std::size_t;
 
