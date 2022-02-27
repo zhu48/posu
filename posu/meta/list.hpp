@@ -352,17 +352,15 @@ namespace posu::meta {
     /**
      * @brief Check whether or not the given type exists in the given type list.
      *
-     * @tparam List The list to check for the given type in.
-     * @tparam T    The type to check the existence of in the given list.
+     * @tparam T The type to check the existence of in the given list.
      *
-     * @{
+     * @param l The list to check for the given type in.
+     *
+     * @retval true  The given list contains the given type.
+     * @retval false The given list does not contain the given type.
      */
-    template<typename List, typename T>
-    struct contains : public std::bool_constant<std::less{}(find<T>(List{}), List::size::value)> {
-    };
-    template<typename List, typename T>
-    inline constexpr auto contains_v = contains<List, T>::value;
-    //! @}
+    template<typename T>
+    [[nodiscard]] constexpr bool contains(list_type auto l) noexcept;
 
     /**
      * @brief Transform a `list` to its corresponding tuple type.

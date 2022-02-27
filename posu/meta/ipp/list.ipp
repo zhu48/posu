@@ -174,6 +174,12 @@ posu::meta::remove(list_type auto l, std::index_sequence<I...> i) noexcept
     }
 }
 
+template<typename T>
+[[nodiscard]] constexpr bool posu::meta::contains(list_type auto l) noexcept
+{
+    return find<T>(l) != l.size();
+}
+
 template<std::size_t Begin, std::size_t End>
 [[nodiscard]] constexpr auto posu::meta::remove_range(
     list_type auto l,

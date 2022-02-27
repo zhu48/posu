@@ -78,6 +78,12 @@ TEST_CASE("range operations", "[algorithms]")
         REQUIRE(meta::find<long>(list) == 3);
         REQUIRE(meta::find<float>(list) == 4);
         REQUIRE(meta::find<double>(list) == 5);
+
+        REQUIRE(meta::contains<char>(list));
+        REQUIRE(meta::contains<int>(list));
+        REQUIRE(meta::contains<long>(list));
+        REQUIRE(meta::contains<float>(list));
+        REQUIRE(meta::contains<double>(list));
     }
 
     SECTION("sub-lists")
