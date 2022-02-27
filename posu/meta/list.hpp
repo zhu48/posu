@@ -15,19 +15,20 @@ namespace posu::meta {
     template<typename... Types>
     struct list {
     public:
+        using size_type  = decltype(sizeof...(Types));    //!< Unsigned number-of-elements type.
+        using ssize_type = std::make_signed_t<size_type>; //!< Signed number-of-elements type.
+
         /**
-         * @brief The number of elements in the list.
+         * @brief Query the number of elements in the list.
+         *
+         * @return Returns the requested list size information.
          *
          * @{
          */
-        using size  = std::integral_constant<std::size_t, sizeof...(Types)>;
-        using ssize = std::integral_constant<std::make_signed_t<std::size_t>, sizeof...(Types)>;
+        [[nodiscard]] static constexpr auto size() noexcept { return sizeof...(Types); }
+        [[nodiscard]] static constexpr auto ssize() noexcept { return ssize_type{size()}; }
+        [[nodiscard]] static constexpr bool empty() noexcept { return size() == 0; }
         //! @}
-
-        /**
-         * @brief Whether the list is empty or not.
-         */
-        using empty = std::bool_constant<size::value == 0>;
 
         /**
          * @brief The tuple type that has the listed types as its elements.
@@ -225,7 +226,7 @@ namespace posu::meta {
      * @tparam I    The number of elements to get.
      */
     template<list_type List, std::size_t I = 0>
-        requires(I <= typename List::size())
+        requires(I <= List::size())
     using first = typename detail::first_impl<List, I>::type;
 
     /**
@@ -235,7 +236,7 @@ namespace posu::meta {
      * @tparam I    The number of elements to get.
      */
     template<list_type List, std::size_t I = 0>
-        requires(I <= typename List::size())
+        requires(I <= List::size())
     using last = typename detail::last_impl<List, I>::type;
 
     /**
@@ -246,9 +247,9 @@ namespace posu::meta {
      * @{
      */
     template<list_type List>
-    using size = typename List::size;
+    using size = std::integral_constant<typename List::size_type, List::size()>;
     template<list_type List>
-    using ssize = typename List::ssize;
+    using ssize = std::integral_constant<typename List::ssize_type, List::ssize()>;
     template<typename List>
     inline constexpr auto size_v = size<List>::value;
     template<typename List>
@@ -263,9 +264,9 @@ namespace posu::meta {
      * @{
      */
     template<list_type List>
-    using empty = typename List::empty;
+    using empty = std::bool_constant<List::empty()>;
     template<typename List>
-    inline constexpr auto empty_v = empty<List>::value;
+    inline constexpr auto empty_v = List::empty();
     //! @}
 
     /**
@@ -275,7 +276,7 @@ namespace posu::meta {
      * @tparam I    The index of the list element to get.
      */
     template<list_type List, std::size_t I>
-        requires(I < typename List::size())
+        requires(I < List::size())
     using at = typename List::template at<I>;
 
     /**
@@ -284,7 +285,7 @@ namespace posu::meta {
      * @tparam List The list to get the first element of.
      */
     template<list_type List>
-        requires(!typename List::empty())
+        requires(!List::empty())
     using front = at<List, 0>;
 
     /**
@@ -293,8 +294,8 @@ namespace posu::meta {
      * @tparam List The list to get the last element of.
      */
     template<list_type List>
-        requires(!typename List::empty())
-    using back = at<List, typename List::size() - 1>;
+        requires(!List::empty())
+    using back = at<List, List::size() - 1>;
 
     /**
      * @brief Find the index of the first ocurrence of the given type.
@@ -318,7 +319,7 @@ namespace posu::meta {
      * @tparam T    The type to insert.
      */
     template<list_type List, std::size_t I, typename T>
-        requires(I <= typename List::size())
+        requires(I <= List::size())
     using insert = typename detail::insert_impl<List, I, T>::type;
 
     /**
@@ -328,7 +329,7 @@ namespace posu::meta {
      * @tparam I    The index of the type to remove.
      */
     template<list_type List, std::size_t I>
-        requires(I < typename List::size())
+        requires(I < List::size())
     using remove = typename detail::remove_impl<List, I>::type;
 
     /**
