@@ -24,29 +24,30 @@ namespace posu::meta::detail {
         }
     }
 
-    template<typename Lhs, typename Rhs, std::size_t LhsSize = size(Lhs{}), std::size_t I = 0>
-    struct ratio_reduce_impl;
+    template<std::size_t I>
+    [[nodiscard]] constexpr auto ratio_reduce_impl(list_type auto num, list_type auto den) noexcept
+    {
+        if constexpr(num.empty() || den.empty()) {
+            return make_ratio(num, den);
+        }
+        else if constexpr(I == num.size()) {
+            return ratio_reduce_impl<I - 1>(num, den);
+        }
+        else {
+            using reduced = decltype(ratio_reduce_left_index<I>(num, den));
+            if constexpr(I == 0) {
+                return make_ratio(numerator<reduced>{}, denominator<reduced>{});
+            }
+            else {
+                return ratio_reduce_impl<I - 1>(numerator<reduced>{}, denominator<reduced>{});
+            }
+        }
+    }
 
-    template<typename Lhs, typename Rhs, std::size_t LhsSize, std::size_t I>
-        requires(I < LhsSize)
-    struct ratio_reduce_impl<Lhs, Rhs, LhsSize, I>
-        : private ratio_reduce_impl<Lhs, Rhs, LhsSize, I + 1> {
-    private:
-        using parent_type   = ratio_reduce_impl<Lhs, Rhs, LhsSize, I + 1>;
-        using parent_type_t = typename parent_type::type;
-
-    public:
-        using type = decltype(ratio_reduce_left_index<I>(parent_type_t::num, parent_type_t::den));
-    };
-
-    template<typename Lhs, typename Rhs, std::size_t LhsSize, std::size_t I>
-        requires(I == LhsSize)
-    struct ratio_reduce_impl<Lhs, Rhs, LhsSize, I> {
-        using type = ratio<Lhs, Rhs>;
-    };
-
-    template<typename Lhs, typename Rhs>
-    using ratio_reduce_impl_t = typename ratio_reduce_impl<Lhs, Rhs>::type;
+    [[nodiscard]] constexpr auto ratio_reduce(list_type auto num, list_type auto den) noexcept
+    {
+        return ratio_reduce_impl<num.size()>(num, den);
+    }
 
     template<
         typename... NumLhsTypes,
@@ -56,9 +57,9 @@ namespace posu::meta::detail {
     struct ratio_multiply_impl<
         ratio<list<NumLhsTypes...>, list<DenLhsTypes...>>,
         ratio<list<NumRhsTypes...>, list<DenRhsTypes...>>> {
-        using type = ratio_reduce_impl_t<
-            list<NumLhsTypes..., NumRhsTypes...>,
-            list<DenLhsTypes..., DenRhsTypes...>>;
+        using type = decltype(ratio_reduce(
+            list<NumLhsTypes..., NumRhsTypes...>{},
+            list<DenLhsTypes..., DenRhsTypes...>{}));
     };
 
 } // namespace posu::meta::detail
