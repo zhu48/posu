@@ -12,23 +12,24 @@ namespace {
 
 TEST_CASE("initialization", "[construct]")
 {
-    using list = meta::list<int, float, double, int&, float&&, const double&>;
+    using list_t        = meta::list<int, float, double, int&, float&&, const double&>;
+    constexpr auto list = list_t{};
 
-    static_assert(std::same_as<list::at<0>, int>, "the first element must be int");
-    static_assert(std::same_as<list::at<1>, float>, "the second element must be float");
-    static_assert(std::same_as<list::at<2>, double>, "the third element must be double");
-    static_assert(std::same_as<list::at<3>, int&>, "the fourth element must be int&");
-    static_assert(std::same_as<list::at<4>, float&&>, "the fifth element must be float&&");
+    static_assert(std::same_as<list_t::at<0>, int>, "the first element must be int");
+    static_assert(std::same_as<list_t::at<1>, float>, "the second element must be float");
+    static_assert(std::same_as<list_t::at<2>, double>, "the third element must be double");
+    static_assert(std::same_as<list_t::at<3>, int&>, "the fourth element must be int&");
+    static_assert(std::same_as<list_t::at<4>, float&&>, "the fifth element must be float&&");
     static_assert(
-        std::same_as<list::at<5>, const double&>,
+        std::same_as<list_t::at<5>, const double&>,
         "the sixth element must be const double&");
 
-    REQUIRE(list::size() == 6);
-    REQUIRE(!list::empty());
+    REQUIRE(list.size() == 6);
+    REQUIRE(!list.empty());
 
-    static_assert(std::same_as<meta::front<list>, int>, "the first element must be an int");
+    static_assert(std::same_as<meta::front<list_t>, int>, "the first element must be an int");
     static_assert(
-        std::same_as<meta::back<list>, const double&>,
+        std::same_as<meta::back<list_t>, const double&>,
         "the last element must be const double&");
 }
 
@@ -41,8 +42,9 @@ TEST_CASE("range operations", "[algorithms]")
 
         constexpr auto result = meta::concatenate(lhs, rhs);
 
-        static_assert(result == meta::list<int, float, double, unsigned int, unsigned char>{});
-        static_assert(meta::concatenate(lhs, rhs, lhs, rhs) == meta::concatenate(result, lhs, rhs));
+        CHECK(result == meta::list<int, float, double, unsigned int, unsigned char>{});
+        CHECK(result != lhs);
+        CHECK(meta::concatenate(lhs, rhs, lhs, rhs) == meta::concatenate(result, lhs, rhs));
     }
 
     SECTION("pushing types")
