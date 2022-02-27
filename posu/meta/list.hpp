@@ -305,6 +305,8 @@ namespace posu::meta {
      *
      * @tparam T The type to find in the given list.
      *
+     * @param l The list to search for the given type in.
+     *
      * @return Returns the index of the given type in the given list, or `l.size()` if not found.
      */
     template<typename T>
