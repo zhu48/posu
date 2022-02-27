@@ -88,10 +88,11 @@ namespace posu::meta {
     /**
      * @brief Obtain the inverse of the given type ratio.
      *
-     * @tparam T The type ratio to get the inverse of.
+     * @param r The type ratio to invert.
+     *
+     * @return Returns the inverted type ratio.
      */
-    template<ratio_type T>
-    using inverse = ratio<denominator<T>, numerator<T>>;
+    [[nodiscard]] constexpr auto invert(ratio_type auto r) noexcept;
 
     namespace detail {
 
@@ -116,7 +117,7 @@ namespace posu::meta {
      * @tparam Divisor  The type ratio to divide by.
      */
     template<typename Dividend, typename Divisor>
-    using ratio_divide = ratio_multiply<Dividend, inverse<Divisor>>;
+    using ratio_divide = ratio_multiply<Dividend, decltype(invert(Divisor{}))>;
 
 } // namespace posu::meta
 

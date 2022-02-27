@@ -90,10 +90,12 @@ namespace posu::units {
         [[nodiscard]] constexpr auto dimension_divide_impl() noexcept
         {
             if constexpr(base_dimension<Rhs>) {
-                return dimension_multiply_impl<Lhs, meta::inverse<meta::ratio<meta::list<Rhs>>>>();
+                return dimension_multiply_impl<
+                    Lhs,
+                    decltype(meta::invert(meta::ratio<meta::list<Rhs>>{}))>();
             }
             else {
-                return dimension_multiply_impl<Lhs, meta::inverse<Rhs>>();
+                return dimension_multiply_impl<Lhs, decltype(meta::invert(Rhs{}))>();
             }
         }
 

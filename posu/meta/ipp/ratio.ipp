@@ -70,3 +70,8 @@ posu::meta::detail::ratio_equal(Lhs /*unused*/, Rhs /*unused*/) noexcept
 {
     return std::same_as<ratio_divide<Lhs, Rhs>, ratio<>>;
 }
+
+[[nodiscard]] constexpr auto posu::meta::invert(ratio_type auto r) noexcept
+{
+    return detail::make_ratio(r.den, r.num);
+}
