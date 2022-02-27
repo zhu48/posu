@@ -167,6 +167,8 @@ namespace posu::meta {
      * @brief Concatenate multiple `list`s into a single `list`.
      *
      * @param part The lists to concatenate together.
+     *
+     * @return Returns the resulting concatenated list.
      */
     [[nodiscard]] constexpr auto concatenate(list_type auto... part) noexcept;
 
@@ -200,6 +202,8 @@ namespace posu::meta {
      * @brief Remove the first type in a `list`.
      *
      * @param l The list to pop a type from.
+     *
+     * @return Returns the given list without the first element.
      */
     [[nodiscard]] constexpr auto pop_front(list_type auto l) noexcept;
 
@@ -207,6 +211,8 @@ namespace posu::meta {
      * @brief Remove the last type in a `list`.
      *
      * @param l The list to pop a type from.
+     *
+     * @return Returns the given list without the last element.
      */
     [[nodiscard]] constexpr auto pop_back(list_type auto l) noexcept;
 
