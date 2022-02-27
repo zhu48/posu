@@ -262,34 +262,32 @@ namespace posu::meta {
     [[nodiscard]] constexpr auto last(list_type auto l) noexcept requires(N <= l.size());
 
     /**
-     * @brief Get the number of elements in the given type list.
+     * @brief Obtain the number of elements in the given list as an unsigned integer.
      *
-     * @tparam List The list to get an element of.
+     * @param l The list to obtain the size of.
      *
-     * @{
+     * @return Returns the size of the given list.
      */
-    template<list_type List>
-    using size = std::integral_constant<typename List::size_type, List::size()>;
-    template<list_type List>
-    using ssize = std::integral_constant<typename List::ssize_type, List::ssize()>;
-    template<typename List>
-    inline constexpr auto size_v = size<List>::value;
-    template<typename List>
-    inline constexpr auto ssize_v = ssize<List>::value;
-    //! @}
+    [[nodiscard]] constexpr auto size(list_type auto l) noexcept { return l.size(); }
 
     /**
-     * @brief Check whether the given type list is empty or not.
+     * @brief Obtain the number of elements in the given list as a signed integer.
      *
-     * @tparam List The list to check the emptiness of.
+     * @param l The list to obtain the size of.
      *
-     * @{
+     * @return Returns the size of the given list.
      */
-    template<list_type List>
-    using empty = std::bool_constant<List::empty()>;
-    template<typename List>
-    inline constexpr auto empty_v = List::empty();
-    //! @}
+    [[nodiscard]] constexpr auto ssize(list_type auto l) noexcept { return l.ssize(); }
+
+    /**
+     * @brief Check whether the given list has elements or not.
+     *
+     * @param l The list to check the emptiness ofl.
+     *
+     * @retval true  The given list has no elements.
+     * @retval false The given list has elements.
+     */
+    [[nodiscard]] constexpr bool empty(list_type auto l) noexcept { return l.empty(); }
 
     /**
      * @brief Get the type at the given index in the type list.

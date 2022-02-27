@@ -27,7 +27,7 @@ namespace posu::meta::detail {
     template<typename Lhs, typename Rhs, std::size_t I>
     using ratio_reduce_left_index_t = decltype(ratio_reduce_left_index<I>(Lhs{}, Rhs{}));
 
-    template<typename Lhs, typename Rhs, std::size_t LhsSize = size_v<Lhs>, std::size_t I = 0>
+    template<typename Lhs, typename Rhs, std::size_t LhsSize = size(Lhs{}), std::size_t I = 0>
     struct ratio_reduce_impl;
 
     template<typename Lhs, typename Rhs, std::size_t LhsSize, std::size_t I>
