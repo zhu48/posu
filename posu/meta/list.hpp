@@ -135,14 +135,6 @@ namespace posu::meta {
     template<typename T>
     concept list_type = detail::is_list<T>::value;
 
-    namespace detail
-    {
-
-        template<typename List, std::size_t I>
-        struct remove_impl;
-
-    } // namespace detail
-
     /**
      * @brief Concatenate multiple `list`s into a single `list`.
      *
@@ -325,14 +317,37 @@ namespace posu::meta {
     [[nodiscard]] constexpr auto insert(list_type auto l) noexcept requires(I <= l.size());
 
     /**
-     * @brief Remove the type at the givien position in the type list.
+     * @brief Remove the types at the given positions in the type list.
      *
-     * @tparam List The list to remove a type from.
-     * @tparam I    The index of the type to remove.
+     * @tparam I he indices of the elements to remove.
+     *
+     * @param l The list to remove elements from.
+     * @param i The indices of the elements to remove.
+     *
+     * @return Returns a list with the elemenst at the given indices removed.
      */
-    template<list_type List, std::size_t I>
-        requires(I < List::size())
-    using remove = typename detail::remove_impl<List, I>::type;
+    template<std::size_t... I>
+    [[nodiscard]] constexpr auto remove(list_type auto l, std::index_sequence<I...> i = {}) noexcept
+        requires((I < l.size()) && ...);
+
+    /**
+     * @brief Remove a range of elements from the given type list.
+     *
+     * @tparam Begin The starting index of the range to remove.
+     * @tparam End   The one-past-the-ending index of the range to remove.
+     *
+     * @param l     The list to remove a range from.
+     * @param begin The starting index of the range to remove.
+     * @param end   The one-past-the-ending index of the range to remove.
+     *
+     * @return Returns a list with the given range removed.
+     */
+    template<std::size_t Begin, std::size_t End>
+    [[nodiscard]] constexpr auto remove_range(
+        list_type auto                             l,
+        std::integral_constant<std::size_t, Begin> begin = {},
+        std::integral_constant<std::size_t, End>   end   = {}) noexcept
+        requires((Begin <= End) && (End <= l.size()));
 
     /**
      * @brief Check whether or not the given type exists in the given type list.

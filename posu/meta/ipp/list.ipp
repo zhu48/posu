@@ -44,16 +44,26 @@ namespace posu::meta::detail {
         }
     }
 
-    template<typename List, std::size_t I>
-    struct remove_impl {
-        using type =
-            decltype(concatenate(first<I>(List{}), pop_front(last<List::size() - I>(List{}))));
-    };
+    template<std::size_t Limit, std::size_t... I>
+    [[nodiscard]] constexpr auto
+    decrement_all_greater_equal(std::index_sequence<I...> /*unused*/) noexcept
+    {
+        return std::index_sequence<((I >= Limit) ? (I - 1) : I)...>{};
+    }
 
-    template<typename List>
-    struct remove_impl<List, 0> {
-        using type = decltype(pop_front(List{}));
-    };
+    template<std::size_t First, std::size_t... Rest>
+    [[nodiscard]] constexpr auto
+    remove_impl(list_type auto l, std::index_sequence<First, Rest...> i) noexcept
+    {
+        if constexpr(i.size() == 1) {
+            return concatenate(first<First>(l), take_range<First + 1, l.size()>(l));
+        }
+        else {
+            return remove(
+                remove<First>(l),
+                decrement_all_greater_equal<First>(std::index_sequence<Rest...>{}));
+        }
+    }
 
 } // namespace posu::meta::detail
 
@@ -149,6 +159,29 @@ template<std::size_t I, typename T>
 [[nodiscard]] constexpr auto posu::meta::insert(list_type auto l) noexcept requires(I <= l.size())
 {
     return concatenate(first<I>(l), push_front<T>(last<l.size() - I>(l)));
+}
+
+template<std::size_t... I>
+[[nodiscard]] constexpr auto
+posu::meta::remove(list_type auto l, std::index_sequence<I...> i) noexcept
+    requires((I < l.size()) && ...)
+{
+    if constexpr(i.size() == 0) {
+        return l;
+    }
+    else {
+        return detail::remove_impl(l, i);
+    }
+}
+
+template<std::size_t Begin, std::size_t End>
+[[nodiscard]] constexpr auto posu::meta::remove_range(
+    list_type auto l,
+    std::integral_constant<std::size_t, Begin> /*unused*/,
+    std::integral_constant<std::size_t, End> /*unused*/) noexcept
+    requires((Begin <= End) && (End <= l.size()))
+{
+    return concatenate(first<Begin>(l), last<l.size() - End - 1>(l));
 }
 
 template<posu::meta::list_type TypeList, typename... Args>

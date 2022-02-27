@@ -127,13 +127,23 @@ TEST_CASE("range operations", "[algorithms]")
 
     SECTION("removing types")
     {
-        using list = meta::list<char, int, long, float, double>;
+        constexpr auto list = meta::list<char, int, long, float, double>{};
 
-        static_assert(std::same_as<meta::remove<list, 0>, meta::list<int, long, float, double>>);
-        static_assert(std::same_as<meta::remove<list, 1>, meta::list<char, long, float, double>>);
-        static_assert(std::same_as<meta::remove<list, 2>, meta::list<char, int, float, double>>);
-        static_assert(std::same_as<meta::remove<list, 3>, meta::list<char, int, long, double>>);
-        static_assert(std::same_as<meta::remove<list, 4>, meta::list<char, int, long, float>>);
+        static_assert(meta::remove<0>(list) == meta::list<int, long, float, double>{});
+        static_assert(meta::remove<1>(list) == meta::list<char, long, float, double>{});
+        static_assert(meta::remove<2>(list) == meta::list<char, int, float, double>{});
+        static_assert(meta::remove<3>(list) == meta::list<char, int, long, double>{});
+        static_assert(meta::remove<4>(list) == meta::list<char, int, long, float>{});
+
+        static_assert(meta::remove_range<0, 0>(list) == meta::list<int, long, float, double>{});
+        static_assert(meta::remove_range<0, 1>(list) == meta::list<long, float, double>{});
+        static_assert(meta::remove_range<0, 2>(list) == meta::list<float, double>{});
+        static_assert(meta::remove_range<1, 1>(list) == meta::list<char, long, float, double>{});
+        static_assert(meta::remove_range<1, 2>(list) == meta::list<char, float, double>{});
+        static_assert(meta::remove_range<1, 3>(list) == meta::list<char, double>{});
+        static_assert(meta::remove_range<2, 2>(list) == meta::list<char, int, float, double>{});
+        static_assert(meta::remove_range<2, 3>(list) == meta::list<char, int, double>{});
+        static_assert(meta::remove_range<2, 4>(list) == meta::list<char, int>{});
     }
 }
 
