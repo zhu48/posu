@@ -7,6 +7,13 @@
 
 namespace posu::meta {
 
+    namespace detail {
+
+        template<typename Lhs, typename Rhs>
+        [[nodiscard]] constexpr bool ratio_equal(Lhs lhs, Rhs rhs) noexcept;
+
+    }
+
     /**
      * @brief A ratio between type products.
      *
@@ -19,6 +26,27 @@ namespace posu::meta {
         using den = Denominator; //!< The denominator type list.
 
         using type = ratio<num, den>; //!< Self-alias.
+
+        /**
+         * @brief Equality comparison between two type ratios.
+         *
+         * Two type ratios are equal if, in their reduced forms, each operand's numerator contains
+         * the same types as the other's denominator, in any order.
+         *
+         * @tparam RNum The numerator of the right-hand-side ratio to compare.
+         * @tparam RDen The deominator of the right-hand-side ratio to compare.
+         *
+         * @param lhs The left-hand-side comparison operand.
+         * @param rhs The right-hand-size comparison operand.
+         *
+         * @return true  Both type ratios are equivalent.
+         * @return false The type ratios are not equivalent.
+         */
+        template<list_type RNum, list_type RDen>
+        [[nodiscard]] friend constexpr bool operator==(ratio lhs, ratio<RNum, RDen> rhs) noexcept
+        {
+            return detail::ratio_equal(lhs, rhs);
+        }
     };
 
     /**

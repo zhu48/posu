@@ -68,3 +68,10 @@ namespace posu::meta::detail {
     };
 
 } // namespace posu::meta::detail
+
+template<typename Lhs, typename Rhs>
+[[nodiscard]] constexpr bool
+posu::meta::detail::ratio_equal(Lhs /*unused*/, Rhs /*unused*/) noexcept
+{
+    return std::same_as<ratio_divide<Lhs, Rhs>, ratio<>>;
+}
