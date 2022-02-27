@@ -21,7 +21,7 @@ namespace posu::units {
     };
 
     template<typename T>
-    concept derived_dimension = meta::is_ratio_v<T> && meta::all_of<is_base_dimension>(
+    concept derived_dimension = meta::ratio_type<T> && meta::all_of<is_base_dimension>(
         typename T::num{}) && meta::all_of<is_base_dimension>(typename T::den{});
 
     template<typename T>

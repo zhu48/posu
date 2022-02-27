@@ -7,12 +7,36 @@
 
 namespace posu::meta {
 
+    template<list_type Numerator = list<>, list_type Denominator = list<>>
+    struct ratio;
+
     namespace detail {
 
-        template<typename Lhs, typename Rhs>
+        template<typename T>
+        struct is_ratio : std::false_type {
+        };
+
+        template<typename Numerator, typename Denominator>
+        struct is_ratio<ratio<Numerator, Denominator>> : std::true_type {
+        };
+
+    } // namespace detail
+
+    /**
+     * @brief An instance of the `ratio` template.
+     *
+     * @tparam T The type to check against this concept.
+     */
+    template<typename T>
+    concept ratio_type = detail::is_ratio<T>::value;
+
+    namespace detail
+    {
+
+        template<ratio_type Lhs, ratio_type Rhs>
         [[nodiscard]] constexpr bool ratio_equal(Lhs lhs, Rhs rhs) noexcept;
 
-    }
+    } // namespace detail
 
     /**
      * @brief A ratio between type products.
@@ -20,7 +44,7 @@ namespace posu::meta {
      * @tparam Numerator   The list of types in the numerator.
      * @tparam Denominator The list of types in the denominator.
      */
-    template<list_type Numerator = list<>, list_type Denominator = list<>>
+    template<list_type Numerator, list_type Denominator>
     struct ratio {
         using num = Numerator;   //!< The numerator type list.
         using den = Denominator; //!< The denominator type list.
@@ -33,47 +57,24 @@ namespace posu::meta {
          * Two type ratios are equal if, in their reduced forms, each operand's numerator contains
          * the same types as the other's denominator, in any order.
          *
-         * @tparam RNum The numerator of the right-hand-side ratio to compare.
-         * @tparam RDen The deominator of the right-hand-side ratio to compare.
-         *
          * @param lhs The left-hand-side comparison operand.
          * @param rhs The right-hand-size comparison operand.
          *
          * @return true  Both type ratios are equivalent.
          * @return false The type ratios are not equivalent.
          */
-        template<list_type RNum, list_type RDen>
-        [[nodiscard]] friend constexpr bool operator==(ratio lhs, ratio<RNum, RDen> rhs) noexcept
+        [[nodiscard]] friend constexpr bool operator==(ratio lhs, ratio_type auto rhs) noexcept
         {
             return detail::ratio_equal(lhs, rhs);
         }
     };
 
     /**
-     * @brief Traits template to detect whether a type specializes `type_list` or not.
-     * @{
-     */
-    //! @tparam T The type to check.
-    template<typename T>
-    struct is_ratio : std::false_type {
-    };
-    //! @tparam Types The types in the type list.
-    template<typename Numerator, typename Denominator>
-    struct is_ratio<ratio<Numerator, Denominator>> : std::true_type {
-    };
-    template<typename T>
-    inline constexpr bool is_ratio_v = is_ratio<T>::value;
-    template<typename T>
-    concept ratio_type = is_ratio_v<T>;
-    //! @}
-
-    /**
      * @brief Obtain the numerator of the given type ratio.
      *
      * @tparam T The type ratio to get the numerator of.
      */
-    template<typename T>
-        requires(is_ratio_v<T>)
+    template<ratio_type T>
     using numerator = typename T::num;
 
     /**
@@ -81,8 +82,7 @@ namespace posu::meta {
      *
      * @tparam T The type ratio to get the denominator of.
      */
-    template<typename T>
-        requires(is_ratio_v<T>)
+    template<ratio_type T>
     using denominator = typename T::den;
 
     /**
@@ -90,8 +90,7 @@ namespace posu::meta {
      *
      * @tparam T The type ratio to get the inverse of.
      */
-    template<typename T>
-        requires(is_ratio_v<T>)
+    template<ratio_type T>
     using inverse = ratio<denominator<T>, numerator<T>>;
 
     namespace detail {

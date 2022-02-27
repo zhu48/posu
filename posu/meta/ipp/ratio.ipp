@@ -69,7 +69,7 @@ namespace posu::meta::detail {
 
 } // namespace posu::meta::detail
 
-template<typename Lhs, typename Rhs>
+template<posu::meta::ratio_type Lhs, posu::meta::ratio_type Rhs>
 [[nodiscard]] constexpr bool
 posu::meta::detail::ratio_equal(Lhs /*unused*/, Rhs /*unused*/) noexcept
 {
