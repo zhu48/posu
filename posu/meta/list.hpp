@@ -138,9 +138,6 @@ namespace posu::meta {
     namespace detail
     {
 
-        template<typename List, std::size_t I, typename T>
-        struct insert_impl;
-
         template<typename List, std::size_t I>
         struct remove_impl;
 
@@ -317,13 +314,15 @@ namespace posu::meta {
     /**
      * @brief Insert the given type into the given type list at the given index.
      *
-     * @tparam List The list to insert a type into.
      * @tparam I    The index to insert a new type at.
      * @tparam T    The type to insert.
+     *
+     * @param l The list to insert into.
+     *
+     * @return Returns the list with the newly-inserted element.
      */
-    template<list_type List, std::size_t I, typename T>
-        requires(I <= List::size())
-    using insert = typename detail::insert_impl<List, I, T>::type;
+    template<std::size_t I, typename T>
+    [[nodiscard]] constexpr auto insert(list_type auto l) noexcept requires(I <= l.size());
 
     /**
      * @brief Remove the type at the givien position in the type list.

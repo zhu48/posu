@@ -109,26 +109,20 @@ TEST_CASE("range operations", "[algorithms]")
 
     SECTION("inserting types")
     {
-        using list = meta::list<char, int, long, float, double>;
+        constexpr auto list = meta::list<char, int, long, float, double>{};
 
-        static_assert(std::same_as<
-                      meta::insert<list, 0, int>,
-                      meta::list<int, char, int, long, float, double>>);
-        static_assert(std::same_as<
-                      meta::insert<list, 1, int>,
-                      meta::list<char, int, int, long, float, double>>);
-        static_assert(std::same_as<
-                      meta::insert<list, 2, int>,
-                      meta::list<char, int, int, long, float, double>>);
-        static_assert(std::same_as<
-                      meta::insert<list, 3, int>,
-                      meta::list<char, int, long, int, float, double>>);
-        static_assert(std::same_as<
-                      meta::insert<list, 4, int>,
-                      meta::list<char, int, long, float, int, double>>);
-        static_assert(std::same_as<
-                      meta::insert<list, 5, int>,
-                      meta::list<char, int, long, float, double, int>>);
+        static_assert(
+            meta::insert<0, int>(list) == meta::list<int, char, int, long, float, double>{});
+        static_assert(
+            meta::insert<1, int>(list) == meta::list<char, int, int, long, float, double>{});
+        static_assert(
+            meta::insert<2, int>(list) == meta::list<char, int, int, long, float, double>{});
+        static_assert(
+            meta::insert<3, int>(list) == meta::list<char, int, long, int, float, double>{});
+        static_assert(
+            meta::insert<4, int>(list) == meta::list<char, int, long, float, int, double>{});
+        static_assert(
+            meta::insert<5, int>(list) == meta::list<char, int, long, float, double, int>{});
     }
 
     SECTION("removing types")

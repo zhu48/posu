@@ -44,12 +44,6 @@ namespace posu::meta::detail {
         }
     }
 
-    template<typename List, std::size_t I, typename T>
-    struct insert_impl {
-        using type =
-            decltype(concatenate(first<I>(List{}), list<T>{}, last<List::size() - I>(List{})));
-    };
-
     template<typename List, std::size_t I>
     struct remove_impl {
         using type =
@@ -149,6 +143,12 @@ template<typename T>
 [[nodiscard]] constexpr auto posu::meta::find(list_type auto l) noexcept
 {
     return detail::find_impl<T>(l);
+}
+
+template<std::size_t I, typename T>
+[[nodiscard]] constexpr auto posu::meta::insert(list_type auto l) noexcept requires(I <= l.size())
+{
+    return concatenate(first<I>(l), push_front<T>(last<l.size() - I>(l)));
 }
 
 template<posu::meta::list_type TypeList, typename... Args>
