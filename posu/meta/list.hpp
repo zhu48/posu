@@ -72,6 +72,20 @@ namespace posu::meta {
         [[nodiscard]] static constexpr auto
         make_variant(Args&&... args) noexcept(std::is_nothrow_constructible_v<variant, Args...>)
             -> variant;
+
+        /**
+         * @brief Equality comparison operator.
+         *
+         * @tparam T The types in the list to compare against.
+         *
+         * @param lhs The left-hand-side comparison operand.
+         * @param rhs The right-hand-side comparison operand.
+         */
+        template<typename... T>
+        [[nodiscard]] friend constexpr bool operator==(list /*lhs*/, list<T...> /*rhs*/) noexcept
+        {
+            return std::same_as<list, list<T...>>;
+        }
     };
 
 } // namespace posu::meta
