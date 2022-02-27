@@ -220,6 +220,8 @@ namespace posu::meta {
      * @tparam Begin The starting index of the sub-list.
      * @tparam End   The one-past-the-ending index of the sub-list.
      *
+     * @param l The list to take a sub-list of.
+     *
      * @return Returns the sub-list.
      */
     template<std::size_t Begin, std::size_t End>
