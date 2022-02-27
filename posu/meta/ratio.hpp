@@ -13,7 +13,7 @@ namespace posu::meta {
      * @tparam Numerator   The list of types in the numerator.
      * @tparam Denominator The list of types in the denominator.
      */
-    template<typename Numerator = list<>, typename Denominator = list<>>
+    template<list_type Numerator = list<>, list_type Denominator = list<>>
     struct ratio {
         using num = Numerator;   //!< The numerator type list.
         using den = Denominator; //!< The denominator type list.
