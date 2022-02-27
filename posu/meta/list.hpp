@@ -138,12 +138,6 @@ namespace posu::meta {
     namespace detail
     {
 
-        template<typename List, typename T, std::size_t I = 0>
-        [[nodiscard]] constexpr auto find_impl_fn() noexcept->std::size_t;
-
-        template<typename List, typename T>
-        using find_impl = std::integral_constant<std::size_t, find_impl_fn<List, T>()>;
-
         template<typename List, std::size_t I, typename T>
         struct insert_impl;
 
@@ -309,16 +303,12 @@ namespace posu::meta {
     /**
      * @brief Find the index of the first ocurrence of the given type.
      *
-     * @tparam List The list to find the given type in.
-     * @tparam T    The type to find in the given list.
+     * @tparam T The type to find in the given list.
      *
-     * @{
+     * @return Returns the index of the given type in the given list, or `l.size()` if not found.
      */
-    template<list_type List, typename T>
-    using find = typename detail::find_impl<List, T>::type;
-    template<typename List, typename T>
-    inline constexpr auto find_v = find<List, T>::value;
-    //! @}
+    template<typename T>
+    [[nodiscard]] constexpr auto find(list_type auto l) noexcept;
 
     /**
      * @brief Insert the given type into the given type list at the given index.
@@ -350,8 +340,7 @@ namespace posu::meta {
      * @{
      */
     template<typename List, typename T>
-    struct contains
-        : public std::bool_constant<std::less{}(find<List, T>::value, List::size::value)> {
+    struct contains : public std::bool_constant<std::less{}(find<T>(List{}), List::size::value)> {
     };
     template<typename List, typename T>
     inline constexpr auto contains_v = contains<List, T>::value;

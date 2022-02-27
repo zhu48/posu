@@ -71,13 +71,13 @@ TEST_CASE("range operations", "[algorithms]")
 
     SECTION("finding types")
     {
-        using list = meta::list<char, int, int, long, float, double>;
+        constexpr auto list = meta::list<char, int, int, long, float, double>{};
 
-        REQUIRE(meta::find<list, char>() == 0);
-        REQUIRE(meta::find<list, int>() == 1);
-        REQUIRE(meta::find<list, long>() == 3);
-        REQUIRE(meta::find<list, float>() == 4);
-        REQUIRE(meta::find<list, double>() == 5);
+        REQUIRE(meta::find<char>(list) == 0);
+        REQUIRE(meta::find<int>(list) == 1);
+        REQUIRE(meta::find<long>(list) == 3);
+        REQUIRE(meta::find<float>(list) == 4);
+        REQUIRE(meta::find<double>(list) == 5);
     }
 
     SECTION("sub-lists")

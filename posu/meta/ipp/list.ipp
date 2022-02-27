@@ -30,19 +30,18 @@ namespace posu::meta::detail {
         return std::index_sequence<(I + Offset)...>{};
     }
 
-    template<typename List, typename T, std::size_t I>
-    [[nodiscard]] constexpr auto find_impl_fn() noexcept -> std::size_t
+    template<typename T, std::size_t I = 0, list_type List>
+    [[nodiscard]] constexpr auto find_impl(List l) noexcept
     {
-        if constexpr(I < std::tuple_size_v<List>) {
-            if constexpr(std::same_as<std::tuple_element_t<I, List>, T>) {
-                return I;
-            }
-            else {
-                return find_impl_fn<List, T, I + 1>();
-            }
+        if constexpr(I == l.size()) {
+            return I;
         }
-
-        return I;
+        else if constexpr(std::same_as<at<List, I>, T>) {
+            return I;
+        }
+        else {
+            return find_impl<T, I + 1>(l);
+        }
     }
 
     template<typename List, std::size_t I, typename T>
@@ -144,6 +143,12 @@ template<std::size_t N>
 [[nodiscard]] constexpr auto posu::meta::last(list_type auto l) noexcept requires(N <= l.size())
 {
     return take_range<l.size() - N, l.size()>(l);
+}
+
+template<typename T>
+[[nodiscard]] constexpr auto posu::meta::find(list_type auto l) noexcept
+{
+    return detail::find_impl<T>(l);
 }
 
 template<posu::meta::list_type TypeList, typename... Args>

@@ -14,7 +14,7 @@ namespace posu::meta::detail {
             return make_ratio(num, den);
         }
         else {
-            constexpr auto pos = find_v<Den, at<Num, I>>;
+            constexpr auto pos = find<at<Num, I>>(Den{});
             if constexpr(pos < den.size()) {
                 return make_ratio(remove<Num, I>{}, remove<Den, pos>{});
             }
