@@ -100,10 +100,6 @@ namespace posu::meta {
 
     } // namespace detail
 
-    template<ratio_type Ratio>
-    using ratio_invert =
-        ratio<std::remove_const_t<decltype(Ratio::den)>, std::remove_const_t<decltype(Ratio::num)>>;
-
     /**
      * @brief Multiply two type ratios together.
      *
