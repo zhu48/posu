@@ -34,12 +34,12 @@ namespace posu::meta::detail {
             return ratio_reduce_impl<I - 1>(num, den);
         }
         else {
-            using reduced = decltype(ratio_reduce_left_index<I>(num, den));
+            constexpr auto reduced = ratio_reduce_left_index<I>(num, den);
             if constexpr(I == 0) {
-                return make_ratio(numerator<reduced>{}, denominator<reduced>{});
+                return reduced;
             }
             else {
-                return ratio_reduce_impl<I - 1>(numerator<reduced>{}, denominator<reduced>{});
+                return ratio_reduce_impl<I - 1>(reduced.num, reduced.den);
             }
         }
     }

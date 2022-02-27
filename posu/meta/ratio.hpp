@@ -97,22 +97,6 @@ namespace posu::meta {
     };
 
     /**
-     * @brief Obtain the numerator of the given type ratio.
-     *
-     * @tparam T The type ratio to get the numerator of.
-     */
-    template<ratio_type T>
-    using numerator = std::remove_const_t<decltype(T::num)>;
-
-    /**
-     * @brief Obtain the denominator of the given type ratio.
-     *
-     * @tparam T The type ratio to get the denominator of.
-     */
-    template<ratio_type T>
-    using denominator = std::remove_const_t<decltype(T::den)>;
-
-    /**
      * @brief Obtain the inverse of the given type ratio.
      *
      * @param r The type ratio to invert.
