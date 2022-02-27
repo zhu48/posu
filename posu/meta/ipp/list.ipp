@@ -24,10 +24,11 @@ namespace posu::meta::detail {
         return push_front<First>(pop_back(list<Second, Rest...>{}));
     }
 
-    template<typename List, std::size_t... I>
-    struct take_items<List, std::index_sequence<I...>> {
-        using type = list<typename List::template at<I>...>;
-    };
+    template<std::size_t Offset, std::size_t... I>
+    [[nodiscard]] constexpr auto offset(std::index_sequence<I...> /*unused*/) noexcept
+    {
+        return std::index_sequence<(I + Offset)...>{};
+    }
 
     template<typename List, typename T, std::size_t I>
     [[nodiscard]] constexpr auto find_impl_fn() noexcept -> std::size_t
@@ -119,6 +120,20 @@ template<typename T, typename... Listed>
     else {
         return detail::pop_back_impl(l);
     }
+}
+
+template<posu::meta::list_type List, std::size_t... I>
+[[nodiscard]] constexpr auto posu::meta::take(List l, std::index_sequence<I...> /*unused*/) noexcept
+    requires((I < l.size()) && ...)
+{
+    return list<at<List, I>...>{};
+}
+
+template<std::size_t Begin, std::size_t End>
+[[nodiscard]] constexpr auto posu::meta::take_range(list_type auto l) noexcept
+    requires((Begin <= l.size()) && (End <= l.size()) && (Begin <= End))
+{
+    return take(l, detail::offset<Begin>(std::make_index_sequence<End - Begin>{}));
 }
 
 template<posu::meta::list_type TypeList, typename... Args>

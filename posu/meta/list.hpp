@@ -138,9 +138,6 @@ namespace posu::meta {
     namespace detail
     {
 
-        template<typename List, typename IndexSequence>
-        struct take_items;
-
         template<std::size_t Offset, typename IndexSequence>
         struct add_offset;
 
@@ -151,14 +148,6 @@ namespace posu::meta {
 
         template<std::size_t Offset, typename IndexSequence>
         using add_offset_t = typename add_offset<Offset, IndexSequence>::type;
-
-        template<typename List, std::size_t I>
-        using first_impl = take_items<List, std::make_index_sequence<I>>;
-
-        template<typename List, std::size_t I>
-        using last_impl = take_items<
-            List,
-            add_offset_t<std::tuple_size_v<List> - I, std::make_index_sequence<I>>>;
 
         template<typename List, typename T, std::size_t I = 0>
         [[nodiscard]] constexpr auto find_impl_fn() noexcept->std::size_t;
@@ -222,6 +211,33 @@ namespace posu::meta {
     [[nodiscard]] constexpr auto pop_back(list_type auto l) noexcept;
 
     /**
+     * @brief Create a new list containing the elements at the given indices of the given list.
+     *
+     * @tparam List The list to take items from.
+     * @tparam I    The indices to take from the given list at.
+     *
+     * @param l The list to take items from.
+     * @param i The indices to take from the given list at.
+     *
+     * @return Returns the created list.
+     */
+    template<list_type List, std::size_t... I>
+    [[nodiscard]] constexpr auto take(List l, std::index_sequence<I...> i = {}) noexcept
+        requires((I < l.size()) && ...);
+
+    /**
+     * @brief Extract a sub-list from the given list.
+     *
+     * @tparam Begin The starting index of the sub-list.
+     * @tparam End   The one-past-the-ending index of the sub-list.
+     *
+     * @return Returns the sub-list.
+     */
+    template<std::size_t Begin, std::size_t End>
+    [[nodiscard]] constexpr auto take_range(list_type auto l) noexcept
+        requires((Begin <= l.size()) && (End <= l.size()) && (Begin <= End));
+
+    /**
      * @brief Get the first `I` elements of the given list as a `list`.
      *
      * @tparam List The list get the first types of.
@@ -229,7 +245,7 @@ namespace posu::meta {
      */
     template<list_type List, std::size_t I = 0>
         requires(I <= List::size())
-    using first = typename detail::first_impl<List, I>::type;
+    using first = decltype(take(List{}, std::make_index_sequence<I>{}));
 
     /**
      * @brief Get the last `I` elements of the given list as a `list`.
@@ -239,7 +255,7 @@ namespace posu::meta {
      */
     template<list_type List, std::size_t I = 0>
         requires(I <= List::size())
-    using last = typename detail::last_impl<List, I>::type;
+    using last = decltype(take_range<List::size() - I, List::size()>(List{}));
 
     /**
      * @brief Get the number of elements in the given type list.
