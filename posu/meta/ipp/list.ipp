@@ -47,16 +47,14 @@ namespace posu::meta::detail {
 
     template<typename List, std::size_t I, typename T>
     struct insert_impl {
-        using type = decltype(concatenate(
-            push_back<T>(first<List, I>{}),
-            last<List, std::tuple_size_v<List> - I>{}));
+        using type =
+            decltype(concatenate(first<I>(List{}), list<T>{}, last<List::size() - I>(List{})));
     };
 
     template<typename List, std::size_t I>
     struct remove_impl {
-        using type = decltype(concatenate(
-            first<List, I>{},
-            pop_front(last<List, std::tuple_size_v<List> - I>{})));
+        using type =
+            decltype(concatenate(first<I>(List{}), pop_front(last<List::size() - I>(List{}))));
     };
 
     template<typename List>
@@ -134,6 +132,18 @@ template<std::size_t Begin, std::size_t End>
     requires((Begin <= l.size()) && (End <= l.size()) && (Begin <= End))
 {
     return take(l, detail::offset<Begin>(std::make_index_sequence<End - Begin>{}));
+}
+
+template<std::size_t N, typename... T>
+[[nodiscard]] constexpr auto posu::meta::first(list<T...> l) noexcept requires(N <= l.size())
+{
+    return take(l, std::make_index_sequence<N>{});
+}
+
+template<std::size_t N>
+[[nodiscard]] constexpr auto posu::meta::last(list_type auto l) noexcept requires(N <= l.size())
+{
+    return take_range<l.size() - N, l.size()>(l);
 }
 
 template<posu::meta::list_type TypeList, typename... Args>

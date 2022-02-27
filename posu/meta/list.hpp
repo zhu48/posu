@@ -249,9 +249,8 @@ namespace posu::meta {
      * @tparam List The list get the first types of.
      * @tparam I    The number of elements to get.
      */
-    template<list_type List, std::size_t I = 0>
-        requires(I <= List::size())
-    using first = decltype(take(List{}, std::make_index_sequence<I>{}));
+    template<std::size_t N, typename... T>
+    [[nodiscard]] constexpr auto first(list<T...> l) noexcept requires(N <= l.size());
 
     /**
      * @brief Get the last `I` elements of the given list as a `list`.
@@ -259,9 +258,8 @@ namespace posu::meta {
      * @tparam List The list get the last types of.
      * @tparam I    The number of elements to get.
      */
-    template<list_type List, std::size_t I = 0>
-        requires(I <= List::size())
-    using last = decltype(take_range<List::size() - I, List::size()>(List{}));
+    template<std::size_t N>
+    [[nodiscard]] constexpr auto last(list_type auto l) noexcept requires(N <= l.size());
 
     /**
      * @brief Get the number of elements in the given type list.

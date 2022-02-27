@@ -84,28 +84,26 @@ TEST_CASE("range operations", "[algorithms]")
     {
         SECTION("first N elements")
         {
-            using list = meta::list<char, int, long, float, double>;
+            constexpr auto list = meta::list<char, int, long, float, double>{};
 
-            static_assert(std::same_as<meta::first<list, 0>, meta::list<>>);
-            static_assert(std::same_as<meta::first<list, 1>, meta::list<char>>);
-            static_assert(std::same_as<meta::first<list, 2>, meta::list<char, int>>);
-            static_assert(std::same_as<meta::first<list, 3>, meta::list<char, int, long>>);
-            static_assert(std::same_as<meta::first<list, 4>, meta::list<char, int, long, float>>);
-            static_assert(
-                std::same_as<meta::first<list, 5>, meta::list<char, int, long, float, double>>);
+            static_assert(meta::first<0>(list) == meta::list<>{});
+            static_assert(meta::first<1>(list) == meta::list<char>{});
+            static_assert(meta::first<2>(list) == meta::list<char, int>{});
+            static_assert(meta::first<3>(list) == meta::list<char, int, long>{});
+            static_assert(meta::first<4>(list) == meta::list<char, int, long, float>{});
+            static_assert(meta::first<5>(list) == meta::list<char, int, long, float, double>{});
         }
 
         SECTION("last N elements")
         {
-            using list = meta::list<char, int, long, float, double>;
+            constexpr auto list = meta::list<char, int, long, float, double>{};
 
-            static_assert(std::same_as<meta::last<list, 0>, meta::list<>>);
-            static_assert(std::same_as<meta::last<list, 1>, meta::list<double>>);
-            static_assert(std::same_as<meta::last<list, 2>, meta::list<float, double>>);
-            static_assert(std::same_as<meta::last<list, 3>, meta::list<long, float, double>>);
-            static_assert(std::same_as<meta::last<list, 4>, meta::list<int, long, float, double>>);
-            static_assert(
-                std::same_as<meta::last<list, 5>, meta::list<char, int, long, float, double>>);
+            static_assert(meta::last<0>(list) == meta::list<>{});
+            static_assert(meta::last<1>(list) == meta::list<double>{});
+            static_assert(meta::last<2>(list) == meta::list<float, double>{});
+            static_assert(meta::last<3>(list) == meta::list<long, float, double>{});
+            static_assert(meta::last<4>(list) == meta::list<int, long, float, double>{});
+            static_assert(meta::last<5>(list) == meta::list<char, int, long, float, double>{});
         }
     }
 
