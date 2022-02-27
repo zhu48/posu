@@ -35,7 +35,7 @@ TEMPLATE_TEST_CASE(
     constexpr auto rhs     = std::tuple_element_t<1, TestType>{};
     constexpr auto product = std::tuple_element_t<2, TestType>{};
 
-    static_assert(product == meta::ratio_multiply(lhs, rhs));
+    static_assert(product == lhs * rhs);
 }
 
 TEMPLATE_TEST_CASE(
@@ -68,5 +68,5 @@ TEMPLATE_TEST_CASE(
     constexpr auto divisor  = std::tuple_element_t<1, TestType>{};
     constexpr auto quotient = std::tuple_element_t<2, TestType>{};
 
-    static_assert(quotient == meta::ratio_divide(dividend, divisor));
+    static_assert(quotient == dividend / divisor);
 }

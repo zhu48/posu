@@ -33,7 +33,9 @@ namespace posu::meta {
     namespace detail
     {
 
-        [[nodiscard]] constexpr bool ratio_equal(ratio_type auto lhs, ratio_type auto rhs) noexcept;
+        [[nodiscard]] constexpr auto ratio_multiply(
+            ratio_type auto lhs,
+            ratio_type auto rhs) noexcept;
 
     } // namespace detail
 
@@ -51,6 +53,32 @@ namespace posu::meta {
         using type = ratio<Numerator, Denominator>; //!< Self-alias.
 
         /**
+         * @brief Multiply two type ratios together.
+         *
+         * @param lhs The left-hand-side operand.
+         * @param rhs The right-hand-side operand.
+         *
+         * @return Returns the multiplication result.
+         */
+        [[nodiscard]] friend constexpr auto operator*(ratio lhs, ratio_type auto rhs) noexcept
+        {
+            return detail::ratio_multiply(lhs, rhs);
+        }
+
+        /**
+         * @brief Divide one type ratios by another.
+         *
+         * @param num The type ratio to divide.
+         * @param den The type ratio to divide by.
+         *
+         * @return Returns the division result.
+         */
+        [[nodiscard]] friend constexpr auto operator/(ratio num, ratio_type auto den) noexcept
+        {
+            return num * invert(den);
+        }
+
+        /**
          * @brief Equality comparison between two type ratios.
          *
          * Two type ratios are equal if, in their reduced forms, each operand's numerator contains
@@ -64,7 +92,7 @@ namespace posu::meta {
          */
         [[nodiscard]] friend constexpr bool operator==(ratio lhs, ratio_type auto rhs) noexcept
         {
-            return detail::ratio_equal(lhs, rhs);
+            return std::same_as<decltype(lhs / rhs), ratio<>>;
         }
     };
 
@@ -92,26 +120,6 @@ namespace posu::meta {
      * @return Returns the inverted type ratio.
      */
     [[nodiscard]] constexpr auto invert(ratio_type auto r) noexcept;
-
-    /**
-     * @brief Multiply two type ratios together.
-     *
-     * @param lhs The left-hand-side operand.
-     * @param rhs The right-hand-side operand.
-     *
-     * @return Returns the multiplication result.
-     */
-    [[nodiscard]] constexpr auto ratio_multiply(ratio_type auto lhs, ratio_type auto rhs) noexcept;
-
-    /**
-     * @brief Divide one type ratios by another.
-     *
-     * @param num The type ratio to divide.
-     * @param den The type ratio to divide by.
-     *
-     * @return Returns the division result.
-     */
-    [[nodiscard]] constexpr auto ratio_divide(ratio_type auto num, ratio_type auto den) noexcept;
 
 } // namespace posu::meta
 

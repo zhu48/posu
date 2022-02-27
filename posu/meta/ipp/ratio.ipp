@@ -51,25 +51,13 @@ namespace posu::meta::detail {
 
 } // namespace posu::meta::detail
 
-[[nodiscard]] constexpr bool
-posu::meta::detail::ratio_equal(ratio_type auto lhs, ratio_type auto rhs) noexcept
+[[nodiscard]] constexpr auto
+posu::meta::detail::ratio_multiply(ratio_type auto lhs, ratio_type auto rhs) noexcept
 {
-    return std::same_as<decltype(ratio_divide(lhs, rhs)), ratio<>>;
+    return detail::ratio_reduce(concatenate(lhs.num, rhs.num), concatenate(lhs.den, rhs.den));
 }
 
 [[nodiscard]] constexpr auto posu::meta::invert(ratio_type auto r) noexcept
 {
     return detail::make_ratio(r.den, r.num);
-}
-
-[[nodiscard]] constexpr auto
-posu::meta::ratio_multiply(ratio_type auto lhs, ratio_type auto rhs) noexcept
-{
-    return detail::ratio_reduce(concatenate(lhs.num, rhs.num), concatenate(lhs.den, rhs.den));
-}
-
-[[nodiscard]] constexpr auto
-posu::meta::ratio_divide(ratio_type auto num, ratio_type auto den) noexcept
-{
-    return ratio_multiply(num, invert(den));
 }
