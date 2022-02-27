@@ -193,8 +193,8 @@ template<std::size_t Begin, std::size_t End>
 template<posu::meta::list_type TypeList, typename... Args>
 [[nodiscard]] constexpr auto posu::meta::make_tuple_from(
     TypeList /*unused*/,
-    Args&&... args) noexcept(std::is_nothrow_constructible_v<tuple_from_t<TypeList>>)
-    -> tuple_from_t<TypeList>
+    Args&&... args) noexcept(std::is_nothrow_constructible_v<tuple_from<TypeList>, Args...>)
+    -> tuple_from<TypeList>
 {
     return TypeList::make_tuple(std::forward<Args>(args)...);
 }
@@ -202,8 +202,8 @@ template<posu::meta::list_type TypeList, typename... Args>
 template<posu::meta::list_type TypeList, typename... Args>
 [[nodiscard]] constexpr auto posu::meta::make_variant_from(
     TypeList /*unused*/,
-    Args&&... args) noexcept(std::is_nothrow_constructible_v<variant_from_t<TypeList>>)
-    -> variant_from_t<TypeList>
+    Args&&... args) noexcept(std::is_nothrow_constructible_v<variant_from<TypeList>, Args...>)
+    -> variant_from<TypeList>
 {
     return TypeList::make_variant(std::forward<Args>(args)...);
 }

@@ -363,60 +363,50 @@ namespace posu::meta {
     [[nodiscard]] constexpr bool contains(list_type auto l) noexcept;
 
     /**
-     * @brief Transform a `list` to its corresponding tuple type.
+     * @brief Obtain a tuple type that has members of the types in the given type list.
      *
-     * @tparam TypeList The list to transform.
-     *
-     * @{
+     * @tparam TypeList The list to obtain the corresponding tuple type of.
      */
-    template<list_type TypeList>
-    struct tuple_from {
-        using type = typename TypeList::tuple;
-    };
     template<typename TypeList>
-    using tuple_from_t = typename tuple_from<TypeList>::type;
-    //! @}
+    using tuple_from = typename TypeList::tuple;
 
     /**
-     * @brief Transform a `list` to its corresponding variant type.
+     * @brief Obtain a variant type that can hold all the types in the given type list.
      *
-     * @tparam TypeList The list to transform.
-     *
-     * @{
+     * @tparam TypeList The list to obtain the corresponding variant type of.
      */
     template<list_type TypeList>
-    struct variant_from {
-        using type = typename TypeList::variant;
-    };
-    template<typename TypeList>
-    using variant_from_t = typename variant_from<TypeList>::type;
-    //! @}
+    using variant_from = typename TypeList::variant;
 
     /**
      * @brief Construct a tuple from its corresponding `list`.
      *
      * @tparam TypeList The list to construct a tuple from.
-     * @tparam Args The types of arguments to forward to the tuple constructor.
+     * @tparam Args     The types of arguments to forward to the tuple constructor.
+     *
      * @param list The type list object.
      * @param args The arguments to forward to the tuple constructor.
+     *
      * @return Returns the constructed tuple.
      */
     template<list_type TypeList, typename... Args>
     [[nodiscard]] constexpr auto make_tuple_from(TypeList list, Args&&... args) noexcept(
-        std::is_nothrow_constructible_v<tuple_from_t<TypeList>>) -> tuple_from_t<TypeList>;
+        std::is_nothrow_constructible_v<tuple_from<TypeList>, Args...>) -> tuple_from<TypeList>;
 
     /**
      * @brief Construct a variant from its corresponding `list`.
      *
      * @tparam TypeList The list to construct a variant from.
-     * @tparam Args The types of arguments to forward to the variant constructor.
+     * @tparam Args     The types of arguments to forward to the variant constructor.
+     *
      * @param list The type list object.
      * @param args The arguments to forward to the variant constructor.
+     *
      * @return Returns the constructed variant.
      */
     template<list_type TypeList, typename... Args>
     [[nodiscard]] constexpr auto make_variant_from(TypeList list, Args&&... args) noexcept(
-        std::is_nothrow_constructible_v<variant_from_t<TypeList>>) -> variant_from_t<TypeList>;
+        std::is_nothrow_constructible_v<variant_from<TypeList>, Args...>) -> variant_from<TypeList>;
 
 } // namespace posu::meta
 
