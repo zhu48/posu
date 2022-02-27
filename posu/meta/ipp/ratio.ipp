@@ -7,16 +7,16 @@ namespace posu::meta::detail {
         return ratio<Num, Den>{};
     }
 
-    template<std::size_t I, list_type Num, list_type Den>
-    [[nodiscard]] constexpr auto ratio_reduce_left_index(Num num, Den den) noexcept
+    template<std::size_t I, list_type Num>
+    [[nodiscard]] constexpr auto ratio_reduce_left_index(Num num, list_type auto den) noexcept
     {
         if constexpr(num.empty() || den.empty()) {
             return make_ratio(num, den);
         }
         else {
-            constexpr auto pos = find<at<Num, I>>(Den{});
+            constexpr auto pos = find<at<Num, I>>(den);
             if constexpr(pos < den.size()) {
-                return make_ratio(remove<I>(Num{}), remove<pos>(Den{}));
+                return make_ratio(remove<I>(num), remove<pos>(den));
             }
             else {
                 return make_ratio(num, den);
