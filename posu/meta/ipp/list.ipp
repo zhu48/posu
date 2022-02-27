@@ -12,26 +12,6 @@ namespace posu::meta::detail {
         return concatenate_impl(list<LTypes..., RTypes...>{}, part...);
     }
 
-    template<typename... Types, typename T>
-    struct prepend_impl<list<Types...>, T> {
-        using type = decltype(concatenate(list<T>{}, list<Types...>{}));
-    };
-
-    template<typename... Types, typename T>
-    struct prepend_impl<list<Types...>, list<T>> {
-        using type = decltype(concatenate(list<T>{}, list<Types...>{}));
-    };
-
-    template<typename... Types, typename T>
-    struct append_impl<list<Types...>, T> {
-        using type = decltype(concatenate(list<Types...>{}, list<T>{}));
-    };
-
-    template<typename... Types, typename T>
-    struct append_impl<list<Types...>, list<T>> {
-        using type = decltype(concatenate(list<Types...>{}, list<T>{}));
-    };
-
     template<typename First, typename... Rest>
     struct pop_front_impl<list<First, Rest...>> {
         using type = list<Rest...>;
@@ -48,7 +28,8 @@ namespace posu::meta::detail {
     };
 
     template<typename First, typename... Rest>
-    struct pop_back_impl<list<First, Rest...>> : prepend_impl<pop_back<list<Rest...>>, First> {
+    struct pop_back_impl<list<First, Rest...>> {
+        using type = decltype(concatenate(list<First>{}, pop_back<list<Rest...>>{}));
     };
 
     template<typename List, std::size_t... I>
@@ -74,7 +55,7 @@ namespace posu::meta::detail {
     template<typename List, std::size_t I, typename T>
     struct insert_impl {
         using type = decltype(concatenate(
-            push_back<first<List, I>, T>{},
+            push_back<T>(first<List, I>{}),
             last<List, std::tuple_size_v<List> - I>{}));
     };
 
@@ -111,6 +92,18 @@ template<typename... Args>
 [[nodiscard]] constexpr auto posu::meta::concatenate(list_type auto... part) noexcept
 {
     return detail::concatenate_impl(part...);
+}
+
+template<typename T, typename... Listed>
+[[nodiscard]] constexpr auto posu::meta::push_front(list<Listed...> /*unused*/) noexcept
+{
+    return list<T, Listed...>{};
+}
+
+template<typename T, typename... Listed>
+[[nodiscard]] constexpr auto posu::meta::push_back(list<Listed...> /*unused*/) noexcept
+{
+    return list<Listed..., T>{};
 }
 
 template<posu::meta::list_type TypeList, typename... Args>

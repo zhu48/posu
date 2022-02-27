@@ -47,21 +47,15 @@ TEST_CASE("range operations", "[algorithms]")
 
     SECTION("pushing types")
     {
-        using original = meta::list<>;
+        constexpr auto original = meta::list<>{};
 
-        using add_one   = meta::push_back<original, int>;
-        using add_two   = meta::push_back<add_one, double>;
-        using add_three = meta::push_front<add_two, long double>;
+        constexpr auto add_one   = meta::push_back<int>(original);
+        constexpr auto add_two   = meta::push_back<double>(add_one);
+        constexpr auto add_three = meta::push_front<long double>(add_two);
 
-        static_assert(std::same_as<add_one, meta::list<int>>);
-        static_assert(std::same_as<add_two, meta::list<int, double>>);
-        static_assert(std::same_as<add_three, meta::list<long double, int, double>>);
-        static_assert(std::same_as<
-                      meta::push_front<add_three, meta::list<char>>,
-                      meta::push_front<add_three, char>>);
-        static_assert(std::same_as<
-                      meta::push_back<add_three, meta::list<char>>,
-                      meta::push_back<add_three, char>>);
+        static_assert(add_one == meta::list<int>{});
+        static_assert(add_two == meta::list<int, double>{});
+        static_assert(add_three == meta::list<long double, int, double>{});
     }
 
     SECTION("popping types")

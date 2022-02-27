@@ -138,12 +138,6 @@ namespace posu::meta {
     namespace detail
     {
 
-        template<typename List, typename T>
-        struct prepend_impl;
-
-        template<typename List, typename T>
-        struct append_impl;
-
         template<typename List>
         struct pop_front_impl;
 
@@ -196,22 +190,28 @@ namespace posu::meta {
     /**
      * @brief Prepend a type to a `list`.
      *
-     * @tparam List The list to prepend a type to.
-     * @tparam Type The type to prepend to the list. If `Type` is an single-element list
-     *              `list<T>`, prepends `T` instead.
+     * @param T      The type to prepend to the list.
+     * @param Listed The types already in the list to push into.
+     *
+     * @param l The list to push a new type into.
+     *
+     * @return Returns a list with the new type added to the front.
      */
-    template<list_type List, typename Type>
-    using push_front = typename detail::prepend_impl<List, Type>::type;
+    template<typename T, typename... Listed>
+    [[nodiscard]] constexpr auto push_front(list<Listed...> l) noexcept;
 
     /**
      * @brief Append a type to a `list`.
      *
-     * @tparam List The list to append a type to.
-     * @tparam Type The type to append to the list. If `Type` is an single-element list
-     *              `list<T>`, appends `T` instead.
+     * @param T      The type to prepend to the list.
+     * @param Listed The types already in the list to push into.
+     *
+     * @param l The list to push a new type into.
+     *
+     * @return Returns a list with the new type added to the back.
      */
-    template<list_type List, typename Type>
-    using push_back = typename detail::append_impl<List, Type>::type;
+    template<typename T, typename... Listed>
+    [[nodiscard]] constexpr auto push_back(list<Listed...> l) noexcept;
 
     /**
      * @brief Remove the first type in a `list`.
