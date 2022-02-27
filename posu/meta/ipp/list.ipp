@@ -1,33 +1,35 @@
 
 namespace posu::meta::detail {
 
-    template<typename... Lists>
-    using concatenate_impl_t = typename concatenate_impl<Lists...>::type;
+    [[nodiscard]] constexpr auto concatenate_impl(list_type auto l) noexcept { return l; }
 
-    template<typename... LhsTypes, typename... RhsTypes>
-    struct concatenate_impl<list<LhsTypes...>, list<RhsTypes...>> {
-        using type = list<LhsTypes..., RhsTypes...>;
-    };
+    template<typename... LTypes, typename... RTypes>
+    [[nodiscard]] constexpr auto concatenate_impl(
+        list<LTypes...> /*unused*/,
+        list<RTypes...> /*unused*/,
+        list_type auto... part) noexcept
+    {
+        return concatenate_impl(list<LTypes..., RTypes...>{}, part...);
+    }
 
-    template<typename First, typename Second, typename... Rest>
-    struct concatenate_impl<First, Second, Rest...>
-        : concatenate_impl<concatenate_impl_t<First, Second>, Rest...> {
+    template<typename... Types, typename T>
+    struct prepend_impl<list<Types...>, T> {
+        using type = decltype(concatenate(list<T>{}, list<Types...>{}));
     };
 
     template<typename... Types, typename T>
-    struct prepend_impl<list<Types...>, T> : concatenate_impl<list<T>, list<Types...>> {
+    struct prepend_impl<list<Types...>, list<T>> {
+        using type = decltype(concatenate(list<T>{}, list<Types...>{}));
     };
 
     template<typename... Types, typename T>
-    struct prepend_impl<list<Types...>, list<T>> : concatenate_impl<list<T>, list<Types...>> {
+    struct append_impl<list<Types...>, T> {
+        using type = decltype(concatenate(list<Types...>{}, list<T>{}));
     };
 
     template<typename... Types, typename T>
-    struct append_impl<list<Types...>, T> : concatenate_impl<list<Types...>, list<T>> {
-    };
-
-    template<typename... Types, typename T>
-    struct append_impl<list<Types...>, list<T>> : concatenate_impl<list<Types...>, list<T>> {
+    struct append_impl<list<Types...>, list<T>> {
+        using type = decltype(concatenate(list<Types...>{}, list<T>{}));
     };
 
     template<typename First, typename... Rest>
@@ -71,14 +73,16 @@ namespace posu::meta::detail {
 
     template<typename List, std::size_t I, typename T>
     struct insert_impl {
-        using type =
-            concatenate<push_back<first<List, I>, T>, last<List, std::tuple_size_v<List> - I>>;
+        using type = decltype(concatenate(
+            push_back<first<List, I>, T>{},
+            last<List, std::tuple_size_v<List> - I>{}));
     };
 
     template<typename List, std::size_t I>
     struct remove_impl {
-        using type =
-            concatenate<first<List, I>, pop_front<last<List, std::tuple_size_v<List> - I>>>;
+        using type = decltype(concatenate(
+            first<List, I>{},
+            pop_front<last<List, std::tuple_size_v<List> - I>>{}));
     };
 
     template<typename List>
@@ -102,6 +106,11 @@ template<typename... Args>
     std::is_nothrow_constructible_v<variant, Args...>) -> variant
 {
     return variant(std::forward<Args>(args)...);
+}
+
+[[nodiscard]] constexpr auto posu::meta::concatenate(list_type auto... part) noexcept
+{
+    return detail::concatenate_impl(part...);
 }
 
 template<posu::meta::list_type TypeList, typename... Args>

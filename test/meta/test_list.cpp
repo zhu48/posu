@@ -36,16 +36,13 @@ TEST_CASE("range operations", "[algorithms]")
 {
     SECTION("concatenation")
     {
-        using lhs = meta::list<int, float, double>;
-        using rhs = meta::list<unsigned int, unsigned char>;
+        constexpr auto lhs = meta::list<int, float, double>{};
+        constexpr auto rhs = meta::list<unsigned int, unsigned char>{};
 
-        using result = meta::concatenate<lhs, rhs>;
+        constexpr auto result = meta::concatenate(lhs, rhs);
 
-        static_assert(
-            std::same_as<result, meta::list<int, float, double, unsigned int, unsigned char>>);
-        static_assert(std::same_as<
-                      meta::concatenate<lhs, rhs, lhs, rhs>,
-                      meta::concatenate<result, lhs, rhs>>);
+        static_assert(result == meta::list<int, float, double, unsigned int, unsigned char>{});
+        static_assert(meta::concatenate(lhs, rhs, lhs, rhs) == meta::concatenate(result, lhs, rhs));
     }
 
     SECTION("pushing types")

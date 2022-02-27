@@ -138,9 +138,6 @@ namespace posu::meta {
     namespace detail
     {
 
-        template<typename... Lists>
-        struct concatenate_impl;
-
         template<typename List, typename T>
         struct prepend_impl;
 
@@ -192,10 +189,9 @@ namespace posu::meta {
     /**
      * @brief Concatenate multiple `list`s into a single `list`.
      *
-     * @tparam Lists The lists to concatenate together.
+     * @param part The lists to concatenate together.
      */
-    template<list_type... Lists>
-    using concatenate = typename detail::concatenate_impl<Lists...>::type;
+    [[nodiscard]] constexpr auto concatenate(list_type auto... part) noexcept;
 
     /**
      * @brief Prepend a type to a `list`.
