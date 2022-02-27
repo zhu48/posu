@@ -76,13 +76,13 @@ namespace posu::units {
                 return meta::ratio<meta::list<Lhs, Rhs>>{};
             }
             else if constexpr(base_dimension<Lhs> && derived_dimension<Rhs>) {
-                return meta::ratio_multiply<meta::ratio<meta::list<Lhs>>, Rhs>{};
+                return meta::ratio_multiply(meta::ratio<meta::list<Lhs>>{}, Rhs{});
             }
             else if constexpr(derived_dimension<Lhs> && base_dimension<Rhs>) {
-                return meta::ratio_multiply<Lhs, meta::ratio<meta::list<Rhs>>>{};
+                return meta::ratio_multiply(Lhs{}, meta::ratio<meta::list<Rhs>>{});
             }
             else {
-                return meta::ratio_multiply<Lhs, Rhs>{};
+                return meta::ratio_multiply(Lhs{}, Rhs{});
             }
         }
 

@@ -49,29 +49,27 @@ namespace posu::meta::detail {
         return ratio_reduce_impl<num.size()>(num, den);
     }
 
-    template<
-        typename... NumLhsTypes,
-        typename... DenLhsTypes,
-        typename... NumRhsTypes,
-        typename... DenRhsTypes>
-    struct ratio_multiply_impl<
-        ratio<list<NumLhsTypes...>, list<DenLhsTypes...>>,
-        ratio<list<NumRhsTypes...>, list<DenRhsTypes...>>> {
-        using type = decltype(ratio_reduce(
-            list<NumLhsTypes..., NumRhsTypes...>{},
-            list<DenLhsTypes..., DenRhsTypes...>{}));
-    };
-
 } // namespace posu::meta::detail
 
-template<posu::meta::ratio_type Lhs, posu::meta::ratio_type Rhs>
 [[nodiscard]] constexpr bool
-posu::meta::detail::ratio_equal(Lhs /*unused*/, Rhs /*unused*/) noexcept
+posu::meta::detail::ratio_equal(ratio_type auto lhs, ratio_type auto rhs) noexcept
 {
-    return std::same_as<ratio_divide<Lhs, Rhs>, ratio<>>;
+    return std::same_as<decltype(ratio_divide(lhs, rhs)), ratio<>>;
 }
 
 [[nodiscard]] constexpr auto posu::meta::invert(ratio_type auto r) noexcept
 {
     return detail::make_ratio(r.den, r.num);
+}
+
+[[nodiscard]] constexpr auto
+posu::meta::ratio_multiply(ratio_type auto lhs, ratio_type auto rhs) noexcept
+{
+    return detail::ratio_reduce(concatenate(lhs.num, rhs.num), concatenate(lhs.den, rhs.den));
+}
+
+[[nodiscard]] constexpr auto
+posu::meta::ratio_divide(ratio_type auto num, ratio_type auto den) noexcept
+{
+    return ratio_multiply(num, invert(den));
 }

@@ -33,8 +33,7 @@ namespace posu::meta {
     namespace detail
     {
 
-        template<ratio_type Lhs, ratio_type Rhs>
-        [[nodiscard]] constexpr bool ratio_equal(Lhs lhs, Rhs rhs) noexcept;
+        [[nodiscard]] constexpr bool ratio_equal(ratio_type auto lhs, ratio_type auto rhs) noexcept;
 
     } // namespace detail
 
@@ -94,30 +93,25 @@ namespace posu::meta {
      */
     [[nodiscard]] constexpr auto invert(ratio_type auto r) noexcept;
 
-    namespace detail {
-
-        template<typename Lhs, typename Rhs>
-        struct ratio_multiply_impl;
-
-    } // namespace detail
-
     /**
      * @brief Multiply two type ratios together.
      *
-     * @tparam Lhs The left-hand-size operand.
-     * @tparam Rhs The right-hand-side operand.
+     * @param lhs The left-hand-side operand.
+     * @param rhs The right-hand-side operand.
+     *
+     * @return Returns the multiplication result.
      */
-    template<typename Lhs, typename Rhs>
-    using ratio_multiply = typename detail::ratio_multiply_impl<Lhs, Rhs>::type;
+    [[nodiscard]] constexpr auto ratio_multiply(ratio_type auto lhs, ratio_type auto rhs) noexcept;
 
     /**
      * @brief Divide one type ratios by another.
      *
-     * @tparam Dividend The type ratio to divide.
-     * @tparam Divisor  The type ratio to divide by.
+     * @param num The type ratio to divide.
+     * @param den The type ratio to divide by.
+     *
+     * @return Returns the division result.
      */
-    template<typename Dividend, typename Divisor>
-    using ratio_divide = ratio_multiply<Dividend, decltype(invert(Divisor{}))>;
+    [[nodiscard]] constexpr auto ratio_divide(ratio_type auto num, ratio_type auto den) noexcept;
 
 } // namespace posu::meta
 
