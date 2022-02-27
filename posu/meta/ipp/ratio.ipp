@@ -24,9 +24,6 @@ namespace posu::meta::detail {
         }
     }
 
-    template<typename Lhs, typename Rhs, std::size_t I>
-    using ratio_reduce_left_index_t = decltype(ratio_reduce_left_index<I>(Lhs{}, Rhs{}));
-
     template<typename Lhs, typename Rhs, std::size_t LhsSize = size(Lhs{}), std::size_t I = 0>
     struct ratio_reduce_impl;
 
@@ -38,11 +35,8 @@ namespace posu::meta::detail {
         using parent_type   = ratio_reduce_impl<Lhs, Rhs, LhsSize, I + 1>;
         using parent_type_t = typename parent_type::type;
 
-        using lhs = typename parent_type_t::num;
-        using rhs = typename parent_type_t::den;
-
     public:
-        using type = ratio_reduce_left_index_t<lhs, rhs, I>;
+        using type = decltype(ratio_reduce_left_index<I>(parent_type_t::num, parent_type_t::den));
     };
 
     template<typename Lhs, typename Rhs, std::size_t LhsSize, std::size_t I>

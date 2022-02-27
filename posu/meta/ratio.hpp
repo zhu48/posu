@@ -46,10 +46,10 @@ namespace posu::meta {
      */
     template<list_type Numerator, list_type Denominator>
     struct ratio {
-        using num = Numerator;   //!< The numerator type list.
-        using den = Denominator; //!< The denominator type list.
+        static constexpr auto num = Numerator{};   //!< The numerator type list.
+        static constexpr auto den = Denominator{}; //!< The denominator type list.
 
-        using type = ratio<num, den>; //!< Self-alias.
+        using type = ratio<Numerator, Denominator>; //!< Self-alias.
 
         /**
          * @brief Equality comparison between two type ratios.
@@ -75,7 +75,7 @@ namespace posu::meta {
      * @tparam T The type ratio to get the numerator of.
      */
     template<ratio_type T>
-    using numerator = typename T::num;
+    using numerator = std::remove_const_t<decltype(T::num)>;
 
     /**
      * @brief Obtain the denominator of the given type ratio.
@@ -83,7 +83,7 @@ namespace posu::meta {
      * @tparam T The type ratio to get the denominator of.
      */
     template<ratio_type T>
-    using denominator = typename T::den;
+    using denominator = std::remove_const_t<decltype(T::den)>;
 
     /**
      * @brief Obtain the inverse of the given type ratio.
@@ -101,7 +101,8 @@ namespace posu::meta {
     } // namespace detail
 
     template<ratio_type Ratio>
-    using ratio_invert = ratio<typename Ratio::den, typename Ratio::num>;
+    using ratio_invert =
+        ratio<std::remove_const_t<decltype(Ratio::den)>, std::remove_const_t<decltype(Ratio::num)>>;
 
     /**
      * @brief Multiply two type ratios together.
