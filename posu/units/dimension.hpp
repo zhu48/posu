@@ -21,8 +21,8 @@ namespace posu::units {
     };
 
     template<typename T>
-    concept derived_dimension = meta::is_ratio_v<T> && meta::all_of<is_base_dimension>(
-        typename T::num{}) && meta::all_of<is_base_dimension>(typename T::den{});
+    concept derived_dimension = meta::ratio_type<T> &&
+        meta::all_of<is_base_dimension>(T::num) && meta::all_of<is_base_dimension>(T::den);
 
     template<typename T>
     concept dimension = base_dimension<T> || derived_dimension<T>;
@@ -76,13 +76,13 @@ namespace posu::units {
                 return meta::ratio<meta::list<Lhs, Rhs>>{};
             }
             else if constexpr(base_dimension<Lhs> && derived_dimension<Rhs>) {
-                return meta::ratio_multiply<meta::ratio<meta::list<Lhs>>, Rhs>{};
+                return meta::ratio<meta::list<Lhs>>{} * Rhs{};
             }
             else if constexpr(derived_dimension<Lhs> && base_dimension<Rhs>) {
-                return meta::ratio_multiply<Lhs, meta::ratio<meta::list<Rhs>>>{};
+                return Lhs{} * meta::ratio<meta::list<Rhs>>{};
             }
             else {
-                return meta::ratio_multiply<Lhs, Rhs>{};
+                return Lhs{} * Rhs{};
             }
         }
 
@@ -92,10 +92,10 @@ namespace posu::units {
             if constexpr(base_dimension<Rhs>) {
                 return dimension_multiply_impl<
                     Lhs,
-                    meta::ratio_invert<meta::ratio<meta::list<Rhs>>>>();
+                    decltype(meta::invert(meta::ratio<meta::list<Rhs>>{}))>();
             }
             else {
-                return dimension_multiply_impl<Lhs, meta::ratio_invert<Rhs>>();
+                return dimension_multiply_impl<Lhs, decltype(meta::invert(Rhs{}))>();
             }
         }
 

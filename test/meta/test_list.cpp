@@ -12,23 +12,24 @@ namespace {
 
 TEST_CASE("initialization", "[construct]")
 {
-    using list = meta::list<int, float, double, int&, float&&, const double&>;
+    using list_t        = meta::list<int, float, double, int&, float&&, const double&>;
+    constexpr auto list = list_t{};
 
-    static_assert(std::same_as<list::at<0>, int>, "the first element must be int");
-    static_assert(std::same_as<list::at<1>, float>, "the second element must be float");
-    static_assert(std::same_as<list::at<2>, double>, "the third element must be double");
-    static_assert(std::same_as<list::at<3>, int&>, "the fourth element must be int&");
-    static_assert(std::same_as<list::at<4>, float&&>, "the fifth element must be float&&");
+    static_assert(std::same_as<list_t::at<0>, int>, "the first element must be int");
+    static_assert(std::same_as<list_t::at<1>, float>, "the second element must be float");
+    static_assert(std::same_as<list_t::at<2>, double>, "the third element must be double");
+    static_assert(std::same_as<list_t::at<3>, int&>, "the fourth element must be int&");
+    static_assert(std::same_as<list_t::at<4>, float&&>, "the fifth element must be float&&");
     static_assert(
-        std::same_as<list::at<5>, const double&>,
+        std::same_as<list_t::at<5>, const double&>,
         "the sixth element must be const double&");
 
-    REQUIRE(list::size() == 6);
-    REQUIRE(!list::empty());
+    REQUIRE(list.size() == 6);
+    REQUIRE(!list.empty());
 
-    static_assert(std::same_as<list::front, int>, "the first element must be an int");
+    static_assert(std::same_as<meta::front<list_t>, int>, "the first element must be an int");
     static_assert(
-        std::same_as<list::back, const double&>,
+        std::same_as<meta::back<list_t>, const double&>,
         "the last element must be const double&");
 }
 
@@ -36,121 +37,121 @@ TEST_CASE("range operations", "[algorithms]")
 {
     SECTION("concatenation")
     {
-        using lhs = meta::list<int, float, double>;
-        using rhs = meta::list<unsigned int, unsigned char>;
+        constexpr auto lhs = meta::list<int, float, double>{};
+        constexpr auto rhs = meta::list<unsigned int, unsigned char>{};
 
-        using result = meta::concatenate<lhs, rhs>;
+        constexpr auto result = meta::concatenate(lhs, rhs);
 
-        static_assert(
-            std::same_as<result, meta::list<int, float, double, unsigned int, unsigned char>>);
-        static_assert(std::same_as<
-                      meta::concatenate<lhs, rhs, lhs, rhs>,
-                      meta::concatenate<result, lhs, rhs>>);
+        CHECK(result == meta::list<int, float, double, unsigned int, unsigned char>{});
+        CHECK(result != lhs);
+        CHECK(meta::concatenate(lhs, rhs, lhs, rhs) == meta::concatenate(result, lhs, rhs));
     }
 
     SECTION("pushing types")
     {
-        using original = meta::list<>;
+        constexpr auto original = meta::list<>{};
 
-        using add_one   = meta::push_back<original, int>;
-        using add_two   = meta::push_back<add_one, double>;
-        using add_three = meta::push_front<add_two, long double>;
+        constexpr auto add_one   = meta::push_back<int>(original);
+        constexpr auto add_two   = meta::push_back<double>(add_one);
+        constexpr auto add_three = meta::push_front<long double>(add_two);
 
-        static_assert(std::same_as<add_one, meta::list<int>>);
-        static_assert(std::same_as<add_two, meta::list<int, double>>);
-        static_assert(std::same_as<add_three, meta::list<long double, int, double>>);
-        static_assert(std::same_as<
-                      meta::push_front<add_three, meta::list<char>>,
-                      meta::push_front<add_three, char>>);
-        static_assert(std::same_as<
-                      meta::push_back<add_three, meta::list<char>>,
-                      meta::push_back<add_three, char>>);
+        static_assert(add_one == meta::list<int>{});
+        static_assert(add_two == meta::list<int, double>{});
+        static_assert(add_three == meta::list<long double, int, double>{});
     }
 
     SECTION("popping types")
     {
-        using list = meta::list<char, int, long, float, double>;
+        constexpr auto list = meta::list<char, int, long, float, double>{};
 
-        using pop_one = meta::pop_front<list>;
-        using pop_two = meta::pop_back<pop_one>;
+        constexpr auto pop_one = meta::pop_front(list);
+        constexpr auto pop_two = meta::pop_back(pop_one);
 
-        static_assert(std::same_as<pop_one, meta::list<int, long, float, double>>);
-        static_assert(std::same_as<pop_two, meta::list<int, long, float>>);
+        static_assert(pop_one == meta::list<int, long, float, double>{});
+        static_assert(pop_two == meta::list<int, long, float>{});
     }
 
     SECTION("finding types")
     {
-        using list = meta::list<char, int, int, long, float, double>;
+        constexpr auto list = meta::list<char, int, int, long, float, double>{};
 
-        REQUIRE(meta::find<list, char>() == 0);
-        REQUIRE(meta::find<list, int>() == 1);
-        REQUIRE(meta::find<list, long>() == 3);
-        REQUIRE(meta::find<list, float>() == 4);
-        REQUIRE(meta::find<list, double>() == 5);
+        REQUIRE(meta::find<char>(list) == 0);
+        REQUIRE(meta::find<int>(list) == 1);
+        REQUIRE(meta::find<long>(list) == 3);
+        REQUIRE(meta::find<float>(list) == 4);
+        REQUIRE(meta::find<double>(list) == 5);
+
+        REQUIRE(meta::contains<char>(list));
+        REQUIRE(meta::contains<int>(list));
+        REQUIRE(meta::contains<long>(list));
+        REQUIRE(meta::contains<float>(list));
+        REQUIRE(meta::contains<double>(list));
     }
 
     SECTION("sub-lists")
     {
         SECTION("first N elements")
         {
-            using list = meta::list<char, int, long, float, double>;
+            constexpr auto list = meta::list<char, int, long, float, double>{};
 
-            static_assert(std::same_as<meta::first<list, 0>, meta::list<>>);
-            static_assert(std::same_as<meta::first<list, 1>, meta::list<char>>);
-            static_assert(std::same_as<meta::first<list, 2>, meta::list<char, int>>);
-            static_assert(std::same_as<meta::first<list, 3>, meta::list<char, int, long>>);
-            static_assert(std::same_as<meta::first<list, 4>, meta::list<char, int, long, float>>);
-            static_assert(
-                std::same_as<meta::first<list, 5>, meta::list<char, int, long, float, double>>);
+            static_assert(meta::first<0>(list) == meta::list<>{});
+            static_assert(meta::first<1>(list) == meta::list<char>{});
+            static_assert(meta::first<2>(list) == meta::list<char, int>{});
+            static_assert(meta::first<3>(list) == meta::list<char, int, long>{});
+            static_assert(meta::first<4>(list) == meta::list<char, int, long, float>{});
+            static_assert(meta::first<5>(list) == meta::list<char, int, long, float, double>{});
         }
 
         SECTION("last N elements")
         {
-            using list = meta::list<char, int, long, float, double>;
+            constexpr auto list = meta::list<char, int, long, float, double>{};
 
-            static_assert(std::same_as<meta::last<list, 0>, meta::list<>>);
-            static_assert(std::same_as<meta::last<list, 1>, meta::list<double>>);
-            static_assert(std::same_as<meta::last<list, 2>, meta::list<float, double>>);
-            static_assert(std::same_as<meta::last<list, 3>, meta::list<long, float, double>>);
-            static_assert(std::same_as<meta::last<list, 4>, meta::list<int, long, float, double>>);
-            static_assert(
-                std::same_as<meta::last<list, 5>, meta::list<char, int, long, float, double>>);
+            static_assert(meta::last<0>(list) == meta::list<>{});
+            static_assert(meta::last<1>(list) == meta::list<double>{});
+            static_assert(meta::last<2>(list) == meta::list<float, double>{});
+            static_assert(meta::last<3>(list) == meta::list<long, float, double>{});
+            static_assert(meta::last<4>(list) == meta::list<int, long, float, double>{});
+            static_assert(meta::last<5>(list) == meta::list<char, int, long, float, double>{});
         }
     }
 
     SECTION("inserting types")
     {
-        using list = meta::list<char, int, long, float, double>;
+        constexpr auto list = meta::list<char, int, long, float, double>{};
 
-        static_assert(std::same_as<
-                      meta::insert<list, 0, int>,
-                      meta::list<int, char, int, long, float, double>>);
-        static_assert(std::same_as<
-                      meta::insert<list, 1, int>,
-                      meta::list<char, int, int, long, float, double>>);
-        static_assert(std::same_as<
-                      meta::insert<list, 2, int>,
-                      meta::list<char, int, int, long, float, double>>);
-        static_assert(std::same_as<
-                      meta::insert<list, 3, int>,
-                      meta::list<char, int, long, int, float, double>>);
-        static_assert(std::same_as<
-                      meta::insert<list, 4, int>,
-                      meta::list<char, int, long, float, int, double>>);
-        static_assert(std::same_as<
-                      meta::insert<list, 5, int>,
-                      meta::list<char, int, long, float, double, int>>);
+        static_assert(
+            meta::insert<0, int>(list) == meta::list<int, char, int, long, float, double>{});
+        static_assert(
+            meta::insert<1, int>(list) == meta::list<char, int, int, long, float, double>{});
+        static_assert(
+            meta::insert<2, int>(list) == meta::list<char, int, int, long, float, double>{});
+        static_assert(
+            meta::insert<3, int>(list) == meta::list<char, int, long, int, float, double>{});
+        static_assert(
+            meta::insert<4, int>(list) == meta::list<char, int, long, float, int, double>{});
+        static_assert(
+            meta::insert<5, int>(list) == meta::list<char, int, long, float, double, int>{});
     }
 
     SECTION("removing types")
     {
-        using list = meta::list<char, int, long, float, double>;
+        constexpr auto list = meta::list<char, int, long, float, double>{};
 
-        static_assert(std::same_as<meta::remove<list, 0>, meta::list<int, long, float, double>>);
-        static_assert(std::same_as<meta::remove<list, 1>, meta::list<char, long, float, double>>);
-        static_assert(std::same_as<meta::remove<list, 2>, meta::list<char, int, float, double>>);
-        static_assert(std::same_as<meta::remove<list, 3>, meta::list<char, int, long, double>>);
-        static_assert(std::same_as<meta::remove<list, 4>, meta::list<char, int, long, float>>);
+        static_assert(meta::remove<0>(list) == meta::list<int, long, float, double>{});
+        static_assert(meta::remove<1>(list) == meta::list<char, long, float, double>{});
+        static_assert(meta::remove<2>(list) == meta::list<char, int, float, double>{});
+        static_assert(meta::remove<3>(list) == meta::list<char, int, long, double>{});
+        static_assert(meta::remove<4>(list) == meta::list<char, int, long, float>{});
+
+        static_assert(meta::remove_range<0, 0>(list) == meta::list<int, long, float, double>{});
+        static_assert(meta::remove_range<0, 1>(list) == meta::list<long, float, double>{});
+        static_assert(meta::remove_range<0, 2>(list) == meta::list<float, double>{});
+        static_assert(meta::remove_range<1, 1>(list) == meta::list<char, long, float, double>{});
+        static_assert(meta::remove_range<1, 2>(list) == meta::list<char, float, double>{});
+        static_assert(meta::remove_range<1, 3>(list) == meta::list<char, double>{});
+        static_assert(meta::remove_range<2, 2>(list) == meta::list<char, int, float, double>{});
+        static_assert(meta::remove_range<2, 3>(list) == meta::list<char, int, double>{});
+        static_assert(meta::remove_range<2, 4>(list) == meta::list<char, int>{});
     }
 }
 

@@ -1,87 +1,63 @@
 
-namespace posu::meta {
+namespace posu::meta::detail {
 
-    namespace detail {
+    template<list_type Num, list_type Den>
+    [[nodiscard]] constexpr auto make_ratio(Num /*unused*/, Den /*unused*/) noexcept
+    {
+        return ratio<Num, Den>{};
+    }
 
-        template<typename Lhs, typename Rhs, std::size_t I>
-        struct ratio_reduce_left_index;
+    template<std::size_t I, list_type Num>
+    [[nodiscard]] constexpr auto ratio_reduce_left_index(Num num, list_type auto den) noexcept
+    {
+        if constexpr(num.empty() || den.empty()) {
+            return make_ratio(num, den);
+        }
+        else {
+            constexpr auto pos = find<at<Num, I>>(den);
+            if constexpr(pos < den.size()) {
+                return make_ratio(remove<I>(num), remove<pos>(den));
+            }
+            else {
+                return make_ratio(num, den);
+            }
+        }
+    }
 
-        template<typename Lhs, typename Rhs, std::size_t I>
-            requires(
-                !std::same_as<Lhs, list<>> && !std::same_as<Rhs, list<>> &&
-                !contains_v<Rhs, at<Lhs, I>>)
-        struct ratio_reduce_left_index<Lhs, Rhs, I> {
-            using type = ratio<Lhs, Rhs>;
-        };
+    template<std::size_t I>
+    [[nodiscard]] constexpr auto ratio_reduce_impl(list_type auto num, list_type auto den) noexcept
+    {
+        if constexpr(num.empty() || den.empty()) {
+            return make_ratio(num, den);
+        }
+        else if constexpr(I == num.size()) {
+            return ratio_reduce_impl<I - 1>(num, den);
+        }
+        else {
+            constexpr auto reduced = ratio_reduce_left_index<I>(num, den);
+            if constexpr(I == 0) {
+                return reduced;
+            }
+            else {
+                return ratio_reduce_impl<I - 1>(reduced.num, reduced.den);
+            }
+        }
+    }
 
-        template<typename Lhs, typename Rhs, std::size_t I>
-            requires(
-                !std::same_as<Lhs, list<>> && !std::same_as<Rhs, list<>> &&
-                contains_v<Rhs, at<Lhs, I>>)
-        struct ratio_reduce_left_index<Lhs, Rhs, I> {
-            using type = ratio<remove<Lhs, I>, remove<Rhs, find_v<Rhs, at<Lhs, I>>>>;
-        };
+    [[nodiscard]] constexpr auto ratio_reduce(list_type auto num, list_type auto den) noexcept
+    {
+        return ratio_reduce_impl<num.size()>(num, den);
+    }
 
-        template<std::size_t I>
-        struct ratio_reduce_left_index<list<>, list<>, I> {
-            using type = ratio<>;
-        };
+} // namespace posu::meta::detail
 
-        template<typename Lhs, std::size_t I>
-            requires(!std::same_as<Lhs, list<>>)
-        struct ratio_reduce_left_index<Lhs, list<>, I> {
-            using type = ratio<Lhs>;
-        };
+[[nodiscard]] constexpr auto
+posu::meta::detail::ratio_multiply(ratio_type auto lhs, ratio_type auto rhs) noexcept
+{
+    return detail::ratio_reduce(concatenate(lhs.num, rhs.num), concatenate(lhs.den, rhs.den));
+}
 
-        template<typename Rhs, std::size_t I>
-            requires(!std::same_as<Rhs, list<>>)
-        struct ratio_reduce_left_index<list<>, Rhs, I> {
-            using type = ratio<list<>, Rhs>;
-        };
-
-        template<typename Lhs, typename Rhs, std::size_t I>
-        using ratio_reduce_left_index_t = typename ratio_reduce_left_index<Lhs, Rhs, I>::type;
-
-        template<typename Lhs, typename Rhs, std::size_t LhsSize = size_v<Lhs>, std::size_t I = 0>
-        struct ratio_reduce_impl;
-
-        template<typename Lhs, typename Rhs, std::size_t LhsSize, std::size_t I>
-            requires((I < LhsSize))
-        struct ratio_reduce_impl<Lhs, Rhs, LhsSize, I>
-            : private ratio_reduce_impl<Lhs, Rhs, LhsSize, I + 1> {
-        private:
-            using parent_type   = ratio_reduce_impl<Lhs, Rhs, LhsSize, I + 1>;
-            using parent_type_t = typename parent_type::type;
-
-            using lhs = typename parent_type_t::num;
-            using rhs = typename parent_type_t::den;
-
-        public:
-            using type = ratio_reduce_left_index_t<lhs, rhs, I>;
-        };
-
-        template<typename Lhs, typename Rhs, std::size_t LhsSize, std::size_t I>
-            requires((I == LhsSize))
-        struct ratio_reduce_impl<Lhs, Rhs, LhsSize, I> {
-            using type = ratio<Lhs, Rhs>;
-        };
-
-        template<typename Lhs, typename Rhs>
-        using ratio_reduce_impl_t = typename ratio_reduce_impl<Lhs, Rhs>::type;
-
-        template<
-            typename... NumLhsTypes,
-            typename... DenLhsTypes,
-            typename... NumRhsTypes,
-            typename... DenRhsTypes>
-        struct ratio_multiply_impl<
-            ratio<list<NumLhsTypes...>, list<DenLhsTypes...>>,
-            ratio<list<NumRhsTypes...>, list<DenRhsTypes...>>> {
-            using type = ratio_reduce_impl_t<
-                list<NumLhsTypes..., NumRhsTypes...>,
-                list<DenLhsTypes..., DenRhsTypes...>>;
-        };
-
-    } // namespace detail
-
-} // namespace posu::meta
+[[nodiscard]] constexpr auto posu::meta::invert(ratio_type auto r) noexcept
+{
+    return detail::make_ratio(r.den, r.num);
+}
