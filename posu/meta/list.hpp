@@ -138,12 +138,6 @@ namespace posu::meta {
     namespace detail
     {
 
-        template<typename List>
-        struct pop_front_impl;
-
-        template<typename List>
-        struct pop_back_impl;
-
         template<typename List, typename IndexSequence>
         struct take_items;
 
@@ -216,18 +210,16 @@ namespace posu::meta {
     /**
      * @brief Remove the first type in a `list`.
      *
-     * @tparam List The list to pop a type from.
+     * @param l The list to pop a type from.
      */
-    template<list_type List>
-    using pop_front = typename detail::pop_front_impl<List>::type;
+    [[nodiscard]] constexpr auto pop_front(list_type auto l) noexcept;
 
     /**
      * @brief Remove the last type in a `list`.
      *
-     * @tparam List The list to pop a type from.
+     * @param l The list to pop a type from.
      */
-    template<list_type List>
-    using pop_back = typename detail::pop_back_impl<List>::type;
+    [[nodiscard]] constexpr auto pop_back(list_type auto l) noexcept;
 
     /**
      * @brief Get the first `I` elements of the given list as a `list`.

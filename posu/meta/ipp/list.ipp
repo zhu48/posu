@@ -13,24 +13,16 @@ namespace posu::meta::detail {
     }
 
     template<typename First, typename... Rest>
-    struct pop_front_impl<list<First, Rest...>> {
-        using type = list<Rest...>;
-    };
+    [[nodiscard]] constexpr auto pop_front_impl(list<First, Rest...> /*unused*/) noexcept
+    {
+        return list<Rest...>{};
+    }
 
-    template<typename Type>
-    struct pop_back_impl<list<Type>> {
-        using type = list<>;
-    };
-
-    template<typename First, typename Second>
-    struct pop_back_impl<list<First, Second>> {
-        using type = list<First>;
-    };
-
-    template<typename First, typename... Rest>
-    struct pop_back_impl<list<First, Rest...>> {
-        using type = decltype(concatenate(list<First>{}, pop_back<list<Rest...>>{}));
-    };
+    template<typename First, typename Second, typename... Rest>
+    [[nodiscard]] constexpr auto pop_back_impl(list<First, Second, Rest...> /*unused*/) noexcept
+    {
+        return push_front<First>(pop_back(list<Second, Rest...>{}));
+    }
 
     template<typename List, std::size_t... I>
     struct take_items<List, std::index_sequence<I...>> {
@@ -63,12 +55,12 @@ namespace posu::meta::detail {
     struct remove_impl {
         using type = decltype(concatenate(
             first<List, I>{},
-            pop_front<last<List, std::tuple_size_v<List> - I>>{}));
+            pop_front(last<List, std::tuple_size_v<List> - I>{})));
     };
 
     template<typename List>
     struct remove_impl<List, 0> {
-        using type = pop_front<List>;
+        using type = decltype(pop_front(List{}));
     };
 
 } // namespace posu::meta::detail
@@ -104,6 +96,29 @@ template<typename T, typename... Listed>
 [[nodiscard]] constexpr auto posu::meta::push_back(list<Listed...> /*unused*/) noexcept
 {
     return list<Listed..., T>{};
+}
+
+[[nodiscard]] constexpr auto posu::meta::pop_front(list_type auto l) noexcept
+{
+    if constexpr(l.empty()) {
+        return l;
+    }
+    else {
+        return detail::pop_front_impl(l);
+    }
+}
+
+[[nodiscard]] constexpr auto posu::meta::pop_back(list_type auto l) noexcept
+{
+    if constexpr(l.empty()) {
+        return l;
+    }
+    else if constexpr(l.size() == 1) {
+        return list<>{};
+    }
+    else {
+        return detail::pop_back_impl(l);
+    }
 }
 
 template<posu::meta::list_type TypeList, typename... Args>

@@ -60,13 +60,13 @@ TEST_CASE("range operations", "[algorithms]")
 
     SECTION("popping types")
     {
-        using list = meta::list<char, int, long, float, double>;
+        constexpr auto list = meta::list<char, int, long, float, double>{};
 
-        using pop_one = meta::pop_front<list>;
-        using pop_two = meta::pop_back<pop_one>;
+        constexpr auto pop_one = meta::pop_front(list);
+        constexpr auto pop_two = meta::pop_back(pop_one);
 
-        static_assert(std::same_as<pop_one, meta::list<int, long, float, double>>);
-        static_assert(std::same_as<pop_two, meta::list<int, long, float>>);
+        static_assert(pop_one == meta::list<int, long, float, double>{});
+        static_assert(pop_two == meta::list<int, long, float>{});
     }
 
     SECTION("finding types")
