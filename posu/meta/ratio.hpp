@@ -7,92 +7,108 @@
 
 namespace posu::meta {
 
+    template<list_type Numerator = list<>, list_type Denominator = list<>>
+    struct ratio;
+
+    namespace detail {
+
+        template<typename T>
+        struct is_ratio : std::false_type {
+        };
+
+        template<typename Numerator, typename Denominator>
+        struct is_ratio<ratio<Numerator, Denominator>> : std::true_type {
+        };
+
+    } // namespace detail
+
+    /**
+     * @brief An instance of the `ratio` template.
+     *
+     * @tparam T The type to check against this concept.
+     */
+    template<typename T>
+    concept ratio_type = detail::is_ratio<T>::value;
+
+    namespace detail
+    {
+
+        [[nodiscard]] constexpr auto ratio_reduce(list_type auto num, list_type auto den) noexcept;
+        [[nodiscard]] constexpr auto ratio_multiply(
+            ratio_type auto lhs,
+            ratio_type auto rhs) noexcept;
+
+    } // namespace detail
+
     /**
      * @brief A ratio between type products.
      *
      * @tparam Numerator   The list of types in the numerator.
      * @tparam Denominator The list of types in the denominator.
      */
-    template<typename Numerator = list<>, typename Denominator = list<>>
+    template<list_type Numerator, list_type Denominator>
     struct ratio {
-        using num = Numerator;   //!< The numerator type list.
-        using den = Denominator; //!< The denominator type list.
+    private:
+        using info = decltype(detail::ratio_reduce(Numerator{}, Denominator{}));
 
-        using type = ratio<num, den>; //!< Self-alias.
+    public:
+        static constexpr auto num = info::num; //!< The numerator type list.
+        static constexpr auto den = info::den; //!< The denominator type list.
+
+        using type = typename info::ratio_t; //!< Self-alias.
+
+        /**
+         * @brief Multiply two type ratios together.
+         *
+         * @param lhs The left-hand-side operand.
+         * @param rhs The right-hand-side operand.
+         *
+         * @return Returns the multiplication result.
+         */
+        [[nodiscard]] friend constexpr auto operator*(ratio lhs, ratio_type auto rhs) noexcept
+        {
+            return detail::ratio_multiply(lhs, rhs);
+        }
+
+        /**
+         * @brief Divide one type ratios by another.
+         *
+         * @param num The type ratio to divide.
+         * @param den The type ratio to divide by.
+         *
+         * @return Returns the division result.
+         */
+        [[nodiscard]] friend constexpr auto operator/(ratio num, ratio_type auto den) noexcept
+        {
+            return num * invert(den);
+        }
+
+        /**
+         * @brief Equality comparison between two type ratios.
+         *
+         * Two type ratios are equal if, in their reduced forms, each operand's numerator contains
+         * the same types as the other's denominator, in any order.
+         *
+         * @param lhs The left-hand-side comparison operand.
+         * @param rhs The right-hand-size comparison operand.
+         *
+         * @return true  Both type ratios are equivalent.
+         * @return false The type ratios are not equivalent.
+         */
+        [[nodiscard]] friend constexpr bool operator==(ratio lhs, ratio_type auto rhs) noexcept
+        {
+            return std::same_as<decltype(lhs / rhs), ratio<>>;
+        }
     };
-
-    /**
-     * @brief Traits template to detect whether a type specializes `type_list` or not.
-     * @{
-     */
-    //! @tparam T The type to check.
-    template<typename T>
-    struct is_ratio : std::false_type {
-    };
-    //! @tparam Types The types in the type list.
-    template<typename Numerator, typename Denominator>
-    struct is_ratio<ratio<Numerator, Denominator>> : std::true_type {
-    };
-    template<typename T>
-    inline constexpr bool is_ratio_v = is_ratio<T>::value;
-    template<typename T>
-    concept ratio_type = is_ratio_v<T>;
-    //! @}
-
-    /**
-     * @brief Obtain the numerator of the given type ratio.
-     *
-     * @tparam T The type ratio to get the numerator of.
-     */
-    template<typename T>
-        requires(is_ratio_v<T>)
-    using numerator = typename T::num;
-
-    /**
-     * @brief Obtain the denominator of the given type ratio.
-     *
-     * @tparam T The type ratio to get the denominator of.
-     */
-    template<typename T>
-        requires(is_ratio_v<T>)
-    using denominator = typename T::den;
 
     /**
      * @brief Obtain the inverse of the given type ratio.
      *
-     * @tparam T The type ratio to get the inverse of.
-     */
-    template<typename T>
-        requires(is_ratio_v<T>)
-    using inverse = ratio<denominator<T>, numerator<T>>;
-
-    namespace detail {
-
-        template<typename Lhs, typename Rhs>
-        struct ratio_multiply_impl;
-
-    } // namespace detail
-
-    template<ratio_type Ratio>
-    using ratio_invert = ratio<typename Ratio::den, typename Ratio::num>;
-
-    /**
-     * @brief Multiply two type ratios together.
+     * @param r The type ratio to invert.
      *
-     * @tparam Lhs The left-hand-size operand.
-     * @tparam Rhs The right-hand-side operand.
+     * @return Returns the inverted type ratio.
      */
-    template<typename Lhs, typename Rhs>
-    using ratio_multiply = typename detail::ratio_multiply_impl<Lhs, Rhs>::type;
-
-    /**
-     * @brief Divide one type ratios by another.
-     *
-     * @tparam Dividend The type ratio to divide.
-     * @tparam Divisor  The type ratio to divide by.
-     */
-    template<typename Dividend, typename Divisor>
-    using ratio_divide = ratio_multiply<Dividend, inverse<Divisor>>;
+    [[nodiscard]] constexpr auto invert(ratio_type auto r) noexcept;
 
 } // namespace posu::meta
 

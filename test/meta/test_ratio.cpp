@@ -9,6 +9,39 @@ namespace {
 }
 
 TEMPLATE_TEST_CASE(
+    "automatic reduction",
+    "[ratio][reduce]",
+    (std::tuple<meta::ratio<meta::list<int>, meta::list<int>>, meta::ratio<>>),
+    (std::tuple<
+        meta::ratio<meta::list<int, double>, meta::list<int>>,
+        meta::ratio<meta::list<double>>>),
+    (std::tuple<
+        meta::ratio<meta::list<double, int>, meta::list<int>>,
+        meta::ratio<meta::list<double>>>),
+    (std::tuple<
+        meta::ratio<meta::list<int>, meta::list<int, double>>,
+        meta::ratio<meta::list<>, meta::list<double>>>),
+    (std::tuple<
+        meta::ratio<meta::list<int>, meta::list<double, int>>,
+        meta::ratio<meta::list<>, meta::list<double>>>))
+{
+    using original_t = std::tuple_element_t<0, TestType>;
+    using reduced_t  = std::tuple_element_t<1, TestType>;
+
+    STATIC_REQUIRE(!std::same_as<original_t, reduced_t>);
+    STATIC_REQUIRE(std::same_as<typename original_t::type, reduced_t>);
+    STATIC_REQUIRE(std::same_as<decltype(original_t::num), decltype(reduced_t::num)>);
+    STATIC_REQUIRE(std::same_as<decltype(original_t::den), decltype(reduced_t::den)>);
+
+    constexpr auto original = original_t{};
+    constexpr auto reduced  = reduced_t{};
+
+    STATIC_REQUIRE(original == reduced);
+    STATIC_REQUIRE(original.num == reduced.num);
+    STATIC_REQUIRE(original.den == reduced.den);
+}
+
+TEMPLATE_TEST_CASE(
     "multiplication",
     "[ratio][multiply]",
     (std::tuple<meta::ratio<>, meta::ratio<>, meta::ratio<>>),
@@ -31,11 +64,11 @@ TEMPLATE_TEST_CASE(
         meta::ratio<meta::list<double>, meta::list<int>>,
         meta::ratio<>>))
 {
-    using lhs     = std::tuple_element_t<0, TestType>;
-    using rhs     = std::tuple_element_t<1, TestType>;
-    using product = std::tuple_element_t<2, TestType>;
+    constexpr auto lhs     = std::tuple_element_t<0, TestType>{};
+    constexpr auto rhs     = std::tuple_element_t<1, TestType>{};
+    constexpr auto product = std::tuple_element_t<2, TestType>{};
 
-    static_assert(std::same_as<product, meta::ratio_multiply<lhs, rhs>>);
+    static_assert(product == lhs * rhs);
 }
 
 TEMPLATE_TEST_CASE(
@@ -64,9 +97,9 @@ TEMPLATE_TEST_CASE(
         meta::ratio<meta::list<double>, meta::list<int>>,
         meta::ratio<meta::list<int, int>, meta::list<double, double>>>))
 {
-    using dividend = std::tuple_element_t<0, TestType>;
-    using divisor  = std::tuple_element_t<1, TestType>;
-    using quotient = std::tuple_element_t<2, TestType>;
+    constexpr auto dividend = std::tuple_element_t<0, TestType>{};
+    constexpr auto divisor  = std::tuple_element_t<1, TestType>{};
+    constexpr auto quotient = std::tuple_element_t<2, TestType>{};
 
-    static_assert(std::same_as<quotient, meta::ratio_divide<dividend, divisor>>);
+    static_assert(quotient == dividend / divisor);
 }
