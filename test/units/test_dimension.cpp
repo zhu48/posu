@@ -7,8 +7,9 @@
 namespace {
 
     namespace units = posu::units;
+    namespace meta  = posu::meta;
 
-}
+} // namespace
 
 CATCH_TEST_CASE("dimension definition results in operable tag types", "[units][tag][dimension]")
 {
@@ -24,7 +25,21 @@ CATCH_TEST_CASE("dimension definition results in operable tag types", "[units][t
     {
         CATCH_SECTION("multiplication")
         {
-            CATCH_SECTION("multiplication between base dimensions") {}
+            struct num0 : public units::make_dimension<num0, "num0"> {
+            };
+            struct num1 : public units::make_dimension<num1, "num1"> {
+            };
+
+            CATCH_SECTION("multiplication between base dimensions")
+            {
+                using prod_t        = units::dimension_multiply<num0, num1>;
+                constexpr auto prod = prod_t{};
+
+                CATCH_STATIC_REQUIRE(prod == meta::ratio<meta::list<num0, num1>>{});
+                CATCH_STATIC_REQUIRE(
+                    units::dimension_multiply<prod_t, num1>{} ==
+                    meta::ratio<meta::list<num0, num1, num1>>{});
+            }
 
             CATCH_SECTION("multiplication between derived dimensions") {}
 
