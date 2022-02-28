@@ -124,21 +124,23 @@ template<typename T, typename... Listed>
 }
 
 template<posu::meta::list_type List, std::size_t... I>
-[[nodiscard]] constexpr auto posu::meta::take(List l, std::index_sequence<I...> /*unused*/) noexcept
-    requires((I < l.size()) && ...)
+[[nodiscard]] constexpr auto
+posu::meta::take(List /*unused*/, std::index_sequence<I...> /*unused*/) noexcept
+    requires((I < List::size()) && ...)
 {
     return list<at<List, I>...>{};
 }
 
 template<std::size_t Begin, std::size_t End>
 [[nodiscard]] constexpr auto posu::meta::take_range(list_type auto l) noexcept
-    requires((Begin <= l.size()) && (End <= l.size()) && (Begin <= End))
+    requires((Begin <= decltype(l)::size()) && (End <= decltype(l)::size()) && (Begin <= End))
 {
     return take(l, detail::offset<Begin>(std::make_index_sequence<End - Begin>{}));
 }
 
 template<std::size_t N, typename... T>
-[[nodiscard]] constexpr auto posu::meta::first(list<T...> l) noexcept requires(N <= l.size())
+[[nodiscard]] constexpr auto posu::meta::first(list<T...> l) noexcept
+    requires(N <= list<T...>::size())
 {
     return take(l, std::make_index_sequence<N>{});
 }
@@ -164,7 +166,7 @@ template<std::size_t I, typename T>
 template<std::size_t... I>
 [[nodiscard]] constexpr auto
 posu::meta::remove(list_type auto l, std::index_sequence<I...> i) noexcept
-    requires((I < l.size()) && ...)
+    requires((I < decltype(l)::size()) && ...)
 {
     if constexpr(i.size() == 0) {
         return l;
