@@ -36,6 +36,7 @@ CATCH_TEST_CASE("dimension definition results in operable tag types", "[units][t
                 constexpr auto prod = prod_t{};
 
                 CATCH_STATIC_REQUIRE(prod == meta::ratio<meta::list<num0, num1>>{});
+                CATCH_STATIC_REQUIRE(prod == meta::ratio<meta::list<num1, num0>>{});
                 CATCH_STATIC_REQUIRE(
                     units::dimension_multiply<prod_t, num1>{} ==
                     meta::ratio<meta::list<num0, num1, num1>>{});
