@@ -33,6 +33,7 @@ namespace posu::meta {
     namespace detail
     {
 
+        [[nodiscard]] constexpr auto ratio_reduce(list_type auto num, list_type auto den) noexcept;
         [[nodiscard]] constexpr auto ratio_multiply(
             ratio_type auto lhs,
             ratio_type auto rhs) noexcept;
@@ -47,10 +48,14 @@ namespace posu::meta {
      */
     template<list_type Numerator, list_type Denominator>
     struct ratio {
-        static constexpr auto num = Numerator{};   //!< The numerator type list.
-        static constexpr auto den = Denominator{}; //!< The denominator type list.
+    private:
+        using info = decltype(detail::ratio_reduce(Numerator{}, Denominator{}));
 
-        using type = ratio<Numerator, Denominator>; //!< Self-alias.
+    public:
+        static constexpr auto num = info::num; //!< The numerator type list.
+        static constexpr auto den = info::den; //!< The denominator type list.
+
+        using type = typename info::ratio_t; //!< Self-alias.
 
         /**
          * @brief Multiply two type ratios together.

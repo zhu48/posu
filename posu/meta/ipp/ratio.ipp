@@ -2,7 +2,18 @@
 namespace posu::meta::detail {
 
     template<list_type Num, list_type Den>
-    [[nodiscard]] constexpr auto make_ratio(Num /*unused*/, Den /*unused*/) noexcept
+    struct ratio_info {
+        using ratio_t = ratio<Num, Den>;
+
+        static constexpr auto num = Num{};
+        static constexpr auto den = Den{};
+
+        constexpr ratio_info() noexcept = default;
+        constexpr ratio_info(Num /*unused*/, Den /*unused*/) noexcept : ratio_info{} {}
+    };
+
+    template<list_type Num, list_type Den>
+    [[nodiscard]] constexpr auto make_ratio(ratio_info<Num, Den> /*unused*/) noexcept
     {
         return ratio<Num, Den>{};
     }
@@ -11,15 +22,15 @@ namespace posu::meta::detail {
     [[nodiscard]] constexpr auto ratio_reduce_left_index(Num num, list_type auto den) noexcept
     {
         if constexpr(num.empty() || den.empty()) {
-            return make_ratio(num, den);
+            return ratio_info(num, den);
         }
         else {
             constexpr auto pos = find<at<Num, I>>(den);
             if constexpr(pos < den.size()) {
-                return make_ratio(remove<I>(num), remove<pos>(den));
+                return ratio_info(remove<I>(num), remove<pos>(den));
             }
             else {
-                return make_ratio(num, den);
+                return ratio_info(num, den);
             }
         }
     }
@@ -28,7 +39,7 @@ namespace posu::meta::detail {
     [[nodiscard]] constexpr auto ratio_reduce_impl(list_type auto num, list_type auto den) noexcept
     {
         if constexpr(num.empty() || den.empty()) {
-            return make_ratio(num, den);
+            return ratio_info(num, den);
         }
         else if constexpr(I == num.size()) {
             return ratio_reduce_impl<I - 1>(num, den);
@@ -44,20 +55,22 @@ namespace posu::meta::detail {
         }
     }
 
-    [[nodiscard]] constexpr auto ratio_reduce(list_type auto num, list_type auto den) noexcept
-    {
-        return ratio_reduce_impl<num.size()>(num, den);
-    }
-
 } // namespace posu::meta::detail
+
+[[nodiscard]] constexpr auto
+posu::meta::detail::ratio_reduce(list_type auto num, list_type auto den) noexcept
+{
+    return ratio_reduce_impl<num.size()>(num, den);
+}
 
 [[nodiscard]] constexpr auto
 posu::meta::detail::ratio_multiply(ratio_type auto lhs, ratio_type auto rhs) noexcept
 {
-    return detail::ratio_reduce(concatenate(lhs.num, rhs.num), concatenate(lhs.den, rhs.den));
+    return detail::make_ratio(
+        detail::ratio_reduce(concatenate(lhs.num, rhs.num), concatenate(lhs.den, rhs.den)));
 }
 
 [[nodiscard]] constexpr auto posu::meta::invert(ratio_type auto r) noexcept
 {
-    return detail::make_ratio(r.den, r.num);
+    return detail::make_ratio(detail::ratio_info(r.den, r.num));
 }
