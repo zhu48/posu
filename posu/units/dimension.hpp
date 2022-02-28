@@ -40,13 +40,18 @@ namespace posu::units {
     template<typename T>
     concept base_dimension = meta_constant<T, std::string_view> && enable_as_dimension<T>;
 
-    template<typename T>
-    struct is_base_dimension : public std::bool_constant<base_dimension<T>> {
-    };
+    namespace detail
+    {
+
+        template<typename T>
+        struct is_base_dimension : public std::bool_constant<base_dimension<T>> {
+        };
+
+    } // namespace detail
 
     template<typename T>
-    concept derived_dimension = meta::ratio_type<T> &&
-        meta::all_of<is_base_dimension>(T::num) && meta::all_of<is_base_dimension>(T::den);
+    concept derived_dimension = meta::ratio_type<T> && meta::all_of<detail::is_base_dimension>(
+        T::num) && meta::all_of<detail::is_base_dimension>(T::den);
 
     template<typename T>
     concept dimension = base_dimension<T> || derived_dimension<T>;
