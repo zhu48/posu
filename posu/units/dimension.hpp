@@ -11,10 +11,10 @@
 
 namespace posu::units {
 
-    template<typename T>
-    inline constexpr bool enable_as_dimension = false;
-
     namespace detail {
+
+        struct dimension_base {
+        };
 
         template<typename T, basic_string_literal Name>
         struct make_string_constant {
@@ -29,8 +29,13 @@ namespace posu::units {
 
     } // namespace detail
 
+    template<typename T>
+    inline constexpr bool enable_as_dimension = std::derived_from<T, detail::dimension_base>;
+
     template<typename T, basic_string_literal Name>
-    using make_dimension = detail::make_string_constant<T, Name>;
+    struct make_dimension : public detail::make_string_constant<T, Name>,
+                            public detail::dimension_base {
+    };
 
     template<typename T>
     concept base_dimension = meta_constant<T, std::string_view> && enable_as_dimension<T>;
@@ -48,9 +53,6 @@ namespace posu::units {
 
     struct dimensionless : public make_dimension<dimensionless, "dimensionless"> {
     };
-
-    template<>
-    inline constexpr bool enable_as_dimension<posu::units::dimensionless> = true;
 
     namespace detail {
 

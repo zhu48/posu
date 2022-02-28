@@ -188,6 +188,7 @@ set(
     POSU_UNITS_IPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/base_unit.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/derived_unit.ipp
+        ${CMAKE_CURRENT_LIST_DIR}/posu/units/ipp/dimension.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/amount_of_substance.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/angle.ipp
         ${CMAKE_CURRENT_LIST_DIR}/posu/units/system/si/ipp/electric_charge.ipp
@@ -208,6 +209,7 @@ set(
 set(
     POSU_UNITS_TEST_CPP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/test/units/test_base_unit.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test/units/test_dimension.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/test_units.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_acceleration.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_amount_of_substance.cpp
