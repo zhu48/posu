@@ -201,7 +201,7 @@ namespace posu::meta {
      */
     template<list_type List, std::size_t... I>
     [[nodiscard]] constexpr auto take(List l, std::index_sequence<I...> i = {}) noexcept
-        requires((I < l.size()) && ...);
+        requires((I < List::size()) && ...);
 
     /**
      * @brief Extract a sub-list from the given list.
@@ -215,7 +215,7 @@ namespace posu::meta {
      */
     template<std::size_t Begin, std::size_t End>
     [[nodiscard]] constexpr auto take_range(list_type auto l) noexcept
-        requires((Begin <= l.size()) && (End <= l.size()) && (Begin <= End));
+        requires((Begin <= decltype(l)::size()) && (End <= decltype(l)::size()) && (Begin <= End));
 
     /**
      * @brief Get the first `I` elements of the given list as a `list`.
@@ -224,7 +224,7 @@ namespace posu::meta {
      * @tparam I    The number of elements to get.
      */
     template<std::size_t N, typename... T>
-    [[nodiscard]] constexpr auto first(list<T...> l) noexcept requires(N <= l.size());
+    [[nodiscard]] constexpr auto first(list<T...> l) noexcept requires(N <= list<T...>::size());
 
     /**
      * @brief Get the last `I` elements of the given list as a `list`.
@@ -328,7 +328,7 @@ namespace posu::meta {
      */
     template<std::size_t... I>
     [[nodiscard]] constexpr auto remove(list_type auto l, std::index_sequence<I...> i = {}) noexcept
-        requires((I < l.size()) && ...);
+        requires((I < decltype(l)::size()) && ...);
 
     /**
      * @brief Remove a range of elements from the given type list.
