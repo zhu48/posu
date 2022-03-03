@@ -241,7 +241,35 @@ CATCH_TEST_CASE("dimension definition results in operable tag types", "[units][t
 
             CATCH_SECTION("division between derived dimensions")
             {
-                CATCH_SECTION("dimensionless result") {}
+                CATCH_SECTION("dimensionless result")
+                {
+                    CATCH_STATIC_REQUIRE(std::same_as<
+                                         units::dimension_divide<
+                                             meta::ratio<meta::list<num0, num1>, meta::list<>>,
+                                             meta::ratio<meta::list<num1, num0>, meta::list<>>>,
+                                         units::dimensionless>);
+                    CATCH_STATIC_REQUIRE(std::same_as<
+                                         units::dimension_divide<
+                                             meta::ratio<meta::list<>, meta::list<den0>>,
+                                             meta::ratio<meta::list<>, meta::list<den0>>>,
+                                         units::dimensionless>);
+                    CATCH_STATIC_REQUIRE(std::same_as<
+                                         units::dimension_divide<
+                                             meta::ratio<meta::list<num0>, meta::list<den0>>,
+                                             meta::ratio<meta::list<num0>, meta::list<den0>>>,
+                                         units::dimensionless>);
+                    CATCH_STATIC_REQUIRE(std::same_as<
+                                         units::dimension_divide<
+                                             meta::ratio<meta::list<num1, num0>, meta::list<den0>>,
+                                             meta::ratio<meta::list<num0, num1>, meta::list<den0>>>,
+                                         units::dimensionless>);
+                    CATCH_STATIC_REQUIRE(
+                        std::same_as<
+                            units::dimension_divide<
+                                meta::ratio<meta::list<num1, num0>, meta::list<den0, den1>>,
+                                meta::ratio<meta::list<num0, num1>, meta::list<den0, den1>>>,
+                            units::dimensionless>);
+                }
 
                 CATCH_SECTION("base dimension result") {}
 
