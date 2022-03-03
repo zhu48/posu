@@ -23,17 +23,17 @@ CATCH_TEST_CASE("dimension definition results in operable tag types", "[units][t
 
     CATCH_SECTION("dimensional analysis")
     {
+        struct num0 : public units::make_dimension<num0, "num0"> {
+        };
+        struct num1 : public units::make_dimension<num1, "num1"> {
+        };
+        struct den0 : public units::make_dimension<den0, "den0"> {
+        };
+        struct den1 : public units::make_dimension<den1, "den1"> {
+        };
+
         CATCH_SECTION("multiplication")
         {
-            struct num0 : public units::make_dimension<num0, "num0"> {
-            };
-            struct num1 : public units::make_dimension<num1, "num1"> {
-            };
-            struct den0 : public units::make_dimension<den0, "den0"> {
-            };
-            struct den1 : public units::make_dimension<den1, "den1"> {
-            };
-
             CATCH_SECTION("multiplication between base dimensions")
             {
                 using prod_t        = units::dimension_multiply<num0, num1>;
