@@ -121,7 +121,14 @@ CATCH_TEST_CASE("dimension definition results in operable tag types", "[units][t
                 }
             }
 
-            CATCH_SECTION("multiplication between base and derived dimensions") {}
+            CATCH_SECTION("multiplication between base and derived dimensions")
+            {
+                CATCH_SECTION("dimensionless result") {}
+
+                CATCH_SECTION("base dimension result") {}
+
+                CATCH_SECTION("derived dimension result") {}
+            }
         }
 
         CATCH_SECTION("division")
