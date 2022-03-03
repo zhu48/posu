@@ -15,12 +15,17 @@ CATCH_TEST_CASE("dimension definition results in operable tag types", "[units][t
 {
     CATCH_SECTION("make_dimension creates a dimension")
     {
-        struct test_dim : public units::make_dimension<test_dim, "test dimension"> {
-        };
+        CATCH_SECTION("base dimension")
+        {
+            struct test_dim : public units::make_dimension<test_dim, "test dimension"> {
+            };
 
-        CATCH_STATIC_REQUIRE(units::dimension<test_dim>);
-        CATCH_STATIC_REQUIRE(units::base_dimension<test_dim>);
-        CATCH_STATIC_REQUIRE(!units::derived_dimension<test_dim>);
+            CATCH_STATIC_REQUIRE(units::dimension<test_dim>);
+            CATCH_STATIC_REQUIRE(units::base_dimension<test_dim>);
+            CATCH_STATIC_REQUIRE(!units::derived_dimension<test_dim>);
+        }
+
+        CATCH_SECTION("derived dimension") {}
     }
 
     CATCH_SECTION("dimensional analysis")
