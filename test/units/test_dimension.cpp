@@ -50,50 +50,45 @@ CATCH_TEST_CASE("dimension definition results in operable tag types", "[units][t
             {
                 CATCH_SECTION("dimensionless result")
                 {
-                    CATCH_STATIC_REQUIRE(std::same_as<
-                                         units::dimension_multiply<
-                                             meta::ratio<meta::list<num0>>,
-                                             meta::ratio<meta::list<>, meta::list<num0>>>,
-                                         units::dimensionless>);
-                    CATCH_STATIC_REQUIRE(std::same_as<
-                                         units::dimension_multiply<
-                                             meta::ratio<meta::list<num1, num0>>,
-                                             meta::ratio<meta::list<>, meta::list<num0, num1>>>,
-                                         units::dimensionless>);
-                    CATCH_STATIC_REQUIRE(std::same_as<
-                                         units::dimension_multiply<
-                                             meta::ratio<meta::list<>, meta::list<num0, num1>>,
-                                             meta::ratio<meta::list<num1, num0>>>,
-                                         units::dimensionless>);
-                    CATCH_STATIC_REQUIRE(std::same_as<
-                                         units::dimension_multiply<
-                                             meta::ratio<meta::list<num0>, meta::list<num1>>,
-                                             meta::ratio<meta::list<num1>, meta::list<num0>>>,
-                                         units::dimensionless>);
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            meta::ratio<meta::list<num0>>,
+                            meta::ratio<meta::list<>, meta::list<num0>>>{} ==
+                        units::dimensionless{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            meta::ratio<meta::list<num1, num0>>,
+                            meta::ratio<meta::list<>, meta::list<num0, num1>>>{} ==
+                        units::dimensionless{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            meta::ratio<meta::list<>, meta::list<num0, num1>>,
+                            meta::ratio<meta::list<num1, num0>>>{} == units::dimensionless{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            meta::ratio<meta::list<num0>, meta::list<num1>>,
+                            meta::ratio<meta::list<num1>, meta::list<num0>>>{} ==
+                        units::dimensionless{});
                 }
 
                 CATCH_SECTION("base dimension result")
                 {
-                    CATCH_STATIC_REQUIRE(std::same_as<
-                                         units::dimension_multiply<
-                                             meta::ratio<meta::list<num0>>,
-                                             meta::ratio<meta::list<num1>, meta::list<num0>>>,
-                                         num1>);
-                    CATCH_STATIC_REQUIRE(std::same_as<
-                                         units::dimension_multiply<
-                                             meta::ratio<meta::list<num1, num0>>,
-                                             meta::ratio<meta::list<>, meta::list<num1>>>,
-                                         num0>);
-                    CATCH_STATIC_REQUIRE(std::same_as<
-                                         units::dimension_multiply<
-                                             meta::ratio<meta::list<>, meta::list<num0>>,
-                                             meta::ratio<meta::list<num1, num0>>>,
-                                         num1>);
-                    CATCH_STATIC_REQUIRE(std::same_as<
-                                         units::dimension_multiply<
-                                             meta::ratio<meta::list<num0>, meta::list<num1>>,
-                                             meta::ratio<meta::list<num1>>>,
-                                         num0>);
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            meta::ratio<meta::list<num0>>,
+                            meta::ratio<meta::list<num1>, meta::list<num0>>>{} == num1{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            meta::ratio<meta::list<num1, num0>>,
+                            meta::ratio<meta::list<>, meta::list<num1>>>{} == num0{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            meta::ratio<meta::list<>, meta::list<num0>>,
+                            meta::ratio<meta::list<num1, num0>>>{} == num1{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            meta::ratio<meta::list<num0>, meta::list<num1>>,
+                            meta::ratio<meta::list<num1>>>{} == num0{});
                 }
 
                 CATCH_SECTION("derived dimension result")
@@ -125,30 +120,27 @@ CATCH_TEST_CASE("dimension definition results in operable tag types", "[units][t
             {
                 CATCH_SECTION("dimensionless result")
                 {
-                    CATCH_STATIC_REQUIRE(std::same_as<
-                                         units::dimension_multiply<
-                                             num0,
-                                             meta::ratio<meta::list<>, meta::list<num0>>>,
-                                         units::dimensionless>);
-                    CATCH_STATIC_REQUIRE(std::same_as<
-                                         units::dimension_multiply<
-                                             meta::ratio<meta::list<>, meta::list<num0>>,
-                                             num0>,
-                                         units::dimensionless>);
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            num0,
+                            meta::ratio<meta::list<>, meta::list<num0>>>{} ==
+                        units::dimensionless{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            meta::ratio<meta::list<>, meta::list<num0>>,
+                            num0>{} == units::dimensionless{});
                 }
 
                 CATCH_SECTION("base dimension result")
                 {
-                    CATCH_STATIC_REQUIRE(std::same_as<
-                                         units::dimension_multiply<
-                                             num1,
-                                             meta::ratio<meta::list<num0>, meta::list<num1>>>,
-                                         num0>);
-                    CATCH_STATIC_REQUIRE(std::same_as<
-                                         units::dimension_multiply<
-                                             meta::ratio<meta::list<num0>, meta::list<num1>>,
-                                             num1>,
-                                         num0>);
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            num1,
+                            meta::ratio<meta::list<num0>, meta::list<num1>>>{} == num0{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            meta::ratio<meta::list<num0>, meta::list<num1>>,
+                            num1>{} == num0{});
                 }
 
                 CATCH_SECTION("derived dimension result")
@@ -228,14 +220,14 @@ CATCH_TEST_CASE("dimension definition results in operable tag types", "[units][t
                 CATCH_SECTION("dimensionless result")
                 {
                     CATCH_STATIC_REQUIRE(
-                        std::same_as<units::dimension_divide<num0, num0>, units::dimensionless>);
+                        units::dimension_divide<num0, num0>{} == units::dimensionless{});
                 }
 
                 CATCH_SECTION("derived dimension result")
                 {
-                    CATCH_STATIC_REQUIRE(std::same_as<
-                                         units::dimension_divide<num0, den0>,
-                                         meta::ratio<meta::list<num0>, meta::list<den0>>>);
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_divide<num0, den0>{} ==
+                        meta::ratio<meta::list<num0>, meta::list<den0>>{});
                 }
             }
 
@@ -243,64 +235,56 @@ CATCH_TEST_CASE("dimension definition results in operable tag types", "[units][t
             {
                 CATCH_SECTION("dimensionless result")
                 {
-                    CATCH_STATIC_REQUIRE(std::same_as<
-                                         units::dimension_divide<
-                                             meta::ratio<meta::list<num0, num1>, meta::list<>>,
-                                             meta::ratio<meta::list<num1, num0>, meta::list<>>>,
-                                         units::dimensionless>);
-                    CATCH_STATIC_REQUIRE(std::same_as<
-                                         units::dimension_divide<
-                                             meta::ratio<meta::list<>, meta::list<den0>>,
-                                             meta::ratio<meta::list<>, meta::list<den0>>>,
-                                         units::dimensionless>);
-                    CATCH_STATIC_REQUIRE(std::same_as<
-                                         units::dimension_divide<
-                                             meta::ratio<meta::list<num0>, meta::list<den0>>,
-                                             meta::ratio<meta::list<num0>, meta::list<den0>>>,
-                                         units::dimensionless>);
-                    CATCH_STATIC_REQUIRE(std::same_as<
-                                         units::dimension_divide<
-                                             meta::ratio<meta::list<num1, num0>, meta::list<den0>>,
-                                             meta::ratio<meta::list<num0, num1>, meta::list<den0>>>,
-                                         units::dimensionless>);
                     CATCH_STATIC_REQUIRE(
-                        std::same_as<
-                            units::dimension_divide<
-                                meta::ratio<meta::list<num1, num0>, meta::list<den0, den1>>,
-                                meta::ratio<meta::list<num0, num1>, meta::list<den0, den1>>>,
-                            units::dimensionless>);
+                        units::dimension_divide<
+                            meta::ratio<meta::list<num0, num1>, meta::list<>>,
+                            meta::ratio<meta::list<num1, num0>, meta::list<>>>{} ==
+                        units::dimensionless{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_divide<
+                            meta::ratio<meta::list<>, meta::list<den0>>,
+                            meta::ratio<meta::list<>, meta::list<den0>>>{} ==
+                        units::dimensionless{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_divide<
+                            meta::ratio<meta::list<num0>, meta::list<den0>>,
+                            meta::ratio<meta::list<num0>, meta::list<den0>>>{} ==
+                        units::dimensionless{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_divide<
+                            meta::ratio<meta::list<num1, num0>, meta::list<den0>>,
+                            meta::ratio<meta::list<num0, num1>, meta::list<den0>>>{} ==
+                        units::dimensionless{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_divide<
+                            meta::ratio<meta::list<num1, num0>, meta::list<den0, den1>>,
+                            meta::ratio<meta::list<num0, num1>, meta::list<den0, den1>>>{} ==
+                        units::dimensionless{});
                 }
 
                 CATCH_SECTION("base dimension result")
                 {
                     CATCH_STATIC_REQUIRE(
-                        std::same_as<
-                            units::dimension_divide<
-                                meta::ratio<meta::list<num0, num0, num1>, meta::list<>>,
-                                meta::ratio<meta::list<num1, num0>, meta::list<>>>,
-                            num0>);
-                    CATCH_STATIC_REQUIRE(std::same_as<
-                                         units::dimension_divide<
-                                             meta::ratio<meta::list<num1>, meta::list<den0>>,
-                                             meta::ratio<meta::list<>, meta::list<den0>>>,
-                                         num1>);
-                    CATCH_STATIC_REQUIRE(std::same_as<
-                                         units::dimension_divide<
-                                             meta::ratio<meta::list<den0, num0>, meta::list<den0>>,
-                                             meta::ratio<meta::list<num0>, meta::list<den0>>>,
-                                         den0>);
+                        units::dimension_divide<
+                            meta::ratio<meta::list<num0, num0, num1>, meta::list<>>,
+                            meta::ratio<meta::list<num1, num0>, meta::list<>>>{} == num0{});
                     CATCH_STATIC_REQUIRE(
-                        std::same_as<
-                            units::dimension_divide<
-                                meta::ratio<meta::list<den1, num1, num0>, meta::list<den0>>,
-                                meta::ratio<meta::list<num0, num1>, meta::list<den0>>>,
-                            den1>);
+                        units::dimension_divide<
+                            meta::ratio<meta::list<num1>, meta::list<den0>>,
+                            meta::ratio<meta::list<>, meta::list<den0>>>{} == num1{});
                     CATCH_STATIC_REQUIRE(
-                        std::same_as<
-                            units::dimension_divide<
-                                meta::ratio<meta::list<num0, num1, num0>, meta::list<den0, den1>>,
-                                meta::ratio<meta::list<num0, num1>, meta::list<den0, den1>>>,
-                            num0>);
+                        units::dimension_divide<
+                            meta::ratio<meta::list<den0, num0>, meta::list<den0>>,
+                            meta::ratio<meta::list<num0>, meta::list<den0>>>{} == den0{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_divide<
+                            meta::ratio<meta::list<den1, num1, num0>, meta::list<den0>>,
+                            meta::ratio<meta::list<num0, num1>, meta::list<den0>>>{} == den1{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_divide<
+                            meta::ratio<meta::list<num0, num1, num0>, meta::list<den0, den1>>,
+                            meta::ratio<meta::list<num0, num1>, meta::list<den0, den1>>>{} ==
+                        num0{});
                 }
 
                 CATCH_SECTION("derived dimension result")
@@ -347,15 +331,13 @@ CATCH_TEST_CASE("dimension definition results in operable tag types", "[units][t
             {
                 CATCH_SECTION("base dimension result")
                 {
-                    CATCH_STATIC_REQUIRE(std::same_as<
-                                         units::dimension_divide<
-                                             num0,
-                                             meta::ratio<meta::list<num0>, meta::list<num1>>>,
-                                         num1>);
                     CATCH_STATIC_REQUIRE(
-                        std::same_as<
-                            units::dimension_divide<meta::ratio<meta::list<num1, num1>>, num1>,
-                            num1>);
+                        units::dimension_divide<
+                            num0,
+                            meta::ratio<meta::list<num0>, meta::list<num1>>>{} == num1{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_divide<meta::ratio<meta::list<num1, num1>>, num1>{} ==
+                        num1{});
                 }
 
                 CATCH_SECTION("derived dimension result")
