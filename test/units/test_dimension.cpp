@@ -303,7 +303,44 @@ CATCH_TEST_CASE("dimension definition results in operable tag types", "[units][t
                             num0>);
                 }
 
-                CATCH_SECTION("derived dimension result") {}
+                CATCH_SECTION("derived dimension result")
+                {
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_divide<
+                            meta::ratio<meta::list<num1>, meta::list<den0>>,
+                            meta::ratio<meta::list<>, meta::list<num0, den0>>>{} ==
+                        meta::ratio<meta::list<num0, num1>, meta::list<>>{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_divide<
+                            meta::ratio<meta::list<>, meta::list<den1>>,
+                            meta::ratio<meta::list<den0>, meta::list<den1>>>{} ==
+                        meta::ratio<meta::list<>, meta::list<den0>>{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_divide<
+                            meta::ratio<meta::list<>, meta::list<den0>>,
+                            meta::ratio<meta::list<>, meta::list<num0>>>{} ==
+                        meta::ratio<meta::list<num0>, meta::list<den0>>{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_divide<
+                            meta::ratio<meta::list<num1>, meta::list<den0>>,
+                            meta::ratio<meta::list<>, meta::list<num0>>>{} ==
+                        meta::ratio<meta::list<num0, num1>, meta::list<den0>>{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_divide<
+                            meta::ratio<meta::list<num0, num1>, meta::list<den0, den1>>,
+                            meta::ratio<meta::list<num1, num0>, meta::list<>>>{} ==
+                        meta::ratio<meta::list<>, meta::list<den0, den1>>{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_divide<
+                            meta::ratio<meta::list<>, meta::list<den1>>,
+                            meta::ratio<meta::list<den0>, meta::list<num0>>>{} ==
+                        meta::ratio<meta::list<num0>, meta::list<den0, den1>>{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_divide<
+                            meta::ratio<meta::list<>, meta::list<den1, den0>>,
+                            meta::ratio<meta::list<>, meta::list<num0, num1>>>{} ==
+                        meta::ratio<meta::list<num0, num1>, meta::list<den0, den1>>{});
+                }
             }
 
             CATCH_SECTION("division between base and derived dimensions")
