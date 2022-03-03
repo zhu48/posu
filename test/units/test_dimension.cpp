@@ -271,7 +271,37 @@ CATCH_TEST_CASE("dimension definition results in operable tag types", "[units][t
                             units::dimensionless>);
                 }
 
-                CATCH_SECTION("base dimension result") {}
+                CATCH_SECTION("base dimension result")
+                {
+                    CATCH_STATIC_REQUIRE(
+                        std::same_as<
+                            units::dimension_divide<
+                                meta::ratio<meta::list<num0, num0, num1>, meta::list<>>,
+                                meta::ratio<meta::list<num1, num0>, meta::list<>>>,
+                            num0>);
+                    CATCH_STATIC_REQUIRE(std::same_as<
+                                         units::dimension_divide<
+                                             meta::ratio<meta::list<num1>, meta::list<den0>>,
+                                             meta::ratio<meta::list<>, meta::list<den0>>>,
+                                         num1>);
+                    CATCH_STATIC_REQUIRE(std::same_as<
+                                         units::dimension_divide<
+                                             meta::ratio<meta::list<den0, num0>, meta::list<den0>>,
+                                             meta::ratio<meta::list<num0>, meta::list<den0>>>,
+                                         den0>);
+                    CATCH_STATIC_REQUIRE(
+                        std::same_as<
+                            units::dimension_divide<
+                                meta::ratio<meta::list<den1, num1, num0>, meta::list<den0>>,
+                                meta::ratio<meta::list<num0, num1>, meta::list<den0>>>,
+                            den1>);
+                    CATCH_STATIC_REQUIRE(
+                        std::same_as<
+                            units::dimension_divide<
+                                meta::ratio<meta::list<num0, num1, num0>, meta::list<den0, den1>>,
+                                meta::ratio<meta::list<num0, num1>, meta::list<den0, den1>>>,
+                            num0>);
+                }
 
                 CATCH_SECTION("derived dimension result") {}
             }
