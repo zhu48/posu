@@ -130,6 +130,11 @@ CATCH_TEST_CASE("dimension definition results in operable tag types", "[units][t
                                              num0,
                                              meta::ratio<meta::list<>, meta::list<num0>>>,
                                          units::dimensionless>);
+                    CATCH_STATIC_REQUIRE(std::same_as<
+                                         units::dimension_multiply<
+                                             meta::ratio<meta::list<>, meta::list<num0>>,
+                                             num0>,
+                                         units::dimensionless>);
                 }
 
                 CATCH_SECTION("base dimension result") {}
