@@ -223,11 +223,30 @@ CATCH_TEST_CASE("dimension definition results in operable tag types", "[units][t
 
         CATCH_SECTION("division")
         {
-            CATCH_SECTION("division between base dimensions") {}
+            CATCH_SECTION("division between base dimensions")
+            {
+                CATCH_SECTION("dimensionless result") {}
 
-            CATCH_SECTION("division between derived dimensions") {}
+                CATCH_SECTION("derived dimension result") {}
+            }
 
-            CATCH_SECTION("division between base and derived dimensions") {}
+            CATCH_SECTION("division between derived dimensions")
+            {
+                CATCH_SECTION("dimensionless result") {}
+
+                CATCH_SECTION("base dimension result") {}
+
+                CATCH_SECTION("derived dimension result") {}
+            }
+
+            CATCH_SECTION("division between base and derived dimensions")
+            {
+                CATCH_SECTION("dimensionless result") {}
+
+                CATCH_SECTION("base dimension result") {}
+
+                CATCH_SECTION("derived dimension result") {}
+            }
         }
     }
 }
