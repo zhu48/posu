@@ -225,9 +225,18 @@ CATCH_TEST_CASE("dimension definition results in operable tag types", "[units][t
         {
             CATCH_SECTION("division between base dimensions")
             {
-                CATCH_SECTION("dimensionless result") {}
+                CATCH_SECTION("dimensionless result")
+                {
+                    CATCH_STATIC_REQUIRE(
+                        std::same_as<units::dimension_divide<num0, num0>, units::dimensionless>);
+                }
 
-                CATCH_SECTION("derived dimension result") {}
+                CATCH_SECTION("derived dimension result")
+                {
+                    CATCH_STATIC_REQUIRE(std::same_as<
+                                         units::dimension_divide<num0, den0>,
+                                         meta::ratio<meta::list<num0>, meta::list<den0>>>);
+                }
             }
 
             CATCH_SECTION("division between derived dimensions")
