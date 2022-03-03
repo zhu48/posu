@@ -151,7 +151,73 @@ CATCH_TEST_CASE("dimension definition results in operable tag types", "[units][t
                                          num0>);
                 }
 
-                CATCH_SECTION("derived dimension result") {}
+                CATCH_SECTION("derived dimension result")
+                {
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            num0,
+                            meta::ratio<meta::list<>, meta::list<num0, den0>>>{} ==
+                        meta::ratio<meta::list<>, meta::list<den0>>{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            meta::ratio<meta::list<>, meta::list<num0, den0>>,
+                            num0>{} == meta::ratio<meta::list<>, meta::list<den0>>{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            num1,
+                            meta::ratio<meta::list<>, meta::list<den0, num1, den1>>>{} ==
+                        meta::ratio<meta::list<>, meta::list<den1, den0>>{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            meta::ratio<meta::list<>, meta::list<den0, num1, den1>>,
+                            num1>{} == meta::ratio<meta::list<>, meta::list<den1, den0>>{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            num0,
+                            meta::ratio<meta::list<>, meta::list<den1>>>{} ==
+                        meta::ratio<meta::list<num0>, meta::list<den1>>{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            meta::ratio<meta::list<>, meta::list<den1>>,
+                            num0>{} == meta::ratio<meta::list<num0>, meta::list<den1>>{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            num1,
+                            meta::ratio<meta::list<num0>, meta::list<den1, den0, num1>>>{} ==
+                        meta::ratio<meta::list<num0>, meta::list<den0, den1>>{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            meta::ratio<meta::list<num0>, meta::list<den1, den0, num1>>,
+                            num1>{} == meta::ratio<meta::list<num0>, meta::list<den0, den1>>{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            num0,
+                            meta::ratio<meta::list<num1, num0>, meta::list<num0>>>{} ==
+                        meta::ratio<meta::list<num1, num0>>{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            meta::ratio<meta::list<num1, num0>, meta::list<num0>>,
+                            num0>{} == meta::ratio<meta::list<num1, num0>>{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            num1,
+                            meta::ratio<meta::list<num0>, meta::list<den0>>>{} ==
+                        meta::ratio<meta::list<num0, num1>, meta::list<den0>>{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            meta::ratio<meta::list<num0>, meta::list<den0>>,
+                            num1>{} == meta::ratio<meta::list<num0, num1>, meta::list<den0>>{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            num0,
+                            meta::ratio<meta::list<num1>, meta::list<den1, den0>>>{} ==
+                        meta::ratio<meta::list<num0, num1>, meta::list<den0, den1>>{});
+                    CATCH_STATIC_REQUIRE(
+                        units::dimension_multiply<
+                            meta::ratio<meta::list<num1>, meta::list<den1, den0>>,
+                            num0>{} ==
+                        meta::ratio<meta::list<num0, num1>, meta::list<den0, den1>>{});
+                }
             }
         }
 
