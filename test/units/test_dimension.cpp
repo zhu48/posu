@@ -19,6 +19,8 @@ CATCH_TEST_CASE("dimension definition results in operable tag types", "[units][t
         };
 
         CATCH_STATIC_REQUIRE(units::dimension<test_dim>);
+        CATCH_STATIC_REQUIRE(units::base_dimension<test_dim>);
+        CATCH_STATIC_REQUIRE(!units::derived_dimension<test_dim>);
     }
 
     CATCH_SECTION("dimensional analysis")
