@@ -9,7 +9,7 @@ namespace posu::units {
     struct force {
         using type       = force;
         using value_type = std::string_view;
-        using dimensions = dimension_multiply<dimension_t<mass>, dimension_t<acceleration>>;
+        using dimensions = decltype(dimension_t<mass>{} * dimension_t<acceleration>{});
 
         static constexpr auto value = std::string_view{"force"};
 

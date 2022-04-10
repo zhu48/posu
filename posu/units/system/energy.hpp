@@ -8,7 +8,7 @@ namespace posu::units {
     struct energy {
         using type       = energy;
         using value_type = std::string_view;
-        using dimensions = dimension_multiply<dimension_t<force>, dimension_t<length>>;
+        using dimensions = decltype(dimension_t<force>{} * dimension_t<length>{});
 
         static constexpr auto value = std::string_view{"energy"};
 

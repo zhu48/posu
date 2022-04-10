@@ -11,7 +11,7 @@ namespace posu::units {
     struct electric_charge {
         using type       = electric_charge;
         using value_type = std::string_view;
-        using dimensions = dimension_multiply<electric_current, time>;
+        using dimensions = decltype(electric_current{} * time{});
 
         static constexpr auto value = std::string_view{"electric_charge"};
 

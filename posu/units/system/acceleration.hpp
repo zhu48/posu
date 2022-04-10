@@ -8,7 +8,7 @@ namespace posu::units {
     struct acceleration {
         using type       = acceleration;
         using value_type = std::string_view;
-        using dimensions = dimension_divide<length, dimension_multiply<time, time>>;
+        using dimensions = decltype(length{} / (time{} * time{}));
 
         static constexpr auto value = std::string_view{"acceleration"};
 

@@ -10,7 +10,7 @@ namespace posu::units {
     struct angle {
         using type       = angle;
         using value_type = std::string_view;
-        using dimensions = dimension_divide<length, length>;
+        using dimensions = decltype(length{} / length{});
 
         static constexpr auto value = std::string_view{"angle"};
 

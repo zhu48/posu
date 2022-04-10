@@ -10,7 +10,7 @@ namespace posu::units {
     struct solid_angle {
         using type       = solid_angle;
         using value_type = std::string_view;
-        using dimensions = dimension_multiply<dimension_t<angle>, dimension_t<angle>>;
+        using dimensions = decltype(dimension_t<angle>{} * dimension_t<angle>{});
 
         static constexpr auto value = std::string_view{"solid_angle"};
 

@@ -11,8 +11,7 @@ namespace posu::units {
     struct luminous_flux {
         using type       = luminous_flux;
         using value_type = std::string_view;
-        using dimensions =
-            dimension_multiply<dimension_t<luminous_intensity>, dimension_t<solid_angle>>;
+        using dimensions = decltype(dimension_t<luminous_intensity>{} * dimension_t<solid_angle>{});
 
         static constexpr auto value = std::string_view{"luminous flux"};
 

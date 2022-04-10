@@ -11,7 +11,7 @@ namespace posu::units {
     struct power {
         using type       = power;
         using value_type = std::string_view;
-        using dimensions = dimension_divide<dimension_t<energy>, dimension_t<time>>;
+        using dimensions = decltype(dimension_t<energy>{} / dimension_t<time>{});
 
         static constexpr auto value = std::string_view{"power"};
 

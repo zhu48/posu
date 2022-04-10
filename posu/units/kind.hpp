@@ -103,12 +103,12 @@ namespace posu::units {
 
     template<kind Lhs, kind Rhs>
     struct kind_multiply_result {
-        using type = unknown_kind<dimension_multiply<dimension_t<Lhs>, dimension_t<Rhs>>>;
+        using type = unknown_kind<decltype(dimension_t<Lhs>{} * dimension_t<Rhs>{})>;
     };
 
     template<kind Num, kind Den>
     struct kind_divide_result {
-        using type = unknown_kind<dimension_divide<dimension_t<Num>, dimension_t<Den>>>;
+        using type = unknown_kind<decltype(dimension_t<Num>{} / dimension_t<Den>{})>;
     };
 
     template<kind Lhs, kind Rhs>
