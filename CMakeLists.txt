@@ -208,27 +208,27 @@ set(
 )
 set(
     POSU_UNITS_TEST_CPP_FILES
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/test_base_unit.cpp
+        # ${CMAKE_CURRENT_LIST_DIR}/test/units/test_base_unit.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test/units/test_dimension.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/test_units.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_acceleration.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_amount_of_substance.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_angle.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_defining_constants.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_electric_charge.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_electric_current.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_energy.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_force.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_frequency.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_length.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_luminous_flux.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_luminous_intensity.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_mass.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_power.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_solid_angle.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_speed.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_thermodynamic_temperature.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_time.cpp
+        # ${CMAKE_CURRENT_LIST_DIR}/test/units/test_units.cpp
+        # ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_acceleration.cpp
+        # ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_amount_of_substance.cpp
+        # ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_angle.cpp
+        # ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_defining_constants.cpp
+        # ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_electric_charge.cpp
+        # ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_electric_current.cpp
+        # ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_energy.cpp
+        # ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_force.cpp
+        # ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_frequency.cpp
+        # ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_length.cpp
+        # ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_luminous_flux.cpp
+        # ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_luminous_intensity.cpp
+        # ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_mass.cpp
+        # ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_power.cpp
+        # ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_solid_angle.cpp
+        # ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_speed.cpp
+        # ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_thermodynamic_temperature.cpp
+        # ${CMAKE_CURRENT_LIST_DIR}/test/units/system/si/test_time.cpp
 )
 
 set(
