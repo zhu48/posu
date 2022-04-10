@@ -125,6 +125,14 @@ namespace posu::units {
     template<kind Kind, ratio_type Period>
     inline constexpr bool enable_as_unit<unknown_unit<Kind, Period>> = true;
 
+    namespace detail {
+
+        [[nodiscard]] constexpr auto unit_multiply_impl(unit auto lhs, unit auto rhs) noexcept;
+        [[nodiscard]] constexpr auto unit_divide_impl(unit auto lhs, unit auto rhs) noexcept;
+        [[nodiscard]] constexpr auto unit_common_impl(unit auto lhs, unit auto rhs) noexcept;
+
+    } // namespace detail
+
     /**
      * @brief Multiply two units of measure together.
      *
@@ -132,9 +140,7 @@ namespace posu::units {
      * @tparam Rhs The right-hand-side unit tag type.
      */
     template<unit Lhs, unit Rhs>
-    using unit_multiply = unknown_unit<
-        kind_multiply<kind_t<Lhs>, kind_t<Rhs>>,
-        ratio_multiply<period_t<Lhs>, period_t<Rhs>>>;
+    using unit_multiply = decltype(detail::unit_multiply_impl(Lhs{}, Rhs{}));
 
     /**
      * @brief Divide one unit of measure into another.
@@ -143,9 +149,7 @@ namespace posu::units {
      * @tparam Rhs The right-hand-side unit tag type.
      */
     template<unit Num, unit Den>
-    using unit_divide = unknown_unit<
-        kind_divide<kind_t<Num>, kind_t<Den>>,
-        ratio_divide<period_t<Num>, period_t<Den>>>;
+    using unit_divide = decltype(detail::unit_divide_impl(Num{}, Den{}));
 
     /**
      * @brief Create an anonymous unit capable of losslessly representing values of two other units.
@@ -162,5 +166,7 @@ namespace posu::units {
         common_ratio<period_t<Lhs>, period_t<Rhs>>>;
 
 } // namespace posu::units
+
+#include "posu/units/ipp/unit_of_measure.ipp"
 
 #endif // #ifndef POSU_UNITS_UNIT_OF_MEASURE_HPP

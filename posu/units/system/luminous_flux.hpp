@@ -23,21 +23,6 @@ namespace posu::units {
     template<>
     inline constexpr bool enable_as_kind<luminous_flux> = true;
 
-    template<>
-    struct kind_multiply_result<luminous_intensity, solid_angle> {
-        using type = luminous_flux;
-    };
-
-    template<>
-    struct kind_divide_result<luminous_flux, luminous_intensity> {
-        using type = solid_angle;
-    };
-
-    template<>
-    struct kind_divide_result<luminous_flux, solid_angle> {
-        using type = luminous_intensity;
-    };
-
 } // namespace posu::units
 
 #endif // #ifndef POSU_UNITS_SYSTEM_LUMINOUS_FLUX_HPP

@@ -21,16 +21,6 @@ namespace posu::units {
     template<>
     inline constexpr bool enable_as_kind<solid_angle> = true;
 
-    template<>
-    struct kind_multiply_result<angle, angle> {
-        using type = solid_angle;
-    };
-
-    template<>
-    struct kind_divide_result<solid_angle, angle> {
-        using type = angle;
-    };
-
 } // namespace posu::units
 
 #endif // #ifndef POSU_UNITS_SYSTEM_SOLID_ANGLE_HPP

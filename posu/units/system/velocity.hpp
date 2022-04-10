@@ -22,21 +22,6 @@ namespace posu::units {
     template<>
     inline constexpr bool enable_as_kind<velocity> = true;
 
-    template<>
-    struct kind_multiply_result<velocity, time> {
-        using type = length;
-    };
-
-    template<>
-    struct kind_multiply_result<time, velocity> {
-        using type = length;
-    };
-
-    template<>
-    struct kind_divide_result<length, time> {
-        using type = velocity;
-    };
-
 } // namespace posu::units
 
 #endif // #ifndef POSU_UNITS_SYSTEM_VELOCITY_HPP

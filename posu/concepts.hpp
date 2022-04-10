@@ -1,9 +1,10 @@
 #ifndef POSU_CONCEPTS_HPP
 #define POSU_CONCEPTS_HPP
 
-#include <concepts>
 #include <cstddef>
 #include <cstdint>
+
+#include <concepts>
 #include <iterator>
 
 namespace posu {

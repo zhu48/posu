@@ -21,21 +21,6 @@ namespace posu::units {
     template<>
     inline constexpr bool enable_as_kind<frequency> = true;
 
-    template<>
-    struct kind_multiply_result<frequency, time> {
-        using type = scaler;
-    };
-
-    template<>
-    struct kind_multiply_result<time, frequency> {
-        using type = scaler;
-    };
-
-    template<>
-    struct kind_divide_result<scaler, time> {
-        using type = frequency;
-    };
-
 } // namespace posu::units
 
 #endif // #ifndef POSU_UNITS_SYSTEM_FREQUENCY_HPP

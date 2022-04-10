@@ -82,16 +82,16 @@ CATCH_TEST_CASE("acceleration from division", "[construct][expression][accelerat
     CATCH_SECTION("integer literals")
     {
         CATCH_CHECK(5_m / (1_s * 1_s) == 5 * (m / (s * s)));
-        CATCH_CHECK((5_m / 1_s) / 1_s == units::of<units::acceleration>(5 * (m / (s * s))));
+        CATCH_CHECK((5_m / 1_s) / 1_s == (5 * (m / (s * s))));
         CATCH_CHECK(2_mm / (8_s * 1000_s) == 0 * (m / (s * s)));
-        CATCH_CHECK((2_mm / 8_s) / 1000_s == units::of<units::acceleration>(0 * (m / (s * s))));
+        CATCH_CHECK((2_mm / 8_s) / 1000_s == (0 * (m / (s * s))));
     }
 
     CATCH_SECTION("floating point literals")
     {
-        CATCH_CHECK(units::of<units::velocity>((2.5_km / (50_ms * 100_s)) * 5_s) == 2.5 * (km / s));
+        CATCH_CHECK(((2.5_km / (50_ms * 100_s)) * 5_s) == 2.5 * (km / s));
         CATCH_CHECK(((2.5_km / 50_ms) / 100_s) * 5_s == 2.5 * (km / s));
-        CATCH_CHECK(units::of<units::velocity>((2_mm / (8.0_s * 1_ks)) * 5_s) == 1.25 * (um / s));
+        CATCH_CHECK(((2_mm / (8.0_s * 1_ks)) * 5_s) == 1.25 * (um / s));
         CATCH_CHECK(((2_mm / 8.0_s) / 1_ks) * 5_s == 1.25 * (um / s));
     }
 }
@@ -106,24 +106,24 @@ CATCH_TEST_CASE("velocity from multiplication", "[construct][expression][acceler
     CATCH_SECTION("integer literals")
     {
         CATCH_CHECK(5 * (m / s / s) * 1_s == 5_m / s);
-        CATCH_CHECK(units::of<units::velocity>(5 * (m / (s * s)) * 1_s) == 5_m / s);
+        CATCH_CHECK((5 * (m / (s * s)) * 1_s) == 5_m / s);
         CATCH_CHECK(1_s * 5 * (m / s / s) == 5_m / s);
-        CATCH_CHECK(units::of<units::velocity>(1_s * 5 * (m / (s * s))) == 5_m / s);
+        CATCH_CHECK((1_s * 5 * (m / (s * s))) == 5_m / s);
         CATCH_CHECK(32 * (m / s / s) * 8_ks == 256_km / s);
-        CATCH_CHECK(units::of<units::velocity>(32 * (m / (s * s)) * 8_ks) == 256_km / s);
+        CATCH_CHECK((32 * (m / (s * s)) * 8_ks) == 256_km / s);
         CATCH_CHECK(8_ks * 32 * (m / s / s) == 256_km / s);
-        CATCH_CHECK(units::of<units::velocity>(8_ks * 32 * (m / (s * s))) == 256_km / s);
+        CATCH_CHECK((8_ks * 32 * (m / (s * s))) == 256_km / s);
     }
 
     CATCH_SECTION("floating point literals")
     {
         CATCH_CHECK(0.5 * (km / s / s) * 5_s == 2.5_km / s);
-        CATCH_CHECK(units::of<units::velocity>(0.5 * (km / (s * s)) * 5_s) == 2.5_km / s);
+        CATCH_CHECK((0.5 * (km / (s * s)) * 5_s) == 2.5_km / s);
         CATCH_CHECK(5_s * 0.5 * (km / s / s) == 2.5_km / s);
-        CATCH_CHECK(units::of<units::velocity>(5_s * 0.5 * (km / (s * s))) == 2.5_km / s);
+        CATCH_CHECK((5_s * 0.5 * (km / (s * s))) == 2.5_km / s);
         CATCH_CHECK(0.25 * (um / s / s) * 8.0_ks == 2_mm / s);
-        CATCH_CHECK(units::of<units::velocity>(0.25 * (um / (s * s)) * 8.0_ks) == 2_mm / s);
+        CATCH_CHECK((0.25 * (um / (s * s)) * 8.0_ks) == 2_mm / s);
         CATCH_CHECK(8.0_ks * 0.25 * (um / s / s) == 2_mm / s);
-        CATCH_CHECK(units::of<units::velocity>(8.0_ks * 0.25 * (um / (s * s))) == 2_mm / s);
+        CATCH_CHECK((8.0_ks * 0.25 * (um / (s * s))) == 2_mm / s);
     }
 }

@@ -97,17 +97,17 @@ CATCH_TEST_CASE("length from multiplication", "[construct][expression][speed][si
 
     CATCH_SECTION("integer literals")
     {
-        CATCH_CHECK(5 * (m / s) * 1_s == 5_m);
-        CATCH_CHECK(1_s * 5 * (m / s) == 5_m);
-        CATCH_CHECK(32 * (m / s) * 8_ks == 256_km);
-        CATCH_CHECK(8_ks * 32 * (m / s) == 256_km);
+        CATCH_CHECK(units::of<si::length>(5 * (m / s) * 1_s) == 5_m);
+        CATCH_CHECK(units::of<si::length>(1_s * 5 * (m / s)) == 5_m);
+        CATCH_CHECK(units::of<si::length>(32 * (m / s) * 8_ks) == 256_km);
+        CATCH_CHECK(units::of<si::length>(8_ks * 32 * (m / s)) == 256_km);
     }
 
     CATCH_SECTION("floating point literals")
     {
-        CATCH_CHECK(0.5 * (km / s) * 5_s == 2.5_km);
-        CATCH_CHECK(5_s * 0.5 * (km / s) == 2.5_km);
-        CATCH_CHECK(0.25 * (um / s) * 8.0_ks == 2_mm);
-        CATCH_CHECK(8.0_ks * 0.25 * (um / s) == 2_mm);
+        CATCH_CHECK(units::of<si::length>(0.5 * (km / s) * 5_s) == 2.5_km);
+        CATCH_CHECK(units::of<si::length>(5_s * 0.5 * (km / s)) == 2.5_km);
+        CATCH_CHECK(units::of<si::length>(0.25 * (um / s) * 8.0_ks) == 2_mm);
+        CATCH_CHECK(units::of<si::length>(8.0_ks * 0.25 * (um / s)) == 2_mm);
     }
 }

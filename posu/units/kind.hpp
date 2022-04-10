@@ -96,25 +96,19 @@ namespace posu::units {
             std::same_as<Lhs, Rhs> || std::same_as<Lhs, unknown_kind<dimension_t<Rhs>>> ||
             std::same_as<Rhs, unknown_kind<dimension_t<Lhs>>>;
 
+        [[nodiscard]] constexpr auto kind_multiply_impl(kind auto lhs, kind auto rhs) noexcept;
+        [[nodiscard]] constexpr auto kind_divide_impl(kind auto lhs, kind auto rhs) noexcept;
+        [[nodiscard]] constexpr auto kind_common_impl(kind auto lhs, kind auto rhs) noexcept;
+
     } // namespace detail
 
     template<typename Lhs, typename Rhs>
     concept kind_comparable_with = kind<Lhs> && kind<Rhs> && detail::kind_compatible_with<Lhs, Rhs>;
 
     template<kind Lhs, kind Rhs>
-    struct kind_multiply_result {
-        using type = unknown_kind<dimension_multiply<dimension_t<Lhs>, dimension_t<Rhs>>>;
-    };
-
+    using kind_multiply = decltype(detail::kind_multiply_impl(Lhs{}, Rhs{}));
     template<kind Num, kind Den>
-    struct kind_divide_result {
-        using type = unknown_kind<dimension_divide<dimension_t<Num>, dimension_t<Den>>>;
-    };
-
-    template<kind Lhs, kind Rhs>
-    using kind_multiply = typename kind_multiply_result<Lhs, Rhs>::type;
-    template<kind Lhs, kind Rhs>
-    using kind_divide = typename kind_divide_result<Lhs, Rhs>::type;
+    using kind_divide = decltype(detail::kind_divide_impl(Num{}, Den{}));
 
     template<kind Lhs, kind_comparable_with<Lhs> Rhs>
     struct common_kind_result {
@@ -130,5 +124,7 @@ namespace posu::units {
     using common_kind = typename common_kind_result<Lhs, Rhs>::type;
 
 } // namespace posu::units
+
+#include "posu/units/ipp/kind.ipp"
 
 #endif // #ifndef POSU_UNITS_KIND_HPP

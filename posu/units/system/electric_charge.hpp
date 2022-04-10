@@ -22,21 +22,6 @@ namespace posu::units {
     template<>
     inline constexpr bool enable_as_kind<electric_charge> = true;
 
-    template<>
-    struct kind_multiply_result<electric_current, time> {
-        using type = electric_charge;
-    };
-
-    template<>
-    struct kind_divide_result<electric_charge, time> {
-        using type = electric_current;
-    };
-
-    template<>
-    struct kind_divide_result<electric_charge, electric_current> {
-        using type = time;
-    };
-
 } // namespace posu::units
 
 #endif // #ifndef POSU_UNITS_SYSTEM_ELECTRIC_CHARGE_HPP

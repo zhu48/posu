@@ -77,32 +77,36 @@ IncludeBlocks:   Regroup
 IncludeCategories:
   - Regex:           '^[<"](catch2|gtest|gmock)/.*\.((h)|(hpp))'
     Priority:        1
-    SortPriority:    8
+    SortPriority:    9
     CaseSensitive:   false
   - Regex:           '^[<"]posu/[a-zA-Z0-9_]+/[a-zA-Z0-9_]+/[a-zA-Z0-9_]+/.*\.hpp'
     Priority:        2
-    SortPriority:    5
+    SortPriority:    6
   - Regex:           '^[<"]posu/[a-zA-Z0-9_]+/[a-zA-Z0-9_]+/.*\.hpp'
     Priority:        3
-    SortPriority:    4
+    SortPriority:    5
   - Regex:           '^[<"]posu/[a-zA-Z0-9_]+/.*\.hpp'
     Priority:        4
-    SortPriority:    3
+    SortPriority:    4
   - Regex:           '^[<"]posu/.*\.hpp'
     Priority:        5
-    SortPriority:    2
+    SortPriority:    3
     CaseSensitive:   false
   - Regex:           '^<.*\.((h)|(hpp))'
     Priority:        6
-    SortPriority:    6
+    SortPriority:    7
     CaseSensitive:   false
-  - Regex:           '^<.*'
+  - Regex:           '^<c(assert|ctype|errno|fenv|float|inttypes|limits|locale|math|setjmp|signal|stdarg|stddef|stdint|stdio|stdlib|string|time|uchar|wchar|wctype)>'
     Priority:        7
     SortPriority:    1
+    CaseSensitive:   true
+  - Regex:           '^<.*'
+    Priority:        8
+    SortPriority:    2
     CaseSensitive:   false
   - Regex:           '.*'
-    Priority:        8
-    SortPriority:    7
+    Priority:        9
+    SortPriority:    8
     CaseSensitive:   false
 IncludeIsMainRegex: '(Test)?$'
 IncludeIsMainSourceRegex: ''

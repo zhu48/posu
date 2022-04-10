@@ -20,26 +20,6 @@ namespace posu::units {
     template<>
     inline constexpr bool enable_as_kind<force> = true;
 
-    template<>
-    struct kind_multiply_result<mass, acceleration> {
-        using type = force;
-    };
-
-    template<>
-    struct kind_multiply_result<acceleration, mass> {
-        using type = force;
-    };
-
-    template<>
-    struct kind_divide_result<force, acceleration> {
-        using type = mass;
-    };
-
-    template<>
-    struct kind_divide_result<force, mass> {
-        using type = acceleration;
-    };
-
 } // namespace posu::units
 
 #endif // #ifndef POSU_UNITS_SYSTEM_FORCE_HPP

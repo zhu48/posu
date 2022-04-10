@@ -54,16 +54,19 @@ CATCH_TEST_CASE("frequency from division", "[construct][expression][frequency][s
     using namespace posu::units::si::chrono_literals;
     using namespace posu::units::si::frequency_literals;
 
+    namespace units = posu::units;
+    namespace si    = units::si;
+
     CATCH_SECTION("integer literals")
     {
-        CATCH_CHECK(5 / 1_s == 5_Hz);
-        CATCH_CHECK(2 / 8_ks == 0_Hz);
+        CATCH_CHECK(units::of<si::frequency>(5 / 1_s) == 5_Hz);
+        CATCH_CHECK(units::of<si::frequency>(2 / 8_ks) == 0_Hz);
     }
 
     CATCH_SECTION("floating point literals")
     {
-        CATCH_CHECK(2500 / 5.0_s == 0.5_kHz);
-        CATCH_CHECK(0.002 / 8.0_ks == 0.25_uHz);
+        CATCH_CHECK(units::of<si::frequency>(2500 / 5.0_s) == 0.5_kHz);
+        CATCH_CHECK(units::of<si::frequency>(0.002 / 8.0_ks) == 0.25_uHz);
     }
 }
 

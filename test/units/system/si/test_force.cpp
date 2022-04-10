@@ -86,22 +86,22 @@ CATCH_TEST_CASE("force from multiplication", "[construct][expression][force][si]
     using namespace si::force_literals;
     using namespace si::chrono_references;
 
-    CATCH_CHECK(1_fN == 1_kg * (fm / s / s));
-    CATCH_CHECK(1_pN == 1_kg * (pm / s / s));
-    CATCH_CHECK(1_nN == 1_kg * (nm / s / s));
-    CATCH_CHECK(1_uN == 1_kg * (um / s / s));
-    CATCH_CHECK(1_mN == 1_kg * (mm / s / s));
-    CATCH_CHECK(1_cN == 1_kg * (cm / s / s));
-    CATCH_CHECK(1_dN == 1_kg * (dm / s / s));
-    CATCH_CHECK(1_N == 1_kg * (m / s / s));
-    CATCH_CHECK(1_daN == 1_kg * (dam / s / s));
-    CATCH_CHECK(1_hN == 1_kg * (hm / s / s));
-    CATCH_CHECK(1_kN == 1_kg * (km / s / s));
-    CATCH_CHECK(1_MN == 1_kg * (Mm / s / s));
-    CATCH_CHECK(1_GN == 1_kg * (Gm / s / s));
-    CATCH_CHECK(1_TN == 1_kg * (Tm / s / s));
-    CATCH_CHECK(1_PN == 1_kg * (Pm / s / s));
-    // CATCH_CHECK(1_EN == 1000_g * (Em / s / s));
+    CATCH_CHECK(1_fN == units::of<si::force>(1_kg * (fm / s / s)));
+    CATCH_CHECK(1_pN == units::of<si::force>(1_kg * (pm / s / s)));
+    CATCH_CHECK(1_nN == units::of<si::force>(1_kg * (nm / s / s)));
+    CATCH_CHECK(1_uN == units::of<si::force>(1_kg * (um / s / s)));
+    CATCH_CHECK(1_mN == units::of<si::force>(1_kg * (mm / s / s)));
+    CATCH_CHECK(1_cN == units::of<si::force>(1_kg * (cm / s / s)));
+    CATCH_CHECK(1_dN == units::of<si::force>(1_kg * (dm / s / s)));
+    CATCH_CHECK(1_N == units::of<si::force>(1_kg * (m / s / s)));
+    CATCH_CHECK(1_daN == units::of<si::force>(1_kg * (dam / s / s)));
+    CATCH_CHECK(1_hN == units::of<si::force>(1_kg * (hm / s / s)));
+    CATCH_CHECK(1_kN == units::of<si::force>(1_kg * (km / s / s)));
+    CATCH_CHECK(1_MN == units::of<si::force>(1_kg * (Mm / s / s)));
+    CATCH_CHECK(1_GN == units::of<si::force>(1_kg * (Gm / s / s)));
+    CATCH_CHECK(1_TN == units::of<si::force>(1_kg * (Tm / s / s)));
+    CATCH_CHECK(1_PN == units::of<si::force>(1_kg * (Pm / s / s)));
+    CATCH_CHECK(1_EN == units::of<si::force>(1000_g * (Em / s / s)));
 
     CATCH_CHECK(1_fN == units::of<si::force>(1_kg * (fm / (s * s))));
     CATCH_CHECK(1_pN == units::of<si::force>(1_kg * (pm / (s * s))));
@@ -118,7 +118,7 @@ CATCH_TEST_CASE("force from multiplication", "[construct][expression][force][si]
     CATCH_CHECK(1_GN == units::of<si::force>(1_kg * (Gm / (s * s))));
     CATCH_CHECK(1_TN == units::of<si::force>(1_kg * (Tm / (s * s))));
     CATCH_CHECK(1_PN == units::of<si::force>(1_kg * (Pm / (s * s))));
-    // CATCH_CHECK(1_EN == units::of<si::force>(1000_g * (Em / (s * s))));
+    CATCH_CHECK(1_EN == units::of<si::force>(1000_g * (Em / (s * s))));
 }
 
 CATCH_TEST_CASE("acceleration from force division", "[construct][expression][force][si]")
@@ -154,20 +154,20 @@ CATCH_TEST_CASE("mass from force division", "[construct][expression][force][si]"
     using namespace si::mass_references;
     using namespace si::mass_literals;
 
-    CATCH_CHECK(1_fg == 1_fN / (km / s / s));
-    CATCH_CHECK(1_pg == 1_pN / (km / s / s));
-    CATCH_CHECK(1_ng == 1_nN / (km / s / s));
-    CATCH_CHECK(1_ug == 1_uN / (km / s / s));
-    CATCH_CHECK(1_mg == 1_mN / (km / s / s));
-    CATCH_CHECK(1_cg == 1_cN / (km / s / s));
-    CATCH_CHECK(1_dg == 1_dN / (km / s / s));
-    CATCH_CHECK(1_g == 1_N / (km / s / s));
-    CATCH_CHECK(1_dag == 1_daN / (km / s / s));
-    CATCH_CHECK(1_hg == 1_hN / (km / s / s));
-    CATCH_CHECK(1_kg == 1_kN / (km / s / s));
-    CATCH_CHECK(1_Mg == 1_MN / (km / s / s));
-    CATCH_CHECK(1_Gg == 1_GN / (km / s / s));
-    CATCH_CHECK(1_Tg == 1_TN / (km / s / s));
-    CATCH_CHECK(1_Pg == 1_PN / (km / s / s));
-    CATCH_CHECK(1_Eg == 1_EN / (km / s / s));
+    CATCH_CHECK(1_fg == units::of<si::mass>(1_fN / (km / s / s)));
+    CATCH_CHECK(1_pg == units::of<si::mass>(1_pN / (km / s / s)));
+    CATCH_CHECK(1_ng == units::of<si::mass>(1_nN / (km / s / s)));
+    CATCH_CHECK(1_ug == units::of<si::mass>(1_uN / (km / s / s)));
+    CATCH_CHECK(1_mg == units::of<si::mass>(1_mN / (km / s / s)));
+    CATCH_CHECK(1_cg == units::of<si::mass>(1_cN / (km / s / s)));
+    CATCH_CHECK(1_dg == units::of<si::mass>(1_dN / (km / s / s)));
+    CATCH_CHECK(1_g == units::of<si::mass>(1_N / (km / s / s)));
+    CATCH_CHECK(1_dag == units::of<si::mass>(1_daN / (km / s / s)));
+    CATCH_CHECK(1_hg == units::of<si::mass>(1_hN / (km / s / s)));
+    CATCH_CHECK(1_kg == units::of<si::mass>(1_kN / (km / s / s)));
+    CATCH_CHECK(1_Mg == units::of<si::mass>(1_MN / (km / s / s)));
+    CATCH_CHECK(1_Gg == units::of<si::mass>(1_GN / (km / s / s)));
+    CATCH_CHECK(1_Tg == units::of<si::mass>(1_TN / (km / s / s)));
+    CATCH_CHECK(1_Pg == units::of<si::mass>(1_PN / (km / s / s)));
+    CATCH_CHECK(1_Eg == units::of<si::mass>(1_EN / (km / s / s)));
 }
